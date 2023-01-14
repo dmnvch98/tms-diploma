@@ -1,5 +1,6 @@
 package com.example.userservice.controllers;
 
+import com.example.dto.UserSignUpDto;
 import com.example.userservice.model.User;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService service;
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody User user) {
-        return ResponseEntity.ok(service.save(user));
+    public ResponseEntity<UserSignUpDto> save(@RequestBody UserSignUpDto user) {
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/{userId}")

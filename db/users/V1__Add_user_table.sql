@@ -7,6 +7,7 @@ create table users
     password    TEXT      NOT NULL,
     nationality TEXT      NOT NULL,
     roles       TEXT      NOT NULL,
+    gender      TEXT      NOT NULL,
 
     UNIQUE (email)
 );
