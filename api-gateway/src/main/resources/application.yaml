@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+feign:
+  client:
+    config:
+      user:
+        connect-timeout: 50000
+        read-timeout: 30000
+
+services:
+  user:
+    url: 'http://localhost:8081'
+
+csrf:
+  xsrf_cookie_name: 'MH-XSRF'
+  xsrf_header_name: "MH-X-XSRF"
+  cookie_domain: "localhost"
+
