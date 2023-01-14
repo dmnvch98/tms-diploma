@@ -4,10 +4,7 @@ import com.example.userservice.model.User;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,5 +14,10 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> save(@RequestBody User user) {
         return ResponseEntity.ok(service.save(user));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> get(@PathVariable("userId") final Long userId) {
+        return ResponseEntity.ok(service.get(userId));
     }
 }
