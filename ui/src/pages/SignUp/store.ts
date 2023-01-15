@@ -1,7 +1,8 @@
 import {create} from 'zustand';
+import {Language} from "./languagesStore";
 
 export interface LanguageLevel {
-    language: string;
+    language: Language;
     level: string;
 }
 
@@ -18,7 +19,7 @@ export interface User {
 
     languageLevels: LanguageLevel[];
     level: string;
-    language: string;
+    language: any;
 
     setUserType: (userType: string) => void;
     setEmail: (email: string) => void;
@@ -32,7 +33,7 @@ export interface User {
     setLanguageLevels: (languageLevels: LanguageLevel[]) => void;
 
     setLevel: (level: string) => void;
-    setLanguage: (language: string) => void;
+    setLanguage: (language: any) => void;
 }
 
 export const useSignUpStore = create<User>((set: any) => ({
@@ -70,8 +71,8 @@ export const useSignUpStore = create<User>((set: any) => ({
     setLanguageLevels: async (data: LanguageLevel[]) => {
         set({languageLevels: data})
     },
-    setLanguage: async (language1: string) => {
-        set({language: language1})
+    setLanguage: async (language: any) => {
+        set({language: language})
     },
     setLevel: async (level: string) => {
         set({level: level})

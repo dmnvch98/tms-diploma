@@ -6,23 +6,13 @@ import {
     TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
 import {LanguageLevel, useSignUpStore} from "./store";
 import {Link as RouterLink} from "react-router-dom";
+import {useLanguagesStore} from "./languagesStore";
 
 export const SignUpThird = () => {
-    const languageLevels = useSignUpStore((state:any) => state.languageLevels);
-    const setLanguageLevels = useSignUpStore((state:any) => state.setLanguageLevels);
-    const level = useSignUpStore((state:any) => state.level);
-    const language = useSignUpStore((state:any) => state.language);
-    const setLevel = useSignUpStore((state:any) => state.setLevel);
-    const setLanguage = useSignUpStore((state:any) => state.setLanguage);
-
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
     const style = {
         position: 'absolute' as 'absolute',
         top: '50%',
@@ -35,26 +25,40 @@ export const SignUpThird = () => {
         p: 4,
     };
 
-    const languages = [
-        'Belarusian',
-        'Chinese',
-        'French'
-    ];
-
     const levels = [
         'A1',
         'A2',
         'B1'
     ];
 
-    const addLanguageLevel = () => {
-        const languageLevel: LanguageLevel = {level: level, language: language};
-        setLanguageLevels([...languageLevels, languageLevel]);
-        setLanguage('');
-        setLevel('');
-    };
-
     const LanguagesForm = () => {
+        const [open, setOpen] = useState(false);
+        const handleOpen = () => setOpen(true);
+        const handleClose = () => setOpen(false);
+
+        const languageLevels = useSignUpStore(state => state.languageLevels);
+        const setLanguageLevels = useSignUpStore(state => state.setLanguageLevels);
+        const level = useSignUpStore(state => state.level);
+        const language = useSignUpStore(state => state.language);
+        const setLevel = useSignUpStore(state => state.setLevel);
+        const setLanguage = useSignUpStore(state => state.setLanguage);
+
+        const getLanguages = useLanguagesStore(state => state.getLanguages);
+        const languagesList = useLanguagesStore(state => state.languagesList);
+
+        const defaultLanguage = {id: 0, description: '12312312'};
+
+        const addLanguageLevel = () => {
+            const languageLevel: LanguageLevel = {level: level, language: language};
+            setLanguageLevels([...languageLevels, languageLevel]);
+            setLevel('');
+            setLanguage(defaultLanguage);
+        };
+
+        useEffect(() => {
+            getLanguages();
+        }, [])
+
         return (
             <>
                 <Box
@@ -69,12 +73,13 @@ export const SignUpThird = () => {
                             variant="standard"
                             label="Language"
                             sx={{mb: 2}}
-                            value={language}
-                            key="language"
+                            value={language.description}
                             onChange={(e) => {
-                                setLanguage(e.target.value);
-                            }}>{languages.map((language) => (
-                            <MenuItem key={language} value={language}>{language}</MenuItem>
+                                const index: number = +e.target.value - 1;
+                                setLanguage(languagesList[index]);
+                                console.log(language.description)
+                            }}>{languagesList.map((language) => (
+                            <MenuItem key={language.id} value={language.id}>{language.description}</MenuItem>
                         ))}
                         </TextField>
 
@@ -95,7 +100,7 @@ export const SignUpThird = () => {
                         <Button
                             variant="outlined"
                             sx={{mt: 2}}
-                            disabled={language.length == 0 || level.length == 0}
+                            // disabled={language.length == 0 || level.length == 0}
                             onClick={addLanguageLevel}>Add Language</Button>
 
                         <Button variant="outlined" sx={{mt: 2}} onClick={handleOpen}>View your languages</Button>
