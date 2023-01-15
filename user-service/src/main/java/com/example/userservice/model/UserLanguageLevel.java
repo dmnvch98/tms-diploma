@@ -6,15 +6,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("language_levels")
+@Table("user_language_levels")
 @Value
 @Builder
-public class LanguageLevel {
+public class UserLanguageLevel {
     @Id
     Long id;
-    @Column("language_id")
-    Long languageId;
+    @Column("user_id")
+    Long user_id;
 
-    @Column("level_id")
-    Long levelId;
+    @Column("language_level_id")
+    Long languageLevelId;
 }

@@ -24,6 +24,8 @@ public class User {
     String password;
     @Column("nationality")
     String nationality;
+    @Column("gender")
+    String gender;
     @Column("roles")
     String roles;
 }

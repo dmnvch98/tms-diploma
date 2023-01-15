@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.example.userservice.dto;
 
 import lombok.Builder;
 import lombok.Value;
@@ -8,6 +8,6 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class LanguageLevelDto {
-    String language;
-    String level;
+    Long languageId;
+    Long levelId;
 }

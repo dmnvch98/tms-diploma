@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.example.userservice.dto;
 
 import lombok.Builder;
 import lombok.Value;
@@ -14,5 +14,4 @@ public class UserSignUpDto {
     String password;
     String nationality;
     String roles;
-    LanguageLevelDto[] languageLevels;
 }

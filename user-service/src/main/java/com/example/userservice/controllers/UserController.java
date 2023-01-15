@@ -1,6 +1,7 @@
 package com.example.userservice.controllers;
 
-import com.example.dto.UserSignUpDto;
+import com.example.userservice.dto.UserDto;
+import com.example.userservice.facades.UserFacade;
 import com.example.userservice.model.User;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService service;
+    private final UserFacade facade;
     @PostMapping
-    public ResponseEntity<UserSignUpDto> save(@RequestBody UserSignUpDto user) {
+    public ResponseEntity<UserDto> save(@RequestBody UserDto user) {
+        facade.save(user);
         return ResponseEntity.ok(user);
     }
 
