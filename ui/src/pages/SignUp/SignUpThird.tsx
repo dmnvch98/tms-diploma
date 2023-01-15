@@ -8,9 +8,9 @@ import {
 import {Authentication} from "../../Components/Authentication";
 import {useEffect, useState} from "react";
 import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
-import {LanguageLevel, useSignUpStore} from "./store";
+import {useSignUpStore} from "./store";
 import {Link as RouterLink} from "react-router-dom";
-import {useLanguagesStore} from "./languagesStore";
+import {Language, LanguageLevel, useLanguagesStore} from "./languagesStore";
 
 export const SignUpThird = () => {
     const style = {
@@ -46,7 +46,7 @@ export const SignUpThird = () => {
         const getLanguages = useLanguagesStore(state => state.getLanguages);
         const languagesList = useLanguagesStore(state => state.languagesList);
 
-        const defaultLanguage = {id: 0, description: '12312312'};
+        const defaultLanguage: Language = {id: 0, description: ''};
 
         const addLanguageLevel = () => {
             const languageLevel: LanguageLevel = {level: level, language: language};
@@ -73,7 +73,7 @@ export const SignUpThird = () => {
                             variant="standard"
                             label="Language"
                             sx={{mb: 2}}
-                            value={language.description}
+                            value={language.id}
                             onChange={(e) => {
                                 const index: number = +e.target.value - 1;
                                 setLanguage(languagesList[index]);

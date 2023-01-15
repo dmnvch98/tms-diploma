@@ -1,6 +1,7 @@
 import {Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import {LanguageLevel, useSignUpStore} from "../pages/SignUp/store";
+import {useSignUpStore} from "../pages/SignUp/store";
+import {LanguageLevel} from "../pages/SignUp/languagesStore";
 
 export const LanguageLevelTable = () => {
     const languageLevels = useSignUpStore((state:any) => state.languageLevels);
