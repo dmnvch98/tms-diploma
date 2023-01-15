@@ -21,6 +21,9 @@
         <spring.security>6.0.1</spring.security>
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <feign.httpclient>11.8</feign.httpclient>
+        <spring.cloud.starter.openfeign>3.1.4</spring.cloud.starter.openfeign>
+        <jackson-databind.version>2.14.1</jackson-databind.version>
     </properties>
     <dependencies>
         <dependency>
@@ -42,6 +45,32 @@
             <version>${org.mapstruct.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${spring.cloud.starter.openfeign}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+            <version>${feign.httpclient}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
