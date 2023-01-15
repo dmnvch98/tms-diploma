@@ -1,5 +1,6 @@
 package com.example.userservice.services;
 
+import com.example.userservice.model.LanguageLevel;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.repository.LanguageLevelRepository;
 import com.example.userservice.repository.UserLanguageLevelRepository;
@@ -18,5 +19,9 @@ public class LanguageLevelService {
 
     public UserLanguageLevel saveUserLanguageLevel(UserLanguageLevel userLanguageLevel) {
         return userLanguageLevelRepository.save(userLanguageLevel);
+    }
+
+    public LanguageLevel getLanguageLevelById(Long languageLevelId) {
+        return languageLevelRepository.findLanguageLevelById(languageLevelId);
     }
 }

@@ -16,8 +16,7 @@ public class UserController {
     private final UserFacade facade;
     @PostMapping
     public ResponseEntity<UserDto> save(@RequestBody UserDto user) {
-        facade.save(user);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(facade.save(user));
     }
 
     @GetMapping("/{userId}")

@@ -1,11 +1,15 @@
 package com.example.userservice.dto;
 
+import com.example.userservice.model.LanguageLevel;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
+
 @Builder
-@Value
+@Data
 @Jacksonized
 public class UserDto {
     String firstName;
@@ -16,5 +20,5 @@ public class UserDto {
 
     String gender;
     String roles;
-    LanguageLevelDto[] languageLevels;
+    List<LanguageLevelDto> languageLevels;
 }
