@@ -24,9 +24,9 @@ export const LanguageLevelTable = () => {
                     </TableHead>
                     <TableBody>
                         {languageLevels.map((l: LanguageLevel, index: number) => (
-                            <TableRow key={l.language.description}>
-                                <TableCell component="th" scope="row" key={l.language.id}>
-                                    {l.language.description}
+                            <TableRow key={l.language?.description}>
+                                <TableCell component="th" scope="row" key={l.language?.id}>
+                                    {l.language?.description}
                                 </TableCell>
                                 <TableCell key={l.level}>{l.level}</TableCell>
                                 <TableCell align="right">

@@ -14,7 +14,7 @@ export interface User {
 
     languageLevels: LanguageLevel[];
     level: string;
-    language: Language;
+    language: Language | null;
 
     setUserType: (userType: string) => void;
     setEmail: (email: string) => void;
@@ -28,7 +28,7 @@ export interface User {
     setLanguageLevels: (languageLevels: LanguageLevel[]) => void;
 
     setLevel: (level: string) => void;
-    setLanguage: (language: any) => void;
+    setLanguage: (language: Language | null) => void;
 }
 
 export const useSignUpStore = create<User>((set: any) => ({
@@ -41,7 +41,7 @@ export const useSignUpStore = create<User>((set: any) => ({
     lastName: '',
     languageLevels: [],
     level: '',
-    language: {id: 0, description: ''},
+    language: null,
     setUserType: async (userType: string) => {
         set({userType: userType})
     },
@@ -66,8 +66,9 @@ export const useSignUpStore = create<User>((set: any) => ({
     setLanguageLevels: async (data: LanguageLevel[]) => {
         set({languageLevels: data})
     },
-    setLanguage: async (language: Language) => {
+    setLanguage: async (language: Language | null) => {
         set({language: language})
+        console.log(language);
     },
     setLevel: async (level: string) => {
         set({level: level})

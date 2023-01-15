@@ -10,7 +10,7 @@ import {useEffect, useState} from "react";
 import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
 import {useSignUpStore} from "./store";
 import {Link as RouterLink} from "react-router-dom";
-import {Language, LanguageLevel, useLanguagesStore} from "./languagesStore";
+import {LanguageLevel, useLanguagesStore} from "./languagesStore";
 
 export const SignUpThird = () => {
     const style = {
@@ -46,13 +46,11 @@ export const SignUpThird = () => {
         const getLanguages = useLanguagesStore(state => state.getLanguages);
         const languagesList = useLanguagesStore(state => state.languagesList);
 
-        const defaultLanguage: Language = {id: 0, description: ''};
-
         const addLanguageLevel = () => {
-            const languageLevel: LanguageLevel = {level: level, language: language};
+            const languageLevel: LanguageLevel = {level: level, language: language };
             setLanguageLevels([...languageLevels, languageLevel]);
             setLevel('');
-            setLanguage(defaultLanguage);
+            setLanguage(null);
         };
 
         useEffect(() => {
@@ -73,11 +71,10 @@ export const SignUpThird = () => {
                             variant="standard"
                             label="Language"
                             sx={{mb: 2}}
-                            value={language.id}
+                            value={language?.description}
                             onChange={(e) => {
                                 const index: number = +e.target.value - 1;
                                 setLanguage(languagesList[index]);
-                                console.log(language.description)
                             }}>{languagesList.map((language) => (
                             <MenuItem key={language.id} value={language.id}>{language.description}</MenuItem>
                         ))}
