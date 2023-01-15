@@ -1,8 +1,10 @@
 package com.example.userservice.services;
 
+import com.example.userservice.model.Language;
 import com.example.userservice.model.LanguageLevel;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.repository.LanguageLevelRepository;
+import com.example.userservice.repository.LanguageRepository;
 import com.example.userservice.repository.UserLanguageLevelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 public class LanguageLevelService {
     private final LanguageLevelRepository languageLevelRepository;
     private final UserLanguageLevelRepository userLanguageLevelRepository;
+    private final LanguageRepository languageRepository;
 
     public Long getLanguageLevelId(Long level, Long language) {
         return languageLevelRepository.getId(level, language);
@@ -25,5 +28,9 @@ public class LanguageLevelService {
 
     public List<LanguageLevel> findLanguageLevelsByUserId(Long userId) {
         return languageLevelRepository.findLanguageLevelsByUserId(userId);
+    }
+
+    public List<Language> findAllLanguages() {
+        return languageRepository.findAll();
     }
 }
