@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @Jacksonized
 public class UserDto {
+    Long id;
     String firstName;
     String lastName;
     String email;

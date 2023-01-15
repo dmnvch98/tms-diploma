@@ -7,6 +7,8 @@ import com.example.userservice.repository.UserLanguageLevelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LanguageLevelService {
@@ -17,11 +19,11 @@ public class LanguageLevelService {
         return languageLevelRepository.getId(level, language);
     }
 
-    public UserLanguageLevel saveUserLanguageLevel(UserLanguageLevel userLanguageLevel) {
-        return userLanguageLevelRepository.save(userLanguageLevel);
+    public void saveUserLanguageLevel(UserLanguageLevel userLanguageLevel) {
+        userLanguageLevelRepository.save(userLanguageLevel);
     }
 
-    public LanguageLevel getLanguageLevelById(Long languageLevelId) {
-        return languageLevelRepository.findLanguageLevelById(languageLevelId);
+    public List<LanguageLevel> findLanguageLevelsByUserId(Long userId) {
+        return languageLevelRepository.findLanguageLevelsByUserId(userId);
     }
 }

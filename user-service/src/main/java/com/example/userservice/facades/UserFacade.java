@@ -4,7 +4,6 @@ import com.example.userservice.converters.LanguageLevelConverter;
 import com.example.userservice.converters.UserConverter;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.dto.UserDto;
-import com.example.userservice.model.User;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.services.LanguageLevelService;
 import com.example.userservice.services.UserService;
@@ -25,26 +24,31 @@ public class UserFacade {
     private final LanguageLevelConverter languageLevelConverter;
 
     public UserDto save(UserDto dto) {
-        User user = userService.save(userConverter.dtoToUser(dto));
-        List<UserLanguageLevel> userLanguageLevelsIds = dto.getLanguageLevels().stream()
+        UserDto userDto = userConverter.userToDto(userService.save(userConverter.dtoToUser(dto)));
+        dto.getLanguageLevels().stream()
                 .map(x -> languageLevelService
                         .getLanguageLevelId(x.getLevelId(), x.getLanguageId()))
                 .map(x -> UserLanguageLevel
                         .builder()
                         .languageLevelId(x)
-                        .user_id(user.getId())
+                        .user_id(userDto.getId())
                         .build())
-                .toList();
+                .forEach(languageLevelService::saveUserLanguageLevel);
+        userDto.setLanguageLevels(getUserLanguageLevels(userDto.getId()));
+        return userDto;
+    }
 
-        userLanguageLevelsIds.forEach(languageLevelService::saveUserLanguageLevel);
-
-        List<LanguageLevelDto> userLanguageLevels =
-                userLanguageLevelsIds.stream()
-                        .map(x -> languageLevelService.getLanguageLevelById(x.getLanguageLevelId()))
-                        .map(languageLevelConverter::languageLevelToDto)
-                        .toList();
-        UserDto userToReturn = userConverter.userToDto(user);
-        userToReturn.setLanguageLevels(userLanguageLevels);
+    public UserDto get(Long id) {
+        UserDto userToReturn = userConverter.userToDto(userService.get(id));
+        userToReturn.setLanguageLevels(getUserLanguageLevels(id));
         return userToReturn;
+    }
+
+    private List<LanguageLevelDto> getUserLanguageLevels(Long userId) {
+        return languageLevelService
+                .findLanguageLevelsByUserId(userId)
+                .stream()
+                .map(languageLevelConverter::languageLevelToDto)
+                .toList();
     }
 }
