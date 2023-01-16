@@ -5,9 +5,10 @@ create table users
     last_name   TEXT      NOT NULL,
     email       TEXT      NOT NULL,
     password    TEXT      NOT NULL,
-    nationality TEXT      NOT NULL,
+    nationality BIGSERIAL NOT NULL,
     roles       TEXT      NOT NULL,
     gender      TEXT      NOT NULL,
 
-    UNIQUE (email)
+    UNIQUE (email),
+    FOREIGN KEY (nationality) REFERENCES countries (country_id)
 );

@@ -6,6 +6,7 @@ import com.example.userservice.model.Level;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.repository.LanguageLevelRepository;
 import com.example.userservice.repository.LanguageRepository;
+import com.example.userservice.repository.LevelRepository;
 import com.example.userservice.repository.UserLanguageLevelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class LanguageLevelService {
     private final LanguageLevelRepository languageLevelRepository;
     private final UserLanguageLevelRepository userLanguageLevelRepository;
     private final LanguageRepository languageRepository;
+    private final LevelRepository levelRepository;
 
     public Long getLanguageLevelId(Long level, Long language) {
         return languageLevelRepository.getId(level, language);
@@ -35,7 +37,9 @@ public class LanguageLevelService {
         return languageRepository.findAll();
     }
 
-    public LanguageLevel findLanguageLevelById(Long id) {
-        return languageLevelRepository.findById(id);
+    public List<Level> findAllLevels() {
+        List<Level> lvels = levelRepository.findAll();
+        return lvels;
     }
+
 }

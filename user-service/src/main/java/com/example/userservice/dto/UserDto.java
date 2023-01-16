@@ -1,5 +1,6 @@
 package com.example.userservice.dto;
 
+import com.example.userservice.model.Country;
 import com.example.userservice.model.LanguageLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -17,8 +18,7 @@ public class UserDto {
     String lastName;
     String email;
     String password;
-    String nationality;
-
+    Country nationality;
     String gender;
     String roles;
     List<LanguageLevelDto> languageLevels;

@@ -23,7 +23,7 @@ public class User {
     @Column("password")
     String password;
     @Column("nationality")
-    String nationality;
+    Long nationality;
     @Column("gender")
     String gender;
     @Column("roles")
