@@ -6,5 +6,5 @@ create table user_language_levels
 
     UNIQUE (user_id, language_level_id),
     FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (language_level_id) REFERENCES language_levels (id)
+    FOREIGN KEY (language_level_id) REFERENCES language_levels (language_level_id)
 );

@@ -1,6 +1,6 @@
 create table levels
 (
-    id          BIGSERIAL NOT NULL PRIMARY KEY,
+    level_id          BIGSERIAL NOT NULL PRIMARY KEY,
     description TEXT      NOT NULL,
 
     UNIQUE (description)

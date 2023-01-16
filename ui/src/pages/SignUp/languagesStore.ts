@@ -2,8 +2,8 @@ import {create} from "zustand";
 import UserService from "../../services/UserService";
 
 export interface LanguageLevel {
-    languageId: Language | any;
-    levelId: string;
+    languageId: number | any;
+    levelId: number | any;
 }
 
 export interface Language {
@@ -19,7 +19,7 @@ export interface LanguageList {
 
 export const useLanguagesStore = create<LanguageList>((set) => ({
     id: 0,
-    description: '',
+    description: 0,
     languagesList: [],
     getLanguages: async () => {
         try {

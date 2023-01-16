@@ -71,7 +71,7 @@ export const SignUpThird = () => {
 
 
         const addLanguageLevel = () => {
-            const languageLevel: LanguageLevel = {levelId: '2', languageId: language?.id };
+            const languageLevel: LanguageLevel = {levelId: 3, languageId: language?.id };
             setLanguageLevels([...languageLevels, languageLevel]);
             setLevel('');
             setLanguage(null);

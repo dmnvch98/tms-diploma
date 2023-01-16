@@ -27,7 +27,7 @@ public class UserFacade {
         UserDto userDto = userConverter.userToDto(userService.save(userConverter.dtoToUser(dto)));
         dto.getLanguageLevels().stream()
                 .map(x -> languageLevelService
-                        .getLanguageLevelId(x.getLevelId(), x.getLanguageId()))
+                        .getLanguageLevelId(x.getLevelId(), x.getLanguage().getLanguageId()))
                 .map(x -> UserLanguageLevel
                         .builder()
                         .languageLevelId(x)

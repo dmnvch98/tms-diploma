@@ -2,9 +2,8 @@ package com.example.userservice.model;
 
 import lombok.Builder;
 import lombok.Value;
-import lombok.extern.jackson.Jacksonized;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("language_levels")
@@ -12,10 +11,10 @@ import org.springframework.data.relational.core.mapping.Table;
 @Builder
 public class LanguageLevel {
     @Id
-    Long id;
-    @Column("language_id")
-    Long languageId;
+    Long languageLevelId;
+    @MappedCollection(idColumn = "language_id")
+    Language language;
 
-    @Column("level_id")
-    Long levelId;
+    @MappedCollection(idColumn = "level_id")
+    Level level;
 }

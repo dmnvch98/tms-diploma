@@ -33,4 +33,8 @@ public class LanguageLevelService {
     public List<Language> findAllLanguages() {
         return languageRepository.findAll();
     }
+
+    public LanguageLevel findLanguageLevelById(Long id) {
+        return languageLevelRepository.findById(id);
+    }
 }

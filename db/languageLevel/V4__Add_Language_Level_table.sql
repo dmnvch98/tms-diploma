@@ -1,12 +1,12 @@
 create table language_levels
 (
-    id          BIGSERIAL NOT NULL PRIMARY KEY,
+    language_level_id          BIGSERIAL NOT NULL PRIMARY KEY,
     language_id BIGSERIAL NOT NULL,
     level_id    BIGSERIAL NOT NULL,
 
     UNIQUE (language_id, level_id),
-    FOREIGN KEY (language_id) REFERENCES languages (id),
-    FOREIGN KEY (level_id) REFERENCES levels (id)
+    FOREIGN KEY (language_id) REFERENCES languages (language_id),
+    FOREIGN KEY (level_id) REFERENCES levels (level_id)
 );
 
 insert into language_levels(language_id, level_id) values ('1','1');
