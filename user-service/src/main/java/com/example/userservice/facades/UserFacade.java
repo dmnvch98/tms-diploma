@@ -4,6 +4,7 @@ import com.example.userservice.converters.LanguageLevelConverter;
 import com.example.userservice.converters.UserConverter;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.dto.UserDto;
+import com.example.userservice.model.LanguageLevel;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.services.LanguageLevelService;
 import com.example.userservice.services.UserService;
@@ -27,7 +28,7 @@ public class UserFacade {
         UserDto userDto = userConverter.userToDto(userService.save(userConverter.dtoToUser(dto)));
         dto.getLanguageLevels().stream()
                 .map(x -> languageLevelService
-                        .getLanguageLevelId(x.getLevelId(), x.getLanguage().getLanguageId()))
+                        .getLanguageLevelId(x.getLevel().getLevelId(), x.getLanguage().getLanguageId()))
                 .map(x -> UserLanguageLevel
                         .builder()
                         .languageLevelId(x)
@@ -45,6 +46,8 @@ public class UserFacade {
     }
 
     private List<LanguageLevelDto> getUserLanguageLevels(Long userId) {
+        List<LanguageLevel> list = languageLevelService
+                .findLanguageLevelsByUserId(userId);
         return languageLevelService
                 .findLanguageLevelsByUserId(userId)
                 .stream()

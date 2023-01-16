@@ -2,6 +2,7 @@ package com.example.userservice.services;
 
 import com.example.userservice.model.Language;
 import com.example.userservice.model.LanguageLevel;
+import com.example.userservice.model.Level;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.repository.LanguageLevelRepository;
 import com.example.userservice.repository.LanguageRepository;
