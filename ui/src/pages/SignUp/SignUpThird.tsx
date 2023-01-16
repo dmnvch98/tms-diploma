@@ -8,10 +8,9 @@ import {
 import {Authentication} from "../../Components/Authentication";
 import {useEffect, useState} from "react";
 import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
-import {UserDto, useSignUpStore} from "./store";
+import {useSignUpStore} from "./store";
 import {Link as RouterLink} from "react-router-dom";
-import {Language, LanguageLevel, Level, useLanguagesStore} from "./languagesStore";
-import UserService from "../../services/UserService";
+import {Language, Level, useLanguagesStore} from "./languagesStore";
 import {usePasswords} from "./passwordStore";
 
 export const SignUpThird = () => {
@@ -50,8 +49,6 @@ export const SignUpThird = () => {
         const getLanguages = useLanguagesStore(state => state.getLanguages);
         const languagesList = useLanguagesStore(state => state.languagesList);
 
-        const createUser = useSignUpStore(state => state.createUser);
-
         const roles = useSignUpStore((state) => state.roles);
         const email = useSignUpStore((state) => state.email);
         const password = usePasswords(state => state.password);
@@ -59,6 +56,8 @@ export const SignUpThird = () => {
         const nationality = useSignUpStore(state => state.nationality);
         const firstName = useSignUpStore(state => state.firstName);
         const lastName = useSignUpStore(state => state.lastName);
+
+        const createUser = useSignUpStore(state => state.createUser);
 
         const userDto = {
             firstName: firstName,
@@ -71,13 +70,10 @@ export const SignUpThird = () => {
             languageLevels: languageLevels
         }
 
-
         const addLanguageLevel = () => {
-            const languageLevel: LanguageLevel = {level: level, language: language };
-            setLanguageLevels([...languageLevels, languageLevel]);
+            setLanguageLevels([...languageLevels, {level: level, language: language}]);
             setLevel(null);
             setLanguage(null);
-            console.log(languageLevels)
         };
 
         useEffect(() => {
@@ -100,10 +96,10 @@ export const SignUpThird = () => {
                             sx={{mb: 2}}
                             value={language?.description}
                             onChange={(e) => {
-                                const index: number = +e.target.value - 1;
-                                setLanguage(languagesList[index]);
+                                setLanguage(languagesList[+e.target.value]);
                             }}>{languagesList.map((language: Language) => (
-                            <MenuItem key={language?.description} value={language.languageId}>{language?.description}</MenuItem>
+                            <MenuItem key={language?.description}
+                                      value={+language?.languageId - 1}>{language?.description}</MenuItem>
                         ))}
                         </TextField>
 
@@ -115,17 +111,17 @@ export const SignUpThird = () => {
                             value={level}
                             key="level"
                             onChange={(e) => {
-                                const index: number = +e.target.value - 1;
-                                setLevel(levels[index]);
+                                setLevel(levels[+e.target.value]);
                             }}>{levels.map((level: Level) => (
-                            <MenuItem key={level.description} value={level.levelId}>{level.description}</MenuItem>
+                            <MenuItem key={level.description}
+                                      value={+level.levelId - 1}>{level.description}</MenuItem>
                         ))}
                         </TextField>
 
                         <Button
                             variant="outlined"
                             sx={{mt: 2}}
-                            // disabled={language.length == 0 || level.length == 0}
+                            disabled={language == null || level == null}
                             onClick={addLanguageLevel}>Add Language</Button>
 
                         <Button variant="outlined" sx={{mt: 2}} onClick={handleOpen}>View your languages</Button>
@@ -142,20 +138,8 @@ export const SignUpThird = () => {
                         <Button
                             variant="contained"
                             sx={{mt: 4}}
-                            // disabled={language.length == 0 || level.length == 0}
+                            disabled={languageLevels.length == 0}
                             onClick={() => createUser(userDto)}>Continue</Button>
-                        {/*<Button sx={{mt: 4}}*/}
-                        {/*        disabled={languageLevels.length == 0}*/}
-                        {/*        color="primary"*/}
-                        {/*        variant="contained"*/}
-                        {/*        onClick={() => createUser()}*/}
-                        {/*        {...{*/}
-                        {/*            to: "/reg",*/}
-                        {/*            component: RouterLink,*/}
-                        {/*        }}*/}
-                        {/*>*/}
-                        {/*    Continue*/}
-                        {/*</Button>*/}
                         <Button sx={{mt: 4}}
                                 color="primary"
                                 variant="contained"
@@ -163,9 +147,7 @@ export const SignUpThird = () => {
                                     to: "/reg2",
                                     component: RouterLink,
                                 }}
-                        >
-                            Back
-                        </Button>
+                        >Back</Button>
                     </FormControl>
                 </Box>
             </>
@@ -177,5 +159,4 @@ export const SignUpThird = () => {
             <Authentication component={<LanguagesForm/>}></Authentication>
         </>
     )
-
 }
