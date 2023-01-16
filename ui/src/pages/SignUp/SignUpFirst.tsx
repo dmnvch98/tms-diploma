@@ -15,14 +15,14 @@ export const SignUpFirst = () => {
     ];
 
     const Form = () => {
-        const userType = useSignUpStore((state) => state.userType);
+        const roles = useSignUpStore(state => state.roles);
         const email = useSignUpStore((state) => state.email);
 
         const password = usePasswords(state => state.password);
         const confirmPassword = usePasswords(state => state.confirmPassword);
         const passwordMatches = usePasswords(state => state.matches);
 
-        const setUserType = useSignUpStore(state => state.setUserType);
+        const setRoles = useSignUpStore(state => state.setRoles);
         const setEmail = useSignUpStore((state) => state.setEmail);
 
         const setPassword = usePasswords(state => state.setPassword);
@@ -46,10 +46,11 @@ export const SignUpFirst = () => {
                             variant="standard"
                             label="User type"
                             sx={{mb: 2}}
-                            value={userType}
+                            value={roles}
                             key="language"
                             onChange={(e) => {
-                                setUserType(e.target.value);
+                                setRoles(e.target.value);
+                                console.log(e.target.value)
                             }}
                         >{types.map((type) => (
                             <MenuItem key={type} value={type}>{type}</MenuItem>
@@ -95,7 +96,7 @@ export const SignUpFirst = () => {
                                 disabled={!passwordMatches
                                     || password.length == 0
                                     || email.length == 0
-                                    || userType.length == 0}
+                                    || roles.length == 0}
                                 color="primary"
                                 variant="contained"
                                 onClick={() => setVerifiedPassword(password)}

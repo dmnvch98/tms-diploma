@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<UserDto> save(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.save(userDto));

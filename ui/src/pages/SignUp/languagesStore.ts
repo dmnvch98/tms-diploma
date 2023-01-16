@@ -2,8 +2,8 @@ import {create} from "zustand";
 import UserService from "../../services/UserService";
 
 export interface LanguageLevel {
-    language: Language | null;
-    level: string;
+    languageId: Language | any;
+    levelId: string;
 }
 
 export interface Language {

@@ -8,9 +8,11 @@ import {
 import {Authentication} from "../../Components/Authentication";
 import {useEffect, useState} from "react";
 import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
-import {useSignUpStore} from "./store";
+import {UserDto, useSignUpStore} from "./store";
 import {Link as RouterLink} from "react-router-dom";
 import {LanguageLevel, useLanguagesStore} from "./languagesStore";
+import UserService from "../../services/UserService";
+import {usePasswords} from "./passwordStore";
 
 export const SignUpThird = () => {
     const style = {
@@ -46,8 +48,30 @@ export const SignUpThird = () => {
         const getLanguages = useLanguagesStore(state => state.getLanguages);
         const languagesList = useLanguagesStore(state => state.languagesList);
 
+        const createUser = useSignUpStore(state => state.createUser);
+
+        const roles = useSignUpStore((state) => state.roles);
+        const email = useSignUpStore((state) => state.email);
+        const password = usePasswords(state => state.password);
+        const gender = useSignUpStore(state => state.gender);
+        const nationality = useSignUpStore(state => state.nationality);
+        const firstName = useSignUpStore(state => state.firstName);
+        const lastName = useSignUpStore(state => state.lastName);
+
+        const userDto = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            nationality: nationality,
+            roles: roles,
+            gender: gender,
+            languageLevels: languageLevels
+        }
+
+
         const addLanguageLevel = () => {
-            const languageLevel: LanguageLevel = {level: level, language: language };
+            const languageLevel: LanguageLevel = {levelId: '2', languageId: language?.id };
             setLanguageLevels([...languageLevels, languageLevel]);
             setLevel('');
             setLanguage(null);
@@ -111,17 +135,23 @@ export const SignUpThird = () => {
                                 <LanguageLevelTable/>
                             </Box>
                         </Modal>
-                        <Button sx={{mt: 4}}
-                                disabled={languageLevels.length == 0}
-                                color="primary"
-                                variant="contained"
-                                {...{
-                                    to: "/reg",
-                                    component: RouterLink,
-                                }}
-                        >
-                            Continue
-                        </Button>
+                        <Button
+                            variant="contained"
+                            sx={{mt: 4}}
+                            // disabled={language.length == 0 || level.length == 0}
+                            onClick={() => createUser(userDto)}>Continue</Button>
+                        {/*<Button sx={{mt: 4}}*/}
+                        {/*        disabled={languageLevels.length == 0}*/}
+                        {/*        color="primary"*/}
+                        {/*        variant="contained"*/}
+                        {/*        onClick={() => createUser()}*/}
+                        {/*        {...{*/}
+                        {/*            to: "/reg",*/}
+                        {/*            component: RouterLink,*/}
+                        {/*        }}*/}
+                        {/*>*/}
+                        {/*    Continue*/}
+                        {/*</Button>*/}
                         <Button sx={{mt: 4}}
                                 color="primary"
                                 variant="contained"

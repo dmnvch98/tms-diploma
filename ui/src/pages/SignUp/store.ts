@@ -1,8 +1,20 @@
 import {create} from 'zustand';
 import {Language, LanguageLevel} from "./languagesStore";
+import UserService from "../../services/UserService";
+
+export interface UserDto {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    nationality: string;
+    roles: string;
+    gender: string;
+    languageLevels: LanguageLevel[];
+}
 
 export interface User {
-    userType: string;
+    roles: string;
     email: string;
     password: string;
 
@@ -16,7 +28,7 @@ export interface User {
     level: string;
     language: Language | null;
 
-    setUserType: (userType: string) => void;
+    setRoles: (role: string) => void;
     setEmail: (email: string) => void;
     setPassword: (password: string) => void;
 
@@ -29,10 +41,12 @@ export interface User {
 
     setLevel: (level: string) => void;
     setLanguage: (language: Language | null) => void;
+
+    createUser: (userDto: UserDto) => void;
 }
 
 export const useSignUpStore = create<User>((set: any) => ({
-    userType: '',
+    roles: '',
     email: '',
     password: '',
     gender: '',
@@ -42,8 +56,8 @@ export const useSignUpStore = create<User>((set: any) => ({
     languageLevels: [],
     level: '',
     language: null,
-    setUserType: async (userType: string) => {
-        set({userType: userType})
+    setRoles: async (userType: string) => {
+        set({roles: userType})
     },
     setEmail: async (email: string) => {
         set({email: email})
@@ -72,5 +86,10 @@ export const useSignUpStore = create<User>((set: any) => ({
     },
     setLevel: async (level: string) => {
         set({level: level})
+    },
+    createUser: (userDto: UserDto) => {
+        const response = UserService.createUser(userDto);
+        console.log("user:" + response);
+        // console.log(userDto);
     }
 }))
