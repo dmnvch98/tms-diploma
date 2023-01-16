@@ -10,7 +10,7 @@ import {useEffect, useState} from "react";
 import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
 import {UserDto, useSignUpStore} from "./store";
 import {Link as RouterLink} from "react-router-dom";
-import {LanguageLevel, useLanguagesStore} from "./languagesStore";
+import {Language, LanguageLevel, Level, useLanguagesStore} from "./languagesStore";
 import UserService from "../../services/UserService";
 import {usePasswords} from "./passwordStore";
 
@@ -28,9 +28,11 @@ export const SignUpThird = () => {
     };
 
     const levels = [
-        'A1',
-        'A2',
-        'B1'
+        {levelId: 1, description: "Beginner"},
+        {levelId: 2, description: "Elementary"},
+        {levelId: 3, description: "Intermediate"},
+        {levelId: 4, description: "Upper-Intermediate"},
+
     ];
 
     const LanguagesForm = () => {
@@ -71,10 +73,11 @@ export const SignUpThird = () => {
 
 
         const addLanguageLevel = () => {
-            const languageLevel: LanguageLevel = {levelId: 3, languageId: language?.id };
+            const languageLevel: LanguageLevel = {level: level, language: language };
             setLanguageLevels([...languageLevels, languageLevel]);
-            setLevel('');
+            setLevel(null);
             setLanguage(null);
+            console.log(languageLevels)
         };
 
         useEffect(() => {
@@ -99,8 +102,8 @@ export const SignUpThird = () => {
                             onChange={(e) => {
                                 const index: number = +e.target.value - 1;
                                 setLanguage(languagesList[index]);
-                            }}>{languagesList.map((language) => (
-                            <MenuItem key={language.id} value={language.id}>{language.description}</MenuItem>
+                            }}>{languagesList.map((language: Language) => (
+                            <MenuItem key={language?.description} value={language.languageId}>{language?.description}</MenuItem>
                         ))}
                         </TextField>
 
@@ -112,9 +115,10 @@ export const SignUpThird = () => {
                             value={level}
                             key="level"
                             onChange={(e) => {
-                                setLevel(e.target.value);
-                            }}>{levels.map((level) => (
-                            <MenuItem key={level} value={level}>{level}</MenuItem>
+                                const index: number = +e.target.value - 1;
+                                setLevel(levels[index]);
+                            }}>{levels.map((level: Level) => (
+                            <MenuItem key={level.description} value={level.levelId}>{level.description}</MenuItem>
                         ))}
                         </TextField>
 

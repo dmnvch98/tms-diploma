@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserFacade facade;
     @PostMapping
+    @CrossOrigin
     public UserDto save(@RequestBody UserDto user) {
         return facade.save(user);
     }

@@ -2,12 +2,17 @@ import {create} from "zustand";
 import UserService from "../../services/UserService";
 
 export interface LanguageLevel {
-    languageId: number | any;
-    levelId: number | any;
+    language: Language | any;
+    level: Level | any;
 }
 
 export interface Language {
-    id: number;
+    languageId: number;
+    description: string;
+}
+
+export interface Level {
+    levelId: number;
     description: string;
 }
 

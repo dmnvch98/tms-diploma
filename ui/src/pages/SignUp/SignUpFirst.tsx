@@ -50,7 +50,6 @@ export const SignUpFirst = () => {
                             key="language"
                             onChange={(e) => {
                                 setRoles(e.target.value);
-                                console.log(e.target.value)
                             }}
                         >{types.map((type) => (
                             <MenuItem key={type} value={type}>{type}</MenuItem>

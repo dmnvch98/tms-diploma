@@ -6,7 +6,7 @@ class UserService {
     getLanguages = async () => {
         try {
             const response =
-                await axios.get('http://localhost:8080/api/v1/languages');
+                await axios.get('http://localhost:9090/api/v1/languages');
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
@@ -36,7 +36,7 @@ class UserService {
         // }
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/users',
+            const response = await axios.post('http://localhost:9090/api/v1/users',
                 userDto);
         } catch (e: unknown) {
             const error = e as AxiosError;

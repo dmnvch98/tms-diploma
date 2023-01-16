@@ -18,6 +18,7 @@ public class LanguageController {
     private final LanguageFacade languageFacade;
     private final LanguageLevelService languageLevelService;
     @GetMapping
+    @CrossOrigin
     public List<Language> getLanguages() {
         return languageFacade.getAllLanguages();
     }

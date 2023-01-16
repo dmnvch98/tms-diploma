@@ -24,11 +24,11 @@ export const LanguageLevelTable = () => {
                     </TableHead>
                     <TableBody>
                         {languageLevels.map((l: LanguageLevel, index: number) => (
-                            <TableRow key={l.languageId?.description}>
-                                <TableCell component="th" scope="row" key={l.languageId?.id}>
-                                    {l.languageId?.description}
+                            <TableRow key={l.language.description}>
+                                <TableCell component="th" scope="row" key={l.language.id}>
+                                    {l.language.description}
                                 </TableCell>
-                                <TableCell key={l.levelId}>{l.levelId}</TableCell>
+                                <TableCell key={l.level.description}>{l.level.description}</TableCell>
                                 <TableCell align="right">
                                     <Button onClick={() => deleteLangLevel(l)} key={index}>
                                         <HighlightOffOutlinedIcon key={index}/>
