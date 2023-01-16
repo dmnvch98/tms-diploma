@@ -1,5 +1,7 @@
 package com.example.apigateway.dto;
 
+import com.example.apigateway.model.Language;
+import com.example.apigateway.model.Level;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
@@ -8,6 +10,6 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class LanguageLevelDto {
-    Long languageId;
-    Long levelId;
+    Language language;
+    Level level;
 }
