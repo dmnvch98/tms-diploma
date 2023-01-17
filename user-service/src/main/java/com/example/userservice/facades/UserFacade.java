@@ -4,13 +4,16 @@ import com.example.userservice.converters.LanguageLevelConverter;
 import com.example.userservice.converters.UserConverter;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.dto.UserDto;
-import com.example.userservice.model.LanguageLevel;
-import com.example.userservice.model.UserLanguageLevel;
+import com.example.userservice.dto.UserResponseDto;
+import com.example.userservice.model.Student;
+import com.example.userservice.model.Tutor;
 import com.example.userservice.services.LanguageLevelService;
+import com.example.userservice.services.RoleService;
 import com.example.userservice.services.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,19 +26,32 @@ public class UserFacade {
     private final LanguageLevelService languageLevelService;
     private final UserConverter userConverter;
     private final LanguageLevelConverter languageLevelConverter;
+    private final RoleService roleService;
 
-    public UserDto save(UserDto dto) {
-        UserDto userDto = userConverter.userToDto(userService.save(userConverter.dtoToUser(dto)));
-        dto.getLanguageLevels().stream()
+    @Transactional
+    public UserResponseDto save(UserDto dto) {
+        UserResponseDto userDto = userConverter.userToResponseDto(userService.save(userConverter.dtoToUser(dto)));
+        userDto.setLanguageLevels(dto.getLanguageLevels().stream()
                 .map(x -> languageLevelService
                         .getLanguageLevelId(x.getLevel().getLevelId(), x.getLanguage().getLanguageId()))
-                .map(x -> UserLanguageLevel
-                        .builder()
-                        .languageLevelId(x)
-                        .user_id(userDto.getId())
-                        .build())
-                .forEach(languageLevelService::saveUserLanguageLevel);
-        userDto.setLanguageLevels(getUserLanguageLevels(userDto.getId()));
+                .map(x -> languageLevelConverter.languageLevelIdToUll(x, userDto.getId()))
+                .map(languageLevelService::saveUserLanguageLevel)
+                .map(languageLevelService::userLanguageLevelToLl)
+                .map(languageLevelConverter::languageLevelToDto)
+                .toList());
+        if (dto.getRoles().equals("Student")) {
+            userDto.setStudent(roleService.saveStudent(
+                    Student
+                            .builder()
+                            .userId(userDto.getId())
+                            .build()));
+        } else {
+            userDto.setTutor(roleService.saveTutor(
+                    Tutor
+                            .builder()
+                            .userId(userDto.getId())
+                            .build()));
+        }
         return userDto;
     }
 

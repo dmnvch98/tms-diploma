@@ -1,6 +1,7 @@
 package com.example.userservice.controllers;
 
 import com.example.userservice.dto.UserDto;
+import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.facades.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserFacade facade;
     @PostMapping
-    public UserDto save(@RequestBody UserDto user) {
+    public UserResponseDto save(@RequestBody UserDto user) throws Exception {
         return facade.save(user);
     }
 

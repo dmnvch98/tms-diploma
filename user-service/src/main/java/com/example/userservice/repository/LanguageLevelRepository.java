@@ -9,15 +9,21 @@ import java.util.List;
 
 
 public interface LanguageLevelRepository extends Repository<LanguageLevel, Long> {
-    @Query("select ll.language_level_id from language_levels ll where level_id=:levelId and language_id=:languageId")
-    Long getId(@Param("levelId") Long levelId, @Param("languageId") Long languageId);
 
-    @Query("SELECT ll.language_level_id AS language_level_id, l.level_id AS level_level_id, l.description" +
+    String FIND_LANGUAGE_LEVEL_SQL = "SELECT ll.language_level_id AS language_level_id, l.level_id AS level_level_id, l.description" +
             " AS level_description, lg.language_id AS language_language_id, lg.description AS language_description" +
             " FROM language_levels ll" +
             " LEFT OUTER JOIN levels l ON l.level_id = ll.level_id" +
-            " LEFT OUTER JOIN languages lg ON lg.language_id = ll.language_id" +
+            " LEFT OUTER JOIN languages lg ON lg.language_id = ll.language_id";
+    @Query("select ll.language_level_id from language_levels ll where level_id=:levelId and language_id=:languageId")
+    Long getId(@Param("levelId") Long levelId, @Param("languageId") Long languageId);
+
+    @Query(FIND_LANGUAGE_LEVEL_SQL +
             " LEFT OUTER JOIN user_language_levels ull on ll.language_level_id = ull.language_level_id" +
             " WHERE ull.user_id=:userId")
     List<LanguageLevel> findLanguageLevelsByUserId(@Param("userId") Long userId);
+
+    @Query(FIND_LANGUAGE_LEVEL_SQL +
+            " WHERE language_level_id=:languageLevelId")
+    LanguageLevel findLanguageLevelByLanguageLevelId(@Param("languageLevelId")Long languageLevelId);
 }

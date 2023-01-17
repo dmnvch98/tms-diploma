@@ -25,8 +25,8 @@ public class LanguageLevelService {
         return languageLevelRepository.getId(level, language);
     }
 
-    public void saveUserLanguageLevel(UserLanguageLevel userLanguageLevel) {
-        userLanguageLevelRepository.save(userLanguageLevel);
+    public UserLanguageLevel saveUserLanguageLevel(UserLanguageLevel userLanguageLevel) {
+        return userLanguageLevelRepository.save(userLanguageLevel);
     }
 
     public List<LanguageLevel> findLanguageLevelsByUserId(Long userId) {
@@ -39,6 +39,10 @@ public class LanguageLevelService {
 
     public List<Level> findAllLevels() {
         return levelRepository.findAll();
+    }
+
+    public LanguageLevel userLanguageLevelToLl(UserLanguageLevel userLanguageLevel) {
+        return languageLevelRepository.findLanguageLevelByLanguageLevelId(userLanguageLevel.getLanguageLevelId());
     }
 
 }

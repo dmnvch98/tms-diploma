@@ -1,7 +1,7 @@
 package com.example.userservice.services;
 
 import com.example.userservice.model.Country;
-import com.example.userservice.repository.CountryFlag;
+import com.example.userservice.converters.CountryFlag;
 import com.example.userservice.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
