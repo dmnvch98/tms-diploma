@@ -1,13 +1,14 @@
 import {create} from 'zustand';
 import {Language, LanguageLevel, Level} from "./languagesStore";
-import UserService from "../../services/UserService";
+import UserService from "../../../services/UserService";
+import {Country} from "./countryStore";
 
 export interface UserDto {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
-    nationality: string;
+    nationality: Country;
     roles: string;
     gender: string;
     languageLevels: LanguageLevel[];
@@ -21,8 +22,10 @@ export interface SignUp {
     gender: string;
     firstName: string;
     lastName: string;
-    nationality: string,
 
+    countryId: number | string;
+    countryDescription: string;
+    nationality: Country | null;
 
     languageLevels: LanguageLevel[];
     level: Level | null;
@@ -37,7 +40,9 @@ export interface SignUp {
     setPassword: (password: string) => void;
 
     setGender: (gender: string) => void;
-    setNationality: (nationality: string) => void;
+    setCountryId: (countryId: number | string) => void;
+    setCountryDescription: (countryDescription: string) => void;
+    setNationality: (nationality: Country | null) => void;
 
     setFirstName: (firstname: string) => void;
     setLastName: (lastName: string) => void;
@@ -58,7 +63,9 @@ export const useSignUpStore = create<SignUp>((set: any) => ({
     email: '',
     password: '',
     gender: '',
-    nationality: '',
+    countryId: '',
+    countryDescription: '',
+    nationality: null,
     firstName: '',
     lastName: '',
     languageLevels: [],
@@ -80,7 +87,7 @@ export const useSignUpStore = create<SignUp>((set: any) => ({
     setGender: async (gender: string) => {
         set({gender: gender})
     },
-    setNationality: async (nationality: string) => {
+    setNationality: async (nationality: Country | null) => {
         set({nationality: nationality})
     },
     setFirstName: async (firstname: string) => {
@@ -103,6 +110,12 @@ export const useSignUpStore = create<SignUp>((set: any) => ({
     },
     setLevelId: async (levelId: number | string) => {
         set({levelId: levelId})
+    },
+    setCountryId: async (countryId: number | string) => {
+        set({countryId: countryId})
+    },
+    setCountryDescription: async (countryDescription: string) => {
+        set({countryDescription: countryDescription})
     },
     setLevelDescription: async (levelDescription: string) => {
         set({levelDescription: levelDescription})

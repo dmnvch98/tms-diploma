@@ -3,9 +3,9 @@ import {
     FormControl, MenuItem, TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
-import {useSignUpStore} from "./store";
+import {useSignUpStore} from "./store/store";
 import {useEffect} from "react";
-import {usePasswords} from "./passwordStore";
+import {usePasswords} from "./store/passwordStore";
 import {Link as RouterLink} from "react-router-dom";
 
 export const SignUpFirst = () => {

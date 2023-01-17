@@ -1,5 +1,6 @@
 package com.example.apigateway.dto;
 
+import com.example.apigateway.model.Country;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
@@ -15,8 +16,7 @@ public class UserDto {
     String lastName;
     String email;
     String password;
-    String nationality;
-
+    Country nationality;
     String gender;
     String roles;
     List<LanguageLevelDto> languageLevels;

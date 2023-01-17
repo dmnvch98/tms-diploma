@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import UserService from "../../services/UserService";
+import UserService from "../../../services/UserService";
 
 export interface LanguageLevel {
     language: Language | any;
