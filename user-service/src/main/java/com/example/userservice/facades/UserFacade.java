@@ -52,4 +52,8 @@ public class UserFacade {
                 .map(languageLevelConverter::languageLevelToDto)
                 .toList();
     }
+
+    public Boolean isEmailExists(String email) {
+        return userService.isEmailExists(email);
+    }
 }

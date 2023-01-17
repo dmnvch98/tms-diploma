@@ -1,7 +1,7 @@
 package com.example.apigateway.controllers;
 
 import com.example.apigateway.model.Language;
-import com.example.apigateway.services.LanguageService;
+import com.example.apigateway.services.LanguageLevelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,10 +16,10 @@ import java.util.List;
 @RequestMapping("/api/v1/languages")
 public class LanguageController {
 
-    private final LanguageService languageService;
+    private final LanguageLevelService languageService;
 
-    @CrossOrigin
     @GetMapping
+    @CrossOrigin
     public ResponseEntity<List<Language>> getAllLanguages() {
         return ResponseEntity.ok(languageService.getAllLanguages());
     }

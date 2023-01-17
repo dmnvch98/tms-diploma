@@ -3,7 +3,7 @@ import {
     FormControl, MenuItem, TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
-import {useSignUpStore} from "./store/store";
+import {useSignUpStore} from "./store/signUpStore";
 import {Link as RouterLink} from "react-router-dom";
 import {useCountryStore} from "./store/countryStore";
 import {useEffect} from "react";
@@ -49,7 +49,6 @@ export const SignUpSecond = () => {
                             label="Gender"
                             sx={{mb: 2}}
                             value={gender}
-                            key="language"
                             onChange={(e) => {
                                 setGender(e.target.value);
                             }}
@@ -81,7 +80,6 @@ export const SignUpSecond = () => {
                             label="Nationality"
                             sx={{mb: 2}}
                             value={countryId}
-                            key="language"
                             onChange={(e) => {
                                 setNationality(countriesList[+e.target.value - 1]);
                                 setCountryId(+e.target.value)

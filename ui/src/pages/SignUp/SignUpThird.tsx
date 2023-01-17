@@ -8,10 +8,11 @@ import {
 import {Authentication} from "../../Components/Authentication";
 import {useEffect, useState} from "react";
 import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
-import {UserDto, useSignUpStore} from "./store/store";
+import {UserDto, useSignUpStore} from "./store/signUpStore";
 import {Link as RouterLink} from "react-router-dom";
-import {Language, Level, useLanguagesStore} from "./store/languagesStore";
+import {Language, useLanguagesStore} from "./store/languagesStore";
 import {usePasswords} from "./store/passwordStore";
+import {Level, useLevelsStore} from "./store/levelStore";
 
 export const SignUpThird = () => {
     const style = {
@@ -25,14 +26,6 @@ export const SignUpThird = () => {
         boxShadow: 24,
         p: 4,
     };
-
-    const levels = [
-        {levelId: 1, description: "Beginner"},
-        {levelId: 2, description: "Elementary"},
-        {levelId: 3, description: "Intermediate"},
-        {levelId: 4, description: "Upper-Intermediate"},
-
-    ];
 
     const LanguagesForm = () => {
         const [open, setOpen] = useState(false);
@@ -48,6 +41,9 @@ export const SignUpThird = () => {
 
         const setLevelId = useSignUpStore(state => state.setLevelId);
         const setLevel = useSignUpStore(state => state.setLevel);
+
+        const getLevels = useLevelsStore(state => state.getLevels);
+        const levelsList = useLevelsStore(state => state.levelsList);
 
         const setLanguageId = useSignUpStore(state => state.setLanguageId);
         const setLanguage = useSignUpStore(state => state.setLanguage);
@@ -84,6 +80,7 @@ export const SignUpThird = () => {
 
         useEffect(() => {
             getLanguages();
+            getLevels();
         }, [])
 
         return (
@@ -116,11 +113,10 @@ export const SignUpThird = () => {
                             label="Level"
                             sx={{mb: 2}}
                             value={levelId}
-                            key="level"
                             onChange={(e) => {
                                 setLevelId(+e.target.value)
-                                setLevel(levels[+e.target.value - 1])
-                            }}>{levels.map((level: Level) => (
+                                setLevel(levelsList[+e.target.value - 1])
+                            }}>{levelsList.map((level: Level) => (
                             <MenuItem key={level.description}
                                       value={+level.levelId}>{level.description}</MenuItem>
                         ))}

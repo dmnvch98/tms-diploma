@@ -3,7 +3,7 @@ import {
     FormControl, MenuItem, TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
-import {useSignUpStore} from "./store/store";
+import {useSignUpStore} from "./store/signUpStore";
 import {useEffect} from "react";
 import {usePasswords} from "./store/passwordStore";
 import {Link as RouterLink} from "react-router-dom";
@@ -15,6 +15,9 @@ export const SignUpFirst = () => {
     ];
 
     const Form = () => {
+        const redirectButtonDisabled: boolean = useSignUpStore(state => state.redirectButtonDisabled);
+        const setRedirectButtonDisabled = useSignUpStore(state => state.setRedirectButtonDisabled);
+
         const roles = useSignUpStore(state => state.roles);
         const email = useSignUpStore((state) => state.email);
 
@@ -56,12 +59,14 @@ export const SignUpFirst = () => {
                         ))}
                         </TextField>
                         <TextField
+                            error={redirectButtonDisabled}
                             key="email"
                             variant="standard"
                             label="Email"
                             sx={{mb: 2}}
                             value={email}
                             type="text"
+                            onBlur={() => setRedirectButtonDisabled()}
                             onChange={e => {
                                 setEmail(e.target.value)
                             }}
@@ -95,10 +100,10 @@ export const SignUpFirst = () => {
                                 disabled={!passwordMatches
                                     || password.length == 0
                                     || email.length == 0
+                                    || redirectButtonDisabled
                                     || roles.length == 0}
                                 color="primary"
                                 variant="contained"
-                                onClick={() => setVerifiedPassword(password)}
                                 {...{
                                     to: "/reg2",
                                     component: RouterLink,

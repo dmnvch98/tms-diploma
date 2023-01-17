@@ -19,8 +19,15 @@ public class UserController {
         return ResponseEntity.ok(userService.save(userDto));
     }
 
+    @CrossOrigin
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> get(@PathVariable("userId") final Long userId) {
         return ResponseEntity.ok(userService.get(userId));
+    }
+
+    @CrossOrigin
+    @GetMapping("/is-exists/{email}")
+    public ResponseEntity<Boolean> isEmailExists(@PathVariable("email")String email) {
+        return ResponseEntity.ok(userService.isEmailExists(email));
     }
 }

@@ -1,8 +1,10 @@
-package com.example.userservice.controllers;
+package com.example.apigateway.controllers;
 
-import com.example.userservice.facades.LevelFacade;
-import com.example.userservice.model.Level;
+import com.example.apigateway.model.Language;
+import com.example.apigateway.model.Level;
+import com.example.apigateway.services.LanguageLevelService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +16,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/levels")
 public class LevelController {
+    private final LanguageLevelService service;
 
-    private final LevelFacade levelFacade;
-
-    @CrossOrigin
     @GetMapping
-    public List<Level> getLanguages() {
-        return levelFacade.findAllLevels();
+    @CrossOrigin
+    public ResponseEntity<List<Level>> getAllLanguages() {
+        return ResponseEntity.ok(service.getAllLevels());
     }
-
 }

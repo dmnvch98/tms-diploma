@@ -1,7 +1,8 @@
 import {create} from 'zustand';
-import {Language, LanguageLevel, Level} from "./languagesStore";
+import {Language, LanguageLevel} from "./languagesStore";
 import UserService from "../../../services/UserService";
 import {Country} from "./countryStore";
+import {Level} from "./levelStore";
 
 export interface UserDto {
     firstName: string;
@@ -15,6 +16,7 @@ export interface UserDto {
 }
 
 export interface SignUp {
+    redirectButtonDisabled: boolean;
     roles: string;
     email: string;
     password: string;
@@ -24,16 +26,13 @@ export interface SignUp {
     lastName: string;
 
     countryId: number | string;
-    countryDescription: string;
     nationality: Country | null;
 
     languageLevels: LanguageLevel[];
     level: Level | null;
     levelId: number | string;
-    levelDescription: string;
     language: Language | null;
     languageId: number | string;
-    languageDescription: string;
 
     setRoles: (role: string) => void;
     setEmail: (email: string) => void;
@@ -41,7 +40,6 @@ export interface SignUp {
 
     setGender: (gender: string) => void;
     setCountryId: (countryId: number | string) => void;
-    setCountryDescription: (countryDescription: string) => void;
     setNationality: (nationality: Country | null) => void;
 
     setFirstName: (firstname: string) => void;
@@ -50,31 +48,28 @@ export interface SignUp {
 
     setLanguage: (language: Language | null) => void;
     setLanguageId: (languageId: number | string) => void;
-    setLanguageDescription: (description: string) => void;
     setLevel: (level: Level | null) => void;
     setLevelId: (levelId: number | string) => void;
-    setLevelDescription: (description: string) => void;
-
     createUser: (userDto: UserDto) => void;
+    setRedirectButtonDisabled: () => void;
+
 }
 
-export const useSignUpStore = create<SignUp>((set: any) => ({
+export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
+    redirectButtonDisabled: false,
     roles: '',
     email: '',
     password: '',
     gender: '',
     countryId: '',
-    countryDescription: '',
     nationality: null,
     firstName: '',
     lastName: '',
     languageLevels: [],
     level: null,
     levelId: '',
-    levelDescription: '',
     language: null,
     languageId: '',
-    languageDescription: '',
     setRoles: async (userType: string) => {
         set({roles: userType})
     },
@@ -105,25 +100,24 @@ export const useSignUpStore = create<SignUp>((set: any) => ({
     setLanguageId: async (languageId: number | string) => {
         set({languageId: languageId})
     },
-    setLanguageDescription: async (languageDescription: string) => {
-        set({languageDescription: languageDescription})
-    },
     setLevelId: async (levelId: number | string) => {
         set({levelId: levelId})
     },
     setCountryId: async (countryId: number | string) => {
         set({countryId: countryId})
     },
-    setCountryDescription: async (countryDescription: string) => {
-        set({countryDescription: countryDescription})
-    },
-    setLevelDescription: async (levelDescription: string) => {
-        set({levelDescription: levelDescription})
-    },
     setLevel: async (level: Level | null) => {
         set({level: level})
     },
     createUser: (userDto: UserDto) => {
-        const response = UserService.createUser(userDto);
+        UserService.createUser(userDto);
     },
+    setRedirectButtonDisabled: async () => {
+        try {
+            const result: boolean = await UserService.isEmailExists(get().email) as boolean;
+            set({redirectButtonDisabled: result})
+        } catch (error) {
+            alert(error);
+        }
+    }
 }))

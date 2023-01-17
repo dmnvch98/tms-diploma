@@ -19,4 +19,9 @@ public class UserController {
     public UserDto get(@PathVariable("userId") final Long userId) {
         return facade.get(userId);
     }
+
+    @GetMapping("/is-exists/{email}")
+    public Boolean isEmailExists(@PathVariable("email") final String email) {
+        return facade.isEmailExists(email);
+    }
 }

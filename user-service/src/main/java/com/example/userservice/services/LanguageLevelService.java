@@ -38,8 +38,7 @@ public class LanguageLevelService {
     }
 
     public List<Level> findAllLevels() {
-        List<Level> lvels = levelRepository.findAll();
-        return lvels;
+        return levelRepository.findAll();
     }
 
 }

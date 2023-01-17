@@ -17,4 +17,8 @@ public class UserService {
     public User get(Long id) {
         return repository.findUserById(id);
     }
+
+    public Boolean isEmailExists(String email) {
+        return repository.existsUserByEmail(email);
+    }
 }

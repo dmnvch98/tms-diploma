@@ -15,4 +15,7 @@ public interface UserClient {
 
     @GetMapping("/{userId}")
     UserDto get(@PathVariable("userId") final Long userId);
+
+    @GetMapping("/is-exists/{email}")
+    Boolean isEmailExists(@PathVariable("email") final String email);
 }

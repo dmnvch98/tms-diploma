@@ -1,5 +1,6 @@
 import {create} from "zustand";
 import UserService from "../../../services/UserService";
+import {Level} from "./levelStore";
 
 export interface LanguageLevel {
     language: Language | any;
@@ -11,11 +12,6 @@ export interface Language {
     description: string;
 }
 
-export interface Level {
-    levelId: number;
-    description: string;
-}
-
 export interface LanguageList {
     languagesList: Language[];
 
@@ -23,8 +19,6 @@ export interface LanguageList {
 }
 
 export const useLanguagesStore = create<LanguageList>((set) => ({
-    id: 0,
-    description: 0,
     languagesList: [],
     getLanguages: async () => {
         try {

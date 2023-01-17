@@ -18,4 +18,8 @@ public class UserService {
     public UserDto get(Long userId) {
         return userClient.get(userId);
     }
+
+    public Boolean isEmailExists(String email) {
+        return userClient.isEmailExists(email);
+    }
 }
