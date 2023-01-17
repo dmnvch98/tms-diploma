@@ -26,7 +26,11 @@ export interface SignUp {
 
     languageLevels: LanguageLevel[];
     level: Level | null;
+    levelId: number | string;
+    levelDescription: string;
     language: Language | null;
+    languageId: number | string;
+    languageDescription: string;
 
     setRoles: (role: string) => void;
     setEmail: (email: string) => void;
@@ -40,7 +44,11 @@ export interface SignUp {
     setLanguageLevels: (languageLevels: LanguageLevel[]) => void;
 
     setLanguage: (language: Language | null) => void;
+    setLanguageId: (languageId: number | string) => void;
+    setLanguageDescription: (description: string) => void;
     setLevel: (level: Level | null) => void;
+    setLevelId: (levelId: number | string) => void;
+    setLevelDescription: (description: string) => void;
 
     createUser: (userDto: UserDto) => void;
 }
@@ -55,7 +63,11 @@ export const useSignUpStore = create<SignUp>((set: any) => ({
     lastName: '',
     languageLevels: [],
     level: null,
+    levelId: '',
+    levelDescription: '',
     language: null,
+    languageId: '',
+    languageDescription: '',
     setRoles: async (userType: string) => {
         set({roles: userType})
     },
@@ -83,10 +95,22 @@ export const useSignUpStore = create<SignUp>((set: any) => ({
     setLanguage: async (language: Language | null) => {
         set({language: language})
     },
+    setLanguageId: async (languageId: number | string) => {
+        set({languageId: languageId})
+    },
+    setLanguageDescription: async (languageDescription: string) => {
+        set({languageDescription: languageDescription})
+    },
+    setLevelId: async (levelId: number | string) => {
+        set({levelId: levelId})
+    },
+    setLevelDescription: async (levelDescription: string) => {
+        set({levelDescription: levelDescription})
+    },
     setLevel: async (level: Level | null) => {
         set({level: level})
     },
     createUser: (userDto: UserDto) => {
         const response = UserService.createUser(userDto);
-    }
+    },
 }))

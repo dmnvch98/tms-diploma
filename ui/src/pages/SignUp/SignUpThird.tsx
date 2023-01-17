@@ -42,8 +42,18 @@ export const SignUpThird = () => {
         const languageLevels = useSignUpStore(state => state.languageLevels);
         const setLanguageLevels = useSignUpStore(state => state.setLanguageLevels);
         const level = useSignUpStore(state => state.level);
+        const levelId = useSignUpStore(state => state.levelId);
+        const levelDescription = useSignUpStore(state => state.levelDescription);
         const language = useSignUpStore(state => state.language);
+        const languageId = useSignUpStore(state => state.languageId);
+        const languageDescription = useSignUpStore(state => state.languageDescription);
+
+        const setLevelId = useSignUpStore(state => state.setLevelId);
+        const setLevelDescription = useSignUpStore(state => state.setLevelDescription);
         const setLevel = useSignUpStore(state => state.setLevel);
+
+        const setLanguageId = useSignUpStore(state => state.setLanguageId);
+        const setLanguageDescription = useSignUpStore(state => state.setLanguageDescription);
         const setLanguage = useSignUpStore(state => state.setLanguage);
 
         const getLanguages = useLanguagesStore(state => state.getLanguages);
@@ -71,9 +81,12 @@ export const SignUpThird = () => {
         }
 
         const addLanguageLevel = () => {
-            setLanguageLevels([...languageLevels, {level: level, language: language}]);
-            setLevel(null);
-            setLanguage(null);
+            const level1: Level = {levelId: levelId as number, description: levelDescription};
+            const language1: Language = {languageId: languageId as number, description: languageDescription}
+            setLanguageLevels([...languageLevels, {level: level1, language: language1}]);
+            setLevelId('');
+            setLanguageId('')
+
         };
 
         useEffect(() => {
@@ -94,12 +107,13 @@ export const SignUpThird = () => {
                             variant="standard"
                             label="Language"
                             sx={{mb: 2}}
-                            value={language?.description}
+                            value={languageId}
                             onChange={(e) => {
-                                setLanguage(languagesList[+e.target.value]);
+                                setLanguageId(+e.target.value);
+                                setLanguageDescription(languagesList[+e.target.value].description);
                             }}>{languagesList.map((language: Language) => (
                             <MenuItem key={language?.description}
-                                      value={+language?.languageId - 1}>{language?.description}</MenuItem>
+                                      value={language?.languageId - 1}>{language?.description}</MenuItem>
                         ))}
                         </TextField>
 
@@ -108,10 +122,11 @@ export const SignUpThird = () => {
                             variant="standard"
                             label="Level"
                             sx={{mb: 2}}
-                            value={level}
+                            value={levelId}
                             key="level"
                             onChange={(e) => {
-                                setLevel(levels[+e.target.value]);
+                                setLevelId(+e.target.value)
+                                setLevelDescription(levels[+e.target.value].description)
                             }}>{levels.map((level: Level) => (
                             <MenuItem key={level.description}
                                       value={+level.levelId - 1}>{level.description}</MenuItem>
@@ -121,7 +136,7 @@ export const SignUpThird = () => {
                         <Button
                             variant="outlined"
                             sx={{mt: 2}}
-                            disabled={language == null || level == null}
+                            disabled={languageId == 0 || levelId == 0}
                             onClick={addLanguageLevel}>Add Language</Button>
 
                         <Button variant="outlined" sx={{mt: 2}} onClick={handleOpen}>View your languages</Button>

@@ -46,8 +46,6 @@ public class UserFacade {
     }
 
     private List<LanguageLevelDto> getUserLanguageLevels(Long userId) {
-        List<LanguageLevel> list = languageLevelService
-                .findLanguageLevelsByUserId(userId);
         return languageLevelService
                 .findLanguageLevelsByUserId(userId)
                 .stream()
