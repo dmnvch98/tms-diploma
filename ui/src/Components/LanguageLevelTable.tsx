@@ -1,6 +1,7 @@
 import {Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import {LanguageLevel, useSignUpStore} from "../pages/SignUp/store";
+import {useSignUpStore} from "../pages/SignUp/store/signUpStore";
+import {LanguageLevel} from "../pages/SignUp/store/languagesStore";
 
 export const LanguageLevelTable = () => {
     const languageLevels = useSignUpStore((state:any) => state.languageLevels);
@@ -23,11 +24,11 @@ export const LanguageLevelTable = () => {
                     </TableHead>
                     <TableBody>
                         {languageLevels.map((l: LanguageLevel, index: number) => (
-                            <TableRow key={l.language}>
-                                <TableCell component="th" scope="row" key={l.language}>
-                                    {l.language}
+                            <TableRow key={l.language.description}>
+                                <TableCell component="th" scope="row" key={l.language.id}>
+                                    {l.language.description}
                                 </TableCell>
-                                <TableCell key={l.level}>{l.level}</TableCell>
+                                <TableCell key={l.level.description}>{l.level.description}</TableCell>
                                 <TableCell align="right">
                                     <Button onClick={() => deleteLangLevel(l)} key={index}>
                                         <HighlightOffOutlinedIcon key={index}/>

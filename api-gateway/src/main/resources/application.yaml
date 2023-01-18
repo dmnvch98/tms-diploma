@@ -10,7 +10,7 @@ feign:
 
 services:
   user:
-    url: 'http://localhost:8081'
+    url: 'http://localhost:9090'
 
 csrf:
   xsrf_cookie_name: 'MH-XSRF'

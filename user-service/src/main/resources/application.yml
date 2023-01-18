@@ -1,0 +1,15 @@
+server:
+  port: 9090
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: TRACE
+spring:
+  datasource:
+    driver-class-name: 'org.postgresql.Driver'
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:35432/diploma
+

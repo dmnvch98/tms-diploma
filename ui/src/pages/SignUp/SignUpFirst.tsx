@@ -3,9 +3,9 @@ import {
     FormControl, MenuItem, TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
-import {useSignUpStore} from "./store";
+import {useSignUpStore} from "./store/signUpStore";
 import {useEffect} from "react";
-import {usePasswords} from "./passwordStore";
+import {usePasswords} from "./store/passwordStore";
 import {Link as RouterLink} from "react-router-dom";
 
 export const SignUpFirst = () => {
@@ -15,14 +15,17 @@ export const SignUpFirst = () => {
     ];
 
     const Form = () => {
-        const userType = useSignUpStore((state) => state.userType);
+        const redirectButtonDisabled: boolean = useSignUpStore(state => state.redirectButtonDisabled);
+        const setRedirectButtonDisabled = useSignUpStore(state => state.setRedirectButtonDisabled);
+
+        const roles = useSignUpStore(state => state.roles);
         const email = useSignUpStore((state) => state.email);
 
         const password = usePasswords(state => state.password);
         const confirmPassword = usePasswords(state => state.confirmPassword);
         const passwordMatches = usePasswords(state => state.matches);
 
-        const setUserType = useSignUpStore(state => state.setUserType);
+        const setRoles = useSignUpStore(state => state.setRoles);
         const setEmail = useSignUpStore((state) => state.setEmail);
 
         const setPassword = usePasswords(state => state.setPassword);
@@ -46,22 +49,24 @@ export const SignUpFirst = () => {
                             variant="standard"
                             label="User type"
                             sx={{mb: 2}}
-                            value={userType}
+                            value={roles}
                             key="language"
                             onChange={(e) => {
-                                setUserType(e.target.value);
+                                setRoles(e.target.value);
                             }}
                         >{types.map((type) => (
                             <MenuItem key={type} value={type}>{type}</MenuItem>
                         ))}
                         </TextField>
                         <TextField
+                            error={redirectButtonDisabled}
                             key="email"
                             variant="standard"
                             label="Email"
                             sx={{mb: 2}}
                             value={email}
                             type="text"
+                            onBlur={() => setRedirectButtonDisabled()}
                             onChange={e => {
                                 setEmail(e.target.value)
                             }}
@@ -95,10 +100,10 @@ export const SignUpFirst = () => {
                                 disabled={!passwordMatches
                                     || password.length == 0
                                     || email.length == 0
-                                    || userType.length == 0}
+                                    || redirectButtonDisabled
+                                    || roles.length == 0}
                                 color="primary"
                                 variant="contained"
-                                onClick={() => setVerifiedPassword(password)}
                                 {...{
                                     to: "/reg2",
                                     component: RouterLink,

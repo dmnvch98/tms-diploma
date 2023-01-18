@@ -3,8 +3,10 @@ import {
     FormControl, MenuItem, TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
-import {useSignUpStore} from "./store";
+import {useSignUpStore} from "./store/signUpStore";
 import {Link as RouterLink} from "react-router-dom";
+import {useCountryStore} from "./store/countryStore";
+import {useEffect} from "react";
 
 export const SignUpSecond = () => {
 
@@ -14,22 +16,24 @@ export const SignUpSecond = () => {
         'Other'
     ];
 
-    const nationalities = [
-        'Belarus',
-        'Korea',
-        'Brazil'
-    ];
-
     const Form = () => {
         const gender = useSignUpStore(state => state.gender);
         const nationality = useSignUpStore(state => state.nationality);
         const firstName = useSignUpStore(state => state.firstName);
         const lastName = useSignUpStore(state => state.lastName);
+        const countryId = useSignUpStore(state => state.countryId);
+
+        const countriesList = useCountryStore(state => state.countriesList);
+        const getCountries = useCountryStore(state => state.getCountries);
 
         const setGender = useSignUpStore(state => state.setGender);
+        const setCountryId = useSignUpStore(state => state.setCountryId);
         const setNationality = useSignUpStore(state => state.setNationality);
         const setFirstName = useSignUpStore(state => state.setFirstName);
         const setLastName = useSignUpStore(state => state.setLastName);
+
+        useEffect(() => getCountries, [])
+
         return (
             <>
                 <Box
@@ -45,7 +49,6 @@ export const SignUpSecond = () => {
                             label="Gender"
                             sx={{mb: 2}}
                             value={gender}
-                            key="language"
                             onChange={(e) => {
                                 setGender(e.target.value);
                             }}
@@ -76,18 +79,19 @@ export const SignUpSecond = () => {
                             variant="standard"
                             label="Nationality"
                             sx={{mb: 2}}
-                            value={nationality}
-                            key="language"
+                            value={countryId}
                             onChange={(e) => {
-                                setNationality(e.target.value);
+                                setNationality(countriesList[+e.target.value - 1]);
+                                setCountryId(+e.target.value)
                             }}
-                        >{nationalities.map((nationality) => (
-                            <MenuItem key={nationality} value={nationality}>{nationality}</MenuItem>
+                        >{countriesList.map((country) => (
+                            <MenuItem key={country.description}
+                                      value={country.countryId}>{country.description}</MenuItem>
                         ))}
                         </TextField>
                         <Button sx={{mt: 4}}
                                 disabled={gender.length == 0
-                                    || nationality.length == 0
+                                    || nationality == null
                                     || firstName.length == 0
                                     || lastName.length == 0}
                                 color="primary"
