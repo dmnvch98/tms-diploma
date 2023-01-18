@@ -10,14 +10,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {CountryFlag.class})
 public interface UserConverter {
 
-    UserRequestDto userToDto(User user);
-
     default Long countryToId(Country country) {
         return country.getCountryId();
     }
 
     @Mapping(target = "nationality", source = "nationality")
-    User dtoToUser(UserRequestDto userDto);
+    User userRequestDtoToUser(UserRequestDto userDto);
 
     UserResponseDto userToResponseDto(User user);
 

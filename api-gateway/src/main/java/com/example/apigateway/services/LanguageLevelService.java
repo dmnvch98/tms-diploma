@@ -15,7 +15,7 @@ public class LanguageLevelService {
     private final LanguageClient languageClient;
     private final LevelClient levelClient;
 
-    public List<Language> getAllLanguages () {
+    public List<Language> getAllLanguages() {
         return languageClient.getAllLanguages();
     }
 

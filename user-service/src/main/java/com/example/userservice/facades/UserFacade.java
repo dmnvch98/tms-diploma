@@ -7,8 +7,9 @@ import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.model.Student;
 import com.example.userservice.model.Tutor;
+import com.example.userservice.model.User;
 import com.example.userservice.services.LanguageLevelService;
-import com.example.userservice.services.RoleService;
+import com.example.userservice.services.UserRoleService;
 import com.example.userservice.services.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -26,33 +27,21 @@ public class UserFacade {
     private final LanguageLevelService languageLevelService;
     private final UserConverter userConverter;
     private final LanguageLevelConverter languageLevelConverter;
-    private final RoleService roleService;
+    private final UserRoleService userRoleService;
 
     @Transactional
-    public UserResponseDto save(UserRequestDto dto) {
-        UserResponseDto userDto = userConverter.userToResponseDto(userService.save(userConverter.dtoToUser(dto)));
-        userDto.setLanguageLevels(dto.getLanguageLevels().stream()
+    public UserResponseDto save(UserRequestDto userRequestDto) {
+        User user = userService.save(userConverter.userRequestDtoToUser(userRequestDto));
+        UserResponseDto userResponseDto = userConverter.userToResponseDto(user);
+        userResponseDto.setLanguageLevels(userRequestDto.getLanguageLevels().stream()
                 .map(x -> languageLevelService
                         .getLanguageLevelId(x.getLevel().getLevelId(), x.getLanguage().getLanguageId()))
-                .map(x -> languageLevelConverter.languageLevelIdToUll(x, userDto.getId()))
+                .map(x -> languageLevelConverter.languageLevelIdToUll(x, userResponseDto.getId()))
                 .map(languageLevelService::saveUserLanguageLevel)
                 .map(languageLevelService::userLanguageLevelToLl)
                 .map(languageLevelConverter::languageLevelToDto)
                 .toList());
-        if (dto.getRoles().equals("Student")) {
-            userDto.setStudent(roleService.saveStudent(
-                    Student
-                            .builder()
-                            .userId(userDto.getId())
-                            .build()));
-        } else {
-            userDto.setTutor(roleService.saveTutor(
-                    Tutor
-                            .builder()
-                            .userId(userDto.getId())
-                            .build()));
-        }
-        return userDto;
+        return createUserRoleEntity(userRequestDto.getRoles(), userResponseDto);
     }
 
     public UserResponseDto get(Long id) {
@@ -71,5 +60,22 @@ public class UserFacade {
 
     public Boolean isEmailExists(String email) {
         return userService.isEmailExists(email);
+    }
+
+    private UserResponseDto createUserRoleEntity(String roles, UserResponseDto userResponseDto) {
+        if (roles.equals("Student")) {
+            userResponseDto.setStudent(userRoleService.saveStudent(
+                    Student
+                            .builder()
+                            .userId(userResponseDto.getId())
+                            .build()));
+        } else {
+            userResponseDto.setTutor(userRoleService.saveTutor(
+                    Tutor
+                            .builder()
+                            .userId(userResponseDto.getId())
+                            .build()));
+        }
+        return userResponseDto;
     }
 }

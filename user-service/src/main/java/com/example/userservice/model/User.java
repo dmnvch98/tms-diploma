@@ -5,6 +5,7 @@ import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("users")
@@ -28,4 +29,9 @@ public class User {
     String gender;
     @Column("roles")
     String roles;
+    @MappedCollection(idColumn = "user_id")
+    Student student;
+
+    @MappedCollection(idColumn = "user_id")
+    Tutor tutor;
 }
