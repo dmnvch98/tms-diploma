@@ -1,4 +1,4 @@
-import {AppBar, Box, Grid, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Container, Grid, Toolbar, Typography} from "@mui/material";
 import {RedirectButton} from "./RedirectButton";
 
 export const Head = () => {
@@ -15,17 +15,18 @@ export const Head = () => {
     const getMenuButtons = () => {
         return headersData.map(({label, href}) => {
             return (
-                <RedirectButton disabled={false} key={label} color="inherit" variant="text" label={label} href={href} ml={4} mt={0}/>
+                <RedirectButton disabled={false} key={label} color="inherit" variant="text" label={label} href={href}
+                                ml={4} mt={0}/>
             );
         });
     };
 
     return (
         <>
-            <AppBar>
+            <AppBar position="static">
                 <Toolbar variant="regular">
                     <Typography variant="h5" component="h1">Logo</Typography>
-                    <Grid container >
+                    <Grid container>
                         <Grid item sm={12}>
                             <Box display="flex" justifyContent="flex-end">
                                 {getMenuButtons()}

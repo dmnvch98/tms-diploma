@@ -6,8 +6,9 @@ export const Authentication = (props: any) => {
     return (
         <>
             <Container
+                disableGutters
                 maxWidth="xl"
-                sx={{backgroundColor: "#F5F5F5", height: "95vh"}}>
+                sx={{backgroundColor: "#F5F5F5"}}>
                 <Head/>
                 {props.component}
                 <Footer/>

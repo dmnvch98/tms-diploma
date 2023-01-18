@@ -19,7 +19,7 @@ function Copyright() {
 export const Footer = () => {
     return (
         <>
-            <AppBar position="fixed" color="primary" sx={{top: 'auto', bottom: 0, py: 2, px: 1,}}>
+            <AppBar position="static" color="primary" sx={{top: 'auto', bottom: 0, py: 2, px: 1,}}>
                 <Toolbar variant="regular">
                     <Copyright/>
                 </Toolbar>
