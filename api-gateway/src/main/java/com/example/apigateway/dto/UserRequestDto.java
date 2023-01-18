@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @Data
 @Jacksonized
-public class UserDto {
+public class UserRequestDto {
     Long id;
     String firstName;
     String lastName;

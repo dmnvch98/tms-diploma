@@ -1,6 +1,7 @@
 package com.example.apigateway.controllers;
 
-import com.example.apigateway.dto.UserDto;
+import com.example.apigateway.dto.UserRequestDto;
+import com.example.apigateway.dto.UserResponseDto;
 import com.example.apigateway.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,13 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping
-    public ResponseEntity<UserDto> save(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserResponseDto> save(@RequestBody UserRequestDto userDto) {
         return ResponseEntity.ok(userService.save(userDto));
     }
 
     @CrossOrigin
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDto> get(@PathVariable("userId") final Long userId) {
+    public ResponseEntity<UserResponseDto> get(@PathVariable("userId") final Long userId) {
         return ResponseEntity.ok(userService.get(userId));
     }
 

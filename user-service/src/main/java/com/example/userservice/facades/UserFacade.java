@@ -3,7 +3,7 @@ package com.example.userservice.facades;
 import com.example.userservice.converters.LanguageLevelConverter;
 import com.example.userservice.converters.UserConverter;
 import com.example.userservice.dto.LanguageLevelDto;
-import com.example.userservice.dto.UserDto;
+import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.model.Student;
 import com.example.userservice.model.Tutor;
@@ -29,7 +29,7 @@ public class UserFacade {
     private final RoleService roleService;
 
     @Transactional
-    public UserResponseDto save(UserDto dto) {
+    public UserResponseDto save(UserRequestDto dto) {
         UserResponseDto userDto = userConverter.userToResponseDto(userService.save(userConverter.dtoToUser(dto)));
         userDto.setLanguageLevels(dto.getLanguageLevels().stream()
                 .map(x -> languageLevelService
@@ -55,8 +55,8 @@ public class UserFacade {
         return userDto;
     }
 
-    public UserDto get(Long id) {
-        UserDto userToReturn = userConverter.userToDto(userService.get(id));
+    public UserResponseDto get(Long id) {
+        UserResponseDto userToReturn = userConverter.userToResponseDto(userService.get(id));
         userToReturn.setLanguageLevels(getUserLanguageLevels(id));
         return userToReturn;
     }

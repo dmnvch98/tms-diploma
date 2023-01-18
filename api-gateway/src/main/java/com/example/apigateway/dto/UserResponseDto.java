@@ -1,10 +1,11 @@
-package com.example.userservice.dto;
+package com.example.apigateway.dto;
 
-import com.example.userservice.model.Country;
-import com.example.userservice.model.LanguageLevel;
+import com.example.apigateway.model.Country;
+
+import com.example.apigateway.model.Student;
+import com.example.apigateway.model.Tutor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Builder
 @Data
 @Jacksonized
-public class UserDto {
+public class UserResponseDto {
     Long id;
     String firstName;
     String lastName;
@@ -20,6 +21,7 @@ public class UserDto {
     String password;
     Country nationality;
     String gender;
-    String roles;
+    Student student;
+    Tutor tutor;
     List<LanguageLevelDto> languageLevels;
 }

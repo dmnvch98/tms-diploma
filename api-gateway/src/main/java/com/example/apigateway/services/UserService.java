@@ -1,7 +1,8 @@
 package com.example.apigateway.services;
 
 import com.example.apigateway.client.UserClient;
-import com.example.apigateway.dto.UserDto;
+import com.example.apigateway.dto.UserRequestDto;
+import com.example.apigateway.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +12,11 @@ public class UserService {
 
     private final UserClient userClient;
 
-    public UserDto save(UserDto userDto) {
+    public UserResponseDto save(UserRequestDto userDto) {
         return userClient.save(userDto);
     }
 
-    public UserDto get(Long userId) {
+    public UserResponseDto get(Long userId) {
         return userClient.get(userId);
     }
 
