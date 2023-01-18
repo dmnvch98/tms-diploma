@@ -86,7 +86,7 @@ export const SignUpThird = () => {
         return (
             <>
                 <Box
-                    sx={{m: 2, height: "85vh"}}
+                    sx={{m: 2, height: "70vh"}}
                     display="flex"
                     justifyContent="center"
                     alignItems="center">
