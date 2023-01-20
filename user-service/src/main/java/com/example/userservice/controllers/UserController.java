@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserFacade facade;
     @PostMapping
-    public UserResponseDto save(@RequestBody UserRequestDto user) throws Exception {
+    public UserResponseDto save(@RequestBody UserRequestDto user) {
         return facade.save(user);
     }
 
@@ -24,5 +24,10 @@ public class UserController {
     @GetMapping("/is-exists/{email}")
     public Boolean isEmailExists(@PathVariable("email") final String email) {
         return facade.isEmailExists(email);
+    }
+
+    @PutMapping
+    public UserResponseDto update(@RequestBody UserRequestDto user) {
+        return facade.updateUser(user);
     }
 }

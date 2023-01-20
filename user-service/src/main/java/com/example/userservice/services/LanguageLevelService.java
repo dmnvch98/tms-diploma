@@ -42,7 +42,7 @@ public class LanguageLevelService {
     }
 
     public LanguageLevel userLanguageLevelToLl(UserLanguageLevel userLanguageLevel) {
-        return languageLevelRepository.findLanguageLevelByLanguageLevelId(userLanguageLevel.getLanguageLevelId());
+        return languageLevelRepository.findAllByLanguageLevelId(userLanguageLevel.getLanguageLevelId());
     }
 
 }

@@ -1,6 +1,6 @@
 import {
     Box, Button,
-    FormControl, MenuItem, TextField
+    FormControl, MenuItem, Paper, TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
 import {useSignUpStore} from "./store/signUpStore";

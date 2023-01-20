@@ -22,8 +22,8 @@ public interface LanguageLevelRepository extends Repository<LanguageLevel, Long>
             " LEFT OUTER JOIN user_language_levels ull on ll.language_level_id = ull.language_level_id" +
             " WHERE ull.user_id=:userId")
     List<LanguageLevel> findLanguageLevelsByUserId(@Param("userId") Long userId);
+    @Query(FIND_LANGUAGE_LEVEL_SQL + " WHERE language_level_id=:languageLevelId")
+    LanguageLevel findAllByLanguageLevelId(@Param("languageLevelId") Long languageLevelId);
 
-    @Query(FIND_LANGUAGE_LEVEL_SQL +
-            " WHERE language_level_id=:languageLevelId")
-    LanguageLevel findLanguageLevelByLanguageLevelId(@Param("languageLevelId")Long languageLevelId);
+
 }

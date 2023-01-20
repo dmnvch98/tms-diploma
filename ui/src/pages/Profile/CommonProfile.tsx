@@ -3,38 +3,55 @@ import {
     Box,
     Button,
     Container,
-    Grid, Rating,
+    Grid, IconButton, Paper, Rating,
     Typography
 } from "@mui/material";
 import {UserProfileTabs} from "../../Components/UserProfileTabs";
+import {useSignUpStore} from "../SignUp/store/signUpStore";
 
 export const CommonProfile = () => {
 
     const Photo = () => {
+        const firstName = useSignUpStore(state => state.firstName);
+        const lastName = useSignUpStore(state => state.lastName);
         return (
             <>
-                <Box sx={{borderRadius: 2, p: 2, mt: 2, bgcolor: "white"}}>
-                    <img style={{
-                        maxWidth: "100%",
-                        margin: "auto",
-                        display: "block",
-                        borderRadius: 3
-                    }}
-                         src="https://sunmag.me/wp-content/uploads/2020/08/sunmag-2-kachestva-nastoyashchego-muzhchiny.jpg"
-                         alt="Avatar"/>
-                    <Typography variant="h6">John Black</Typography>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        sx={{mt: 4}}>
-                        Switch to teacher
-                    </Button>
-                    <Button
-                        fullWidth
-                        variant="outlined"
-                        sx={{mt: 2}}>
-                        Edit Info
-                    </Button>
+                <Box sx={{mt: 4}}>
+                    <Paper sx={{p: 2}}>
+                        <img style={{
+                            maxWidth: "100%",
+                            margin: "auto",
+                            display: "block",
+                            borderRadius: 3
+                        }}
+                             src="https://sunmag.me/wp-content/uploads/2020/08/sunmag-2-kachestva-nastoyashchego-muzhchiny.jpg"
+                             alt="Avatar"/>
+                        <Typography variant="h6">{firstName} {lastName}</Typography>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{mt: 4}}>
+                            Switch to tutor
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{mt: 4}}>
+                            Switch to student
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{mt: 4}}>
+                            Book a conversation
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            sx={{mt: 2}}>
+                            Edit Profile
+                        </Button>
+                    </Paper>
                 </Box>
             </>
         )
@@ -53,7 +70,7 @@ export const CommonProfile = () => {
                         </Box>
                         <Box>
                             <Typography sx={{mr: 7, mt: 3}}><b>About me:</b> </Typography>
-                            <Typography>{text}</Typography>
+                            <Typography sx={{mb: 5}}>{text}</Typography>
                         </Box>
                         <UserProfileTabs/>
                     </Box>

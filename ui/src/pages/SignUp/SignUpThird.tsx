@@ -148,7 +148,7 @@ export const SignUpThird = () => {
                                 color="primary"
                                 variant="contained"
                                 {...{
-                                    to: "/reg2",
+                                    to: "/profile",
                                     component: RouterLink,
                                 }}
                         >Back</Button>

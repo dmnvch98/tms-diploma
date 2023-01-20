@@ -34,7 +34,7 @@ export const UserProfileTabs = () => {
                 {...other}
             >
                 {value === index && (
-                    <Box minHeight="30vh">
+                    <Box sx={{minHeight: '30vh', pb: 2}}>
                         <Typography>{children}</Typography>
                     </Box>
                 )}
@@ -47,7 +47,7 @@ export const UserProfileTabs = () => {
             <Box>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="Feedbacks" {...a11yProps(0)} />
+                        <Tab label="Feedbacks" sx={{mr: 4}} {...a11yProps(0)} />
                         <Tab label="Presentation" {...a11yProps(1)} />
                     </Tabs>
                 </Box>

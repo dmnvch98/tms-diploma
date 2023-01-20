@@ -13,6 +13,16 @@ function App() {
                 'Montserrat',
             ].join(','),
         },
+        palette: {
+            primary: {
+                main: '#a3ccbe',
+                light: '#a3ccbe',
+                dark: '#44734b',
+            },
+            secondary: {
+                main: '#f50057',
+            },
+        },
     });
 
     return (

@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("users")
-@Builder
+@Builder(toBuilder = true)
 @Value
 @Jacksonized
 public class User {
