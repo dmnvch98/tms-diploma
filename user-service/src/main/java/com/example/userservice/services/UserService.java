@@ -23,16 +23,16 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-        if ( user.getFirstName() != null ) {
-           repository.updateFirstName(user.getFirstName(), user.getId());
+        if (user.getFirstName() != null) {
+            repository.updateFirstName(user.getFirstName(), user.getId());
         }
-        if ( user.getLastName() != null ) {
+        if (user.getLastName() != null) {
             repository.updateLastName(user.getLastName(), user.getId());
         }
-        if ( user.getNationality() != null ) {
+        if (user.getNationality() != null) {
             repository.updateNationality(user.getNationality(), user.getId());
         }
-        if ( user.getEmail() != null ) {
+        if (user.getEmail() != null) {
             repository.updateEmail(user.getEmail(), user.getId());
         }
     }

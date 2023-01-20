@@ -30,4 +30,5 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("update users u set nationality=:countryId where u.id=:userId")
     void updateNationality(@Param("countryId") Long countryId, @Param("userId") Long userId);
 
+
 }

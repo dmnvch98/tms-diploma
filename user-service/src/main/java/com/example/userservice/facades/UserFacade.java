@@ -10,16 +10,15 @@ import com.example.userservice.model.User;
 import com.example.userservice.model.Tutor;
 import com.example.userservice.model.Student;
 import com.example.userservice.services.LanguageLevelService;
-import com.example.userservice.services.UserRoleService;
+import com.example.userservice.services.StudentService;
+import com.example.userservice.services.TutorService;
 import com.example.userservice.services.UserService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Data
 @RequiredArgsConstructor
 @Component
 public class UserFacade {
@@ -28,7 +27,8 @@ public class UserFacade {
     private final LanguageLevelService languageLevelService;
     private final UserConverter userConverter;
     private final LanguageLevelConverter languageLevelConverter;
-    private final UserRoleService userRoleService;
+    private final TutorService tutorService;
+    private final StudentService studentService;
 
     @Transactional
     public UserResponseDto save(UserRequestDto userRequestDto) {
@@ -65,13 +65,13 @@ public class UserFacade {
 
     private UserResponseDto createUserRoleEntity(String roles, UserResponseDto userResponseDto) {
         if (roles.equals("Student")) {
-            userResponseDto.setStudent(userRoleService.saveStudent(
+            userResponseDto.setStudent(studentService.saveStudent(
                     Student
                             .builder()
                             .userId(userResponseDto.getId())
                             .build()));
         } else {
-            userResponseDto.setTutor(userRoleService.saveTutor(
+            userResponseDto.setTutor(tutorService.saveTutor(
                     Tutor
                             .builder()
                             .userId(userResponseDto.getId())
