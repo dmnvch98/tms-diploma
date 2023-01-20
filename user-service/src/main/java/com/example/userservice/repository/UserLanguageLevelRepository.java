@@ -13,5 +13,4 @@ public interface UserLanguageLevelRepository extends Repository<UserLanguageLeve
     @Query("DELETE FROM user_language_levels WHERE language_level_id=:languageLevelId AND user_id=:userId")
     void deleteByLanguageLevelIdAndUserId(@Param("languageLevelId") Long languageLevelId, @Param("userId") Long userId);
 
-    void deleteById(Long id);
 }

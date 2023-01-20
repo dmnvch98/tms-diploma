@@ -33,11 +33,10 @@ public class UserController {
     }
 
     @DeleteMapping("/language-id/{languageId}/level-id/{levelId}/user-id/{userId}")
-    public UserResponseDto deleteUserLanguageLevel
-            (@PathVariable("languageId") Long languageId,
-             @PathVariable("levelId") Long levelId,
-             @PathVariable("userId") Long userId)
-    {
+    public UserResponseDto deleteUserLanguageLevel(
+            @PathVariable("languageId") Long languageId,
+            @PathVariable("levelId") Long levelId,
+            @PathVariable("userId") Long userId) {
         return facade.deleteUserLanguageLevels(languageId, levelId, userId);
     }
 }
