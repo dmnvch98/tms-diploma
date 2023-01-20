@@ -19,5 +19,5 @@ public interface UserConverter {
 
     UserResponseDto userToResponseDto(User user);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    User updateUser(UserRequestDto userRequestDto, @MappingTarget User.UserBuilder user);
+    User partialUserUpdate(UserRequestDto userRequestDto, @MappingTarget User.UserBuilder user);
 }

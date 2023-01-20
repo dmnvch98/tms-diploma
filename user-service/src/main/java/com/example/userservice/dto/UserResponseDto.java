@@ -20,5 +20,5 @@ public class UserResponseDto {
     String gender;
     Student student;
     Tutor tutor;
-    List<LanguageLevelDto> languageLevels;
+    List<LanguageLevelDto> languageLevelDtos;
 }

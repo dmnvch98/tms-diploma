@@ -5,7 +5,10 @@ import com.example.userservice.converters.UserConverter;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
-import com.example.userservice.model.*;
+import com.example.userservice.model.UserLanguageLevel;
+import com.example.userservice.model.User;
+import com.example.userservice.model.Tutor;
+import com.example.userservice.model.Student;
 import com.example.userservice.services.LanguageLevelService;
 import com.example.userservice.services.UserRoleService;
 import com.example.userservice.services.UserService;
@@ -31,34 +34,24 @@ public class UserFacade {
     public UserResponseDto save(UserRequestDto userRequestDto) {
         User user = userService.save(userConverter.userRequestDtoToUser(userRequestDto));
         UserResponseDto userResponseDto = userConverter.userToResponseDto(user);
-        List<UserLanguageLevel> userLanguageLevels = createUserLanguageLevels(userRequestDto, user.getId());
+        List<UserLanguageLevel> userLanguageLevels = getUserLanguageLevels(userRequestDto, user.getId());
         userLanguageLevels = saveUserLanguageLevels(userLanguageLevels);
-        userResponseDto.setLanguageLevels(
+        userResponseDto.setLanguageLevelDtos(
                 userLanguageLevels
                         .stream()
                         .map(languageLevelService::userLanguageLevelToLl)
                         .map(languageLevelConverter::languageLevelToDto)
                         .toList());
-
-
-
-//        userResponseDto.setLanguageLevels(
-//                saveUserLanguageLevels(
-//                        userRequestDto.getLanguageLevels(), user.getId())
-//                        .stream()
-//                        .map(languageLevelService::userLanguageLevelToLl)
-//                        .map(languageLevelConverter::languageLevelToDto)
-//                        .toList());
         return createUserRoleEntity(userRequestDto.getRoles(), userResponseDto);
     }
 
     public UserResponseDto get(Long id) {
         UserResponseDto userToReturn = userConverter.userToResponseDto(userService.get(id));
-        userToReturn.setLanguageLevels(createUserLanguageLevels(id));
+        userToReturn.setLanguageLevelDtos(getUserLanguageLevels(id));
         return userToReturn;
     }
 
-    private List<LanguageLevelDto> createUserLanguageLevels(Long userId) {
+    private List<LanguageLevelDto> getUserLanguageLevels(Long userId) {
         return languageLevelService
                 .findLanguageLevelsByUserId(userId)
                 .stream()
@@ -88,14 +81,15 @@ public class UserFacade {
     }
 
     public UserResponseDto updateUser(UserRequestDto userRequestDto) {
-        User user = userConverter.updateUser(userRequestDto, User.builder());
+        User user = userConverter.partialUserUpdate(userRequestDto, User.builder());
         userService.updateUser(user);
         UserResponseDto userResponseDto = userConverter.userToResponseDto(userService.get(userRequestDto.getId()));
 
         if (userRequestDto.getLanguageLevels() != null) {
-            saveUserLanguageLevels(createUserLanguageLevels(userRequestDto, userRequestDto.getId()));
-            userResponseDto.setLanguageLevels(createUserLanguageLevels(userRequestDto.getId()));
+            saveUserLanguageLevels(getUserLanguageLevels(userRequestDto, userRequestDto.getId()));
         }
+
+        userResponseDto.setLanguageLevelDtos(getUserLanguageLevels(userRequestDto.getId()));
 
         return userResponseDto;
     }
@@ -107,7 +101,7 @@ public class UserFacade {
                 .toList();
     }
 
-    private List<UserLanguageLevel> createUserLanguageLevels(UserRequestDto userRequestDto, Long userId) {
+    private List<UserLanguageLevel> getUserLanguageLevels(UserRequestDto userRequestDto, Long userId) {
         return userRequestDto.getLanguageLevels().stream()
                 .map(x -> languageLevelService
                         .getLanguageLevelId(x.getLevel().getLevelId(), x.getLanguage().getLanguageId()))
