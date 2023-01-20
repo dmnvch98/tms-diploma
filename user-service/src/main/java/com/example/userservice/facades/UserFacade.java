@@ -115,4 +115,9 @@ public class UserFacade {
                 .toList();
     }
 
+    public UserResponseDto deleteUserLanguageLevels(Long languageId, Long levelId, Long userId) {
+        Long languageLevelId = languageLevelService.getLanguageLevelId(levelId, languageId);
+        languageLevelService.deleteUserLanguageLevel(languageLevelId, userId);
+        return get(userId);
+    }
 }

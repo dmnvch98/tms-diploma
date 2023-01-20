@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserFacade facade;
+
     @PostMapping
     public UserResponseDto save(@RequestBody UserRequestDto user) {
         return facade.save(user);
@@ -27,7 +28,16 @@ public class UserController {
     }
 
     @PutMapping
-    public UserResponseDto update(@RequestBody UserRequestDto user) {
-        return facade.updateUser(user);
+    public UserResponseDto update(@RequestBody UserRequestDto userRequestDto) {
+        return facade.updateUser(userRequestDto);
+    }
+
+    @DeleteMapping("/language-id/{languageId}/level-id/{levelId}/user-id/{userId}")
+    public UserResponseDto deleteUserLanguageLevel
+            (@PathVariable("languageId") Long languageId,
+             @PathVariable("levelId") Long levelId,
+             @PathVariable("userId") Long userId)
+    {
+        return facade.deleteUserLanguageLevels(languageId, levelId, userId);
     }
 }
