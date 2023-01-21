@@ -2,13 +2,13 @@ package com.example.apigateway.dto;
 
 import com.example.apigateway.model.Country;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
 @Builder
-@Data
+@Value
 @Jacksonized
 public class UserRequestDto {
     Long id;

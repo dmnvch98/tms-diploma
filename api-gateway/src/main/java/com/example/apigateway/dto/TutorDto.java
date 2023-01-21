@@ -1,11 +1,11 @@
 package com.example.apigateway.dto;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
 @Builder
-@Data
+@Value
 @Jacksonized
 public class TutorDto {
     Long tutorId;

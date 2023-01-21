@@ -36,7 +36,7 @@ public class UserFacade {
         UserResponseDto userResponseDto = userConverter.userToResponseDto(user);
         List<UserLanguageLevel> userLanguageLevels = getUserLanguageLevels(userRequestDto, user.getId());
         userLanguageLevels = saveUserLanguageLevels(userLanguageLevels);
-        userResponseDto.setLanguageLevelDtos(
+        userResponseDto.setLanguageLevels(
                 userLanguageLevels
                         .stream()
                         .map(languageLevelService::userLanguageLevelToLl)
@@ -47,7 +47,7 @@ public class UserFacade {
 
     public UserResponseDto get(Long id) {
         UserResponseDto userToReturn = userConverter.userToResponseDto(userService.get(id));
-        userToReturn.setLanguageLevelDtos(getUserLanguageLevels(id));
+        userToReturn.setLanguageLevels(getUserLanguageLevels(id));
         return userToReturn;
     }
 
@@ -89,7 +89,7 @@ public class UserFacade {
             saveUserLanguageLevels(getUserLanguageLevels(userRequestDto, userRequestDto.getId()));
         }
 
-        userResponseDto.setLanguageLevelDtos(getUserLanguageLevels(userRequestDto.getId()));
+        userResponseDto.setLanguageLevels(getUserLanguageLevels(userRequestDto.getId()));
 
         return userResponseDto;
     }

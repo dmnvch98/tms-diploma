@@ -50,7 +50,7 @@ export interface SignUp {
     setLanguageId: (languageId: number | string) => void;
     setLevel: (level: Level | null) => void;
     setLevelId: (levelId: number | string) => void;
-    createUser: (userDto: UserDto) => void;
+    createUser: (userDto: UserDto) => UserDto;
     setRedirectButtonDisabled: () => void;
 
 }
@@ -110,7 +110,7 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
         set({level: level})
     },
     createUser: (userDto: UserDto) => {
-        UserService.createUser(userDto);
+        return UserService.createUser(userDto) as unknown as UserDto;
     },
     setRedirectButtonDisabled: async () => {
         try {

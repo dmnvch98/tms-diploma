@@ -19,6 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import PublicIcon from '@mui/icons-material/Public';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import {Button, Grid} from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -30,8 +31,6 @@ const openedMixin = (theme: Theme): CSSObject => ({
     }),
     overflowX: 'hidden',
 });
-
-const tabs1 = ['Find tutor', 'My profile', 'My conversations']
 
 interface TabIcon {
     name: string;
@@ -104,7 +103,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export const Sidebar = (props: any) => {
+export const SidebarHeader = (props: any) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -133,9 +132,21 @@ export const Sidebar = (props: any) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Mini variant drawer
-                    </Typography>
+
+                    <Grid container>
+                        <Grid item sm={12}>
+                            <Box display="flex" justifyContent="space-between">
+                                    <Typography variant="h6" noWrap component="div">
+                                        Logo
+                                    </Typography>
+                                    <Button
+                                        color="inherit"
+                                        variant="text"
+                                    >Logout</Button>
+                            </Box>
+                        </Grid>
+                    </Grid>
+
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>

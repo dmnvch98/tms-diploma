@@ -13,6 +13,9 @@ import {Link as RouterLink} from "react-router-dom";
 import {Language, useLanguagesStore} from "./store/languagesStore";
 import {usePasswords} from "./store/passwordStore";
 import {Level, useLevelsStore} from "./store/levelStore";
+import {useProfileStore} from "../Profile/profileStore";
+import {Country} from "./store/countryStore";
+import {User} from "../../CommonStore/store";
 
 export const SignUpThird = () => {
     const style = {
@@ -61,12 +64,14 @@ export const SignUpThird = () => {
 
         const createUser = useSignUpStore(state => state.createUser);
 
-        const userDto = {
+        const setUser = useProfileStore(state => state.setUser);
+
+        const userDto: UserDto = {
             firstName: firstName,
             lastName: lastName,
             email: email,
             password: password,
-            nationality: nationality,
+            nationality: nationality as Country,
             roles: roles,
             gender: gender,
             languageLevels: languageLevels
@@ -143,7 +148,12 @@ export const SignUpThird = () => {
                             variant="contained"
                             sx={{mt: 4}}
                             disabled={languageLevels.length == 0}
-                            onClick={() => createUser(userDto as UserDto)}>Continue</Button>
+                            onClick={
+                                () => {
+                                    createUser(userDto)
+                                }
+                            }
+                        >Continue</Button>
                         <Button sx={{mt: 4}}
                                 color="primary"
                                 variant="contained"

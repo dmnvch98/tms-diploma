@@ -4,7 +4,8 @@ import {SignUpFirst} from "./pages/SignUp/SignUpFirst";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {SignUpSecond} from "./pages/SignUp/SignUpSecond";
 import {SignUpThird} from "./pages/SignUp/SignUpThird";
-import {CommonProfile} from "./pages/Profile/CommonProfile";
+import {StudentProfile} from "./pages/Profile/StudentProfile";
+import {TutorProfile} from "./pages/Profile/TutorProfile";
 
 function App() {
     const theme = createTheme({
@@ -31,7 +32,8 @@ function App() {
                 <Route path={'/reg'} element={<SignUpFirst/>}/>
                 <Route path={'/reg2'} element={<SignUpSecond/>}/>
                 <Route path={'/reg3'} element={<SignUpThird/>}/>
-                <Route path={'/profile'} element={<CommonProfile/>}/>
+                <Route path={'/student-profile'} element={<StudentProfile/>}/>
+                <Route path={'/tutor-profile'} element={<TutorProfile/>}/>
             </Routes>
         </ThemeProvider>
     );
