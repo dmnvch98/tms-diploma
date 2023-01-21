@@ -1,5 +1,5 @@
-import {Box, ButtonBase, Grid, Paper, Rating, styled, Typography} from "@mui/material";
-import React from "react";
+import {Box, Grid, Paper, Rating, styled, Typography} from "@mui/material";
+import React, {useState} from "react";
 
 export const FeedbackCard = () => {
     const Img = styled('img')({
@@ -8,6 +8,8 @@ export const FeedbackCard = () => {
         maxWidth: '100%',
         maxHeight: "100%"
     });
+
+    const [showMore, setShowMore] = useState(false);
 
     const feedBackText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
 
@@ -41,7 +43,12 @@ export const FeedbackCard = () => {
                                 </Box>
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                {feedBackText}
+                                {showMore ? feedBackText : `${feedBackText.substring(0, 200) + '...'}`}
+                                <span
+                                    onClick={() => setShowMore(!showMore)}
+                                    style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>
+                                    {showMore ? "Show less" : "Show more"}
+                                </span>
                             </Typography>
                         </Grid>
                     </Grid>

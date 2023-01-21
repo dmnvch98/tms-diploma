@@ -1,4 +1,3 @@
-import {Authentication} from "../../Components/Authentication";
 import {
     Box,
     Button,
@@ -8,6 +7,8 @@ import {
 } from "@mui/material";
 import {UserProfileTabs} from "../../Components/UserProfileTabs";
 import {useSignUpStore} from "../SignUp/store/signUpStore";
+import {Sidebar} from "../../Components/Sidebar";
+import {useState} from "react";
 
 export const CommonProfile = () => {
 
@@ -58,6 +59,7 @@ export const CommonProfile = () => {
     }
 
     const Info = () => {
+        const [showMore, setShowMore] = useState(false);
         const text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         return (
             <>
@@ -70,7 +72,14 @@ export const CommonProfile = () => {
                         </Box>
                         <Box>
                             <Typography sx={{mr: 7, mt: 3}}><b>About me:</b> </Typography>
-                            <Typography sx={{mb: 5}}>{text}</Typography>
+                            <Typography sx={{mb: 5}}>
+                                {showMore ? text : `${text.substring(0, 250) + '...'}`}
+                                <span
+                                    onClick={() => setShowMore(!showMore)}
+                                    style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>
+                                    {showMore ? "Show less" : "Show more"}
+                                </span>
+                            </Typography>
                         </Box>
                         <UserProfileTabs/>
                     </Box>
@@ -82,7 +91,7 @@ export const CommonProfile = () => {
     const Profile = () => {
         return (
             <>
-                <Container>
+                <Container sx={{mt: 7}}>
                     <Grid container spacing={2}>
                         <Grid item xs={3}>
                             <Photo/>
@@ -97,7 +106,7 @@ export const CommonProfile = () => {
     }
     return (
         <>
-            <Authentication component={<Profile/>}></Authentication>
+            <Sidebar component={<Profile/>}></Sidebar>
         </>
     )
 }
