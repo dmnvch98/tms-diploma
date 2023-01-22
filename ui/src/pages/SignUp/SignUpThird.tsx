@@ -15,7 +15,6 @@ import {usePasswords} from "./store/passwordStore";
 import {Level, useLevelsStore} from "./store/levelStore";
 import {useProfileStore} from "../Profile/profileStore";
 import {Country} from "./store/countryStore";
-import {User} from "../../CommonStore/store";
 
 export const SignUpThird = () => {
     const style = {

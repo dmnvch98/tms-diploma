@@ -1,7 +1,9 @@
 import {Box, Button, Paper, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
+import {useProfileStore} from "../../pages/Profile/profileStore";
 
 export const Photo = (props: any) => {
+    const user = useProfileStore(state => state.user);
     const switchToTutorBtn = () => {
         return (
             <Button variant="contained" fullWidth
@@ -49,15 +51,15 @@ export const Photo = (props: any) => {
                          src="https://sunmag.me/wp-content/uploads/2020/08/sunmag-2-kachestva-nastoyashchego-muzhchiny.jpg"
                          alt="Avatar"/>
                     <Box sx={{mt: 1, mb: 3}}>
-                        <Typography variant="h6">{props.user?.firstName} {props.user?.lastName}</Typography>
-                        <Typography variant="subtitle1">Nationality: {props.user?.nationality.description}</Typography>
+                        <Typography variant="h6">{props.user?.firstName} {user?.lastName}</Typography>
+                        <Typography variant="subtitle1">Nationality: {user?.nationality.description}</Typography>
                         <Typography variant="subtitle1">Location: {props.role == "student"
-                            ? props.user?.student.location
-                            : props.user?.tutor.location
+                            ? user?.student.location
+                            : user?.tutor.location
                         }</Typography>
                     </Box>
-                    {props.role == 'student' && props.user?.tutor != null ? switchToTutorBtn() : <></>}
-                    {props.role == 'tutor' && props.user?.student != null ? switchToStudentBtn() : <></>}
+                    {props.role == 'student' && user?.tutor != null ? switchToTutorBtn() : <></>}
+                    {props.role == 'tutor' && user?.student != null ? switchToStudentBtn() : <></>}
                     {editProfile()}
                 </Paper>
             </Box>

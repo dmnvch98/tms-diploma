@@ -1,20 +1,12 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Box, Container, Rating, Typography} from "@mui/material";
 import {UserProfileTabs} from "../UserProfileTabs";
+import {useProfileStore} from "../../pages/Profile/profileStore";
 
 export const Info = (props: any) => {
     const [showMore, setShowMore] = useState(false);
-    const [aboutMe, setAboutMe] = useState('');
-    const aboutMeLength = props.role
-        ? props.user?.student.aboutMe.length
-        : props.user?.tutor.aboutMe.length;
-    const getAboutMe = () => {
-        props.role == "tutor"
-            ? setAboutMe(props.user?.student.aboutMe)
-            : setAboutMe(props.user?.tutor.aboutMe);
-    }
+    const user = useProfileStore(state => state.user);
 
-    useEffect(() => getAboutMe, [])
     return (
         <>
             <Container sx={{bgcolor: "white", borderRadius: 2}}>
@@ -28,14 +20,25 @@ export const Info = (props: any) => {
                         <Typography sx={{mr: 7, mt: 3}}><b>About me:</b> </Typography>
                         <Typography sx={{mb: 5}}>
                             {showMore
-                                ? aboutMe
-                                : aboutMe.substring(0, 250) + '...'}
-                            {aboutMeLength > 250 ? <span
-                                onClick={() => setShowMore(!showMore)}
-                                style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>
-                                    {showMore ? "Show less" : "Show more"}
-                                </span> : <></>}
+                                ? (props.role == 'tutor'
+                                    ? user?.tutor.aboutMe
+                                    : user?.student.aboutMe)
+                                : (props.role == 'tutor'
+                                    ? user?.tutor.aboutMe.substring(0, 250)
+                                    : user?.student.aboutMe.substring(0, 250))
+                            }
 
+                            {(props.role == 'student'
+                                    ? user?.student.aboutMe.length as number > 250
+                                    : user?.tutor.aboutMe.length as number > 250
+                            )
+                                ?
+                                <span
+                                    onClick={() => setShowMore(!showMore)}
+                                    style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>
+                                    {showMore ? "Show less" : "Show more"}
+                                </span>
+                                : <></>}
                         </Typography>
                     </Box>
                     <UserProfileTabs/>

@@ -6,23 +6,22 @@ import {Info} from "../../Components/Profile/Info";
 import {SidebarHeader} from "../../Components/SidebarHeader";
 
 export const StudentProfile = () => {
-    const getUser = useProfileStore(state => state.getUser);
-    const user = useProfileStore(state => state.user);
-
-    useEffect(() => {
-        getUser()
-    }, []);
-
     const Profile = () => {
+        const getUser = useProfileStore(state => state.getUser);
+
+        useEffect(() => {
+            getUser()
+        }, []);
+
         return (
             <>
                 <Container sx={{mt: 7}}>
                     <Grid container spacing={2}>
                         <Grid item xs={3}>
-                            <Photo role="student" user={user}/>
+                            <Photo role="student"/>
                         </Grid>
                         <Grid item xs={9}>
-                            <Info role="student" user={user}/>
+                            <Info role="student"/>
                         </Grid>
                     </Grid>
                 </Container>
