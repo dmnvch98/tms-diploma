@@ -8,7 +8,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("students")
 @Value
-@Builder(toBuilder = true)
+@Builder
 public class Student {
     @Id
     Long studentId;

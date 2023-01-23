@@ -9,8 +9,6 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper
 public interface TutorConverter {
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Tutor partialTutorUpdate(TutorDto tutorDto, @MappingTarget Tutor.TutorBuilder tutor);
 
     TutorDto tutorToDto(Tutor tutor);
 
