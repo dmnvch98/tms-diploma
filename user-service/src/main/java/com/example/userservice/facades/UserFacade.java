@@ -81,7 +81,8 @@ public class UserFacade {
     }
 
     public UserResponseDto updateUser(UserRequestDto userRequestDto) {
-        User user = userConverter.partialUserUpdate(userRequestDto, User.builder());
+        //User user = userConverter.partialUserUpdate(userRequestDto, User.builder());
+        User user = userConverter.userRequestDtoToUser(userRequestDto);
         userService.updateUser(user);
         UserResponseDto userResponseDto = userConverter.userToResponseDto(userService.get(userRequestDto.getId()));
 

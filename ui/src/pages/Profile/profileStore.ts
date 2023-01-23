@@ -5,7 +5,7 @@ import {User} from "../../CommonStore/store";
 export interface ProfileStore {
     user: User | null;
     setUser: (user: User) => void;
-    getUser: () => void;
+    getUser: (userId: number) => void;
 }
 
 export const useProfileStore = create<ProfileStore>((set: any) => ({
@@ -13,8 +13,8 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
     setUser: async (user: User) => {
         set({user: user})
     },
-    getUser: async () => {
-        const response = await UserService.getUser(19);
+    getUser: async (userId:number) => {
+        const response = await UserService.getUser(userId);
         set({user: response?.data})
     }
 }))

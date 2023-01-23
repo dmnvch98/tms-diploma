@@ -21,7 +21,7 @@ public class TutorFacade {
     private String deleteTutorProfileError;
 
     public TutorDto updateTutor(TutorDto tutorDto) {
-        Tutor tutor = tutorConverter.partialTutorUpdate(tutorDto, Tutor.builder());
+        Tutor tutor = tutorConverter.dtoToTutor(tutorDto);
         tutorService.updateTutor(tutor);
         tutor = tutorService.getTutor(tutor.getUserId());
         return tutorConverter.tutorToDto(tutor);

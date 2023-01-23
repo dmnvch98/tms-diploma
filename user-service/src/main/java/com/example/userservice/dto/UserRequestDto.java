@@ -1,6 +1,5 @@
 package com.example.userservice.dto;
 
-import com.example.userservice.model.Country;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
@@ -16,7 +15,7 @@ public class UserRequestDto {
     String lastName;
     String email;
     String password;
-    Country nationality;
+    Long nationality;
     String gender;
     String roles;
     List<LanguageLevelDto> languageLevels;

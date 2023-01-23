@@ -4,13 +4,16 @@ import {Container, Grid} from "@mui/material";
 import {Photo} from "../../Components/Profile/Photo";
 import {Info} from "../../Components/Profile/Info";
 import {SidebarHeader} from "../../Components/SidebarHeader";
+import {useParams} from "react-router-dom";
 
 export const StudentProfile = () => {
     const Profile = () => {
         const getUser = useProfileStore(state => state.getUser);
+        const params = useParams();
+        const userId = params.id;
 
         useEffect(() => {
-            getUser()
+            getUser(Number(userId))
         }, []);
 
         return (

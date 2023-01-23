@@ -9,9 +9,6 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper
 public interface StudentConverter {
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Student partialUserUpdate(StudentDto studentRequestDto, @MappingTarget Student.StudentBuilder student);
-
     StudentDto studentToRequestDto(Student student);
 
     Student dtoToStudent(StudentDto studentDto);

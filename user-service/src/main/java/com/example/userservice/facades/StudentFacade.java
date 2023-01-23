@@ -20,7 +20,7 @@ public class StudentFacade {
     private String deleteStudentProfileError;
 
     public StudentDto updateStudent(StudentDto studentRequestDto) {
-        Student student = studentConverter.partialUserUpdate(studentRequestDto, Student.builder());
+        Student student = studentConverter.dtoToStudent(studentRequestDto);
         studentService.updateStudent(student);
         student = studentService.getStudent(student.getUserId());
         return studentConverter.studentToRequestDto(student);

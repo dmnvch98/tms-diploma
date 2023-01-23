@@ -32,7 +32,7 @@ function App() {
                 <Route path={'/reg'} element={<SignUpFirst/>}/>
                 <Route path={'/reg2'} element={<SignUpSecond/>}/>
                 <Route path={'/reg3'} element={<SignUpThird/>}/>
-                <Route path={'/student-profile'} element={<StudentProfile/>}/>
+                <Route path={'/student-profile/:id'} element={<StudentProfile/>}/>
                 <Route path={'/tutor-profile'} element={<TutorProfile/>}/>
             </Routes>
         </ThemeProvider>
