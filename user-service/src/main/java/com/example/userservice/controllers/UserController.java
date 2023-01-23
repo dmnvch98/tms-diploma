@@ -2,6 +2,7 @@ package com.example.userservice.controllers;
 
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
+import com.example.userservice.dto.UserUpdateDto;
 import com.example.userservice.facades.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class UserController {
     }
 
     @PutMapping
-    public UserResponseDto update(@RequestBody UserRequestDto userRequestDto) {
-        return facade.updateUser(userRequestDto);
+    public UserResponseDto update(@RequestBody UserUpdateDto userUpdateDto) {
+        return facade.updateUser(userUpdateDto);
     }
 
     @DeleteMapping("/language-id/{languageId}/level-id/{levelId}/user-id/{userId}")

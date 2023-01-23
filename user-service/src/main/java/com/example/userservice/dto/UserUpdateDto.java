@@ -1,30 +1,26 @@
 package com.example.userservice.dto;
 
-import com.example.userservice.model.Country;
 import com.example.userservice.model.Student;
 import com.example.userservice.model.Tutor;
 import lombok.Builder;
-import lombok.Setter;
 import lombok.Value;
-import lombok.experimental.NonFinal;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
-@Builder(toBuilder = true)
+@Builder
 @Value
-public class UserResponseDto {
+@Jacksonized
+public class UserUpdateDto {
     Long id;
     String firstName;
     String lastName;
     String email;
     String password;
-    Country nationality;
+    Long nationality;
     String gender;
-    @NonFinal
-    @Setter
+    String roles;
     Student student;
-    @NonFinal
-    @Setter
     Tutor tutor;
     List<LanguageLevelDto> languageLevels;
 }
