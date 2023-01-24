@@ -22,7 +22,7 @@ public class TutorFacade {
             tutorService.deleteTutor(userId);
             return null;
         } else {
-            return deleteTutorProfileError;
+            throw new IllegalArgumentException(deleteTutorProfileError);
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.apigateway.dto;
 
-import com.example.apigateway.model.Country;
 import com.example.apigateway.model.Student;
 import com.example.apigateway.model.Tutor;
 import lombok.Builder;

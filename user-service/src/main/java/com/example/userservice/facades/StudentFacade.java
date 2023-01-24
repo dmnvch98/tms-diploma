@@ -1,8 +1,5 @@
 package com.example.userservice.facades;
 
-import com.example.userservice.converters.StudentConverter;
-import com.example.userservice.dto.StudentDto;
-import com.example.userservice.model.Student;
 import com.example.userservice.model.User;
 import com.example.userservice.services.StudentService;
 import com.example.userservice.services.UserService;
@@ -24,7 +21,7 @@ public class StudentFacade {
             studentService.deleteStudent(userId);
             return null;
         } else {
-            return deleteStudentProfileError;
+            throw new IllegalArgumentException(deleteStudentProfileError);
         }
     }
 }

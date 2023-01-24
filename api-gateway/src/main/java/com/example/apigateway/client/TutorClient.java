@@ -1,6 +1,5 @@
 package com.example.apigateway.client;
 
-import com.example.apigateway.dto.TutorDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
