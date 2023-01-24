@@ -23,4 +23,13 @@ public class UserService {
     public Boolean isEmailExists(String email) {
         return userClient.isEmailExists(email);
     }
+
+    public UserResponseDto update(UserRequestDto userRequestDto, Long userId) {
+        return userClient.update(userRequestDto, userId);
+    }
+
+    public UserResponseDto deleteUserLanguageLevel(Long languageId, Long levelId, Long userId) {
+        return userClient.deleteUserLanguageLevel(languageId, levelId, userId);
+    }
+
 }

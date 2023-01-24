@@ -10,6 +10,5 @@ import lombok.extern.jackson.Jacksonized;
 public class Student {
     Long studentId;
     Long userId;
-    String location;
     String aboutMe;
 }

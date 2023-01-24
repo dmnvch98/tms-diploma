@@ -10,14 +10,6 @@ import org.springframework.stereotype.Service;
 public class StudentService {
     private final StudentClient studentClient;
 
-    public StudentDto saveStudent(StudentDto studentDto) {
-        return studentClient.saveStudent(studentDto);
-    }
-
-    public StudentDto updateStudent(StudentDto studentDto) {
-        return studentClient.updateStudent(studentDto);
-    }
-
     public String deleteStudent(Long userId) {
         return studentClient.deleteStudent(userId);
     }

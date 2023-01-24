@@ -14,15 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudentFacade {
     private final StudentService studentService;
-    private final StudentConverter studentConverter;
     private final UserService userService;
     @Value("${messages.delete-student-profile-error}")
     private String deleteStudentProfileError;
-
-    public StudentDto saveStudent(StudentDto studentDto) {
-        Student student = studentConverter.dtoToStudent(studentDto);
-        return studentConverter.studentToRequestDto(studentService.saveStudent(student));
-    }
 
     public String deleteStudent(Long userId) {
         User user = userService.get(userId);

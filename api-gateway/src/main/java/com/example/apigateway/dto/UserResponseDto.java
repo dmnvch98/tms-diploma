@@ -24,4 +24,5 @@ public class UserResponseDto {
     Student student;
     Tutor tutor;
     List<LanguageLevelDto> languageLevels;
+    String location;
 }

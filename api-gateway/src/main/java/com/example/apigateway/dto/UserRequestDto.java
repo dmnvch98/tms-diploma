@@ -1,6 +1,8 @@
 package com.example.apigateway.dto;
 
 import com.example.apigateway.model.Country;
+import com.example.apigateway.model.Student;
+import com.example.apigateway.model.Tutor;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
@@ -11,13 +13,15 @@ import java.util.List;
 @Value
 @Jacksonized
 public class UserRequestDto {
-    Long id;
     String firstName;
     String lastName;
     String email;
     String password;
-    Country nationality;
+    Long nationality;
     String gender;
     String roles;
+    Student student;
+    Tutor tutor;
     List<LanguageLevelDto> languageLevels;
+    String location;
 }

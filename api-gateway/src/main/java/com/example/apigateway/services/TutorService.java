@@ -9,15 +9,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TutorService {
     private final TutorClient tutorClient;
-
-    public TutorDto saveTutor(TutorDto tutorDto) {
-        return tutorClient.saveTutor(tutorDto);
-    }
-
-    public TutorDto updateTutor(TutorDto tutor) {
-        return tutorClient.updateTutor(tutor);
-    }
-
     public String deleteTutor(Long userId) {
         return tutorClient.deleteTutor(userId);
     }

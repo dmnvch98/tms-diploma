@@ -10,15 +10,12 @@ import org.springframework.stereotype.Service;
 public class TutorService {
     private final TutorRepository tutorRepository;
 
-    public Tutor saveTutor(Tutor tutor) {
-        return tutorRepository.save(tutor);
+    public void deleteTutor(Long userId) {
+        tutorRepository.delete(findTutorByUserId(userId));
     }
 
-    public Tutor getTutor(Long userId) {
+    public Tutor findTutorByUserId(Long userId) {
         return tutorRepository.findAllByUserId(userId);
     }
 
-    public void deleteTutor(Long userId) {
-        tutorRepository.deleteByUserId(userId);
-    }
 }

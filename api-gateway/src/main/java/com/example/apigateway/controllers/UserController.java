@@ -31,4 +31,18 @@ public class UserController {
     public ResponseEntity<Boolean> isEmailExists(@PathVariable("email")String email) {
         return ResponseEntity.ok(userService.isEmailExists(email));
     }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserResponseDto> update(@RequestBody UserRequestDto userDto,
+                                                  @PathVariable Long userId) {
+        return ResponseEntity.ok(userService.update(userDto, userId));
+    }
+
+    @DeleteMapping("/languages/{languageId}/levels/{levelId}/users/{userId}")
+    public UserResponseDto deleteUserLanguageLevel(
+            @PathVariable("languageId") Long languageId,
+            @PathVariable("levelId") Long levelId,
+            @PathVariable("userId") Long userId) {
+        return userService.deleteUserLanguageLevel(languageId, levelId, userId);
+    }
 }

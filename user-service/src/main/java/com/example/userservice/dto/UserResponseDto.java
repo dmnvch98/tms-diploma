@@ -27,6 +27,5 @@ public class UserResponseDto {
     @Setter
     Tutor tutor;
     List<LanguageLevelDto> languageLevels;
-
     String location;
 }
