@@ -5,14 +5,9 @@ import com.example.userservice.converters.UserConverter;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
-import com.example.userservice.dto.UserUpdateDto;
-import com.example.userservice.model.Student;
 import com.example.userservice.model.User;
-import com.example.userservice.model.Tutor;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.services.LanguageLevelService;
-import com.example.userservice.services.StudentService;
-import com.example.userservice.services.TutorService;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -28,12 +23,11 @@ public class UserFacade {
     private final LanguageLevelService languageLevelService;
     private final UserConverter userConverter;
     private final LanguageLevelConverter languageLevelConverter;
-    private final TutorService tutorService;
-    private final StudentService studentService;
 
     @Transactional
-    public UserResponseDto save(UserRequestDto userRequestDto) {
-        User user = userService.save(userConverter.userRequestDtoToUser(userRequestDto));
+    public UserResponseDto save(UserRequestDto userRequestDto, Long userId) {
+        User user = userConverter.userRequestDtoToUser(userRequestDto, userId);
+        user = userService.save(user);
         List<LanguageLevelDto> languageLevels =
                 extractUserLanguageLevelsFromDto(userRequestDto, user.getId())
                         .stream()
@@ -41,9 +35,7 @@ public class UserFacade {
                         .map(languageLevelService::userLanguageLevelToLl)
                         .map(languageLevelConverter::languageLevelToDto)
                         .toList();
-        UserResponseDto userResponseDto = userConverter.userToRespDto(user, languageLevels);
-        return createUserRoleEntity(userRequestDto.getRoles(), userResponseDto);
-
+        return userConverter.userToRespDto(user, languageLevels);
     }
 
     public UserResponseDto get(Long id) {
@@ -62,46 +54,6 @@ public class UserFacade {
         return userService.isEmailExists(email);
     }
 
-    private UserResponseDto createUserRoleEntity(String roles, UserResponseDto userResponseDto) {
-        if (roles.equals("Student")) {
-            userResponseDto.setStudent(studentService.saveStudent(
-                    Student
-                            .builder()
-                            .userId(userResponseDto.getId())
-                            .build()));
-        } else {
-            userResponseDto.setTutor(tutorService.saveTutor(
-                    Tutor
-                            .builder()
-                            .userId(userResponseDto.getId())
-                            .build()));
-        }
-        return userResponseDto;
-    }
-
-    public UserResponseDto updateUser(UserUpdateDto userUpdateDto) {
-        User user = userConverter.userUpdateDtoToUser(userUpdateDto);
-        user = userService.save(user);
-        return userConverter.userToRespDto(user, findLanguageLevelsByUserId(user.getId()));
-//        User user = userConverter.userRequestDtoToUser(userRequestDto);
-//        userService.updateUser(user);
-//        UserResponseDto userResponseDto = userConverter.userToResponseDto(userService.get(userRequestDto.getId()));
-//
-//        if (userRequestDto.getLanguageLevels() != null) {
-//            saveUserLanguageLevels(extractUserLanguageLevelsFromDto(userRequestDto, userRequestDto.getId()));
-//        }
-//
-//        userResponseDto.toBuilder().languageLevels(findLanguageLevelsByUserId(userRequestDto.getId()));
-//
-//        return userResponseDto;
-    }
-
-//    private List<UserLanguageLevel> saveUserLanguageLevels(List<UserLanguageLevel> userLanguageLevels) {
-//        return userLanguageLevels
-//                .stream()
-//                .map(languageLevelService::saveUserLanguageLevel)
-//                .toList();
-//    }
 
     private List<UserLanguageLevel> extractUserLanguageLevelsFromDto(UserRequestDto userRequestDto, Long userId) {
         return userRequestDto.getLanguageLevels().stream()

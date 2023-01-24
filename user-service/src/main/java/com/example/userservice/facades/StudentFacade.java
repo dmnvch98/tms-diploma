@@ -19,13 +19,6 @@ public class StudentFacade {
     @Value("${messages.delete-student-profile-error}")
     private String deleteStudentProfileError;
 
-    public StudentDto updateStudent(StudentDto studentRequestDto) {
-        Student student = studentConverter.dtoToStudent(studentRequestDto);
-        studentService.updateStudent(student);
-        student = studentService.getStudent(student.getUserId());
-        return studentConverter.studentToRequestDto(student);
-    }
-
     public StudentDto saveStudent(StudentDto studentDto) {
         Student student = studentConverter.dtoToStudent(studentDto);
         return studentConverter.studentToRequestDto(studentService.saveStudent(student));

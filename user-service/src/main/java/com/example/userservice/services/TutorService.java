@@ -14,15 +14,6 @@ public class TutorService {
         return tutorRepository.save(tutor);
     }
 
-    public void updateTutor(Tutor tutor) {
-        if (tutor.getAboutMe() != null) {
-            tutorRepository.updateAboutMe(tutor.getAboutMe(), tutor.getUserId());
-        }
-        if (tutor.getLocation() != null) {
-            tutorRepository.updateLocation(tutor.getLocation(), tutor.getUserId());
-        }
-    }
-
     public Tutor getTutor(Long userId) {
         return tutorRepository.findAllByUserId(userId);
     }

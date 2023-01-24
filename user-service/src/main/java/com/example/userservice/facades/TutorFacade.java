@@ -20,13 +20,6 @@ public class TutorFacade {
     @Value("${messages.delete-tutor-profile-error}")
     private String deleteTutorProfileError;
 
-    public TutorDto updateTutor(TutorDto tutorDto) {
-        Tutor tutor = tutorConverter.dtoToTutor(tutorDto);
-        tutorService.updateTutor(tutor);
-        tutor = tutorService.getTutor(tutor.getUserId());
-        return tutorConverter.tutorToDto(tutor);
-    }
-
     public TutorDto saveTutor(TutorDto tutorDto) {
         Tutor tutor = tutorConverter.dtoToTutor(tutorDto);
         return tutorConverter.tutorToDto(tutorService.saveTutor(tutor));

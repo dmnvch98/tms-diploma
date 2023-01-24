@@ -6,6 +6,7 @@ create table users
     email       TEXT      NOT NULL,
     password    TEXT      NOT NULL,
     nationality BIGSERIAL NOT NULL,
+    location    TEXT,
     roles       TEXT      NOT NULL,
     gender      TEXT      NOT NULL,
 

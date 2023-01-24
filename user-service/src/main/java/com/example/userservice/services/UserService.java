@@ -22,18 +22,4 @@ public class UserService {
         return repository.existsByEmail(email);
     }
 
-    public void updateUser(User user) {
-        if (user.getFirstName() != null) {
-            repository.updateFirstName(user.getFirstName(), user.getId());
-        }
-        if (user.getLastName() != null) {
-            repository.updateLastName(user.getLastName(), user.getId());
-        }
-        if (user.getNationality() != null) {
-            repository.updateNationality(user.getNationality(), user.getId());
-        }
-        if (user.getEmail() != null) {
-            repository.updateEmail(user.getEmail(), user.getId());
-        }
-    }
 }

@@ -16,9 +16,6 @@ public class Tutor {
     Long tutorId;
     @Column("user_id")
     Long userId;
-
-    @Column("location")
-    String location;
     @Column("about_me")
     String aboutMe;
 }

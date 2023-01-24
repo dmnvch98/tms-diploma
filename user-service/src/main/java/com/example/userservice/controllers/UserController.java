@@ -2,7 +2,6 @@ package com.example.userservice.controllers;
 
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
-import com.example.userservice.dto.UserUpdateDto;
 import com.example.userservice.facades.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ public class UserController {
 
     @PostMapping
     public UserResponseDto save(@RequestBody UserRequestDto user) {
-        return facade.save(user);
+        return facade.save(user, null);
     }
 
     @GetMapping("/{userId}")
@@ -28,12 +27,12 @@ public class UserController {
         return facade.isEmailExists(email);
     }
 
-    @PutMapping
-    public UserResponseDto update(@RequestBody UserUpdateDto userUpdateDto) {
-        return facade.updateUser(userUpdateDto);
+    @PutMapping("/{userId}")
+    public UserResponseDto update(@RequestBody UserRequestDto userRequestDto, @PathVariable("userId") Long userId) {
+        return facade.save(userRequestDto, userId);
     }
 
-    @DeleteMapping("/language-id/{languageId}/level-id/{levelId}/user-id/{userId}")
+    @DeleteMapping("/languages/{languageId}/levels/{levelId}/users/{userId}")
     public UserResponseDto deleteUserLanguageLevel(
             @PathVariable("languageId") Long languageId,
             @PathVariable("levelId") Long levelId,

@@ -26,4 +26,5 @@ public interface LanguageLevelRepository extends Repository<LanguageLevel, Long>
     LanguageLevel findAllByLanguageLevelId(@Param("languageLevelId") Long languageLevelId);
 
 
+
 }

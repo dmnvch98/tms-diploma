@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
     private final StudentFacade studentFacade;
 
-    @PutMapping
-    public StudentDto updateStudent(@RequestBody StudentDto studentRequestDto) {
-        return studentFacade.updateStudent(studentRequestDto);
-    }
-
     @PostMapping
     public StudentDto saveStudent(@RequestBody StudentDto studentDto) {
         return studentFacade.saveStudent(studentDto);

@@ -9,14 +9,6 @@ import org.springframework.data.repository.query.Param;
 public interface TutorRepository extends Repository<Tutor, Long> {
     Tutor save(Tutor tutor);
 
-    @Modifying
-    @Query("update tutors set about_me=:aboutMe where user_id=:userId")
-    void updateAboutMe(@Param("aboutMe") String aboutMe, @Param("userId") Long userId);
-
-    @Modifying
-    @Query("update tutors set location=:location where user_id=:userId")
-    void updateLocation(@Param("location") String location, @Param("userId") Long userId);
-
     Tutor findAllByUserId(Long userId);
 
     @Modifying

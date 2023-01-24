@@ -1,5 +1,7 @@
 package com.example.userservice.dto;
 
+import com.example.userservice.model.Student;
+import com.example.userservice.model.Tutor;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
@@ -10,7 +12,6 @@ import java.util.List;
 @Value
 @Jacksonized
 public class UserRequestDto {
-    Long id;
     String firstName;
     String lastName;
     String email;
@@ -18,5 +19,8 @@ public class UserRequestDto {
     Long nationality;
     String gender;
     String roles;
+    Student student;
+    Tutor tutor;
     List<LanguageLevelDto> languageLevels;
+    String location;
 }

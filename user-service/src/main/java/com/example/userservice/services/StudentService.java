@@ -14,15 +14,6 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public void updateStudent(Student student) {
-        if (student.getAboutMe() != null) {
-            studentRepository.updateAboutMe(student.getAboutMe(), student.getUserId());
-        }
-        if (student.getLocation() != null) {
-            studentRepository.updateLocation(student.getLocation(), student.getUserId());
-        }
-    }
-
     public Student getStudent(Long userId) {
         return studentRepository.findAllByUserId(userId);
     }

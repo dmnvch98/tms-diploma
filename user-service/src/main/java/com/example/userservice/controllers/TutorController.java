@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.*;
 public class TutorController {
     private final TutorFacade tutorFacade;
 
-    @PutMapping
-    public TutorDto updateTutor(@RequestBody TutorDto tutorDto) {
-        return tutorFacade.updateTutor(tutorDto);
-    }
-
     @PostMapping
     public TutorDto saveTutor(@RequestBody TutorDto tutorDto) {
         return tutorFacade.saveTutor(tutorDto);

@@ -34,4 +34,6 @@ public class User {
 
     @MappedCollection(idColumn = "user_id")
     Tutor tutor;
+
+    String location;
 }
