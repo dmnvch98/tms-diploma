@@ -35,11 +35,11 @@ public class UserFacade {
                         .map(languageLevelService::userLanguageLevelToLl)
                         .map(languageLevelConverter::languageLevelToDto)
                         .toList();
-        return userConverter.userToRespDto(user, languageLevels);
+        return userConverter.userToResponseDto(user, languageLevels);
     }
 
     public UserResponseDto get(Long id) {
-        return userConverter.userToRespDto(userService.get(id), findLanguageLevelsByUserId(id));
+        return userConverter.userToResponseDto(userService.get(id), findLanguageLevelsByUserId(id));
     }
 
     private List<LanguageLevelDto> findLanguageLevelsByUserId(Long userId) {

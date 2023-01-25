@@ -12,5 +12,5 @@ import java.util.List;
 public interface UserConverter {
     User userRequestDtoToUser(UserRequestDto userDto, Long id);
 
-    UserResponseDto userToRespDto(User user, List<LanguageLevelDto> languageLevels);
+    UserResponseDto userToResponseDto(User user, List<LanguageLevelDto> languageLevels);
 }
