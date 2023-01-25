@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionsHandler {
 
     @ExceptionHandler(FeignException.class)
-    public ResponseEntity<String> handleException(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    public ResponseEntity<String> handleException(FeignException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.responseBody().toString());
     }
 }
