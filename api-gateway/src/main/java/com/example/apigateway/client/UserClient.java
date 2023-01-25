@@ -1,7 +1,9 @@
 package com.example.apigateway.client;
 
+import com.example.apigateway.dto.CredentialsDto;
 import com.example.apigateway.dto.UserRequestDto;
 import com.example.apigateway.dto.UserResponseDto;
+import com.example.apigateway.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,4 +27,13 @@ public interface UserClient {
             @PathVariable("languageId") Long languageId,
             @PathVariable("levelId") Long levelId,
             @PathVariable("userId") Long userId);
+
+    @GetMapping("/email/{email}")
+    User findUserByEmail(@PathVariable("email") String email);
+
+    @PostMapping("/exists")
+    Boolean existsByEmailAndPassword(@RequestBody CredentialsDto credentialsDto);
+
+    @PutMapping()
+    User update(@RequestBody User user);
 }

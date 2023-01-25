@@ -1,8 +1,10 @@
 package com.example.userservice.controllers;
 
+import com.example.userservice.dto.CredentialsDto;
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.facades.UserFacade;
+import com.example.userservice.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,5 +52,19 @@ public class UserController {
     @CrossOrigin
     public UserResponseDto findUserByStudentId(@PathVariable("studentId") Long studentId) {
         return facade.findUserByStudentId(studentId);
+    }
+
+    @GetMapping("/email/{email}")
+    public User findUserByEmail(@PathVariable("email") String email) {
+        return facade.findUserByEmail(email);
+    }
+
+    @PostMapping("/exists")
+    public Boolean existsByEmailAndPassword(@RequestBody CredentialsDto credentialsDto) {
+        return facade.existsByEmailAndPassword(credentialsDto);
+    }
+    @PutMapping()
+    public User update(@RequestBody User user) {
+        return facade.save(user);
     }
 }

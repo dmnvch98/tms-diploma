@@ -2,13 +2,13 @@ package com.example.userservice.facades;
 
 import com.example.userservice.converters.LanguageLevelConverter;
 import com.example.userservice.converters.UserConverter;
+import com.example.userservice.dto.CredentialsDto;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.model.User;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.services.LanguageLevelService;
-import com.example.userservice.services.TutorService;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,6 @@ public class UserFacade {
     private final UserConverter userConverter;
     private final LanguageLevelConverter languageLevelConverter;
 
-    private final TutorService tutorService;
 
     @Transactional
     public UserResponseDto save(UserRequestDto userRequestDto, Long userId) {
@@ -39,6 +38,10 @@ public class UserFacade {
                         .map(languageLevelConverter::languageLevelToDto)
                         .toList();
         return userConverter.userToResponseDto(user, languageLevels);
+    }
+
+    public User save(User user) {
+        return userService.save(user);
     }
 
     public UserResponseDto get(Long id) {
@@ -80,5 +83,13 @@ public class UserFacade {
     public UserResponseDto findUserByStudentId(Long studentId) {
         User user = userService.findUserByStudentId(studentId);
         return userConverter.userToResponseDto(user, findLanguageLevelsByUserId(user.getId()));
+    }
+
+    public User findUserByEmail(String email) {
+        return userService.findUserByEmail(email);
+    }
+
+    public Boolean existsByEmailAndPassword(CredentialsDto credentialsDto) {
+        return userService.existsByEmailAndPassword(credentialsDto.getEmail(), credentialsDto.getPassword());
     }
 }

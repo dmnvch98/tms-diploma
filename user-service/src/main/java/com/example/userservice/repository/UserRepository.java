@@ -1,6 +1,5 @@
 package com.example.userservice.repository;
 
-import com.example.userservice.model.Tutor;
 import com.example.userservice.model.User;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.Repository;
@@ -31,4 +30,8 @@ public interface UserRepository extends Repository<User, Long> {
             "LEFT OUTER JOIN students student " +
             "ON student.user_id = users.id WHERE student.student_id=:studentId")
     User findUserByStudentId(@Param("studentId") Long studentId);
+
+    User findUserByEmail(String email);
+
+    Boolean existsByEmailAndPassword(String email, String password);
 }

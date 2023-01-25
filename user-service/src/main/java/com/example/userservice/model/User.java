@@ -33,6 +33,8 @@ public class User {
     Student student;
     @MappedCollection(idColumn = "user_id")
     Tutor tutor;
-
+    @Column("location")
     String location;
+    @Column("refresh_token")
+    String refreshToken;
 }

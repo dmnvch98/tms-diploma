@@ -1,8 +1,10 @@
 package com.example.apigateway.services;
 
 import com.example.apigateway.client.UserClient;
+import com.example.apigateway.dto.CredentialsDto;
 import com.example.apigateway.dto.UserRequestDto;
 import com.example.apigateway.dto.UserResponseDto;
+import com.example.apigateway.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,22 @@ public class UserService {
 
     public UserResponseDto deleteUserLanguageLevel(Long languageId, Long levelId, Long userId) {
         return userClient.deleteUserLanguageLevel(languageId, levelId, userId);
+    }
+
+    public User findUserByEmail(String email) {
+        return userClient.findUserByEmail(email);
+    }
+
+    public Boolean isUserExists(CredentialsDto credentialsDto) {
+        return userClient.existsByEmailAndPassword(credentialsDto);
+    }
+
+    public Boolean verifyUser(CredentialsDto credentialsDto) {
+        return userClient.existsByEmailAndPassword(credentialsDto);
+    }
+
+    public User update(User user) {
+        return userClient.update(user);
     }
 
 }

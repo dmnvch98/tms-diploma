@@ -29,5 +29,10 @@ public class UserService {
     public User findUserByStudentId(Long studentId) {
         return repository.findUserByStudentId(studentId);
     }
-
+    public User findUserByEmail(String email) {
+        return repository.findUserByEmail(email);
+    }
+    public Boolean existsByEmailAndPassword(String email, String password) {
+        return repository.existsByEmailAndPassword(email, password);
+    }
 }
