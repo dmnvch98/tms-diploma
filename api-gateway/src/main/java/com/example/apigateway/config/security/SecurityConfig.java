@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .antMatchers("/api/v1/auth/**").permitAll()
+                        .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

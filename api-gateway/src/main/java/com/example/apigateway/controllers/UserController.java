@@ -45,4 +45,14 @@ public class UserController {
             @PathVariable("userId") Long userId) {
         return userService.deleteUserLanguageLevel(languageId, levelId, userId);
     }
+
+    @GetMapping("/tutors/{tutorId}")
+    public UserResponseDto findUserByTutorId(@PathVariable("tutorId") Long tutorId) {
+        return userService.findUserByTutorId(tutorId);
+    }
+
+    @GetMapping("/students/{studentId}")
+    public UserResponseDto findUserByStudentId(@PathVariable("studentId") Long studentId) {
+        return userService.findUserByStudentId(studentId);
+    }
 }

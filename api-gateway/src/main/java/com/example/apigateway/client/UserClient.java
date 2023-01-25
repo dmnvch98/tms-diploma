@@ -36,4 +36,10 @@ public interface UserClient {
 
     @PutMapping()
     User update(@RequestBody User user);
+
+    @GetMapping("/students/{studentId}")
+    UserResponseDto findUserByStudentId(@PathVariable("studentId") Long studentId);
+
+    @GetMapping("/tutors/{tutorId}")
+    UserResponseDto findUserByTutorId(@PathVariable("tutorId") Long tutorId);
 }

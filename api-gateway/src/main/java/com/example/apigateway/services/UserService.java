@@ -50,4 +50,11 @@ public class UserService {
         return userClient.update(user);
     }
 
+    public UserResponseDto findUserByTutorId (Long tutorId) {
+        return userClient.findUserByTutorId(tutorId);
+    }
+
+    public UserResponseDto findUserByStudentId (Long studentId) {
+        return userClient.findUserByStudentId(studentId);
+    }
 }
