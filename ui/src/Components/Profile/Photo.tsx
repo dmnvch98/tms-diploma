@@ -25,6 +25,28 @@ export const Photo = (props: any) => {
             </Button>
         )
     }
+
+    const sendMessageBtn = () => {
+        return (
+            <Button variant="contained"
+                    fullWidth
+                    sx={{mt: 2}}
+            >
+                Send a message
+            </Button>
+        )
+    }
+
+    const bookLessonBtn = () => {
+        return (
+            <Button variant="contained"
+                    fullWidth
+                    sx={{mt: 2}}>
+                Book a lesson
+            </Button>
+        )
+    }
+
     const editProfile = () => {
         return (
             <>
@@ -58,9 +80,10 @@ export const Photo = (props: any) => {
                             : user?.location
                         }</Typography>
                     </Box>
-                    {props.role == 'student' && user?.tutor != null ? switchToTutorBtn() : <></>}
-                    {props.role == 'tutor' && user?.student != null ? switchToStudentBtn() : <></>}
-                    {editProfile()}
+                    {/*{props.role == 'student' && user?.tutor != null ? switchToTutorBtn() : <></>}*/}
+                    {/*{props.role == 'tutor' && user?.student != null ? switchToStudentBtn() : <></>}*/}
+                    {sendMessageBtn()}
+                    {props.role == 'tutor' ? bookLessonBtn() : <></>}
                 </Paper>
             </Box>
         </>

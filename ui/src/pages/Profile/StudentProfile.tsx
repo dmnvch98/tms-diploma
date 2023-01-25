@@ -9,9 +9,7 @@ import {useParams} from "react-router-dom";
 export const StudentProfile = () => {
     const Profile = () => {
         const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
-        const params = useParams();
-        const studentId = params.id;
-
+        const studentId = useParams().id;
         useEffect(() => {
             getUserByStudentId(Number(studentId))
         }, []);

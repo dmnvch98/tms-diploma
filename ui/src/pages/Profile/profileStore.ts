@@ -20,9 +20,17 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
         set({user: response?.data})
     },
     getUserByStudentId: async (studentId: number) => {
-        set({user: await UserService.getUserByStudentId(studentId)})
+        const user: User = await UserService.getUserByStudentId(studentId);
+        if (user.student.aboutMe == null) {
+            user.student.aboutMe = '';
+        }
+        set({user: user})
     },
     getUserByTutorId: async (tutorId: number) => {
-        set({user: await UserService.getUserByTutorId(tutorId)})
+        const user: User = await UserService.getUserByTutorId(tutorId);
+        if (user.tutor.aboutMe == null) {
+            user.tutor.aboutMe = '';
+        }
+        set({user: user})
     }
 }))

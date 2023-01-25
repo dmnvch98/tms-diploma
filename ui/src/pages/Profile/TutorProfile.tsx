@@ -4,12 +4,14 @@ import {Container, Grid} from "@mui/material";
 import {Photo} from "../../Components/Profile/Photo";
 import {Info} from "../../Components/Profile/Info";
 import {SidebarHeader} from "../../Components/SidebarHeader";
+import {useParams} from "react-router-dom";
 
 export const TutorProfile = () => {
     const Profile = () => {
-        const getUser = useProfileStore(state => state.getUser);
+        const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
+        const tutorId = useParams().id;
         useEffect(() => {
-            getUser(14);
+            getUserByTutorId(Number(tutorId));
         }, []);
 
         return (

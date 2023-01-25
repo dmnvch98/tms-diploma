@@ -25,7 +25,8 @@ export const Info = (props: any) => {
                                     : user?.student.aboutMe)
                                 : (props.role == 'tutor'
                                     ? user?.tutor.aboutMe.substring(0, 250)
-                                    : user?.student.aboutMe.substring(0, 250))
+                                    : user?.student.aboutMe.substring(0, 250)
+                                )
                             }
 
                             {(props.role == 'student'
