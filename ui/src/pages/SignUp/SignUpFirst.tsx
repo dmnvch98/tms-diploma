@@ -1,6 +1,6 @@
 import {
     Box, Button,
-    FormControl, MenuItem, Paper, TextField
+    FormControl, MenuItem, TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
 import {useSignUpStore} from "./store/signUpStore";
@@ -27,7 +27,6 @@ export const SignUpFirst = () => {
         const setPassword = usePasswords(state => state.setPassword);
         const setConfirmPassword = usePasswords(state => state.setConfirmPassword);
         const setPasswordsMatches = usePasswords(state => state.setMatches)
-        const setVerifiedPassword = useSignUpStore(state => state.setPassword);
         const setStudent = useSignUpStore(state => state.setStudent);
         const setTutor = useSignUpStore(state => state.setTutor);
 

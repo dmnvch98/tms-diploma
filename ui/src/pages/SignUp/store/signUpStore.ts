@@ -23,7 +23,6 @@ export interface SignUp {
     redirectButtonDisabled: boolean;
     roles: string;
     email: string;
-    password: string;
     gender: string;
     firstName: string;
     lastName: string;
@@ -40,7 +39,6 @@ export interface SignUp {
 
     setRoles: (role: string) => void;
     setEmail: (email: string) => void;
-    setPassword: (password: string) => void;
 
     setGender: (gender: string) => void;
     setCountryId: (countryId: number | string) => void;
@@ -67,7 +65,6 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     redirectButtonDisabled: false,
     roles: '',
     email: '',
-    password: '',
     gender: '',
     countryId: '',
     nationality: null,
@@ -86,9 +83,6 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     },
     setEmail: async (email: string) => {
         set({email: email})
-    },
-    setPassword: async (password: string) => {
-        set({password: password})
     },
     setGender: async (gender: string) => {
         set({gender: gender})
