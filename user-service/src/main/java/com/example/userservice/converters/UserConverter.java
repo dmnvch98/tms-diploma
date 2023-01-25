@@ -10,8 +10,6 @@ import java.util.List;
 
 @Mapper(uses = {CountryFlag.class})
 public interface UserConverter {
-
-//    @Mapping(target = "nationality", source = "nationality")
     User userRequestDtoToUser(UserRequestDto userDto, Long id);
 
     UserResponseDto userToRespDto(User user, List<LanguageLevelDto> languageLevels);
