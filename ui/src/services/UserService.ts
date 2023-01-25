@@ -67,6 +67,26 @@ class UserService {
         }
     }
 
+    getUserByTutorId = async (tutorId: number) => {
+        try {
+            const response = await axios.get('http://localhost:9090/api/v1/users/tutors/' + tutorId);
+            return response.data;
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            alert(error.message);
+        }
+    }
+
+    getUserByStudentId = async (studentId: number) => {
+        try {
+            const response = await axios.get('http://localhost:9090/api/v1/users/students/' + studentId);
+            return response.data;
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            alert(error.message);
+        }
+    }
+
 }
 
 export default new UserService();

@@ -8,12 +8,12 @@ import {useParams} from "react-router-dom";
 
 export const StudentProfile = () => {
     const Profile = () => {
-        const getUser = useProfileStore(state => state.getUser);
+        const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
         const params = useParams();
-        const userId = params.id;
+        const studentId = params.id;
 
         useEffect(() => {
-            getUser(Number(userId))
+            getUserByStudentId(Number(studentId))
         }, []);
 
         return (
