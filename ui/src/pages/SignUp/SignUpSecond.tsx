@@ -22,6 +22,7 @@ export const SignUpSecond = () => {
         const firstName = useSignUpStore(state => state.firstName);
         const lastName = useSignUpStore(state => state.lastName);
         const countryId = useSignUpStore(state => state.countryId);
+        const location = useSignUpStore(state => state.location);
 
         const countriesList = useCountryStore(state => state.countriesList);
         const getCountries = useCountryStore(state => state.getCountries);
@@ -31,6 +32,7 @@ export const SignUpSecond = () => {
         const setNationality = useSignUpStore(state => state.setNationality);
         const setFirstName = useSignUpStore(state => state.setFirstName);
         const setLastName = useSignUpStore(state => state.setLastName);
+        const setLocation = useSignUpStore(state => state.setLocation);
 
         useEffect(() => getCountries, [])
 
@@ -42,7 +44,7 @@ export const SignUpSecond = () => {
                     justifyContent="center"
                     alignItems="center">
                     <FormControl
-                        sx={{width: '30%', p: 5, backgroundColor: "white", borderRadius: 3}}>
+                        sx={{width: '30%', backgroundColor: "white"}}>
                         <TextField
                             select
                             variant="standard"
@@ -72,6 +74,15 @@ export const SignUpSecond = () => {
                             value={lastName}
                             onChange={(e) => {
                                 setLastName(e.target.value);
+                            }}
+                        />
+                        <TextField
+                            variant="standard"
+                            label="Location"
+                            sx={{mb: 2}}
+                            value={location}
+                            onChange={(e) => {
+                                setLocation(e.target.value);
                             }}
                         />
                         <TextField

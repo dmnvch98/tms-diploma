@@ -54,8 +54,8 @@ export const Photo = (props: any) => {
                         <Typography variant="h6">{props.user?.firstName} {user?.lastName}</Typography>
                         <Typography variant="subtitle1">Nationality: {user?.nationality.description}</Typography>
                         <Typography variant="subtitle1">Location: {props.role == "student"
-                            ? user?.student.location
-                            : user?.tutor.location
+                            ? user?.location
+                            : user?.location
                         }</Typography>
                     </Box>
                     {props.role == 'student' && user?.tutor != null ? switchToTutorBtn() : <></>}

@@ -13,8 +13,6 @@ import {Link as RouterLink} from "react-router-dom";
 import {Language, useLanguagesStore} from "./store/languagesStore";
 import {usePasswords} from "./store/passwordStore";
 import {Level, useLevelsStore} from "./store/levelStore";
-import {useProfileStore} from "../Profile/profileStore";
-import {Country} from "./store/countryStore";
 
 export const SignUpThird = () => {
     const style = {
@@ -35,24 +33,12 @@ export const SignUpThird = () => {
         const handleClose = () => setOpen(false);
 
         const languageLevels = useSignUpStore(state => state.languageLevels);
-        const setLanguageLevels = useSignUpStore(state => state.setLanguageLevels);
         const level = useSignUpStore(state => state.level);
         const levelId = useSignUpStore(state => state.levelId);
         const language = useSignUpStore(state => state.language);
         const languageId = useSignUpStore(state => state.languageId);
-
-        const setLevelId = useSignUpStore(state => state.setLevelId);
-        const setLevel = useSignUpStore(state => state.setLevel);
-
-        const getLevels = useLevelsStore(state => state.getLevels);
         const levelsList = useLevelsStore(state => state.levelsList);
-
-        const setLanguageId = useSignUpStore(state => state.setLanguageId);
-        const setLanguage = useSignUpStore(state => state.setLanguage);
-
-        const getLanguages = useLanguagesStore(state => state.getLanguages);
         const languagesList = useLanguagesStore(state => state.languagesList);
-
         const roles = useSignUpStore((state) => state.roles);
         const email = useSignUpStore((state) => state.email);
         const password = usePasswords(state => state.password);
@@ -60,20 +46,31 @@ export const SignUpThird = () => {
         const nationality = useSignUpStore(state => state.nationality);
         const firstName = useSignUpStore(state => state.firstName);
         const lastName = useSignUpStore(state => state.lastName);
-
         const createUser = useSignUpStore(state => state.createUser);
+        const tutor = useSignUpStore(state => state.tutor);
+        const student = useSignUpStore(state => state.student);
+        const location = useSignUpStore(state => state.location);
 
-        const setUser = useProfileStore(state => state.setUser);
+        const setLanguageLevels = useSignUpStore(state => state.setLanguageLevels);
+        const setLanguageId = useSignUpStore(state => state.setLanguageId);
+        const setLanguage = useSignUpStore(state => state.setLanguage);
+        const setLevelId = useSignUpStore(state => state.setLevelId);
+        const setLevel = useSignUpStore(state => state.setLevel);
+        const getLevels = useLevelsStore(state => state.getLevels);
+        const getLanguages = useLanguagesStore(state => state.getLanguages);
 
         const userDto: UserDto = {
             firstName: firstName,
             lastName: lastName,
             email: email,
             password: password,
-            nationality: nationality as Country,
+            nationality: nationality?.countryId as number,
             roles: roles,
             gender: gender,
-            languageLevels: languageLevels
+            languageLevels: languageLevels,
+            tutor: tutor,
+            student: student,
+            location: location
         }
 
         const addLanguageLevel = () => {
@@ -95,7 +92,7 @@ export const SignUpThird = () => {
                     justifyContent="center"
                     alignItems="center">
                     <FormControl
-                        sx={{width: '30%', p: 5, backgroundColor: "white", borderRadius: 3}}>
+                        sx={{width: '30%', backgroundColor: "white", borderRadius: 3}}>
                         <TextField
                             select
                             variant="standard"

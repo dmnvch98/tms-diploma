@@ -3,16 +3,20 @@ import {Language, LanguageLevel} from "./languagesStore";
 import UserService from "../../../services/UserService";
 import {Country} from "./countryStore";
 import {Level} from "./levelStore";
+import {Student, Tutor} from "../../../CommonStore/store";
 
 export interface UserDto {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
-    nationality: Country;
+    nationality: number;
     roles: string;
     gender: string;
+    tutor: Tutor | {} | null,
+    student: Student | {} | null,
     languageLevels: LanguageLevel[];
+    location: string | null;
 }
 
 export interface SignUp {
@@ -20,19 +24,19 @@ export interface SignUp {
     roles: string;
     email: string;
     password: string;
-
     gender: string;
     firstName: string;
     lastName: string;
-
     countryId: number | string;
     nationality: Country | null;
-
     languageLevels: LanguageLevel[];
     level: Level | null;
     levelId: number | string;
     language: Language | null;
     languageId: number | string;
+    tutor: Tutor | {} | null,
+    student: Student | {} | null,
+    location: string | null,
 
     setRoles: (role: string) => void;
     setEmail: (email: string) => void;
@@ -53,6 +57,10 @@ export interface SignUp {
     createUser: (userDto: UserDto) => UserDto;
     setRedirectButtonDisabled: () => void;
 
+    setTutor: (tutor: Tutor | {}) => void,
+    setStudent: (student: Student | {}) => void;
+
+    setLocation: (location: string) => void;
 }
 
 export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
@@ -70,6 +78,9 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     levelId: '',
     language: null,
     languageId: '',
+    tutor: null,
+    student: null,
+    location: null,
     setRoles: async (userType: string) => {
         set({roles: userType})
     },
@@ -119,5 +130,14 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
         } catch (error) {
             alert(error);
         }
+    },
+    setTutor: (tutor: Tutor | {}) => {
+        set({tutor: tutor})
+    },
+    setStudent: (student: Student | {}) => {
+        set({student: student})
+    },
+    setLocation: (location: string) => {
+        set({location: location})
     }
 }))
