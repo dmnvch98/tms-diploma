@@ -31,7 +31,6 @@ public class User {
     String roles;
     @MappedCollection(idColumn = "user_id")
     Student student;
-
     @MappedCollection(idColumn = "user_id")
     Tutor tutor;
 

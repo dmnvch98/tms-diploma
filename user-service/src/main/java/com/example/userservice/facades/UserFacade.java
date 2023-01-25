@@ -8,6 +8,7 @@ import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.model.User;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.services.LanguageLevelService;
+import com.example.userservice.services.TutorService;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,8 @@ public class UserFacade {
     private final LanguageLevelService languageLevelService;
     private final UserConverter userConverter;
     private final LanguageLevelConverter languageLevelConverter;
+
+    private final TutorService tutorService;
 
     @Transactional
     public UserResponseDto save(UserRequestDto userRequestDto, Long userId) {
@@ -67,5 +70,15 @@ public class UserFacade {
         Long languageLevelId = languageLevelService.getLanguageLevelId(levelId, languageId);
         languageLevelService.deleteUserLanguageLevel(languageLevelId, userId);
         return get(userId);
+    }
+
+    public UserResponseDto findUserByTutorId(Long tutorId) {
+        User user = userService.findUserByTutorId(tutorId);
+        return userConverter.userToResponseDto(user, findLanguageLevelsByUserId(user.getId()));
+    }
+
+    public UserResponseDto findUserByStudentId(Long studentId) {
+        User user = userService.findUserByStudentId(studentId);
+        return userConverter.userToResponseDto(user, findLanguageLevelsByUserId(user.getId()));
     }
 }

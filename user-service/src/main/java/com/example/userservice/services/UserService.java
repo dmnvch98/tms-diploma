@@ -22,4 +22,12 @@ public class UserService {
         return repository.existsByEmail(email);
     }
 
+    public User findUserByTutorId(Long tutorId) {
+        return repository.findUserByTutorId(tutorId);
+    }
+
+    public User findUserByStudentId(Long studentId) {
+        return repository.findUserByStudentId(studentId);
+    }
+
 }

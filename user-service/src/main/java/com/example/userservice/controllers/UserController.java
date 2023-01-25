@@ -39,4 +39,14 @@ public class UserController {
             @PathVariable("userId") Long userId) {
         return facade.deleteUserLanguageLevels(languageId, levelId, userId);
     }
+
+    @GetMapping("/tutors/{tutorId}")
+    public UserResponseDto findUserByTutorId(@PathVariable("tutorId") Long tutorId) {
+        return facade.findUserByTutorId(tutorId);
+    }
+
+    @GetMapping("/students/{studentId}")
+    public UserResponseDto findUserByStudentId(@PathVariable("studentId") Long studentId) {
+        return facade.findUserByStudentId(studentId);
+    }
 }

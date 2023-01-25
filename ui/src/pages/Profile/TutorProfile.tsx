@@ -9,7 +9,7 @@ export const TutorProfile = () => {
     const Profile = () => {
         const getUser = useProfileStore(state => state.getUser);
         useEffect(() => {
-            getUser(19);
+            getUser(14);
         }, []);
 
         return (
