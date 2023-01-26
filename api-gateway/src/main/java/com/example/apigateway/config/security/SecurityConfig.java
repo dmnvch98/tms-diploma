@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
-
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         http
@@ -26,17 +25,23 @@ public class SecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeHttpRequests(requests -> requests
-                        .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .antMatchers("/api/v1/auth/**").permitAll()
-                        .antMatchers("/api/v1/languages/**").permitAll()
-                        .antMatchers("/api/v1/countries/**").permitAll()
-                        .antMatchers("/api/v1/levels/**").permitAll()
-                        .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
-                        .antMatchers(HttpMethod.DELETE,"/api/v1/tutors/**").hasAnyRole("Student")
-                        .antMatchers(HttpMethod.DELETE,"/api/v1/students/**").hasAnyRole("Tutor")
-                        .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student", "Tutor")
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(requests -> {
+                            try {
+                                requests
+                                        .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                                        .antMatchers("/api/v1/auth/**").permitAll()
+                                        .antMatchers("/api/v1/languages/**").permitAll()
+                                        .antMatchers("/api/v1/countries/**").permitAll()
+                                        .antMatchers("/api/v1/levels/**").permitAll()
+                                        .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
+                                        .antMatchers(HttpMethod.DELETE,"/api/v1/tutors/**").hasAnyRole("Student")
+                                        .antMatchers(HttpMethod.DELETE,"/api/v1/students/**").hasAnyRole("Tutor")
+                                        .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student", "Tutor")
+                                        .anyRequest().authenticated();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(LogoutConfigurer::permitAll);

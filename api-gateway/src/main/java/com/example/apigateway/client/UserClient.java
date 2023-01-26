@@ -1,6 +1,7 @@
 package com.example.apigateway.client;
 
 import com.example.apigateway.dto.CredentialsDto;
+import com.example.apigateway.dto.RefreshTokenSave;
 import com.example.apigateway.dto.UserRequestDto;
 import com.example.apigateway.dto.UserResponseDto;
 import com.example.apigateway.model.User;
@@ -42,4 +43,7 @@ public interface UserClient {
 
     @GetMapping("/tutors/{tutorId}")
     UserResponseDto findUserByTutorId(@PathVariable("tutorId") Long tutorId);
+
+    @PatchMapping
+    void updateRefreshToken(RefreshTokenSave refreshToken);
 }

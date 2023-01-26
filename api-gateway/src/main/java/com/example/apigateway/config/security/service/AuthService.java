@@ -3,7 +3,6 @@ package com.example.apigateway.config.security.service;
 import com.example.apigateway.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +24,6 @@ public class AuthService implements UserDetailsService {
             .stream()
             .map(x -> new SimpleGrantedAuthority("ROLE_" + x))
             .toList();
-    return new User(user.getEmail(), user.getPassword(), list);
+    return new PrincipalUser(user.getEmail(), user.getPassword(), list, user.getId());
   }
 }

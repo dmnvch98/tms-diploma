@@ -21,4 +21,5 @@ spring:
       xsrf_cookie_name: 'MH-XSRF'
       xsrf_header_name: "MH-X-XSRF"
       cookie_domain: "localhost"
+    success-redirect-url: "/my-profile"
 

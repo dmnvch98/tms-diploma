@@ -2,6 +2,7 @@ package com.example.apigateway.services;
 
 import com.example.apigateway.client.UserClient;
 import com.example.apigateway.dto.CredentialsDto;
+import com.example.apigateway.dto.RefreshTokenSave;
 import com.example.apigateway.dto.UserRequestDto;
 import com.example.apigateway.dto.UserResponseDto;
 import com.example.apigateway.model.User;
@@ -56,5 +57,9 @@ public class UserService {
 
     public UserResponseDto findUserByStudentId (Long studentId) {
         return userClient.findUserByStudentId(studentId);
+    }
+
+    public void saveRefreshToken(RefreshTokenSave refreshToken) {
+        userClient.updateRefreshToken(refreshToken);
     }
 }

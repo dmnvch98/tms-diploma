@@ -92,4 +92,8 @@ public class UserFacade {
     public Boolean existsByEmailAndPassword(CredentialsDto credentialsDto) {
         return userService.existsByEmailAndPassword(credentialsDto.getEmail(), credentialsDto.getPassword());
     }
+
+    public void updateRefreshToken(String token, Long userId) {
+        userService.updateRefreshToken(token, userId);
+    }
 }

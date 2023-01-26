@@ -4,6 +4,7 @@ import com.example.apigateway.config.security.jwt.Jwt;
 import com.example.apigateway.dto.CredentialsDto;
 import com.example.apigateway.dto.JwtResponse;
 import com.example.apigateway.dto.RefreshTokenDto;
+import com.example.apigateway.dto.RefreshTokenSave;
 import com.example.apigateway.model.User;
 import com.example.apigateway.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class AuthController {
             String accessToken = jwt.generateAccessToken(user);
             String refreshToken = jwt.generateRefreshToken(user.getEmail());
             user.setRefreshToken(refreshToken);
-            userService.update(user);
+            userService.saveRefreshToken(new RefreshTokenSave(user.getId(), refreshToken));
             return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));
         } else {
             return ResponseEntity.noContent().build();

@@ -35,4 +35,7 @@ public class UserService {
     public Boolean existsByEmailAndPassword(String email, String password) {
         return repository.existsByEmailAndPassword(email, password);
     }
+    public void updateRefreshToken (String token, Long userId) {
+        repository.updateRefreshToken(token, userId);
+    }
 }

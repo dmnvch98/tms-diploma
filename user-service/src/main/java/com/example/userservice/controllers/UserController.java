@@ -1,6 +1,7 @@
 package com.example.userservice.controllers;
 
 import com.example.userservice.dto.CredentialsDto;
+import com.example.userservice.dto.RefreshTokenSave;
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.facades.UserFacade;
@@ -68,5 +69,9 @@ public class UserController {
         return facade.save(user);
     }
 
+    @PatchMapping
+    void updateRefreshToken(RefreshTokenSave refreshToken) {
+        facade.updateRefreshToken(refreshToken.getToken(), refreshToken.getUserId());
+    }
 
 }
