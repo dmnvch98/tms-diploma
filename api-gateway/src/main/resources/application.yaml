@@ -17,9 +17,11 @@ spring:
     refresh-secret: "REFRESH-SECRET"
     session-duration-minutes: 86400
     allowed-origin: "http://localhost:3000"
-    csrf:
-      xsrf_cookie_name: 'MH-XSRF'
-      xsrf_header_name: "MH-X-XSRF"
-      cookie_domain: "localhost"
-    success-redirect-url: "/my-profile"
+csrf:
+  xsrf_cookie_name: 'MH-XSRF'
+  xsrf_header_name: "MH-X-XSRF"
+  cookie_domain: "localhost"
 
+logging:
+  level:
+    root: debug

@@ -6,6 +6,7 @@ import {SignUpSecond} from "./pages/SignUp/SignUpSecond";
 import {SignUpThird} from "./pages/SignUp/SignUpThird";
 import {StudentProfile} from "./pages/Profile/StudentProfile";
 import {TutorProfile} from "./pages/Profile/TutorProfile";
+import {SignIn} from "./pages/SignIn/SignIn";
 
 function App() {
     const theme = createTheme({
@@ -34,6 +35,7 @@ function App() {
                 <Route path={'/reg3'} element={<SignUpThird/>}/>
                 <Route path={'/students/:id'} element={<StudentProfile/>}/>
                 <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
+                <Route path={'/sign-in'} element={<SignIn/>}/>
             </Routes>
         </ThemeProvider>
     );

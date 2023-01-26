@@ -9,26 +9,34 @@ import com.example.apigateway.model.User;
 import com.example.apigateway.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.time.Duration;
 
 @RequestMapping("/api/v1/auth")
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
+    private static final String TOKEN_NAME = "JWT";
+    private static final long expiration = Duration.ofHours(3).toSeconds();
 
     private final UserService userService;
     private final Jwt jwt;
     @PostMapping("login")
-    public ResponseEntity<JwtResponse> authorize(@RequestBody final CredentialsDto credentials)  {
+    public ResponseEntity<JwtResponse> authorize(@RequestBody final CredentialsDto credentials, HttpServletResponse response)  {
         if (userService.verifyUser(credentials)) {
             User user = userService.findUserByEmail(credentials.getEmail());
             String accessToken = jwt.generateAccessToken(user);
             String refreshToken = jwt.generateRefreshToken(user.getEmail());
+            final Cookie cookie = new Cookie(TOKEN_NAME, accessToken);
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
             user.setRefreshToken(refreshToken);
-            userService.saveRefreshToken(new RefreshTokenSave(user.getId(), refreshToken));
+            RefreshTokenSave refreshTokenSave = new RefreshTokenSave(user.getId(), refreshToken);
+            userService.saveRefreshToken(refreshTokenSave);
+            response.addCookie(cookie);
             return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));
         } else {
             return ResponseEntity.noContent().build();

@@ -70,7 +70,7 @@ public class UserController {
     }
 
     @PatchMapping
-    void updateRefreshToken(RefreshTokenSave refreshToken) {
+    void updateRefreshToken(@RequestBody RefreshTokenSave refreshToken) {
         facade.updateRefreshToken(refreshToken.getToken(), refreshToken.getUserId());
     }
 
