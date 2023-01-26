@@ -4,6 +4,7 @@ import com.example.apigateway.config.security.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
@@ -28,7 +29,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .antMatchers("/api/v1/auth/**").permitAll()
-                        .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student")
+                        .antMatchers("/api/v1/languages/**").permitAll()
+                        .antMatchers("/api/v1/countries/**").permitAll()
+                        .antMatchers("/api/v1/levels/**").permitAll()
+                        .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
+                        .antMatchers(HttpMethod.DELETE,"/api/v1/tutors/**").hasAnyRole("Student")
+                        .antMatchers(HttpMethod.DELETE,"/api/v1/students/**").hasAnyRole("Tutors")
+                        .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student", "Tutor")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
