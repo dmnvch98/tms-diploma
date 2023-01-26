@@ -18,7 +18,7 @@ public class UserRequestDto {
     String password;
     Long nationality;
     String gender;
-    String roles;
+    List<String> roles;
     Student student;
     Tutor tutor;
     List<LanguageLevelDto> languageLevels;

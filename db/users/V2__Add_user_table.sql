@@ -7,7 +7,7 @@ create table users
     password      TEXT      NOT NULL,
     nationality   BIGSERIAL NOT NULL,
     location      TEXT,
-    roles         TEXT      NOT NULL,
+    roles         TEXT[]      NOT NULL,
     gender        TEXT      NOT NULL,
     refresh_token TEXT,
 

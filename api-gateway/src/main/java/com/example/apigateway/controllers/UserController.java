@@ -3,14 +3,21 @@ package com.example.apigateway.controllers;
 import com.example.apigateway.dto.UserRequestDto;
 import com.example.apigateway.dto.UserResponseDto;
 import com.example.apigateway.services.UserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users")
+@Slf4j
 public class UserController {
+    public static final String AUTHORIZATION = "Authorization";
 
     private final UserService userService;
 
@@ -20,9 +27,20 @@ public class UserController {
         return ResponseEntity.ok(userService.save(userDto));
     }
 
-    @CrossOrigin
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserResponseDto> get(@PathVariable("userId") final Long userId) {
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDto> get(HttpServletRequest request) {
+        String bearer = request.getHeader(AUTHORIZATION);
+        Claims claims;
+        long userId;
+        try {
+            claims = Jwts.parser()
+                    .setSigningKey("SECRET")
+                    .parseClaimsJws(bearer.substring(7))
+                    .getBody();
+            userId = (Integer) claims.get("userId");
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
         return ResponseEntity.ok(userService.get(userId));
     }
 

@@ -6,6 +6,8 @@ import lombok.Value;
 import lombok.experimental.NonFinal;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
+
 @Builder
 @Value
 @Jacksonized
@@ -17,7 +19,7 @@ public class User {
     String password;
     String nationality;
     String gender;
-    String roles;
+    List<String> roles;
     @NonFinal
     @Setter
     String refreshToken;
