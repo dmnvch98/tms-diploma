@@ -5,11 +5,11 @@ export const Head = () => {
     const headersData = [
         {
             label: "Sign in",
-            href: "/sign_in",
+            href: "/sign-in",
         },
         {
             label: "Sign up",
-            href: "/sign_up",
+            href: "/sign-up",
         }
     ];
     const getMenuButtons = () => {

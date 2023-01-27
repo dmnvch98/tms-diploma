@@ -31,9 +31,9 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <Routes>
-                <Route path={'/reg'} element={<SignUpFirst/>}/>
-                <Route path={'/reg2'} element={<SignUpSecond/>}/>
-                <Route path={'/reg3'} element={<SignUpThird/>}/>
+                <Route path={'/sign-up'} element={<SignUpFirst/>}/>
+                <Route path={'/sign-up2'} element={<SignUpSecond/>}/>
+                <Route path={'/sign-up3'} element={<SignUpThird/>}/>
                 <Route path={'/students/:id'} element={<StudentProfile/>}/>
                 <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
                 <Route path={'/sign-in'} element={<SignIn/> }/>

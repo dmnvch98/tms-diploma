@@ -13,6 +13,7 @@ import {Link as RouterLink} from "react-router-dom";
 import {Language, useLanguagesStore} from "./store/languagesStore";
 import {usePasswords} from "./store/passwordStore";
 import {Level, useLevelsStore} from "./store/levelStore";
+import {SignUpSecond} from "./SignUpSecond";
 
 export const SignUpThird = () => {
     const style = {
@@ -154,7 +155,7 @@ export const SignUpThird = () => {
                                 color="primary"
                                 variant="contained"
                                 {...{
-                                    to: "/profile",
+                                    to: "/sign-up2",
                                     component: RouterLink,
                                 }}
                         >Back</Button>

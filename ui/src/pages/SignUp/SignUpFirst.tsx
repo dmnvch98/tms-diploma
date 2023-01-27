@@ -7,6 +7,7 @@ import {useSignUpStore} from "./store/signUpStore";
 import {useEffect} from "react";
 import {usePasswords} from "./store/passwordStore";
 import {Link as RouterLink} from "react-router-dom";
+import {SignUpSecond} from "./SignUpSecond";
 
 export const SignUpFirst = () => {
     const types = [
@@ -104,7 +105,7 @@ export const SignUpFirst = () => {
                                 color="primary"
                                 variant="contained"
                                 {...{
-                                    to: "/reg2",
+                                    to: "sign-up2",
                                     component: RouterLink,
                                 }}
                         >

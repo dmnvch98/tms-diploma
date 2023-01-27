@@ -45,7 +45,7 @@ public class AuthController {
             response.addCookie(cookie);
             return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));
         } else {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
         }
     }
 

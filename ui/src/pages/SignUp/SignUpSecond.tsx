@@ -7,6 +7,8 @@ import {useSignUpStore} from "./store/signUpStore";
 import {Link as RouterLink} from "react-router-dom";
 import {useCountryStore} from "./store/countryStore";
 import {useEffect} from "react";
+import {SignUpThird} from "./SignUpThird";
+import {SignUpFirst} from "./SignUpFirst";
 
 export const SignUpSecond = () => {
 
@@ -108,7 +110,7 @@ export const SignUpSecond = () => {
                                 color="primary"
                                 variant="contained"
                                 {...{
-                                    to: "/reg3",
+                                    to: "sign-up3",
                                     component: RouterLink,
                                 }}
                         >
@@ -118,7 +120,7 @@ export const SignUpSecond = () => {
                                 color="primary"
                                 variant="contained"
                                 {...{
-                                    to: "/reg",
+                                    to: "/sign-up",
                                     component: RouterLink,
                                 }}
                         >

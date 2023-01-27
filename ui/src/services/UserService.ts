@@ -1,6 +1,5 @@
 import axios, {AxiosError} from 'axios';
 import {UserDto} from "../pages/SignUp/store/signUpStore";
-import {useNavigate} from "react-router-dom";
 
 class UserService {
 
@@ -89,16 +88,11 @@ class UserService {
     }
 
     getToken = async (email: string, password: string) => {
-        const navigate = useNavigate();
-        try {
-            const response = await axios.post('http://localhost:8080/api/v1/auth/login',
-                {email: email, password: password}, {withCredentials: true}).then(() => navigate("/my-profile"));
-            // console.log(response.data)
-            // return response.data;
-        } catch (e: unknown) {
-            const error = e as AxiosError;
-            alert(error.message);
-        }
+        let response;
+        response = await axios.post('http://localhost:8080/api/v1/auth/login',
+            {email: email, password: password}, {withCredentials: true});
+
+        return response?.status == 200;
     }
 
     getMe = async () => {
@@ -109,7 +103,6 @@ class UserService {
                     xsrfCookieName: "MH-XSRF",
                     xsrfHeaderName: "MH-X-XSRF"
                 });
-            console.log(response.data);
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;

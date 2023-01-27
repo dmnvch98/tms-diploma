@@ -1,24 +1,37 @@
 import {
+    Alert,
     Box, Button,
-    FormControl, TextField
+    FormControl, Snackbar, TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
 import {useSignInStore} from "./signinStore";
-import {redirect,useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import UserService from "../../services/UserService";
+import {useState} from "react";
 
 export const SignIn = () => {
     const Form = () => {
         const email = useSignInStore(state => state.email);
         const password = useSignInStore(state => state.password);
-        const tokenRetrieved = useSignInStore(state => state.tokenRetrieved);
         const setEmail = useSignInStore(state => state.setEmail);
         const setPassword = useSignInStore(state => state.setPassword);
-        // const getToken = useSignInStore(state => state.getToken);
         const navigate = useNavigate();
+        const setAuthorized = useSignInStore(state => state.setIsAuthorized);
+        const [open, setOpen] = useState(false);
 
-        const getToken = () => {
-            UserService.getToken(email, password).then(() => navigate('/my-profile'));
+        const getToken = async () => {
+            setAuthorized(false);
+            try {
+                if (await UserService.getToken(email, password)) {
+                    setAuthorized(true);
+                    navigate("/my-profile")
+                    setEmail('');
+                    setPassword('');
+                    return;
+                }
+            } catch (e: unknown) {
+                setOpen(true);
+            }
         }
 
         return (
@@ -54,11 +67,19 @@ export const SignIn = () => {
                                 variant="contained"
                                 onClick={() => {
                                     getToken();
-                                    //return navigate('/my-profile');
                                 }}
                         >
                             Continue
                         </Button>
+                        <Snackbar
+                            open={open}
+                            autoHideDuration={3000}
+                            onClose={() => setOpen(false)}
+                        >
+                            <Alert severity="error">
+                                User doesn't exist
+                            </Alert>
+                        </Snackbar>
                     </FormControl>
                 </Box>
             </>
