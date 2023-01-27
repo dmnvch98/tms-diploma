@@ -7,6 +7,7 @@ import {SignUpThird} from "./pages/SignUp/SignUpThird";
 import {StudentProfile} from "./pages/Profile/StudentProfile";
 import {TutorProfile} from "./pages/Profile/TutorProfile";
 import {SignIn} from "./pages/SignIn/SignIn";
+import {MyProfile} from "./pages/Profile/MyProfile";
 
 function App() {
     const theme = createTheme({
@@ -36,6 +37,7 @@ function App() {
                 <Route path={'/students/:id'} element={<StudentProfile/>}/>
                 <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
                 <Route path={'/sign-in'} element={<SignIn/>}/>
+                <Route path={'/my-profile'} element={<MyProfile/>}/>
             </Routes>
         </ThemeProvider>
     );

@@ -5,7 +5,7 @@ import lombok.extern.jackson.Jacksonized;
 
 @Value
 @Jacksonized
-public class RefreshTokenSave {
+public class UserRefreshToken {
     Long userId;
     String token;
 }

@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
                 .cors()
                 .and()
-                .csrf().ignoringAntMatchers("/nocsrf","/api/v1/auth/**")
+                .csrf().ignoringAntMatchers("/nocsrf","/api/v1/auth/login")
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

@@ -1,5 +1,6 @@
 import axios, {AxiosError} from 'axios';
 import {UserDto} from "../pages/SignUp/store/signUpStore";
+import {useNavigate} from "react-router-dom";
 
 class UserService {
 
@@ -46,7 +47,7 @@ class UserService {
         }
     }
 
-    isEmailExists = async(email: string) => {
+    isEmailExists = async (email: string) => {
         try {
             const response =
                 await axios.get('http://localhost:8080/api/v1/users/is-exists/' + email);
@@ -87,9 +88,28 @@ class UserService {
         }
     }
 
-    login = (email: string, password: string) => {
+    getToken = async (email: string, password: string) => {
         try {
-            axios.post('http://localhost:8080/api/v1/auth/login', {email: email, password: password} );
+            const response = await axios.post('http://localhost:8080/api/v1/auth/login',
+                {email: email, password: password}, {withCredentials: true});
+            console.log(response.data)
+            return response.data;
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            alert(error.message);
+        }
+    }
+
+    getMe = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/v1/users/me',
+                {
+                    withCredentials: true,
+                    xsrfCookieName: "MH-XSRF",
+                    xsrfHeaderName: "MH-X-XSRF"
+                });
+            console.log(response.data);
+            return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
             alert(error.message);

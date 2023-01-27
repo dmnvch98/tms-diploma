@@ -8,11 +8,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -46,6 +48,11 @@ public class JwtFilter extends GenericFilterBean {
         String bearer = request.getHeader(AUTHORIZATION);
         if (bearer != null && bearer.startsWith("Bearer ")) {
             return bearer.substring(7);
+        } else {
+            Cookie cookie = WebUtils.getCookie(request, "JWT");
+            if (cookie != null) {
+                return cookie.getValue();
+            }
         }
         return null;
     }

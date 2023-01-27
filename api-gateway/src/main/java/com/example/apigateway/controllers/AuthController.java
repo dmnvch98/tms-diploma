@@ -4,10 +4,11 @@ import com.example.apigateway.config.security.jwt.Jwt;
 import com.example.apigateway.dto.CredentialsDto;
 import com.example.apigateway.dto.JwtResponse;
 import com.example.apigateway.dto.RefreshTokenDto;
-import com.example.apigateway.dto.RefreshTokenSave;
+import com.example.apigateway.dto.UserRefreshToken;
 import com.example.apigateway.model.User;
 import com.example.apigateway.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +25,12 @@ public class AuthController {
 
     private final UserService userService;
     private final Jwt jwt;
-    @PostMapping("login")
-    public ResponseEntity<JwtResponse> authorize(@RequestBody final CredentialsDto credentials, HttpServletResponse response)  {
+
+    @Value("${csrf.cookie_domain}")
+    public String COOKIE_DOMAIN;
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> authorize(@RequestBody final CredentialsDto credentials,
+                                                 HttpServletResponse response)  {
         if (userService.verifyUser(credentials)) {
             User user = userService.findUserByEmail(credentials.getEmail());
             String accessToken = jwt.generateAccessToken(user);
@@ -33,8 +38,10 @@ public class AuthController {
             final Cookie cookie = new Cookie(TOKEN_NAME, accessToken);
             cookie.setPath("/");
             cookie.setHttpOnly(true);
-            RefreshTokenSave refreshTokenSave = new RefreshTokenSave(user.getId(), refreshToken);
-            userService.saveRefreshToken(refreshTokenSave);
+            cookie.setMaxAge((int) expiration);
+            cookie.setDomain(COOKIE_DOMAIN);
+            UserRefreshToken userRefreshToken = new UserRefreshToken(user.getId(), refreshToken);
+            userService.saveRefreshToken(userRefreshToken);
             response.addCookie(cookie);
             return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));
         } else {
@@ -42,7 +49,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("access")
+    @PostMapping("/access")
     public ResponseEntity<JwtResponse> getAccessToken(@RequestBody final RefreshTokenDto dto) {
         if (jwt.validateRefreshToken(dto.getRefreshToken())) {
             String email = jwt.getLoginFromRefreshToken(dto.getRefreshToken());
@@ -55,7 +62,7 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("refresh")
+    @PostMapping("/refresh")
     public ResponseEntity<JwtResponse> refreshTokens(@RequestBody final RefreshTokenDto dto) {
         if (jwt.validateRefreshToken(dto.getRefreshToken())) {
             String username = jwt.getLoginFromRefreshToken(dto.getRefreshToken());

@@ -8,6 +8,7 @@ export interface ProfileStore {
     getUser: (userId: number) => void;
     getUserByStudentId: (studentId: number) => void;
     getUserByTutorId: (tutorId: number) => void;
+    getMe: () => void;
 }
 
 export const useProfileStore = create<ProfileStore>((set: any) => ({
@@ -32,5 +33,8 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
             user.tutor.aboutMe = '';
         }
         set({user: user})
+    },
+    getMe: async () => {
+        await UserService.getMe();
     }
 }))
