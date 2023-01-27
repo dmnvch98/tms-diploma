@@ -4,7 +4,8 @@ import {
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
 import {useSignInStore} from "./signinStore";
-import {useNavigate} from "react-router-dom";
+import {redirect,useNavigate} from "react-router-dom";
+import UserService from "../../services/UserService";
 
 export const SignIn = () => {
     const Form = () => {
@@ -13,8 +14,12 @@ export const SignIn = () => {
         const tokenRetrieved = useSignInStore(state => state.tokenRetrieved);
         const setEmail = useSignInStore(state => state.setEmail);
         const setPassword = useSignInStore(state => state.setPassword);
-        const getToken = useSignInStore(state => state.getToken);
+        // const getToken = useSignInStore(state => state.getToken);
         const navigate = useNavigate();
+
+        const getToken = () => {
+            UserService.getToken(email, password).then(() => navigate('/my-profile'));
+        }
 
         return (
             <>
@@ -49,9 +54,7 @@ export const SignIn = () => {
                                 variant="contained"
                                 onClick={() => {
                                     getToken();
-                                    if (tokenRetrieved) {
-                                        navigate('/my-profile');
-                                    }
+                                    //return navigate('/my-profile');
                                 }}
                         >
                             Continue

@@ -89,11 +89,12 @@ class UserService {
     }
 
     getToken = async (email: string, password: string) => {
+        const navigate = useNavigate();
         try {
             const response = await axios.post('http://localhost:8080/api/v1/auth/login',
-                {email: email, password: password}, {withCredentials: true});
-            console.log(response.data)
-            return response.data;
+                {email: email, password: password}, {withCredentials: true}).then(() => navigate("/my-profile"));
+            // console.log(response.data)
+            // return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
             alert(error.message);

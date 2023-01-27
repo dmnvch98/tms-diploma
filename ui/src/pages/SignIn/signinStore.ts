@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import UserService from "../../services/UserService";
-import {useProfileStore} from "../Profile/profileStore";
+import {redirect} from "react-router-dom";
 
 export interface SignInStore {
     email: string;
@@ -12,7 +12,6 @@ export interface SignInStore {
 }
 
 export const useSignInStore = create<SignInStore>((set: any, get: any) => ({
-
     email: '',
     password: '',
     tokenRetrieved: false,
@@ -22,10 +21,8 @@ export const useSignInStore = create<SignInStore>((set: any, get: any) => ({
     setPassword: async (password: string) => {
         set({password: password})
     },
-    getToken: async () => {
-        const response = await UserService.getToken(get().email, get().password)
-        // if (true) {
-            set({tokenRetrieved: true})
-        // }
+    getToken: () => {
+        UserService.getToken(get().email, get().password).then()
+        set({tokenRetrieved: true})
     }
 }))

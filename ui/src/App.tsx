@@ -36,7 +36,7 @@ function App() {
                 <Route path={'/reg3'} element={<SignUpThird/>}/>
                 <Route path={'/students/:id'} element={<StudentProfile/>}/>
                 <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
-                <Route path={'/sign-in'} element={<SignIn/>}/>
+                <Route path={'/sign-in'} element={<SignIn/> }/>
                 <Route path={'/my-profile'} element={<MyProfile/>}/>
             </Routes>
         </ThemeProvider>
