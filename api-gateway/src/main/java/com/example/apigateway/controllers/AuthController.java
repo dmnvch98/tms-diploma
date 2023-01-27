@@ -33,7 +33,6 @@ public class AuthController {
             final Cookie cookie = new Cookie(TOKEN_NAME, accessToken);
             cookie.setPath("/");
             cookie.setHttpOnly(true);
-            user.setRefreshToken(refreshToken);
             RefreshTokenSave refreshTokenSave = new RefreshTokenSave(user.getId(), refreshToken);
             userService.saveRefreshToken(refreshTokenSave);
             response.addCookie(cookie);
