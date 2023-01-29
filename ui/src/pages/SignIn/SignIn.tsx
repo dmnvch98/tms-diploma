@@ -7,6 +7,7 @@ import {Authentication} from "../../Components/Authentication";
 import {useSignInStore} from "./signinStore";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import {useProfileStore} from "../Profile/profileStore";
 
 export const SignIn = () => {
     const Form = () => {
@@ -22,7 +23,7 @@ export const SignIn = () => {
 
         useEffect(() => {
             if (isAuthorized) {
-                navigate("/my-profile")
+                navigate("/my-student-profile")
                 setEmail('');
                 setPassword('');
             }
