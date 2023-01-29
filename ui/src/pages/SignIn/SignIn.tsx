@@ -6,7 +6,6 @@ import {
 import {Authentication} from "../../Components/Authentication";
 import {useSignInStore} from "./signinStore";
 import {useNavigate} from "react-router-dom";
-import UserService from "../../services/UserService";
 import {useState} from "react";
 
 export const SignIn = () => {
@@ -16,22 +15,22 @@ export const SignIn = () => {
         const setEmail = useSignInStore(state => state.setEmail);
         const setPassword = useSignInStore(state => state.setPassword);
         const navigate = useNavigate();
-        const setAuthorized = useSignInStore(state => state.setIsAuthorized);
+        const isAuthorized = useSignInStore(state => state.isAuthorized);
+        const getToken = useSignInStore(state => state.getToken);
         const [open, setOpen] = useState(false);
 
-        const getToken = async () => {
-            setAuthorized(false);
-            try {
-                if (await UserService.getToken(email, password)) {
-                    setAuthorized(true);
-                    navigate("/my-profile")
-                    setEmail('');
-                    setPassword('');
-                    return;
-                }
-            } catch (e: unknown) {
-                setOpen(true);
+        const login = () => {
+            getToken();
+            // navigate("/my-profile")
+            // setEmail('');
+            // setPassword('');
+            if (isAuthorized) {
+                navigate("/my-profile")
+                setEmail('');
+                setPassword('');
+                return;
             }
+            setOpen(true);
         }
 
         return (
@@ -66,7 +65,7 @@ export const SignIn = () => {
                                 color="primary"
                                 variant="contained"
                                 onClick={() => {
-                                    getToken();
+                                    login();
                                 }}
                         >
                             Continue

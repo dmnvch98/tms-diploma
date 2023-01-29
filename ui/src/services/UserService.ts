@@ -89,9 +89,11 @@ class UserService {
 
     getToken = async (email: string, password: string) => {
         let response;
-        response = await axios.post('http://localhost:8080/api/v1/auth/login',
-            {email: email, password: password}, {withCredentials: true});
-
+        try{
+            response = await axios.post('http://localhost:8080/api/v1/auth/login',
+                {email: email, password: password}, {withCredentials: true});
+        }
+        catch (e: unknown) {}
         return response?.status == 200;
     }
 

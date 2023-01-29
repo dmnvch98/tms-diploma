@@ -1,4 +1,5 @@
 import {create} from "zustand";
+import UserService from "../../services/UserService";
 
 export interface SignInStore {
     email: string;
@@ -6,8 +7,8 @@ export interface SignInStore {
     isAuthorized: boolean;
     setEmail: (email: string) => void;
     setPassword: (password: string) => void;
-
     setIsAuthorized: (flag: boolean) => void;
+    getToken: () => void;
 }
 
 export const useSignInStore = create<SignInStore>((set: any, get: any) => ({
@@ -22,5 +23,11 @@ export const useSignInStore = create<SignInStore>((set: any, get: any) => ({
     },
     setIsAuthorized: async (flag: boolean) => {
         set({isAuthorized: flag})
+    },
+    getToken: async () => {
+        set({isAuthorized: false})
+        if (await UserService.getToken(get().email, get().password)) {
+            set({isAuthorized: true})
+        }
     }
 }))
