@@ -47,10 +47,6 @@ public class UserService {
         return userClient.existsByEmailAndPassword(credentialsDto);
     }
 
-    public User update(User user) {
-        return userClient.update(user);
-    }
-
     public UserResponseDto findUserByTutorId (Long tutorId) {
         return userClient.findUserByTutorId(tutorId);
     }

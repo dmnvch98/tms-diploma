@@ -5,16 +5,19 @@ export interface SignInStore {
     email: string;
     password: string;
     isAuthorized: boolean;
+    snackbarOpen: boolean;
     setEmail: (email: string) => void;
     setPassword: (password: string) => void;
     setIsAuthorized: (flag: boolean) => void;
     getToken: () => void;
+    setSnackBar: (flag: boolean) => void;
 }
 
 export const useSignInStore = create<SignInStore>((set: any, get: any) => ({
     email: '',
     password: '',
     isAuthorized: false,
+    snackbarOpen: false,
     setEmail: async (email: string) => {
         set({email: email})
     },
@@ -26,8 +29,11 @@ export const useSignInStore = create<SignInStore>((set: any, get: any) => ({
     },
     getToken: async () => {
         set({isAuthorized: false})
-        if (await UserService.getToken(get().email, get().password)) {
-            set({isAuthorized: true})
-        }
+        await UserService.getToken(get().email, get().password)
+            ? set({isAuthorized: true})
+            : set({snackbarOpen: true})
+    },
+    setSnackBar: async (flag: boolean) => {
+        set({snackbarOpen: flag})
     }
 }))

@@ -10,7 +10,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
   private final String allowedOrigin;
 
-  public MvcConfig(@Value("${spring.security.allowed-origin}") final String allowedOrigin) {
+  public MvcConfig(@Value("${security.allowed-origin}") final String allowedOrigin) {
     this.allowedOrigin = allowedOrigin;
   }
 

@@ -27,21 +27,23 @@ public class UserFacade {
 
 
     @Transactional
-    public UserResponseDto save(UserRequestDto userRequestDto, Long userId) {
-        User user = userConverter.userRequestDtoToUser(userRequestDto, userId);
+    public UserResponseDto save(UserRequestDto userRequestDto) {
+        User user = userConverter.userRequestDtoToUserSave(userRequestDto);
         user = userService.save(user);
-        List<LanguageLevelDto> languageLevels =
-                extractUserLanguageLevelsFromDto(userRequestDto, user.getId())
-                        .stream()
-                        .map(languageLevelService::saveUserLanguageLevel)
-                        .map(languageLevelService::userLanguageLevelToLl)
-                        .map(languageLevelConverter::languageLevelToDto)
-                        .toList();
-        return userConverter.userToResponseDto(user, languageLevels);
+        List<UserLanguageLevel> userLanguageLevels =
+            extractUserLanguageLevelsFromDto(userRequestDto, user.getId());
+        List<LanguageLevelDto> languageLevelDtoList = saveUserLanguageLevels(userLanguageLevels);
+        return userConverter.userToResponseDto(user, languageLevelDtoList);
     }
 
-    public User save(User user) {
-        return userService.save(user);
+    @Transactional
+    public UserResponseDto update(UserRequestDto userRequestDto, Long userId) {
+        User user = userConverter.userRequestDtoToUserUpdate(userRequestDto, userId);
+        user = userService.save(user);
+        List<UserLanguageLevel> userLanguageLevels =
+            extractUserLanguageLevelsFromDto(userRequestDto, user.getId());
+        List<LanguageLevelDto> languageLevelDtoList = saveUserLanguageLevels(userLanguageLevels);
+        return userConverter.userToResponseDto(user, languageLevelDtoList);
     }
 
     public UserResponseDto get(Long id) {
@@ -50,10 +52,10 @@ public class UserFacade {
 
     private List<LanguageLevelDto> findLanguageLevelsByUserId(Long userId) {
         return languageLevelService
-                .findLanguageLevelsByUserId(userId)
-                .stream()
-                .map(languageLevelConverter::languageLevelToDto)
-                .toList();
+            .findLanguageLevelsByUserId(userId)
+            .stream()
+            .map(languageLevelConverter::languageLevelToDto)
+            .toList();
     }
 
     public Boolean isEmailExists(String email) {
@@ -63,10 +65,10 @@ public class UserFacade {
 
     private List<UserLanguageLevel> extractUserLanguageLevelsFromDto(UserRequestDto userRequestDto, Long userId) {
         return userRequestDto.getLanguageLevels().stream()
-                .map(x -> languageLevelService
-                        .getLanguageLevelId(x.getLevel().getLevelId(), x.getLanguage().getLanguageId()))
-                .map(x -> languageLevelConverter.languageLevelIdToUll(x, userId))
-                .toList();
+            .map(x -> languageLevelService
+                .getLanguageLevelId(x.getLevel().getLevelId(), x.getLanguage().getLanguageId()))
+            .map(x -> languageLevelConverter.languageLevelIdToUll(x, userId))
+            .toList();
     }
 
     public UserResponseDto deleteUserLanguageLevels(Long languageId, Long levelId, Long userId) {
@@ -95,5 +97,14 @@ public class UserFacade {
 
     public void updateRefreshToken(String token, Long userId) {
         userService.updateRefreshToken(token, userId);
+    }
+
+    public List<LanguageLevelDto> saveUserLanguageLevels(List<UserLanguageLevel> userLanguageLevels) {
+        return userLanguageLevels
+            .stream()
+            .map(languageLevelService::saveUserLanguageLevel)
+            .map(languageLevelService::userLanguageLevelToLl)
+            .map(languageLevelConverter::languageLevelToDto)
+            .toList();
     }
 }

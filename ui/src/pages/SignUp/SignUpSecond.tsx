@@ -110,7 +110,7 @@ export const SignUpSecond = () => {
                                 color="primary"
                                 variant="contained"
                                 {...{
-                                    to: "sign-up3",
+                                    to: "/sign-up3",
                                     component: RouterLink,
                                 }}
                         >
@@ -134,7 +134,9 @@ export const SignUpSecond = () => {
 
     return (
         <>
-            <Authentication component={<Form/>}></Authentication>
+            <Authentication>
+                <Form/>
+            </Authentication>
         </>
     )
 }

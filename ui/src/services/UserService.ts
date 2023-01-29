@@ -27,8 +27,9 @@ class UserService {
 
     createUser = async (userDto: UserDto) => {
         try {
-            return await axios.post('http://localhost:8080/api/v1/users',
-                userDto) as UserDto;
+            const response = await axios.post('http://localhost:8080/api/v1/users',
+                userDto);
+            return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
             alert(error.message);
@@ -49,7 +50,7 @@ class UserService {
     isEmailExists = async (email: string) => {
         try {
             const response =
-                await axios.get('http://localhost:8080/api/v1/users/is-exists/' + email);
+                await axios.get('http://localhost:8080/api/v1/users/exists/' + email);
             const result: boolean = response.data;
             return result;
         } catch (e: unknown) {
@@ -58,18 +59,10 @@ class UserService {
         }
     }
 
-    getUser = async (userId: number) => {
-        try {
-            return await axios.get('http://localhost:8080/api/v1/users/' + userId);
-        } catch (e: unknown) {
-            const error = e as AxiosError;
-            alert(error.message);
-        }
-    }
-
     getUserByTutorId = async (tutorId: number) => {
         try {
-            const response = await axios.get('http://localhost:9090/api/v1/users/tutors/' + tutorId);
+            const response = await axios.get('http://localhost:9090/api/v1/users/tutors/' + tutorId,
+                {withCredentials: true});
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
@@ -79,7 +72,8 @@ class UserService {
 
     getUserByStudentId = async (studentId: number) => {
         try {
-            const response = await axios.get('http://localhost:9090/api/v1/users/students/' + studentId);
+            const response = await axios.get('http://localhost:9090/api/v1/users/students/' + studentId,
+                {withCredentials: true});
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
@@ -100,11 +94,7 @@ class UserService {
     getMe = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/v1/users/me',
-                {
-                    withCredentials: true,
-                    xsrfCookieName: "MH-XSRF",
-                    xsrfHeaderName: "MH-X-XSRF"
-                });
+                {withCredentials: true});
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;

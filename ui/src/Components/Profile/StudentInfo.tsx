@@ -1,9 +1,9 @@
 import {useState} from "react";
+import {useProfileStore} from "../../pages/Profile/profileStore";
 import {Box, Container, Rating, Typography} from "@mui/material";
 import {UserProfileTabs} from "../UserProfileTabs";
-import {useProfileStore} from "../../pages/Profile/profileStore";
 
-export const Info = (props: any) => {
+export const StudentInfo = () => {
     const [showMore, setShowMore] = useState(false);
     const user = useProfileStore(state => state.user);
 
@@ -20,22 +20,13 @@ export const Info = (props: any) => {
                         <Typography sx={{mr: 7, mt: 3}}><b>About me:</b> </Typography>
                         <Typography sx={{mb: 5}}>
                             {showMore
-                                ? (props.role == 'tutor'
-                                    ? user?.tutor.aboutMe
-                                    : user?.student.aboutMe)
-                                : (props.role == 'tutor'
-                                    ? user?.tutor.aboutMe.substring(0, 250)
-                                    : user?.student.aboutMe.substring(0, 250)
-                                )
+                                ? user?.student.aboutMe
+                                : user?.student.aboutMe.substring(0, 250)
                             }
 
-                            {(props.role == 'student'
-                                    ? user?.student.aboutMe.length as number > 250
-                                    : user?.tutor.aboutMe.length as number > 250
-                            )
-                                ?
+                            {user?.student.aboutMe.length as number > 250 ?
                                 <span
-                                    onClick={() => setShowMore(!showMore)}
+                                    onClick={() => setShowMore(state => !state)}
                                     style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>
                                     {showMore ? "Show less" : "Show more"}
                                 </span>

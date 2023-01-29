@@ -2,7 +2,7 @@ import {Container} from "@mui/material";
 import {Head} from "./Head";
 import {Footer} from "./Footer";
 
-export const Authentication = (props: any) => {
+export const Authentication = ({ children }: any) => {
     return (
         <>
                 <Container
@@ -10,7 +10,7 @@ export const Authentication = (props: any) => {
                     maxWidth="xl"
                     sx={{minHeight: '100vh'}}>
                     <Head/>
-                    {props.component}
+                    {children}
                     <Footer/>
                 </Container>
         </>

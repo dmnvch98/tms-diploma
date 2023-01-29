@@ -1,17 +1,17 @@
 import {useProfileStore} from "./profileStore";
 import {useEffect} from "react";
 import {Container, Grid} from "@mui/material";
-import {Photo} from "../../Components/Profile/Photo";
-import {Info} from "../../Components/Profile/Info";
 import {SidebarHeader} from "../../Components/SidebarHeader";
 import {useParams} from "react-router-dom";
+import {StudentAvatarSection} from "../../Components/Profile/StudentAvatarSection";
+import {StudentInfo} from "../../Components/Profile/StudentInfo";
 
 export const StudentProfile = () => {
     const Profile = () => {
         const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
-        const studentId = useParams().id;
+        const { id } = useParams();
         useEffect(() => {
-            getUserByStudentId(Number(studentId))
+            getUserByStudentId(Number(id))
         }, []);
 
         return (
@@ -19,10 +19,10 @@ export const StudentProfile = () => {
                 <Container sx={{mt: 7}}>
                     <Grid container spacing={2}>
                         <Grid item xs={3}>
-                            <Photo role="student"/>
+                            <StudentAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <Info role="student"/>
+                            <StudentInfo/>
                         </Grid>
                     </Grid>
                 </Container>
@@ -32,7 +32,8 @@ export const StudentProfile = () => {
 
     return (
         <>
-            <SidebarHeader component={<Profile/>}></SidebarHeader>
+            <SidebarHeader/>
+            <Profile/>
         </>
     )
 }

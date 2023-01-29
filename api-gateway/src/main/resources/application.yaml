@@ -11,17 +11,17 @@ feign:
 services:
   user:
     url: 'http://localhost:9090'
-spring:
-  .security:
-    secret: "SECRET"
-    refresh-secret: "REFRESH-SECRET"
-    session-duration-minutes: 86400
-    allowed-origin: "http://localhost:3000"
+security:
+  secret: "SECRET"
+  refresh-secret: "REFRESH-SECRET"
+  allowed-origin: "http://localhost:3000"
 csrf:
-  xsrf_cookie_name: 'MH-XSRF'
-  xsrf_header_name: "MH-X-XSRF"
+  xsrf_cookie_name: 'XSRF'
+  xsrf_header_name: "X-XSRF"
   cookie_domain: "localhost"
-
+jwt:
+  access_token_name: "JWT"
+  refresh_token_name: "JWT_REFRESH"
 logging:
   level:
     root: debug

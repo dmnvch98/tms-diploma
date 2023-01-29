@@ -7,7 +7,6 @@ import {useSignUpStore} from "./store/signUpStore";
 import {useEffect} from "react";
 import {usePasswords} from "./store/passwordStore";
 import {Link as RouterLink} from "react-router-dom";
-import {SignUpSecond} from "./SignUpSecond";
 
 export const SignUpFirst = () => {
     const types = [
@@ -19,13 +18,14 @@ export const SignUpFirst = () => {
         const redirectButtonDisabled: boolean = useSignUpStore(state => state.redirectButtonDisabled);
         const setRedirectButtonDisabled = useSignUpStore(state => state.setRedirectButtonDisabled);
         const roles = useSignUpStore(state => state.roles);
-        const email = useSignUpStore((state) => state.email);
+        const email = useSignUpStore(state => state.email);
         const password = usePasswords(state => state.password);
         const confirmPassword = usePasswords(state => state.confirmPassword);
         const passwordMatches = usePasswords(state => state.matches);
         const setRoles = useSignUpStore(state => state.setRoles);
-        const setEmail = useSignUpStore((state) => state.setEmail);
+        const setEmail = useSignUpStore(state => state.setEmail);
         const setPassword = usePasswords(state => state.setPassword);
+        const setPasswordSignUpStore = useSignUpStore(state => state.setPassword)
         const setConfirmPassword = usePasswords(state => state.setConfirmPassword);
         const setPasswordsMatches = usePasswords(state => state.setMatches)
         const setStudent = useSignUpStore(state => state.setStudent);
@@ -104,8 +104,9 @@ export const SignUpFirst = () => {
                                     || roles.length == 0}
                                 color="primary"
                                 variant="contained"
+                                onClick={() => setPasswordSignUpStore(password)}
                                 {...{
-                                    to: "sign-up2",
+                                    to: "/sign-up2",
                                     component: RouterLink,
                                 }}
                         >
@@ -119,7 +120,9 @@ export const SignUpFirst = () => {
 
     return (
         <>
-            <Authentication component={<Form/>}></Authentication>
+            <Authentication>
+                <Form/>
+            </Authentication>
         </>
     )
 }

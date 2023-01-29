@@ -19,11 +19,11 @@ public class AuthService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
     final com.example.apigateway.model.User user = userService.findUserByEmail(email);
-    List<SimpleGrantedAuthority> list = user
+    List<SimpleGrantedAuthority> rolesList = user
             .getRoles()
             .stream()
-            .map(x -> new SimpleGrantedAuthority("ROLE_" + x))
+            .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
             .toList();
-    return new PrincipalUser(user.getEmail(), user.getPassword(), list, user.getId());
+    return new PrincipalUser(user.getEmail(), user.getPassword(), rolesList, user.getId());
   }
 }

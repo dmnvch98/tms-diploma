@@ -182,7 +182,6 @@ export const SidebarHeader = (props: any) => {
                     ))}
                 </List>
             </Drawer>
-            {props.component}
         </Box>
     );
 }

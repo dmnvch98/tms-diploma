@@ -6,7 +6,7 @@ import {
 import {Authentication} from "../../Components/Authentication";
 import {useSignInStore} from "./signinStore";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect} from "react";
 
 export const SignIn = () => {
     const Form = () => {
@@ -17,21 +17,16 @@ export const SignIn = () => {
         const navigate = useNavigate();
         const isAuthorized = useSignInStore(state => state.isAuthorized);
         const getToken = useSignInStore(state => state.getToken);
-        const [open, setOpen] = useState(false);
+        const snackBarOpen = useSignInStore(state => state.snackbarOpen);
+        const setSnackBar = useSignInStore(state => state.setSnackBar);
 
-        const login = () => {
-            getToken();
-            // navigate("/my-profile")
-            // setEmail('');
-            // setPassword('');
+        useEffect(() => {
             if (isAuthorized) {
                 navigate("/my-profile")
                 setEmail('');
                 setPassword('');
-                return;
             }
-            setOpen(true);
-        }
+        }, [isAuthorized])
 
         return (
             <>
@@ -65,15 +60,15 @@ export const SignIn = () => {
                                 color="primary"
                                 variant="contained"
                                 onClick={() => {
-                                    login();
+                                    getToken();
                                 }}
                         >
                             Continue
                         </Button>
                         <Snackbar
-                            open={open}
+                            open={snackBarOpen}
                             autoHideDuration={3000}
-                            onClose={() => setOpen(false)}
+                            onClose={() => setSnackBar(!snackBarOpen)}
                         >
                             <Alert severity="error">
                                 User doesn't exist
@@ -87,7 +82,9 @@ export const SignIn = () => {
 
     return (
         <>
-            <Authentication component={<Form/>}></Authentication>
+            <Authentication>
+                <Form/>
+            </Authentication>
         </>
     )
 }

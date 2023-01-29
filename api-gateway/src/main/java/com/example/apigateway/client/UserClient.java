@@ -35,9 +35,6 @@ public interface UserClient {
     @PostMapping("/exists")
     Boolean existsByEmailAndPassword(@RequestBody CredentialsDto credentialsDto);
 
-    @PutMapping()
-    User update(@RequestBody User user);
-
     @GetMapping("/students/{studentId}")
     UserResponseDto findUserByStudentId(@PathVariable("studentId") Long studentId);
 

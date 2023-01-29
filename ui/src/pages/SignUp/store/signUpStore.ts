@@ -11,7 +11,7 @@ export interface UserDto {
     email: string;
     password: string;
     nationality: number;
-    roles: string;
+    roles: string[];
     gender: string;
     tutor: Tutor | {} | null,
     student: Student | {} | null,
@@ -21,7 +21,7 @@ export interface UserDto {
 
 export interface SignUp {
     redirectButtonDisabled: boolean;
-    roles: string;
+    roles: string[];
     email: string;
     gender: string;
     firstName: string;
@@ -36,6 +36,7 @@ export interface SignUp {
     tutor: Tutor | {} | null,
     student: Student | {} | null,
     location: string | null,
+    password: string,
 
     setRoles: (role: string) => void;
     setEmail: (email: string) => void;
@@ -52,18 +53,20 @@ export interface SignUp {
     setLanguageId: (languageId: number | string) => void;
     setLevel: (level: Level | null) => void;
     setLevelId: (levelId: number | string) => void;
-    createUser: (userDto: UserDto) => UserDto;
+    createUser: () => UserDto;
     setRedirectButtonDisabled: () => void;
 
     setTutor: (tutor: Tutor | {}) => void,
     setStudent: (student: Student | {}) => void;
 
     setLocation: (location: string) => void;
+
+    setPassword: (password: string) => void;
 }
 
 export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     redirectButtonDisabled: false,
-    roles: '',
+    roles: [],
     email: '',
     gender: '',
     countryId: '',
@@ -78,8 +81,9 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     tutor: null,
     student: null,
     location: null,
+    password: '',
     setRoles: async (userType: string) => {
-        set({roles: userType})
+        set({roles: [userType]})
     },
     setEmail: async (email: string) => {
         set({email: email})
@@ -114,7 +118,20 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     setLevel: async (level: Level | null) => {
         set({level: level})
     },
-    createUser: (userDto: UserDto) => {
+    createUser: () => {
+        const userDto: UserDto = {
+            firstName: get().firstName,
+            lastName: get().lastName,
+            email: get().email,
+            password: get().password,
+            nationality: get().nationality?.countryId as number,
+            roles: get().roles,
+            gender: get().gender,
+            languageLevels: get().languageLevels,
+            tutor: get().tutor,
+            student: get().student,
+            location: get().location
+        }
         return UserService.createUser(userDto) as unknown as UserDto;
     },
     setRedirectButtonDisabled: async () => {
@@ -133,5 +150,8 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     },
     setLocation: (location: string) => {
         set({location: location})
+    },
+    setPassword: (password: string) => {
+        set({password: password})
     }
 }))

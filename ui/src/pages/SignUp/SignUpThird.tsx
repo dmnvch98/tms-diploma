@@ -8,12 +8,10 @@ import {
 import {Authentication} from "../../Components/Authentication";
 import {useEffect, useState} from "react";
 import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
-import {UserDto, useSignUpStore} from "./store/signUpStore";
+import {useSignUpStore} from "./store/signUpStore";
 import {Link as RouterLink} from "react-router-dom";
 import {Language, useLanguagesStore} from "./store/languagesStore";
-import {usePasswords} from "./store/passwordStore";
 import {Level, useLevelsStore} from "./store/levelStore";
-import {SignUpSecond} from "./SignUpSecond";
 
 export const SignUpThird = () => {
     const style = {
@@ -40,17 +38,7 @@ export const SignUpThird = () => {
         const languageId = useSignUpStore(state => state.languageId);
         const levelsList = useLevelsStore(state => state.levelsList);
         const languagesList = useLanguagesStore(state => state.languagesList);
-        const roles = useSignUpStore((state) => state.roles);
-        const email = useSignUpStore((state) => state.email);
-        const password = usePasswords(state => state.password);
-        const gender = useSignUpStore(state => state.gender);
-        const nationality = useSignUpStore(state => state.nationality);
-        const firstName = useSignUpStore(state => state.firstName);
-        const lastName = useSignUpStore(state => state.lastName);
         const createUser = useSignUpStore(state => state.createUser);
-        const tutor = useSignUpStore(state => state.tutor);
-        const student = useSignUpStore(state => state.student);
-        const location = useSignUpStore(state => state.location);
 
         const setLanguageLevels = useSignUpStore(state => state.setLanguageLevels);
         const setLanguageId = useSignUpStore(state => state.setLanguageId);
@@ -59,20 +47,6 @@ export const SignUpThird = () => {
         const setLevel = useSignUpStore(state => state.setLevel);
         const getLevels = useLevelsStore(state => state.getLevels);
         const getLanguages = useLanguagesStore(state => state.getLanguages);
-
-        const userDto: UserDto = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password,
-            nationality: nationality?.countryId as number,
-            roles: roles,
-            gender: gender,
-            languageLevels: languageLevels,
-            tutor: tutor,
-            student: student,
-            location: location
-        }
 
         const addLanguageLevel = () => {
             setLanguageLevels([...languageLevels, {level: level, language: language}]);
@@ -147,7 +121,7 @@ export const SignUpThird = () => {
                             disabled={languageLevels.length == 0}
                             onClick={
                                 () => {
-                                    createUser(userDto)
+                                    createUser()
                                 }
                             }
                         >Continue</Button>
@@ -167,7 +141,9 @@ export const SignUpThird = () => {
 
     return (
         <>
-            <Authentication component={<LanguagesForm/>}></Authentication>
+            <Authentication>
+                <LanguagesForm/>
+            </Authentication>
         </>
     )
 }

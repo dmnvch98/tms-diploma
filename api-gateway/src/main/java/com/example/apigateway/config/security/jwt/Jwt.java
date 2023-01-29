@@ -17,10 +17,10 @@ import java.util.Date;
 @Getter
 public class Jwt {
 
-    @Value("${spring.security.secret}")
+    @Value("${security.secret}")
     private String jwtSecret;
 
-    @Value("${spring.security.refresh-secret}")
+    @Value("${security.refresh-secret}")
     private String jwtRefreshSecret;
 
     public String generateAccessToken(User user) {
@@ -47,7 +47,7 @@ public class Jwt {
                 .compact();
     }
 
-    public boolean validateToken(String token, String secret) {
+    private boolean validateToken(String token, String secret) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
@@ -73,7 +73,7 @@ public class Jwt {
         return validateToken(refreshToken, jwtRefreshSecret);
     }
 
-    public String getLoginFromToken(String token, String secret) {
+    private String getLoginFromToken(String token, String secret) {
         Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }

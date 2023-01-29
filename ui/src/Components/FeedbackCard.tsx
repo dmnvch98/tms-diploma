@@ -45,7 +45,7 @@ export const FeedbackCard = () => {
                             <Typography variant="body2" color="text.secondary">
                                 {showMore ? feedBackText : `${feedBackText.substring(0, 200) + '...'}`}
                                 <span
-                                    onClick={() => setShowMore(!showMore)}
+                                    onClick={() => setShowMore(state => !state)}
                                     style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>
                                     {showMore ? "Show less" : "Show more"}
                                 </span>

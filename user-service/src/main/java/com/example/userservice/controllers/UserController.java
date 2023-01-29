@@ -17,7 +17,7 @@ public class UserController {
 
     @PostMapping
     public UserResponseDto save(@RequestBody UserRequestDto user) {
-        return facade.save(user, null);
+        return facade.save(user);
     }
 
     @GetMapping("/{userId}")
@@ -32,7 +32,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public UserResponseDto update(@RequestBody UserRequestDto userRequestDto, @PathVariable("userId") Long userId) {
-        return facade.save(userRequestDto, userId);
+        return facade.update(userRequestDto, userId);
     }
 
     @DeleteMapping("/languages/{languageId}/levels/{levelId}/users/{userId}")
@@ -63,10 +63,6 @@ public class UserController {
     @PostMapping("/exists")
     public Boolean existsByEmailAndPassword(@RequestBody CredentialsDto credentialsDto) {
         return facade.existsByEmailAndPassword(credentialsDto);
-    }
-    @PutMapping()
-    public User update(@RequestBody User user) {
-        return facade.save(user);
     }
 
     @PatchMapping

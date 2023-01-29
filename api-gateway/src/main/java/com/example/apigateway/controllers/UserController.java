@@ -18,19 +18,16 @@ public class UserController {
 
     private final UserService userService;
 
-    @CrossOrigin
     @PostMapping
     public ResponseEntity<UserResponseDto> save(@RequestBody UserRequestDto userDto) {
         return ResponseEntity.ok(userService.save(userDto));
     }
-    @CrossOrigin
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> get(Authentication authentication) {
         return ResponseEntity.ok(userService.get(((PrincipalUser) authentication.getPrincipal()).getUserId()));
     }
 
-    @CrossOrigin
-    @GetMapping("/is-exists/{email}")
+    @GetMapping("/exists/{email}")
     public ResponseEntity<Boolean> isEmailExists(@PathVariable("email")String email) {
         return ResponseEntity.ok(userService.isEmailExists(email));
     }
