@@ -2,7 +2,7 @@ import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Button, Paper, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 
-export const MyTutorAvatarSection = () => {
+export const NyStudentAvatarSection = () => {
     const user = useProfileStore(state => state.user);
     return (
         <>
@@ -23,18 +23,13 @@ export const MyTutorAvatarSection = () => {
                     </Box>
                     <Button variant="contained"
                             fullWidth
-                            sx={{mt: 2}}>
-                        Change availability
-                    </Button>
-                    <Button variant="contained"
-                            fullWidth
                             sx={{mt: 2}}
                             {...{
-                                to: "/my-student-profile",
+                                to: "/my-tutor-profile",
                                 component: RouterLink,
                             }}
                     >
-                        Switch to student
+                        Switch to tutor
                     </Button>
                     <Button variant="outlined"
                             fullWidth
