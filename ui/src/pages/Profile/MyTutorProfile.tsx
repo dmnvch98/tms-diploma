@@ -1,25 +1,23 @@
-import {useProfileStore} from "./profileStore";
-import {useEffect} from "react";
-import {Container, Grid} from "@mui/material";
 import {SidebarHeader} from "../../Components/SidebarHeader";
-import {useParams} from "react-router-dom";
-import {TutorAvatarSection} from "../../Components/Profile/Tutor/TutorAvatarSection";
+import {Container, Grid} from "@mui/material";
 import {TutorInfo} from "../../Components/Profile/Tutor/TutorInfo";
+import {MyTutorAvatarSection} from "../../Components/Profile/Tutor/MyTutorAvatarSection";
+import {useProfileStore} from "./profileStore";
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
 
-export const TutorProfile = () => {
+export const MyTutorProfile = () => {
+    const getMe = useProfileStore(state => state.getMe)
+    useEffect(() => {
+        getMe();
+    }, [])
     const Profile = () => {
-        const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
-        const { id } = useParams();
-        useEffect(() => {
-            getUserByTutorId(Number(id));
-        }, []);
-
         return (
             <>
                 <Container sx={{mt: 7}}>
                     <Grid container spacing={2}>
                         <Grid item xs={3}>
-                            <TutorAvatarSection/>
+                            <MyTutorAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
                             <TutorInfo/>
@@ -36,4 +34,5 @@ export const TutorProfile = () => {
             <Profile/>
         </>
     )
+
 }

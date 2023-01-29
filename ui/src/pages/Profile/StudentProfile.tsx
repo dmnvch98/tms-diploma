@@ -3,8 +3,8 @@ import {useEffect} from "react";
 import {Container, Grid} from "@mui/material";
 import {SidebarHeader} from "../../Components/SidebarHeader";
 import {useParams} from "react-router-dom";
-import {StudentAvatarSection} from "../../Components/Profile/StudentAvatarSection";
-import {StudentInfo} from "../../Components/Profile/StudentInfo";
+import {StudentAvatarSection} from "../../Components/Profile/Student/StudentAvatarSection";
+import {StudentInfo} from "../../Components/Profile/Student/StudentInfo";
 
 export const StudentProfile = () => {
     const Profile = () => {

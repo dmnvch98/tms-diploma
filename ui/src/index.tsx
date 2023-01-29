@@ -4,8 +4,8 @@ import App from './App';
 import {BrowserRouter} from "react-router-dom";
 import axios from "axios";
 
-// axios.defaults.xsrfCookieName = 'XSRF';
-// axios.defaults.xsrfHeaderName = 'X-XSRF';
+axios.defaults.xsrfCookieName = 'XSRF';
+axios.defaults.xsrfHeaderName = 'X-XSRF';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

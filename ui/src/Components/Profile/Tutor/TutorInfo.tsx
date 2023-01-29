@@ -1,9 +1,9 @@
 import {useState} from "react";
-import {useProfileStore} from "../../pages/Profile/profileStore";
+import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Container, Rating, Typography} from "@mui/material";
-import {UserProfileTabs} from "../UserProfileTabs";
+import {UserProfileTabs} from "../../UserProfileTabs";
 
-export const StudentInfo = () => {
+export const TutorInfo = () => {
     const [showMore, setShowMore] = useState(false);
     const user = useProfileStore(state => state.user);
 
@@ -20,11 +20,11 @@ export const StudentInfo = () => {
                         <Typography sx={{mr: 7, mt: 3}}><b>About me:</b> </Typography>
                         <Typography sx={{mb: 5}}>
                             {showMore
-                                ? user?.student.aboutMe
-                                : user?.student.aboutMe.substring(0, 250)
+                                ? user?.tutor.aboutMe
+                                : user?.tutor.aboutMe.substring(0, 250)
                             }
 
-                            {user?.student.aboutMe.length as number > 250 ?
+                            {user?.tutor.aboutMe.length as number > 250 ?
                                 <span
                                     onClick={() => setShowMore(state => !state)}
                                     style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>

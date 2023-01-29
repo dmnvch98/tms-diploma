@@ -62,7 +62,6 @@ public class SecurityConfig {
 
     private CookieCsrfTokenRepository csrfTokenRepository() {
         final CookieCsrfTokenRepository repository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        repository.setSecure(true);
         repository.setCookieName(xsrfCookieName);
         repository.setHeaderName(xsrfHeaderName);
         repository.setCookieDomain(cookieDomain);

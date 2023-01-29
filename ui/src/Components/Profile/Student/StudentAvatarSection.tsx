@@ -1,4 +1,4 @@
-import {useProfileStore} from "../../pages/Profile/profileStore";
+import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Button, Paper, Typography} from "@mui/material";
 
 export const StudentAvatarSection = () => {
