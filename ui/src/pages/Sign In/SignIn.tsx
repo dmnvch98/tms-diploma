@@ -7,30 +7,29 @@ import {Authentication} from "../../Components/Authentication";
 import {useSignInStore} from "./signinStore";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {useProfileStore} from "../Profile/profileStore";
 
 export const SignIn = () => {
-    const Form = () => {
-        const email = useSignInStore(state => state.email);
-        const password = useSignInStore(state => state.password);
-        const setEmail = useSignInStore(state => state.setEmail);
-        const setPassword = useSignInStore(state => state.setPassword);
-        const navigate = useNavigate();
-        const isAuthorized = useSignInStore(state => state.isAuthorized);
-        const getToken = useSignInStore(state => state.getToken);
-        const snackBarOpen = useSignInStore(state => state.snackbarOpen);
-        const setSnackBar = useSignInStore(state => state.setSnackBar);
+    const email = useSignInStore(state => state.email);
+    const password = useSignInStore(state => state.password);
+    const setEmail = useSignInStore(state => state.setEmail);
+    const setPassword = useSignInStore(state => state.setPassword);
+    const navigate = useNavigate();
+    const isAuthorized = useSignInStore(state => state.isAuthorized);
+    const getToken = useSignInStore(state => state.getToken);
+    const snackBarOpen = useSignInStore(state => state.snackbarOpen);
+    const setSnackBar = useSignInStore(state => state.setSnackBar);
 
-        useEffect(() => {
-            if (isAuthorized) {
-                navigate("/my-student-profile")
-                setEmail('');
-                setPassword('');
-            }
-        }, [isAuthorized])
+    useEffect(() => {
+        if (isAuthorized) {
+            navigate("/my-student-profile")
+            setEmail('');
+            setPassword('');
+        }
+    }, [isAuthorized])
 
-        return (
-            <>
+    return (
+        <>
+            <Authentication>
                 <Box
                     sx={{m: 2, height: "70vh"}}
                     display="flex"
@@ -77,14 +76,6 @@ export const SignIn = () => {
                         </Snackbar>
                     </FormControl>
                 </Box>
-            </>
-        )
-    }
-
-    return (
-        <>
-            <Authentication>
-                <Form/>
             </Authentication>
         </>
     )

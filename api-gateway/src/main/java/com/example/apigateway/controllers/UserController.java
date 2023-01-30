@@ -39,12 +39,14 @@ public class UserController {
                         ((PrincipalUser) authentication.getPrincipal()).getUserId()));
     }
 
-    @DeleteMapping("/languages/{languageId}/levels/{levelId}/users/{userId}")
+    @DeleteMapping("/languages/{languageId}/levels/{levelId}/")
+
     public UserResponseDto deleteUserLanguageLevel(
             @PathVariable("languageId") Long languageId,
             @PathVariable("levelId") Long levelId,
-            @PathVariable("userId") Long userId) {
-        return userService.deleteUserLanguageLevel(languageId, levelId, userId);
+            Authentication authentication){
+        return userService.deleteUserLanguageLevel(languageId, levelId,
+            ((PrincipalUser) authentication.getPrincipal()).getUserId());
     }
 
     @GetMapping("/tutors/{tutorId}")

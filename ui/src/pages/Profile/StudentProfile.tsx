@@ -7,6 +7,11 @@ import {StudentAvatarSection} from "../../Components/Profile/Student/StudentAvat
 import {StudentInfo} from "../../Components/Profile/Student/StudentInfo";
 
 export const StudentProfile = () => {
+    const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
+    const { id } = useParams();
+    useEffect(() => {
+        getUserByStudentId(Number(id))
+    }, []);
     const Profile = () => {
         const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
         const { id } = useParams();

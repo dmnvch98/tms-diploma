@@ -6,7 +6,7 @@ import {SignUpSecond} from "./pages/SignUp/SignUpSecond";
 import {SignUpThird} from "./pages/SignUp/SignUpThird";
 import {StudentProfile} from "./pages/Profile/StudentProfile";
 import {TutorProfile} from "./pages/Profile/TutorProfile";
-import {SignIn} from "./pages/SignIn/SignIn";
+import {SignIn} from "./pages/Sign In/SignIn";
 import {MyTutorProfile} from "./pages/Profile/MyTutorProfile";
 import {MyStudentProfile} from "./pages/Profile/MyStudentProfile";
 

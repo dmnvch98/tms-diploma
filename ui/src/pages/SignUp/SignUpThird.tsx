@@ -119,11 +119,7 @@ export const SignUpThird = () => {
                             variant="contained"
                             sx={{mt: 4}}
                             disabled={languageLevels.length == 0}
-                            onClick={
-                                () => {
-                                    createUser()
-                                }
-                            }
+                            onClick={createUser}
                         >Continue</Button>
                         <Button sx={{mt: 4}}
                                 color="primary"
