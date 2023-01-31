@@ -8,6 +8,8 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.List;
+
 @Table("users")
 @Builder
 @Value
@@ -28,10 +30,13 @@ public class User {
     @Column("gender")
     String gender;
     @Column("roles")
-    String roles;
+    List<String> roles;
     @MappedCollection(idColumn = "user_id")
     Student student;
-
     @MappedCollection(idColumn = "user_id")
     Tutor tutor;
+    @Column("location")
+    String location;
+    @Column("refresh_token")
+    String refreshToken;
 }

@@ -3,40 +3,45 @@ import {Language, LanguageLevel} from "./languagesStore";
 import UserService from "../../../services/UserService";
 import {Country} from "./countryStore";
 import {Level} from "./levelStore";
+import {Student, Tutor} from "../../../CommonStore/store";
 
 export interface UserDto {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
-    nationality: Country;
-    roles: string;
+    nationality: number;
+    roles: string[];
     gender: string;
+    tutor: Tutor | {} | null,
+    student: Student | {} | null,
     languageLevels: LanguageLevel[];
+    location: string | null;
 }
 
 export interface SignUp {
     redirectButtonDisabled: boolean;
-    roles: string;
+    roles: string[];
     email: string;
-    password: string;
-
     gender: string;
     firstName: string;
     lastName: string;
-
     countryId: number | string;
     nationality: Country | null;
-
     languageLevels: LanguageLevel[];
     level: Level | null;
     levelId: number | string;
     language: Language | null;
     languageId: number | string;
+    tutor: Tutor | {} | null,
+    student: Student | {} | null,
+    location: string | null,
+    password: string,
+    isAuthorized: boolean;
+    userCreated: boolean;
 
     setRoles: (role: string) => void;
     setEmail: (email: string) => void;
-    setPassword: (password: string) => void;
 
     setGender: (gender: string) => void;
     setCountryId: (countryId: number | string) => void;
@@ -50,16 +55,22 @@ export interface SignUp {
     setLanguageId: (languageId: number | string) => void;
     setLevel: (level: Level | null) => void;
     setLevelId: (levelId: number | string) => void;
-    createUser: (userDto: UserDto) => void;
+    createUser: () => void;
     setRedirectButtonDisabled: () => void;
 
+    setTutor: (tutor: Tutor | {}) => void,
+    setStudent: (student: Student | {}) => void;
+
+    setLocation: (location: string) => void;
+
+    setPassword: (password: string) => void;
+    getToken: () => void;
 }
 
 export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     redirectButtonDisabled: false,
-    roles: '',
+    roles: [],
     email: '',
-    password: '',
     gender: '',
     countryId: '',
     nationality: null,
@@ -70,14 +81,17 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     levelId: '',
     language: null,
     languageId: '',
+    tutor: null,
+    student: null,
+    location: null,
+    password: '',
+    isAuthorized: false,
+    userCreated: false,
     setRoles: async (userType: string) => {
-        set({roles: userType})
+        set({roles: [userType]})
     },
     setEmail: async (email: string) => {
         set({email: email})
-    },
-    setPassword: async (password: string) => {
-        set({password: password})
     },
     setGender: async (gender: string) => {
         set({gender: gender})
@@ -109,8 +123,24 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     setLevel: async (level: Level | null) => {
         set({level: level})
     },
-    createUser: (userDto: UserDto) => {
-        UserService.createUser(userDto);
+    createUser: async () => {
+        const userDto: UserDto = {
+            firstName: get().firstName,
+            lastName: get().lastName,
+            email: get().email,
+            password: get().password,
+            nationality: get().nationality?.countryId as number,
+            roles: get().roles,
+            gender: get().gender,
+            languageLevels: get().languageLevels,
+            tutor: get().tutor,
+            student: get().student,
+            location: get().location
+        }
+        const response = await UserService.createUser(userDto);
+        if (response == 200) {
+            set({userCreated: true})
+        }
     },
     setRedirectButtonDisabled: async () => {
         try {
@@ -119,5 +149,23 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
         } catch (error) {
             alert(error);
         }
+    },
+    setTutor: (tutor: Tutor | {}) => {
+        set({tutor: tutor})
+    },
+    setStudent: (student: Student | {}) => {
+        set({student: student})
+    },
+    setLocation: (location: string) => {
+        set({location: location})
+    },
+    setPassword: (password: string) => {
+        set({password: password})
+    },
+    getToken: async () => {
+        set({isAuthorized: false})
+        await UserService.getToken(get().email, get().password)
+            ? set({isAuthorized: true})
+            : set({snackbarOpen: true})
     }
 }))

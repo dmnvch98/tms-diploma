@@ -5,13 +5,13 @@ import com.example.apigateway.model.Country;
 import com.example.apigateway.model.Student;
 import com.example.apigateway.model.Tutor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
 @Builder
-@Data
+@Value
 @Jacksonized
 public class UserResponseDto {
     Long id;
@@ -24,4 +24,5 @@ public class UserResponseDto {
     Student student;
     Tutor tutor;
     List<LanguageLevelDto> languageLevels;
+    String location;
 }

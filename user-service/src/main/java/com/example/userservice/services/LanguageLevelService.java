@@ -26,7 +26,10 @@ public class LanguageLevelService {
     }
 
     public UserLanguageLevel saveUserLanguageLevel(UserLanguageLevel userLanguageLevel) {
-        return userLanguageLevelRepository.save(userLanguageLevel);
+        if (!isUserLanguageLevelExists(userLanguageLevel)) {
+            return userLanguageLevelRepository.save(userLanguageLevel);
+        }
+        return userLanguageLevel;
     }
 
     public List<LanguageLevel> findLanguageLevelsByUserId(Long userId) {
@@ -42,7 +45,16 @@ public class LanguageLevelService {
     }
 
     public LanguageLevel userLanguageLevelToLl(UserLanguageLevel userLanguageLevel) {
-        return languageLevelRepository.findLanguageLevelByLanguageLevelId(userLanguageLevel.getLanguageLevelId());
+        return languageLevelRepository.findAllByLanguageLevelId(userLanguageLevel.getLanguageLevelId());
+    }
+
+    public void deleteUserLanguageLevel(Long languageLevelId, Long userId) {
+        userLanguageLevelRepository.deleteByLanguageLevelIdAndUserId(languageLevelId, userId);
+    }
+
+    public Boolean isUserLanguageLevelExists(UserLanguageLevel userLanguageLevel) {
+        return userLanguageLevelRepository.existsByUserIdAndLanguageLevelId(
+                userLanguageLevel.getUserId(), userLanguageLevel.getLanguageLevelId());
     }
 
 }

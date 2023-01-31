@@ -4,12 +4,14 @@ import com.example.userservice.model.Country;
 import com.example.userservice.model.Student;
 import com.example.userservice.model.Tutor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Setter;
+import lombok.Value;
+import lombok.experimental.NonFinal;
 
 import java.util.List;
 
-@Builder
-@Data
+@Builder(toBuilder = true)
+@Value
 public class UserResponseDto {
     Long id;
     String firstName;
@@ -18,7 +20,12 @@ public class UserResponseDto {
     String password;
     Country nationality;
     String gender;
+    @NonFinal
+    @Setter
     Student student;
+    @NonFinal
+    @Setter
     Tutor tutor;
     List<LanguageLevelDto> languageLevels;
+    String location;
 }
