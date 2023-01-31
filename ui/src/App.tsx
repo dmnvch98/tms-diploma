@@ -9,6 +9,7 @@ import {TutorProfile} from "./pages/Profile/TutorProfile";
 import {SignIn} from "./pages/Sign In/SignIn";
 import {MyTutorProfile} from "./pages/Profile/MyTutorProfile";
 import {MyStudentProfile} from "./pages/Profile/MyStudentProfile";
+import {Loading} from "./Components/Loading";
 
 function App() {
     const theme = createTheme({
@@ -29,20 +30,21 @@ function App() {
         },
     });
 
-    return (
-        <ThemeProvider theme={theme}>
-            <Routes>
-                <Route path={'/sign-up'} element={<SignUpFirst/>}/>
-                <Route path={'/sign-up2'} element={<SignUpSecond/>}/>
-                <Route path={'/sign-up3'} element={<SignUpThird/>}/>
-                <Route path={'/students/:id'} element={<StudentProfile/>}/>
-                <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
-                <Route path={'/sign-in'} element={<SignIn/> }/>
-                <Route path={'/my-tutor-profile'} element={<MyTutorProfile/>}/>
-                <Route path={'/my-student-profile'} element={<MyStudentProfile/>}/>
-            </Routes>
-        </ThemeProvider>
-    );
+        return (
+            <ThemeProvider theme={theme}>
+                <Routes>
+                    <Route path={'/sign-up'} element={<SignUpFirst/>}/>
+                    <Route path={'/sign-up2'} element={<SignUpSecond/>}/>
+                    <Route path={'/sign-up3'} element={<SignUpThird/>}/>
+                    <Route path={'/sign-in'} element={<SignIn/> }/>
+                    <Route path={'/students/:id'} element={<StudentProfile/>}/>
+                    <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
+                    <Route path={'/my-tutor-profile'} element={<MyTutorProfile/>}/>
+                    <Route path={'/my-student-profile'} element={<MyStudentProfile/>}/>
+                    <Route path={'/loading'} element={<Loading/>}/>
+                </Routes>
+            </ThemeProvider>
+        );
 }
 
 export default App;

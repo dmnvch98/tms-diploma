@@ -37,6 +37,8 @@ export interface SignUp {
     student: Student | {} | null,
     location: string | null,
     password: string,
+    isAuthorized: boolean;
+    userCreated: boolean;
 
     setRoles: (role: string) => void;
     setEmail: (email: string) => void;
@@ -53,7 +55,7 @@ export interface SignUp {
     setLanguageId: (languageId: number | string) => void;
     setLevel: (level: Level | null) => void;
     setLevelId: (levelId: number | string) => void;
-    createUser: () => UserDto;
+    createUser: () => void;
     setRedirectButtonDisabled: () => void;
 
     setTutor: (tutor: Tutor | {}) => void,
@@ -62,6 +64,7 @@ export interface SignUp {
     setLocation: (location: string) => void;
 
     setPassword: (password: string) => void;
+    getToken: () => void;
 }
 
 export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
@@ -82,6 +85,8 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     student: null,
     location: null,
     password: '',
+    isAuthorized: false,
+    userCreated: false,
     setRoles: async (userType: string) => {
         set({roles: [userType]})
     },
@@ -118,7 +123,7 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     setLevel: async (level: Level | null) => {
         set({level: level})
     },
-    createUser: () => {
+    createUser: async () => {
         const userDto: UserDto = {
             firstName: get().firstName,
             lastName: get().lastName,
@@ -132,7 +137,10 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
             student: get().student,
             location: get().location
         }
-        return UserService.createUser(userDto) as unknown as UserDto;
+        const response = await UserService.createUser(userDto);
+        if (response == 200) {
+            set({userCreated: true})
+        }
     },
     setRedirectButtonDisabled: async () => {
         try {
@@ -153,5 +161,11 @@ export const useSignUpStore = create<SignUp>((set: any, get: any) => ({
     },
     setPassword: (password: string) => {
         set({password: password})
+    },
+    getToken: async () => {
+        set({isAuthorized: false})
+        await UserService.getToken(get().email, get().password)
+            ? set({isAuthorized: true})
+            : set({snackbarOpen: true})
     }
 }))

@@ -17,8 +17,8 @@ export const StudentAvatarSection = () => {
                          alt="Avatar"/>
                     <Box sx={{mt: 1, mb: 3}}>
                         <Typography variant="h6">{user?.firstName} {user?.lastName}</Typography>
-                        <Typography variant="subtitle1">Nationality: {user?.nationality.description}</Typography>
-                        <Typography variant="subtitle1">Location: {user?.location}</Typography>
+                        <Typography  variant="subtitle1">Nationality: {user?.nationality.description}</Typography>
+                        <Typography  variant="subtitle1">Location: {user?.location}</Typography>
                     </Box>
                     <Button variant="contained"
                             fullWidth

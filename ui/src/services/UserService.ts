@@ -29,7 +29,7 @@ class UserService {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/users',
                 userDto);
-            return response.data;
+            return response.status;
         } catch (e: unknown) {
             const error = e as AxiosError;
             alert(error.message);

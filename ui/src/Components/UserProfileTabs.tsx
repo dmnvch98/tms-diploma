@@ -35,7 +35,7 @@ export const UserProfileTabs = () => {
             >
                 {value === index && (
                     <Box sx={{minHeight: '30vh', pb: 2}}>
-                        <Typography>{children}</Typography>
+                        <Typography component={'span'}>{children}</Typography>
                     </Box>
                 )}
             </div>

@@ -6,11 +6,13 @@ export interface Student {
     userId: number;
     aboutMe: string;
 }
+
 export interface Tutor {
     tutorId: number;
     userId: number;
     aboutMe: string;
 }
+
 export interface User {
     firstName: string;
     lastName: string;

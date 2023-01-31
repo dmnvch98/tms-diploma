@@ -26,7 +26,6 @@ export const SignIn = () => {
             setPassword('');
         }
     }, [isAuthorized])
-
     return (
         <>
             <Authentication>
@@ -59,9 +58,7 @@ export const SignIn = () => {
                         <Button sx={{mt: 4}}
                                 color="primary"
                                 variant="contained"
-                                onClick={() => {
-                                    getToken();
-                                }}
+                                onClick={getToken}
                         >
                             Continue
                         </Button>

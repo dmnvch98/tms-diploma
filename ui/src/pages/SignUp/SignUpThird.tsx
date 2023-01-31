@@ -9,7 +9,7 @@ import {Authentication} from "../../Components/Authentication";
 import {useEffect, useState} from "react";
 import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
 import {useSignUpStore} from "./store/signUpStore";
-import {Link as RouterLink} from "react-router-dom";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {Language, useLanguagesStore} from "./store/languagesStore";
 import {Level, useLevelsStore} from "./store/levelStore";
 
@@ -47,6 +47,11 @@ export const SignUpThird = () => {
         const setLevel = useSignUpStore(state => state.setLevel);
         const getLevels = useLevelsStore(state => state.getLevels);
         const getLanguages = useLanguagesStore(state => state.getLanguages);
+        const isAuthorized = useSignUpStore(state => state.isAuthorized);
+        const userCreated = useSignUpStore(state =>  state.userCreated);
+
+        const navigate = useNavigate();
+        const getToken = useSignUpStore(state => state.getToken);
 
         const addLanguageLevel = () => {
             setLanguageLevels([...languageLevels, {level: level, language: language}]);
@@ -58,6 +63,16 @@ export const SignUpThird = () => {
             getLanguages();
             getLevels();
         }, [])
+
+        useEffect(() => {
+            getToken()
+        }, [userCreated])
+
+        useEffect(() => {
+            if (isAuthorized) {
+                navigate("/my-student-profile")
+            }
+        }, [isAuthorized])
 
         return (
             <>
@@ -119,7 +134,9 @@ export const SignUpThird = () => {
                             variant="contained"
                             sx={{mt: 4}}
                             disabled={languageLevels.length == 0}
-                            onClick={createUser}
+                            onClick={()=> {
+                                createUser();
+                            }}
                         >Continue</Button>
                         <Button sx={{mt: 4}}
                                 color="primary"
