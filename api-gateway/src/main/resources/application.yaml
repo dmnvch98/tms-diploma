@@ -11,6 +11,8 @@ feign:
 services:
   user:
     url: 'http://localhost:9090'
+  file:
+    url: 'http://localhost:9091'
 security:
   secret: "SECRET"
   refresh-secret: "REFRESH-SECRET"
@@ -22,6 +24,3 @@ csrf:
 jwt:
   access_token_name: "JWT"
   refresh_token_name: "JWT_REFRESH"
-logging:
-  level:
-    root: debug

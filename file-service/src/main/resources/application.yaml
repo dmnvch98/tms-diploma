@@ -1,0 +1,13 @@
+server:
+  port: 9091
+spring:
+  servlet:
+   multipart:
+     max-file-size: 15MB
+     max-request-size: 15MB
+aws:
+  region: us-east-1
+  s3_endpoint: http://localhost:4566/
+  access_key: foo
+  secret_key: bar
+  storage_name: avatars
