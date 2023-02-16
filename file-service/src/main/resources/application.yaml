@@ -2,9 +2,12 @@ server:
   port: 9091
 spring:
   servlet:
-   multipart:
-     max-file-size: 15MB
-     max-request-size: 15MB
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
 aws:
   region: us-east-1
   s3_endpoint: http://localhost:4566/

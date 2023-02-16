@@ -1,17 +1,19 @@
 package com.example.fileloader.services;
 
+import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
-
-import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 
 @RequiredArgsConstructor
 @Service
@@ -19,62 +21,36 @@ public class FileServiceImpl implements FileService {
     private final AmazonS3 amazonS3;
     private final Bucket bucket;
 
-    public static final int CREATED = 201;
-    public static final int NO_CONTENT = 204;
-    public static final int NOT_FOUND = 404;
-    public static final int INTERNAL_ERROR = 500;
-
-//    @Override
-//    public void uploadFile(String fileName, InputStream inputStream, String bucketName, ObjectMetadata metadata) {
-//        amazonS3.putObject(
-//                bucketName,
-//                fileName,
-//                inputStream,
-//                metadata);
-//    }
-
     @Override
-    public void uploadFile(String fileName, InputStream inputStream, ObjectMetadata metadata) {
+    public void uploadFile(InputStream inputStream, Long userId) throws IOException {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(inputStream.available());
         amazonS3.putObject(
             bucket.getName(),
-            fileName,
+            userId + "_avatar.png",
             inputStream,
             metadata);
     }
 
     @Override
-    public List<String> getFilesList(String bucketName) {
-        return amazonS3.listObjects(bucketName)
-                .getObjectSummaries()
-                .stream()
-                .map(S3ObjectSummary::getKey)
-                .toList();
+    public List<String> getFilesList() {
+        return amazonS3.listObjects(bucket.getName())
+            .getObjectSummaries()
+            .stream()
+            .map(S3ObjectSummary::getKey)
+            .toList();
     }
 
     @Override
-    public int getFile(String bucketName, String fileName) {
-        try {
-            S3Object obj = amazonS3.getObject(new GetObjectRequest(bucketName, fileName));
-            try (InputStream stream = obj.getObjectContent()) {
-                File file = new File(fileName);
-                if (file.createNewFile()) {
-                    copyInputStreamToFile(stream, file);
-                    deleteFile(bucketName, fileName);
-                    return CREATED;
-                } else {
-                    return NO_CONTENT;
-                }
-            } catch (IOException exception) {
-                return INTERNAL_ERROR;
-            }
-        } catch (AmazonS3Exception exception) {
-            return NOT_FOUND;
-        }
+    public void deleteFile(String fileName) {
+        amazonS3.deleteObject(bucket.getName(), fileName);
     }
 
     @Override
-    public void deleteFile(String bucketName, String fileName) {
-        amazonS3.deleteObject(bucketName, fileName);
+    public String getFileUrl(String fileName) {
+        LocalDateTime now = LocalDateTime.now();
+        Instant accessExpirationInstant = now.plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant();
+        Date date = Date.from(accessExpirationInstant);
+        return amazonS3.generatePresignedUrl(bucket.getName(), fileName, date, HttpMethod.GET).toString();
     }
-
 }

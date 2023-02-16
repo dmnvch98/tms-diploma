@@ -39,4 +39,6 @@ public class User {
     String location;
     @Column("refresh_token")
     String refreshToken;
+    @Column("avatar_name")
+    String avatarName;
 }

@@ -24,3 +24,11 @@ csrf:
 jwt:
   access_token_name: "JWT"
   refresh_token_name: "JWT_REFRESH"
+spring:
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false

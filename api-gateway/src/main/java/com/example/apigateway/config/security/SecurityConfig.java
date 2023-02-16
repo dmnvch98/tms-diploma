@@ -36,8 +36,8 @@ public class SecurityConfig {
             .and()
             .csrf().disable()
 //            .csrf().ignoringAntMatchers( "/api/v1/auth/login")
-          //  .ignoringRequestMatchers((new AntPathRequestMatcher( "/api/v1/users", "POST")))
-        //    .and()
+//            .ignoringRequestMatchers((new AntPathRequestMatcher( "/api/v1/users", "POST")))
+//            .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests(requests -> requests
@@ -53,8 +53,8 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student", "Tutor")
                 .anyRequest().authenticated()
             )
-           // .csrf().csrfTokenRepository(csrfTokenRepository())
-          //  .and()
+   //         .csrf().csrfTokenRepository(csrfTokenRepository())
+    //        .and()
             .logout(LogoutConfigurer::permitAll)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

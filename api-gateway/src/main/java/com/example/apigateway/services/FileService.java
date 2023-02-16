@@ -1,22 +1,33 @@
 package com.example.apigateway.services;
 
 import com.example.apigateway.client.file.FileClient;
-import com.example.apigateway.dto.StorageDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import feign.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.LinkedHashMap;
 
 @Service
 @RequiredArgsConstructor
 public class FileService {
     private final FileClient fileClient;
-    public void createStorage(final StorageDto storage) {
-        fileClient.createStorage(storage);
+
+    public void uploadFile(final MultipartFile file, Long userId) {
+        fileClient.uploadFile(file, userId);
     }
 
-    public void uploadFile(final MultipartFile file, final String storageName) throws IOException {
-        fileClient.uploadFile(file, storageName);
+    public String getFile(final String fileName) {
+        return fileClient.getFileUrl(fileName);
+    }
+
+    public void getFileList() {
+        fileClient.getFilesList();
+    }
+
+    public void deleteFile(final String fileName) {
+        fileClient.deleteFile(fileName);
     }
 }

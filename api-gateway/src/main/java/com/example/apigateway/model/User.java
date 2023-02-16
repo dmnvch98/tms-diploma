@@ -24,4 +24,7 @@ public class User {
     @Setter
     String refreshToken;
     String location;
+    @NonFinal
+    @Setter
+    String avatarName;
 }

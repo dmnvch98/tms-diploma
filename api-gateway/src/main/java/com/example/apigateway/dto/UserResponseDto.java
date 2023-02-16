@@ -25,4 +25,5 @@ public class UserResponseDto {
     Tutor tutor;
     List<LanguageLevelDto> languageLevels;
     String location;
+    String avatarName;
 }
