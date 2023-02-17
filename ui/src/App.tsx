@@ -28,6 +28,9 @@ function App() {
             secondary: {
                 main: '#f50057',
             },
+            error: {
+                main: '#e57373'
+            }
         },
     });
 

@@ -1,9 +1,8 @@
 import {FileLoader} from "../../Components/Profile/Common/FileLoader";
-import {ChangeEvent, useEffect, useState} from "react";
+import {ChangeEvent, useEffect} from "react";
 import {useEditProfileStore} from "./editProfileStore";
-import {Box, Button, Container, Modal, Paper} from "@mui/material";
+import {Box, Button, Modal, Paper} from "@mui/material";
 import {SidebarHeader} from "../../Components/SidebarHeader";
-import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
 
 export const EditProfile = () => {
     const existingAvatarUrl = useEditProfileStore(state => state.existingAvatarUrl);
@@ -12,10 +11,6 @@ export const EditProfile = () => {
     const editMode = useEditProfileStore(state => state.editMode);
     const setEditMode = useEditProfileStore(state => state.setEditMode);
     const getAvatar = useEditProfileStore(state => state.getAvatar);
-
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
     useEffect(() => {
         getAvatar()
@@ -70,7 +65,10 @@ export const EditProfile = () => {
                                 ref={ref => fileInput = ref}
                             />
                         </Button>
-                        <Button variant="contained" sx={{width: "47%"}}>
+                        <Button
+                            variant="contained"
+                            sx={{width: "47%"}}
+                            color="error">
                             Delete
                         </Button>
                     </Box>
@@ -81,7 +79,6 @@ export const EditProfile = () => {
                 {editMode && (
                     <Modal
                         open={true}
-                        onClose={handleClose}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >

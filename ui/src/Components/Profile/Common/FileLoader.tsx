@@ -1,8 +1,8 @@
 import "cropperjs/dist/cropper.css";
 import {Cropper} from "react-cropper";
-import FileService from "../../../services/FileService";
 import {useEditProfileStore} from "../../../pages/Profile/editProfileStore";
-import {Button} from "@mui/material";
+import {Box, Button} from "@mui/material";
+import React from "react";
 
 
 type Props = {
@@ -35,17 +35,37 @@ export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
             {editMode && (
                 <><Cropper
                     src={avatarUrl}
-                    style={{height: 400, width: 400}}
-                    initialAspectRatio={4 / 3}
+                    initialAspectRatio={1}
+                    aspectRatio={1}
                     minCropBoxHeight={100}
                     minCropBoxWidth={100}
                     guides={false}
                     checkOrientation={false}
                     onInitialized={(instance) => {
                         setCropper(instance);
-                    }}/><Button onClick={getCropData} variant="outlined">
-                    Upload
-                </Button></>
+                    }}/>
+                    <Box
+                        sx={{mt: 2}}
+                        display="flex"
+                        justifyContent="space-between">
+                        <Button
+                            sx={{width: "48%"}}
+                            onClick={getCropData}
+                            variant="contained">
+                            Upload
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            sx={{width: "48%"}}
+                            onClick={() => {
+                                setEditMode(false)
+                            }}>
+                            Cancel
+                        </Button>
+                    </Box>
+
+                </>
             )}
 
         </>
