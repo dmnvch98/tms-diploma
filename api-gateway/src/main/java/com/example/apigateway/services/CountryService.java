@@ -1,6 +1,6 @@
 package com.example.apigateway.services;
 
-import com.example.apigateway.client.CountryClient;
+import com.example.apigateway.client.user.CountryClient;
 import com.example.apigateway.model.Country;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

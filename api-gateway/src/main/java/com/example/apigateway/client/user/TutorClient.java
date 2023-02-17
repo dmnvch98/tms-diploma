@@ -1,4 +1,4 @@
-package com.example.apigateway.client;
+package com.example.apigateway.client.user;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;

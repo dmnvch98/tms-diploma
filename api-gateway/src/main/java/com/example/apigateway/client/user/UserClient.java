@@ -1,4 +1,4 @@
-package com.example.apigateway.client;
+package com.example.apigateway.client.user;
 
 import com.example.apigateway.dto.CredentialsDto;
 import com.example.apigateway.dto.UserRefreshToken;

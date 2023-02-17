@@ -5,7 +5,6 @@ import com.example.userservice.model.User;
 import com.example.userservice.services.TutorService;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor

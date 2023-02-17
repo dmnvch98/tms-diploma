@@ -22,13 +22,14 @@ public class UserController {
     public ResponseEntity<UserResponseDto> save(@RequestBody UserRequestDto userDto) {
         return ResponseEntity.ok(userService.save(userDto));
     }
+
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> get(Authentication authentication) {
         return ResponseEntity.ok(userService.get(((PrincipalUser) authentication.getPrincipal()).getUserId()));
     }
 
     @GetMapping("/exists/{email}")
-    public ResponseEntity<Boolean> isEmailExists(@PathVariable("email")String email) {
+    public ResponseEntity<Boolean> isEmailExists(@PathVariable("email") String email) {
         return ResponseEntity.ok(userService.isEmailExists(email));
     }
 
@@ -36,15 +37,15 @@ public class UserController {
     public ResponseEntity<UserResponseDto> update(@RequestBody UserRequestDto userDto,
                                                   Authentication authentication) {
         return ResponseEntity.ok(userService.update(userDto,
-                        ((PrincipalUser) authentication.getPrincipal()).getUserId()));
+            ((PrincipalUser) authentication.getPrincipal()).getUserId()));
     }
 
     @DeleteMapping("/languages/{languageId}/levels/{levelId}/")
 
     public UserResponseDto deleteUserLanguageLevel(
-            @PathVariable("languageId") Long languageId,
-            @PathVariable("levelId") Long levelId,
-            Authentication authentication){
+        @PathVariable("languageId") Long languageId,
+        @PathVariable("levelId") Long levelId,
+        Authentication authentication) {
         return userService.deleteUserLanguageLevel(languageId, levelId,
             ((PrincipalUser) authentication.getPrincipal()).getUserId());
     }

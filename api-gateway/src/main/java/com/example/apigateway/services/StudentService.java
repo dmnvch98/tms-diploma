@@ -1,6 +1,6 @@
 package com.example.apigateway.services;
 
-import com.example.apigateway.client.StudentClient;
+import com.example.apigateway.client.user.StudentClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

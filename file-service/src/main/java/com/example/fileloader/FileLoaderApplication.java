@@ -5,9 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class FileLoaderApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(FileLoaderApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FileLoaderApplication.class, args);
+    }
 
 }

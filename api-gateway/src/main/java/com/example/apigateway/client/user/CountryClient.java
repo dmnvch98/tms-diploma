@@ -1,4 +1,4 @@
-package com.example.apigateway.client;
+package com.example.apigateway.client.user;
 
 import com.example.apigateway.model.Country;
 import org.springframework.cloud.openfeign.FeignClient;

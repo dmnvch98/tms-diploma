@@ -1,7 +1,7 @@
 package com.example.apigateway.services;
 
-import com.example.apigateway.client.LanguageClient;
-import com.example.apigateway.client.LevelClient;
+import com.example.apigateway.client.user.LanguageClient;
+import com.example.apigateway.client.user.LevelClient;
 import com.example.apigateway.model.Language;
 import com.example.apigateway.model.Level;
 import lombok.RequiredArgsConstructor;
