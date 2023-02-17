@@ -20,7 +20,7 @@ public class FileController {
         return ResponseEntity.ok(fileService.uploadFile(file, userId));
     }
 
-    @GetMapping("/")
+    @GetMapping("/avatar")
     public ResponseEntity<String> getFile(Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         return ResponseEntity.ok(fileService.getFile(userId + "_avatar.png"));

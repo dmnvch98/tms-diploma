@@ -36,8 +36,7 @@ public class StorageController {
 
     @DeleteMapping("/{fileName}")
     public ResponseEntity<Boolean> deleteFile(@PathVariable final String fileName) {
-        fileService.deleteFile(fileName);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(fileService.deleteFile(fileName));
     }
 
 }

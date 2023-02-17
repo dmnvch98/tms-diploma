@@ -28,11 +28,9 @@ public class FileService {
         return fileClient.getFileUrl(fileName);
     }
 
-    public void getFileList() {
-        fileClient.getFilesList();
-    }
-
-    public Boolean deleteFile(final Long userId) {
-        return fileClient.deleteFile(userId + "_avatar.png").getBody();
+    public boolean deleteFile(final Long userId) {
+        boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteFile(userId + "_avatar.png").getBody());
+        boolean ss = userClient.deleteAvatar(userId) == 1;
+        return isDeleted && ss;
     }
 }
