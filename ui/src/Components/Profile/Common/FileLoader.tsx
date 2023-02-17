@@ -1,7 +1,8 @@
-import {useState} from "react";
 import "cropperjs/dist/cropper.css";
 import {Cropper} from "react-cropper";
 import FileService from "../../../services/FileService";
+import {useEditProfileStore} from "../../../pages/Profile/editProfileStore";
+import {Button} from "@mui/material";
 
 
 type Props = {
@@ -9,7 +10,11 @@ type Props = {
 };
 
 export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
-    const [cropper, setCropper] = useState<any>();
+    const editMode = useEditProfileStore(state => state.editMode);
+    const setEditMode = useEditProfileStore(state => state.setEditMode);
+    const cropper = useEditProfileStore(state => state.cropper);
+    const setCropper = useEditProfileStore(state => state.setCropper);
+    const uploadAvatar = useEditProfileStore(state => state.uploadAvatar);
 
     const getCropData = async () => {
         if (cropper) {
@@ -20,41 +25,29 @@ export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
                 });
             const form = new FormData();
             form.append('file', avatar, "newAvatar.png");
-            const response = await FileService.uploadAvatar(form);
-            console.log(response);
-            // let a = document.createElement("a");
-            // a.href = URL.createObjectURL(file);
-            // a.download = "newAvatar.png";
-            // document.body.appendChild(a);
-            // a.click();
-            // setTimeout(function() {
-            //     document.body.removeChild(a);
-            //     window.URL.revokeObjectURL(avatarUrl);
-            // }, 0);
-
+            uploadAvatar(form);
+            setEditMode(false);
         }
     };
 
     return (
         <>
-            <Cropper
-                src={avatarUrl}
-                style={{height: 400, width: 400}}
-                initialAspectRatio={4 / 3}
-                minCropBoxHeight={100}
-                minCropBoxWidth={100}
-                guides={false}
-                checkOrientation={false}
-                onInitialized={(instance) => {
-                    setCropper(instance);
-                }}
-            />
-            <button
-                className="mt-2 border border-solid border-black py-2 px-4 rounded cursor-pointer"
-                onClick={getCropData}
-            >
-                Crop Image
-            </button>
+            {editMode && (
+                <><Cropper
+                    src={avatarUrl}
+                    style={{height: 400, width: 400}}
+                    initialAspectRatio={4 / 3}
+                    minCropBoxHeight={100}
+                    minCropBoxWidth={100}
+                    guides={false}
+                    checkOrientation={false}
+                    onInitialized={(instance) => {
+                        setCropper(instance);
+                    }}/><Button onClick={getCropData} variant="outlined">
+                    Upload
+                </Button></>
+            )}
+
         </>
     )
 }

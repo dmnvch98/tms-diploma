@@ -1,9 +1,16 @@
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Button, Paper, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
+import {useEditProfileStore} from "../../../pages/Profile/editProfileStore";
+import {useEffect} from "react";
 
 export const MyStudentAvatarSection = () => {
     const user = useProfileStore(state => state.user);
+    const getAvatar = useEditProfileStore(state => state.getAvatar);
+    const existingAvatarUrl = useEditProfileStore(state => state.existingAvatarUrl);
+    useEffect(() => {
+        getAvatar()
+    }, [])
     return (
         <>
             <Box sx={{mt: 4}}>
@@ -14,7 +21,7 @@ export const MyStudentAvatarSection = () => {
                         display: "block",
                         borderRadius: 3
                     }}
-                         src="https://sunmag.me/wp-content/uploads/2020/08/sunmag-2-kachestva-nastoyashchego-muzhchiny.jpg"
+                         src={existingAvatarUrl}
                          alt="Avatar"/>
                     <Box sx={{mt: 1, mb: 3}}>
                         <Typography  variant="h6">{user?.firstName} {user?.lastName}</Typography>
@@ -34,6 +41,10 @@ export const MyStudentAvatarSection = () => {
                     <Button variant="outlined"
                             fullWidth
                             sx={{mt: 2}}
+                            {...{
+                                to: "/edit-profile",
+                                component: RouterLink,
+                            }}
                     >
                         Edit Profile
                     </Button>
