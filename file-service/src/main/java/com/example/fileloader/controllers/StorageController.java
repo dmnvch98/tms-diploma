@@ -18,6 +18,7 @@ public class StorageController {
 
     private final FileService fileService;
 
+    @CrossOrigin
     @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Optional<String> uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable Long userId)
         throws IOException {

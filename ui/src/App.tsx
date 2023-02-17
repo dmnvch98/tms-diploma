@@ -10,6 +10,7 @@ import {SignIn} from "./pages/Sign In/SignIn";
 import {MyTutorProfile} from "./pages/Profile/MyTutorProfile";
 import {MyStudentProfile} from "./pages/Profile/MyStudentProfile";
 import {Loading} from "./Components/Loading";
+import {EditProfile} from "./pages/Profile/EditProfile";
 
 function App() {
     const theme = createTheme({
@@ -42,6 +43,7 @@ function App() {
                     <Route path={'/my-tutor-profile'} element={<MyTutorProfile/>}/>
                     <Route path={'/my-student-profile'} element={<MyStudentProfile/>}/>
                     <Route path={'/loading'} element={<Loading/>}/>
+                    <Route path={'/edit-profile'} element={<EditProfile/>}/>
                 </Routes>
             </ThemeProvider>
         );
