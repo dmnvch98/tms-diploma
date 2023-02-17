@@ -2,12 +2,14 @@ package com.example.fileloader.controllers;
 
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/api/v1/files")
 @RestController
@@ -16,10 +18,10 @@ public class StorageController {
 
     private final FileService fileService;
 
-    @PostMapping(value = "/{userId}")
-    public void uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable Long userId)
+    @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Optional<String> uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable Long userId)
         throws IOException {
-        fileService.uploadFile(file.getInputStream(), userId);
+        return fileService.uploadFile(file.getInputStream(), userId);
     }
 
     @GetMapping("/")
@@ -33,7 +35,7 @@ public class StorageController {
     }
 
     @DeleteMapping("/{fileName}")
-    public ResponseEntity<?> deleteFile(@PathVariable final String fileName) {
+    public ResponseEntity<Boolean> deleteFile(@PathVariable final String fileName) {
         fileService.deleteFile(fileName);
         return ResponseEntity.ok().build();
     }

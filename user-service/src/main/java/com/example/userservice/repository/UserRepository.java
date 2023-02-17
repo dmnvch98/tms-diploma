@@ -17,25 +17,34 @@ public interface UserRepository extends Repository<User, Long> {
     Boolean existsByEmail(String email);
 
     @Query("SELECT users.id AS id, users.email AS email, users.roles AS roles, users.gender AS gender, " +
-            "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name " +
-            "AS first_name, users.nationality AS nationality, tutor.user_id AS tutor_user_id, tutor.about_me " +
-            "AS tutor_about_me, tutor.tutor_id AS tutor_tutor_id FROM users " +
-            "LEFT OUTER JOIN tutors tutor " +
-            "ON tutor.user_id = users.id WHERE tutor.tutor_id=:tutorId")
+        "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name " +
+        "AS first_name, users.nationality AS nationality, tutor.user_id AS tutor_user_id, tutor.about_me " +
+        "AS tutor_about_me, tutor.tutor_id AS tutor_tutor_id FROM users " +
+        "LEFT OUTER JOIN tutors tutor " +
+        "ON tutor.user_id = users.id WHERE tutor.tutor_id=:tutorId")
     User findUserByTutorId(@Param("tutorId") Long tutorId);
 
     @Query("SELECT users.id AS id, users.email AS email, users.roles AS roles, users.gender AS gender, " +
-            "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name " +
-            "AS first_name, users.nationality AS nationality, student.user_id AS student_user_id, student.about_me " +
-            "AS student_about_me, student.student_id AS student_student_id FROM users " +
-            "LEFT OUTER JOIN students student " +
-            "ON student.user_id = users.id WHERE student.student_id=:studentId")
+        "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name " +
+        "AS first_name, users.nationality AS nationality, student.user_id AS student_user_id, student.about_me " +
+        "AS student_about_me, student.student_id AS student_student_id FROM users " +
+        "LEFT OUTER JOIN students student " +
+        "ON student.user_id = users.id WHERE student.student_id=:studentId")
     User findUserByStudentId(@Param("studentId") Long studentId);
 
     User findUserByEmail(String email);
 
     Boolean existsByEmailAndPassword(String email, String password);
+
     @Query("UPDATE users set refresh_token=:refreshToken WHERE id=:userId")
     @Modifying
     void updateRefreshToken(@Param("refreshToken") String refreshToken, @Param("userId") Long userId);
+
+    @Query("UPDATE users set avatar_name=:avatarName WHERE id=:userId")
+    @Modifying
+    int setAvatar(@Param("avatarName") String avatarName, @Param("userId") Long userId);
+
+    @Query("UPDATE users set avatar_name = null WHERE id=:userId")
+    @Modifying
+    int deleteAvatar(@Param("userId") Long userId);
 }

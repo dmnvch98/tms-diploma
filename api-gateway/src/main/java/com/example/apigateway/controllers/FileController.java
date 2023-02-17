@@ -15,14 +15,20 @@ public class FileController {
     private final FileService fileService;
 
     @PostMapping(value = "/")
-    public void uploadFile(@RequestPart("file") final MultipartFile file, Authentication authentication) {
+    public ResponseEntity<String> uploadFile(@RequestPart("file") final MultipartFile file, Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
-        fileService.uploadFile(file, userId);
+        return ResponseEntity.ok(fileService.uploadFile(file, userId));
     }
 
     @GetMapping("/")
     public ResponseEntity<String> getFile(Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         return ResponseEntity.ok(fileService.getFile(userId + "_avatar.png"));
+    }
+
+    @DeleteMapping("/")
+    public ResponseEntity<Boolean> deleteFile(Authentication authentication) {
+        Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
+        return ResponseEntity.ok(fileService.deleteFile(userId));
     }
 }

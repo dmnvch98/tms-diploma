@@ -107,4 +107,12 @@ public class UserFacade {
             .map(languageLevelConverter::languageLevelToDto)
             .toList();
     }
+
+    public int setAvatar(Long userId) {
+        return userService.setAvatar(userId);
+    }
+
+    public int deleteAvatar(Long userId) {
+        return userService.deleteAvatar(userId);
+    }
 }

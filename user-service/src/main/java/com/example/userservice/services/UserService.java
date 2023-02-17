@@ -41,4 +41,12 @@ public class UserService {
     public void updateRefreshToken(String token, Long userId) {
         repository.updateRefreshToken(token, userId);
     }
+
+    public int setAvatar(Long userId) {
+        return repository.setAvatar(userId + "_avatar.png", userId);
+    }
+
+    public int deleteAvatar(Long userId) {
+        return repository.deleteAvatar(userId);
+    }
 }

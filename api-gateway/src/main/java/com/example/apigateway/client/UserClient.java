@@ -41,6 +41,12 @@ public interface UserClient {
     @GetMapping("/tutors/{tutorId}")
     UserResponseDto findUserByTutorId(@PathVariable("tutorId") Long tutorId);
 
-    @PatchMapping
+    @PatchMapping("/refresh-token")
     void updateRefreshToken(UserRefreshToken refreshToken);
+
+    @PatchMapping("/{userId}/avatar")
+    int setAvatar(@PathVariable("userId") Long userId);
+
+    @DeleteMapping("/{userId}/avatar")
+    int deleteAvatar(@PathVariable("userId") Long userId);
 }
