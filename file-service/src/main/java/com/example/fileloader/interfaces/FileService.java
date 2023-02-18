@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface FileService {
     Optional<String> uploadFile(InputStream inputStream, String fileName) throws IOException;
-    List<String> getFilesList();
+    Optional<List<String>> getFilesList();
     Boolean deleteFile(String fileName);
     Optional<String> getAvatarUrl(String fileName);
 }

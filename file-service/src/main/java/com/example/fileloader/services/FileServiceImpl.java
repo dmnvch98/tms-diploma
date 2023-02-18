@@ -47,12 +47,19 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<String> getFilesList() {
-        return amazonS3.listObjects(bucket.getName())
-            .getObjectSummaries()
-            .stream()
-            .map(S3ObjectSummary::getKey)
-            .toList();
+    public Optional<List<String>> getFilesList() {
+        try {
+            Optional<List<String>> filesList = Optional.of(amazonS3.listObjects(bucket.getName())
+                .getObjectSummaries()
+                .stream()
+                .map(S3ObjectSummary::getKey)
+                .toList());
+            log.info("All files are successfully loaded. The list size is {}", filesList.get().size());
+            return filesList;
+        } catch (Exception e) {
+            log.error("An error occurred while loading all files: " + e);
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -69,25 +76,28 @@ public class FileServiceImpl implements FileService {
     }
 
     private String generateUrl(String fileName) {
+        log.info("Generating pre-signed url for {}", fileName);
         LocalDateTime now = LocalDateTime.now();
         Instant accessExpirationInstant = now.plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant();
         Date date = Date.from(accessExpirationInstant);
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-            new GeneratePresignedUrlRequest(bucket.getName(), fileName)
-                .withMethod(HttpMethod.GET)
-                .withExpiration(date);
-        return amazonS3.generatePresignedUrl(generatePresignedUrlRequest)
+        String preSignedUrl = amazonS3
+            .generatePresignedUrl(bucket.getName(), fileName, date, HttpMethod.GET)
             .toString();
+        log.info("Url successfully generated");
+        return preSignedUrl;
     }
 
     @Override
     public Optional<String> getAvatarUrl(String fileName) {
+        log.info("Getting {}", fileName);
         if (amazonS3.doesObjectExist(bucket.getName(), fileName)) {
             return Optional.of(generateUrl(fileName));
         } else {
+            log.warn("{} doesn't exist. Getting default avatar", fileName);
             if (amazonS3.doesObjectExist(bucket.getName(), defaultAvatarName)) {
                 return Optional.of(generateUrl(defaultAvatarName));
             } else {
+                log.warn("Default avatar doesn't exist");
                 return Optional.empty();
             }
         }

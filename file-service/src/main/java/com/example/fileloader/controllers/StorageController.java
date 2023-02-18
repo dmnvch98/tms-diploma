@@ -32,7 +32,7 @@ public class StorageController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<String>> getFilesList() {
+    public ResponseEntity<Optional<List<String>>> getFilesList() {
         return ResponseEntity.ok(fileService.getFilesList());
     }
 
