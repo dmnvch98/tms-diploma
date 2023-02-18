@@ -32,3 +32,6 @@ spring:
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
+avatar:
+  user_postfix: '_avatar.png'
+  default: 'default_avatar.png'

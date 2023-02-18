@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.*;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ import java.util.Optional;
 public class FileServiceImpl implements FileService {
     private final AmazonS3 amazonS3;
     private final Bucket bucket;
+    @Value("${avatar.default}")
+    public String defaultAvatarName;
 
     @Override
     public Optional<String> uploadFile(InputStream inputStream, String fileName) throws IOException {
@@ -82,8 +85,8 @@ public class FileServiceImpl implements FileService {
         if (amazonS3.doesObjectExist(bucket.getName(), fileName)) {
             return Optional.of(generateUrl(fileName));
         } else {
-            if (amazonS3.doesObjectExist(bucket.getName(), "default_avatar.png")) {
-                return Optional.of(generateUrl("default_avatar.png"));
+            if (amazonS3.doesObjectExist(bucket.getName(), defaultAvatarName)) {
+                return Optional.of(generateUrl(defaultAvatarName));
             } else {
                 return Optional.empty();
             }

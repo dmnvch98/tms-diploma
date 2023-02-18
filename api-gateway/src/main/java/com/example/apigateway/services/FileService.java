@@ -25,8 +25,8 @@ public class FileService {
         return fileClient.getFileUrl(fileName).orElse(null);
     }
 
-    public boolean deleteFile(final Long userId) {
-        boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteFile(userId + "_avatar.png").getBody());
+    public boolean deleteFile(final String fileName, Long userId) {
+        boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteFile(fileName).getBody());
         return isDeleted && userClient.deleteAvatar(userId) == 1;
     }
 }

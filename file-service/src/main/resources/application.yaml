@@ -14,3 +14,6 @@ aws:
   access_key: foo
   secret_key: bar
   storage_name: avatars
+avatar:
+  user_postfix: '_avatar.png'
+  default: 'default_avatar.png'
