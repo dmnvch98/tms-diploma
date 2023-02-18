@@ -25,21 +25,20 @@ public class FileServiceImpl implements FileService {
     private final Bucket bucket;
 
     @Override
-    public Optional<String> uploadFile(InputStream inputStream, Long userId) throws IOException {
+    public Optional<String> uploadFile(InputStream inputStream, String fileName) throws IOException {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(inputStream.available());
-        String fileName = userId + "_avatar.png";
-        log.info("Started uploading avatar for userId {}", userId );
+        log.info("Started uploading {}", fileName);
         try {
             amazonS3.putObject(
                 bucket.getName(),
                 fileName,
                 inputStream,
                 metadata);
-            log.info("Avatar for userId {} successfully uploaded", userId);
+            log.info("{} successfully uploaded", fileName);
             return Optional.of(getFileUrl(fileName));
         } catch (Exception e) {
-            log.error("An error occurred while uploading avatar: " + e);
+            log.error("An error occurred while uploading {}: ", fileName + e);
             return Optional.empty();
         }
     }
@@ -78,4 +77,24 @@ public class FileServiceImpl implements FileService {
         return amazonS3.generatePresignedUrl(generatePresignedUrlRequest)
             .toString();
     }
+//
+//    @Override
+//    public Optional<String> uploadDefaultAvatar(InputStream inputStream) throws IOException {
+//        ObjectMetadata metadata = new ObjectMetadata();
+//        metadata.setContentLength(inputStream.available());
+//        String fileName = "default_avatar.png";
+//        log.info("Started uploading default avatar" );
+//        try {
+//            amazonS3.putObject(
+//                bucket.getName(),
+//                fileName,
+//                inputStream,
+//                metadata);
+//            log.info("Default avatar successfully uploaded");
+//            return Optional.of(getFileUrl(fileName));
+//        } catch (Exception e) {
+//            log.error("An error occurred while uploading default avatar: " + e);
+//            return Optional.empty();
+//        }
+//    }
 }

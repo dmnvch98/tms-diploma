@@ -11,6 +11,7 @@ export const EditProfile = () => {
     const editMode = useEditProfileStore(state => state.editMode);
     const setEditMode = useEditProfileStore(state => state.setEditMode);
     const getAvatar = useEditProfileStore(state => state.getAvatar);
+    const deleteAvatar = useEditProfileStore(state => state.deleteAvatar);
 
     useEffect(() => {
         getAvatar()
@@ -68,13 +69,12 @@ export const EditProfile = () => {
                         <Button
                             variant="contained"
                             sx={{width: "47%"}}
+                            onClick={deleteAvatar}
                             color="error">
                             Delete
                         </Button>
                     </Box>
                 </Box>
-
-
 
                 {editMode && (
                     <Modal

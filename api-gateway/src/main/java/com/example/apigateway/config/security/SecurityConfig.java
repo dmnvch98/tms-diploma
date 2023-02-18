@@ -14,6 +14,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +31,8 @@ public class SecurityConfig {
     public String xsrfHeaderName;
     @Value("${csrf.cookie_domain}")
     public String cookieDomain;
+    @Value("${security.allowed-origin}")
+    public String allowedOrigin;
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
@@ -36,8 +41,8 @@ public class SecurityConfig {
             .and()
             .csrf().disable()
 //            .csrf().ignoringAntMatchers("/api/v1/auth/login")
-//            .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
-//            .and()
+     //       .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
+       //     .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests(requests -> requests

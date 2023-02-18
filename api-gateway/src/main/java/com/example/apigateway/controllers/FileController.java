@@ -26,9 +26,14 @@ public class FileController {
         return ResponseEntity.ok(fileService.getFile(userId + "_avatar.png"));
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/avatar")
     public ResponseEntity<Boolean> deleteFile(Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         return ResponseEntity.ok(fileService.deleteFile(userId));
+    }
+
+    @GetMapping("/default-avatar")
+    public ResponseEntity<String> getDefaultAvatar() {
+        return ResponseEntity.ok(fileService.getFile("default_avatar.png"));
     }
 }

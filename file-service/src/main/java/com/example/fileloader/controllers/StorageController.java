@@ -18,11 +18,10 @@ public class StorageController {
 
     private final FileService fileService;
 
-    @CrossOrigin
     @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Optional<String> uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable Long userId)
         throws IOException {
-        return fileService.uploadFile(file.getInputStream(), userId);
+        return fileService.uploadFile(file.getInputStream(), userId + "_avatar.png");
     }
 
     @GetMapping("/")
@@ -38,6 +37,11 @@ public class StorageController {
     @DeleteMapping("/{fileName}")
     public ResponseEntity<Boolean> deleteFile(@PathVariable final String fileName) {
         return ResponseEntity.ok(fileService.deleteFile(fileName));
+    }
+
+    @PostMapping(value = "/default-avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Optional<String> uploadDefaultAvatar(@RequestPart("file") final MultipartFile file) throws IOException {
+        return fileService.uploadFile(file.getInputStream(), "default_avatar.png");
     }
 
 }

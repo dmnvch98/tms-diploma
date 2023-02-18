@@ -20,8 +20,32 @@ class FileService {
     getAvatar = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/v1/files/avatar', {
-                    withCredentials: true
-                });
+                withCredentials: true
+            });
+            return response.data;
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            alert(error.message);
+        }
+    }
+
+    deleteAvatar = async () => {
+        try {
+            const response = await axios.delete('http://localhost:8080/api/v1/files/avatar', {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            alert(error.message);
+        }
+    }
+
+    getDefaultAvatar = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/v1/files/default-avatar', {
+                withCredentials: true
+            });
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
