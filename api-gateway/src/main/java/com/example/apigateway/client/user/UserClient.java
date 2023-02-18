@@ -23,12 +23,6 @@ public interface UserClient {
     @PutMapping("/{userId}")
     UserResponseDto update(@RequestBody UserRequestDto userRequestDto, @PathVariable("userId") Long userId);
 
-    @DeleteMapping("/languages/{languageId}/levels/{levelId}/users/{userId}")
-    UserResponseDto deleteUserLanguageLevel(
-            @PathVariable("languageId") Long languageId,
-            @PathVariable("levelId") Long levelId,
-            @PathVariable("userId") Long userId);
-
     @GetMapping("/email/{email}")
     User findUserByEmail(@PathVariable("email") String email);
 

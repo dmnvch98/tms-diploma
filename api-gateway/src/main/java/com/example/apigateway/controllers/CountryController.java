@@ -18,7 +18,6 @@ public class CountryController {
 
     private final CountryService countryService;
     @GetMapping
-    @CrossOrigin
     public ResponseEntity<List<Country>> findAllCountries() {
         return ResponseEntity.ok(countryService.findAllCountries());
     }

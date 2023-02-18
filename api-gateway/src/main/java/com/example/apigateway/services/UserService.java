@@ -34,10 +34,6 @@ public class UserService {
         return userClient.update(userRequestDto, userId);
     }
 
-    public UserResponseDto deleteUserLanguageLevel(Long languageId, Long levelId, Long userId) {
-        return userClient.deleteUserLanguageLevel(languageId, levelId, userId);
-    }
-
     public User findUserByEmail(String email) {
         return userClient.findUserByEmail(email);
     }
