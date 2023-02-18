@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequestMapping("/api/v1/files")
 @RestController
 @RequiredArgsConstructor
-public class StorageController {
+public class FileController {
 
     private final FileService fileService;
 
