@@ -48,6 +48,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Optional<List<String>> getFilesList() {
+        log.info("Getting list of all files");
         try {
             Optional<List<String>> filesList = Optional.of(amazonS3.listObjects(bucket.getName())
                 .getObjectSummaries()

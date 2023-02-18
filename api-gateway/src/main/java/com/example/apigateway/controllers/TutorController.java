@@ -2,7 +2,6 @@ package com.example.apigateway.controllers;
 
 import com.example.apigateway.config.security.service.PrincipalUser;
 import com.example.apigateway.facades.TutorFacade;
-import com.example.apigateway.services.TutorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
