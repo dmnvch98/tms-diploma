@@ -36,7 +36,7 @@ public class FileServiceImpl implements FileService {
                 inputStream,
                 metadata);
             log.info("{} successfully uploaded", fileName);
-            return Optional.of(getFileUrl(fileName));
+            return getAvatarUrl(fileName);
         } catch (Exception e) {
             log.error("An error occurred while uploading {}: ", fileName + e);
             return Optional.empty();
@@ -65,8 +65,7 @@ public class FileServiceImpl implements FileService {
         return false;
     }
 
-    @Override
-    public String getFileUrl(String fileName) {
+    private String generateUrl(String fileName) {
         LocalDateTime now = LocalDateTime.now();
         Instant accessExpirationInstant = now.plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant();
         Date date = Date.from(accessExpirationInstant);
@@ -77,24 +76,17 @@ public class FileServiceImpl implements FileService {
         return amazonS3.generatePresignedUrl(generatePresignedUrlRequest)
             .toString();
     }
-//
-//    @Override
-//    public Optional<String> uploadDefaultAvatar(InputStream inputStream) throws IOException {
-//        ObjectMetadata metadata = new ObjectMetadata();
-//        metadata.setContentLength(inputStream.available());
-//        String fileName = "default_avatar.png";
-//        log.info("Started uploading default avatar" );
-//        try {
-//            amazonS3.putObject(
-//                bucket.getName(),
-//                fileName,
-//                inputStream,
-//                metadata);
-//            log.info("Default avatar successfully uploaded");
-//            return Optional.of(getFileUrl(fileName));
-//        } catch (Exception e) {
-//            log.error("An error occurred while uploading default avatar: " + e);
-//            return Optional.empty();
-//        }
-//    }
+
+    @Override
+    public Optional<String> getAvatarUrl(String fileName) {
+        if (amazonS3.doesObjectExist(bucket.getName(), fileName)) {
+            return Optional.of(generateUrl(fileName));
+        } else {
+            if (amazonS3.doesObjectExist(bucket.getName(), "default_avatar.png")) {
+                return Optional.of(generateUrl("default_avatar.png"));
+            } else {
+                return Optional.empty();
+            }
+        }
+    }
 }

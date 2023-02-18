@@ -22,7 +22,7 @@ public class FileService {
     }
 
     public String getFile(final String fileName) {
-        return fileClient.getFileUrl(fileName);
+        return fileClient.getFileUrl(fileName).orElse(null);
     }
 
     public boolean deleteFile(final Long userId) {

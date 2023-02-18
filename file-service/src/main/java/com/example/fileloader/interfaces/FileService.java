@@ -9,6 +9,5 @@ public interface FileService {
     Optional<String> uploadFile(InputStream inputStream, String fileName) throws IOException;
     List<String> getFilesList();
     Boolean deleteFile(String fileName);
-    String getFileUrl(String fileName);
-    //Optional<String> uploadDefaultAvatar(InputStream inputStream) throws IOException;
+    Optional<String> getAvatarUrl(String fileName);
 }

@@ -14,6 +14,7 @@ export interface Tutor {
 }
 
 export interface User {
+    id: number;
     firstName: string;
     lastName: string;
     email: string;
@@ -25,4 +26,5 @@ export interface User {
     student: Student;
     tutor: Tutor;
     location: string | null;
+    avatarName: string | null;
 }

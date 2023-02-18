@@ -30,8 +30,8 @@ public class StorageController {
     }
 
     @GetMapping("/{fileName}")
-    public String getFileUrl(@PathVariable final String fileName) {
-        return fileService.getFileUrl(fileName);
+    public Optional<String> getFileUrl(@PathVariable final String fileName) {
+        return fileService.getAvatarUrl(fileName);
     }
 
     @DeleteMapping("/{fileName}")

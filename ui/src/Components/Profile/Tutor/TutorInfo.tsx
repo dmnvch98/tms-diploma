@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Container, Rating, Typography} from "@mui/material";
 import {UserProfileTabs} from "../../UserProfileTabs";

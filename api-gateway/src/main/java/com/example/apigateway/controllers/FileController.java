@@ -20,10 +20,9 @@ public class FileController {
         return ResponseEntity.ok(fileService.uploadFile(file, userId));
     }
 
-    @GetMapping("/avatar")
-    public ResponseEntity<String> getFile(Authentication authentication) {
-        Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
-        return ResponseEntity.ok(fileService.getFile(userId + "_avatar.png"));
+    @GetMapping("/avatar/{fileName}")
+    public ResponseEntity<String> getFile(@PathVariable String fileName) {
+        return ResponseEntity.ok(fileService.getFile(fileName));
     }
 
     @DeleteMapping("/avatar")

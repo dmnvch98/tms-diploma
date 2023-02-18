@@ -10,11 +10,12 @@ export interface EditProfileStore {
     setEditMode: (flag: boolean) => void;
     setCropper: (cropper: any) => void;
     uploadAvatar: (file: FormData) => void;
-    getAvatar: () => void;
+    getAvatar: (fileName: string) => void;
     deleteAvatar: () => void;
+    getDefaultAvatar: () => void;
 }
 
-export const useEditProfileStore = create<EditProfileStore>((set: any) => ({
+export const useEditProfileStore = create<EditProfileStore>((set: any, get: any) => ({
     existingAvatarUrl: "",
     newAvatarUrl: "",
     editMode: false,
@@ -34,11 +35,15 @@ export const useEditProfileStore = create<EditProfileStore>((set: any) => ({
     uploadAvatar: async (file: FormData) => {
         set({existingAvatarUrl: await FileService.uploadAvatar(file)})
     },
-    getAvatar: async () => {
-        set({existingAvatarUrl: await FileService.getAvatar()})
+    getAvatar: async (fileName: string) => {
+        set({existingAvatarUrl: await FileService.getAvatar(fileName)})
     },
     deleteAvatar: async () => {
         await FileService.deleteAvatar();
         set({existingAvatarUrl: await FileService.getDefaultAvatar()})
+    },
+    getDefaultAvatar: async () => {
+        set({existingAvatarUrl: await FileService.getDefaultAvatar()})
     }
+
 }))

@@ -14,9 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +21,6 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
-
     @Value("${csrf.xsrf_cookie_name}")
     public String xsrfCookieName;
     @Value("${csrf.xsrf_header_name}")
@@ -39,10 +35,9 @@ public class SecurityConfig {
         http
             .cors()
             .and()
-            .csrf().disable()
-//            .csrf().ignoringAntMatchers("/api/v1/auth/login")
-     //       .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
-       //     .and()
+            .csrf().ignoringAntMatchers("/api/v1/auth/login")
+            .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
+            .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests(requests -> requests
@@ -58,8 +53,8 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student", "Tutor")
                 .anyRequest().authenticated()
             )
-//            .csrf().csrfTokenRepository(csrfTokenRepository())
-//            .and()
+            .csrf().csrfTokenRepository(csrfTokenRepository())
+            .and()
             .logout(LogoutConfigurer::permitAll)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

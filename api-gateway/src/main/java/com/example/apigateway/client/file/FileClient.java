@@ -16,12 +16,8 @@ public interface FileClient {
     @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     Optional<String> uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable("userId") Long userId);
 
-    @GetMapping("/")
-    ResponseEntity<List<String>> getFilesList();
-
-
     @GetMapping("/{fileName}")
-    String getFileUrl(@PathVariable("fileName") String fileName);
+    Optional<String> getFileUrl(@PathVariable("fileName") String fileName);
 
     @DeleteMapping("/{fileName}")
     ResponseEntity<Boolean> deleteFile(@PathVariable("fileName") String fileName);

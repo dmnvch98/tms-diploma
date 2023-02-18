@@ -17,9 +17,9 @@ class FileService {
         }
     }
 
-    getAvatar = async () => {
+    getAvatar = async (fileName: string) => {
         try {
-            const response = await axios.get('http://localhost:8080/api/v1/files/avatar', {
+            const response = await axios.get('http://localhost:8080/api/v1/files/avatar/' + fileName, {
                 withCredentials: true
             });
             return response.data;

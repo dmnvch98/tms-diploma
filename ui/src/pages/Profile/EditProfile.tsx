@@ -3,18 +3,19 @@ import {ChangeEvent, useEffect} from "react";
 import {useEditProfileStore} from "./editProfileStore";
 import {Box, Button, Modal, Paper} from "@mui/material";
 import {SidebarHeader} from "../../Components/SidebarHeader";
+import {useProfileStore} from "./profileStore";
+import {Avatar} from "../../Components/Profile/Avatar";
 
 export const EditProfile = () => {
-    const existingAvatarUrl = useEditProfileStore(state => state.existingAvatarUrl);
     const newAvatarUrl = useEditProfileStore(state => state.newAvatarUrl);
     const setNewAvatarUrl = useEditProfileStore(state => state.setNewAvatarUrl);
     const editMode = useEditProfileStore(state => state.editMode);
     const setEditMode = useEditProfileStore(state => state.setEditMode);
-    const getAvatar = useEditProfileStore(state => state.getAvatar);
     const deleteAvatar = useEditProfileStore(state => state.deleteAvatar);
 
+    const getMe = useProfileStore(state => state.getMe)
     useEffect(() => {
-        getAvatar()
+        getMe();
     }, [])
 
     const style = {
@@ -28,7 +29,6 @@ export const EditProfile = () => {
         boxShadow: 24,
         p: 4,
     };
-
 
     let fileInput: HTMLInputElement | null;
     const getNewAvatarUrl = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,9 +48,9 @@ export const EditProfile = () => {
                  display="flex"
                  justifyContent="center"
                  alignItems="center">
-                <Box sx={{maxWidth: "300px"}}>
+                <Box sx={{maxWidth: "250px"}}>
                     <Paper sx={{p: 1, mb: 2}}>
-                        <img src={existingAvatarUrl} width="250px" height="250px" alt=""/>
+                        <Avatar/>
                     </Paper>
                     <Box justifyContent="space-between" display="flex">
                         <Button variant="contained"
