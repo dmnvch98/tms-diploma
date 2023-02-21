@@ -2,9 +2,9 @@ package com.example.apigateway.services;
 
 import com.example.apigateway.client.user.UserClient;
 import com.example.apigateway.client.file.FileClient;
+import com.example.apigateway.dto.FileDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -14,7 +14,7 @@ public class FileService {
     private final FileClient fileClient;
     private final UserClient userClient;
 
-    public String uploadFile(final MultipartFile file, Long userId) {
+    public String uploadFile(final FileDto file, Long userId) {
         Optional<String> fileUrl = fileClient.uploadFile(file, userId);
         return fileUrl.isPresent() && userClient.setAvatar(userId) == 1
             ? fileUrl.get()

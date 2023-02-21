@@ -1,5 +1,6 @@
 package com.example.apigateway.client.file;
 
+import com.example.apigateway.dto.FileDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,8 @@ import java.util.Optional;
     url = "${services.file.url}/api/v1/files")
 public interface FileClient {
 
-    @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    Optional<String> uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable("userId") Long userId);
+    @PostMapping(value = "/{userId}")
+    Optional<String> uploadFile(@RequestBody final FileDto fileDto, @PathVariable("userId") Long userId);
 
     @GetMapping("/{fileName}")
     Optional<String> getFileUrl(@PathVariable("fileName") String fileName);

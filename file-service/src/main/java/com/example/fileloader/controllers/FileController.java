@@ -1,5 +1,6 @@
 package com.example.fileloader.controllers;
 
+import com.example.fileloader.dto.FileDto;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,10 +26,11 @@ public class FileController {
     @Value("${avatar.default}")
     public String defaultAvatarName;
 
-    @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Optional<String> uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable Long userId)
+    @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_MIXED_VALUE)
+    public Optional<String> uploadFile(@RequestBody final FileDto fileDto, @PathVariable Long userId)
         throws IOException {
-        return fileService.uploadFile(file.getInputStream(), userId + userAvatarNamePostfix);
+        return fileService.uploadFile(fileDto.getInputStreamResource().getInputStream(),
+            userId + userAvatarNamePostfix);
     }
 
     @GetMapping("/")

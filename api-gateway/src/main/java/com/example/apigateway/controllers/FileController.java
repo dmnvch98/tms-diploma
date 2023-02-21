@@ -1,6 +1,7 @@
 package com.example.apigateway.controllers;
 
 import com.example.apigateway.config.security.service.PrincipalUser;
+import com.example.apigateway.dto.FileDto;
 import com.example.apigateway.dto.ResponseDto;
 import com.example.apigateway.facades.FileFacade;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @RequestMapping("/api/v1/files")
@@ -24,9 +26,9 @@ public class FileController {
     private final FileFacade fileFacade;
 
     @PostMapping(value = "/")
-    public ResponseEntity<String> uploadFile(@RequestPart("file") final MultipartFile file, Authentication authentication) {
+    public ResponseEntity<String> uploadFile(@RequestPart("file") final MultipartFile file, Authentication authentication) throws IOException {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
-        return ResponseEntity.ok(fileFacade.uploadFile(file, userId));
+        return ResponseEntity.ok(fileFacade.uploadFile(file.getInputStream(), userId));
     }
 
     @ResponseStatus(HttpStatus.OK)
