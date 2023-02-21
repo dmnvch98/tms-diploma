@@ -2,8 +2,6 @@ import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Button, Paper, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {Avatar} from "../Avatar";
-import {useEditProfileStore} from "../../../pages/Profile/editProfileStore";
-import {ErrorMessage} from "../../Error/ErrorMessage";
 
 export const MyStudentAvatarSection = () => {
     const user = useProfileStore(state => state.user);
