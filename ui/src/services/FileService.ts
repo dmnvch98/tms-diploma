@@ -1,8 +1,7 @@
-import axios, {AxiosError} from 'axios';
+import axios from 'axios';
 
 class FileService {
     uploadAvatar = async (file: any) => {
-        // try {
             const response = await axios.post('http://localhost:8080/api/v1/files/',
                 file, {
                     withCredentials: true,
@@ -11,46 +10,27 @@ class FileService {
                     },
                 });
             return response.data;
-        // } catch (e: unknown) {
-        //     const error = e as AxiosError;
-        //     alert(error.message);
-        // }
     }
 
     getAvatar = async (userId: number) => {
-        // try {
             const response = await axios.get('http://localhost:8080/api/v1/files/avatar/' + userId, {
                 withCredentials: true
             });
             return response.data;
-        // } catch (e: unknown) {
-        //     const error = e as AxiosError;
-        //     alert(error.message);
-        // }
     }
 
     deleteAvatar = async () => {
-        // try {
             const response = await axios.delete('http://localhost:8080/api/v1/files/avatar', {
                 withCredentials: true
             });
             return response.data;
-        // } catch (e: unknown) {
-        //     const error = e as AxiosError;
-        //     alert(error.message);
-        // }
     }
 
     getDefaultAvatar = async () => {
-        // try {
             const response = await axios.get('http://localhost:8080/api/v1/files/default-avatar', {
                 withCredentials: true
             });
             return response.data;
-        // } catch (e: unknown) {
-        //     const error = e as AxiosError;
-        //     alert(error.message);
-        // }
     }
 }
 

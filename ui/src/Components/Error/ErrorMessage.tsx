@@ -1,12 +1,13 @@
 import {Alert, Snackbar} from "@mui/material";
 import {useState} from "react";
-import {useEditProfileStore} from "../pages/Profile/editProfileStore";
+import {useEditProfileStore} from "../../pages/Profile/editProfileStore";
 
-export const ErrorMessage = (props: any) => {
+export const ErrorMessage = () => {
     const [snackBarOpen, setSnackBar] = useState(true);
     const errorOpen = useEditProfileStore(state => state.errorOpen);
     const setErrorOpen = useEditProfileStore(state => state.setErrorOpen);
     const setErrorMessage = useEditProfileStore(state => state.setErrorMessage);
+    const errorMessage = useEditProfileStore(state => state.errorMessage);
 
     return (
         <>
@@ -20,7 +21,7 @@ export const ErrorMessage = (props: any) => {
                 }}
             >
                 <Alert severity="error">
-                    {props.message}
+                    {errorMessage}
                 </Alert>
             </Snackbar>
         </>

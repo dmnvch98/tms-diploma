@@ -2,8 +2,7 @@ import "cropperjs/dist/cropper.css";
 import {Cropper} from "react-cropper";
 import {useEditProfileStore} from "../../../pages/Profile/editProfileStore";
 import {Box, Button} from "@mui/material";
-import React, {useState} from "react";
-import {ErrorMessage} from "../../ErrorMessage";
+import React from "react";
 
 
 type Props = {
@@ -16,10 +15,8 @@ export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
     const cropper = useEditProfileStore(state => state.cropper);
     const setCropper = useEditProfileStore(state => state.setCropper);
     const uploadAvatar = useEditProfileStore(state => state.uploadAvatar);
-    const errorOpen = useEditProfileStore(state => state.errorOpen);
     const setErrorOpen = useEditProfileStore(state => state.setErrorOpen);
-    const errorMessage = useEditProfileStore(state => state.errorMessage);
-
+    const setErrorMessage = useEditProfileStore(state => state.setErrorMessage);
 
     const getCropData = async () => {
         if (cropper) {
@@ -35,7 +32,7 @@ export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
                 setEditMode(false);
                 setErrorOpen(true);
             } catch (e: unknown) {
-
+                setErrorMessage(e as string);
             }
         }
     };

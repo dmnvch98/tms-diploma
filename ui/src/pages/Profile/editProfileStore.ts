@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import FileService from "../../services/FileService";
 import {AxiosError} from "axios/index";
+
 export interface EditProfileStore {
     existingAvatarUrl: string;
     newAvatarUrl: string;
@@ -40,25 +41,53 @@ export const useEditProfileStore = create<EditProfileStore>((set: any, get: any)
         set({cropper: cropper})
     },
     uploadAvatar: async (file: FormData) => {
-        let response;
         try {
-            response = await FileService.uploadAvatar(file);
+            const response = await FileService.uploadAvatar(file);
             set({existingAvatarUrl: response})
         } catch (e: unknown) {
             const error = e as AxiosError;
-            set({errorMessage: error.message})
-            console.log(get().errorMessage)
+            set({
+                errorMessage: error.message,
+                errorOpen: true
+            })
         }
     },
     getAvatar: async (userId: number) => {
-        set({existingAvatarUrl: await FileService.getAvatar(userId)})
+        try {
+            set({existingAvatarUrl: await FileService.getAvatar(userId)})
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            set({
+                errorMessage: error.message,
+                errorOpen: true
+            })
+        }
+
     },
     deleteAvatar: async () => {
-        await FileService.deleteAvatar();
-        set({existingAvatarUrl: await FileService.getDefaultAvatar()})
+        try {
+            await FileService.deleteAvatar();
+            const url = await FileService.getDefaultAvatar();
+            set({existingAvatarUrl: url})
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            set({
+                errorMessage: error.message,
+                errorOpen: true
+            })
+        }
     },
     getDefaultAvatar: async () => {
-        set({existingAvatarUrl: await FileService.getDefaultAvatar()})
+        try {
+            const url = await FileService.getDefaultAvatar();
+            set({existingAvatarUrl: url})
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            set({
+                errorMessage: error.message,
+                errorOpen: true
+            })
+        }
     },
     setErrorMessage: async (message: string) => {
         set({errorMessage: message})

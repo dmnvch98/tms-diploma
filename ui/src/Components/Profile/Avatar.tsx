@@ -2,6 +2,7 @@ import {useProfileStore} from "../../pages/Profile/profileStore";
 import {useEditProfileStore} from "../../pages/Profile/editProfileStore";
 import React, {useEffect} from "react";
 import {Box} from "@mui/material";
+import {AxiosError} from "axios";
 
 export const Avatar = () => {
     const user = useProfileStore(state => state.user);
