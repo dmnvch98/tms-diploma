@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TutorService {
     private final TutorClient tutorClient;
-    public String deleteTutor(Long userId) {
-        return tutorClient.deleteTutor(userId);
+
+    public void deleteTutor(Long userId) {
+        tutorClient.deleteTutor(userId);
     }
 }

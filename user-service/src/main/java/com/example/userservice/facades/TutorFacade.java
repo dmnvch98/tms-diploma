@@ -13,11 +13,10 @@ public class TutorFacade {
 
     private final TutorService tutorService;
     private final UserService userService;
-    public String deleteTutor(Long userId) {
+    public void deleteTutor(Long userId) {
         User user = userService.get(userId);
         if (user.getStudent() != null) {
             tutorService.deleteTutor(userId);
-            return null;
         } else {
             throw new TutorCannotBeDeletedException();
         }

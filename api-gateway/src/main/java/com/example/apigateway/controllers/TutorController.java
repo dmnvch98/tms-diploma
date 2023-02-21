@@ -3,7 +3,7 @@ package com.example.apigateway.controllers;
 import com.example.apigateway.config.security.service.PrincipalUser;
 import com.example.apigateway.facades.TutorFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class TutorController {
     private final TutorFacade tutorFacade;
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    public ResponseEntity<String> deleteTutor(Authentication authentication) {
+    public void deleteTutor(Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
-        return ResponseEntity.ok(tutorFacade.deleteTutor(userId));
+        tutorFacade.deleteTutor(userId);
     }
 }

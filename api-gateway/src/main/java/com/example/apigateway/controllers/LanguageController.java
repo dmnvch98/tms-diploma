@@ -18,7 +18,7 @@ public class LanguageController {
     private final LanguageFacade languageFacade;
 
     @GetMapping
-    public ResponseEntity<List<Language>> getAllLanguages() {
-        return ResponseEntity.ok(languageFacade.getAllLanguages());
+    public List<Language> getAllLanguages() {
+        return languageFacade.getAllLanguages();
     }
 }

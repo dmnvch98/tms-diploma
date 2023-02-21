@@ -20,8 +20,8 @@ public class FileFacade {
         return fileService.uploadFile(file, userId);
     }
 
-    public String getFile(String fileName) {
-        return fileService.getFile(fileName);
+    public String getFile(Long userId) {
+        return fileService.getFile(userId + userAvatarNamePostfix);
     }
 
     public Boolean deleteFile(Long userId) {

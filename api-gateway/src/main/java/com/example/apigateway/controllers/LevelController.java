@@ -17,7 +17,7 @@ public class LevelController {
     private final LevelFacade levelFacade;
 
     @GetMapping
-    public ResponseEntity<List<Level>> getAllLanguages() {
-        return ResponseEntity.ok(levelFacade.getAllLanguages());
+    public List<Level> getAllLanguages() {
+        return levelFacade.getAllLanguages();
     }
 }

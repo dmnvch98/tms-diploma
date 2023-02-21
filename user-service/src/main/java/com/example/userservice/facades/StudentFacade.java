@@ -12,11 +12,10 @@ import org.springframework.stereotype.Component;
 public class StudentFacade {
     private final StudentService studentService;
     private final UserService userService;
-    public String deleteStudent(Long userId) {
+    public void deleteStudent(Long userId) {
         User user = userService.get(userId);
         if (user.getTutor() != null) {
             studentService.deleteStudent(userId);
-            return null;
         } else {
             throw new StudentCannotBeDeletedException();
         }

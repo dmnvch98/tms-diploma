@@ -10,7 +10,7 @@ public class StudentFacade {
 
     private final StudentService studentService;
 
-    public String deleteStudent(Long userId) {
-        return studentService.deleteStudent(userId);
+    public void deleteStudent(Long userId) {
+        studentService.deleteStudent(userId);
     }
 }

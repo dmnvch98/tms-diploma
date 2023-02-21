@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.*;
         url = "${services.user.url}/api/v1/students")
 public interface StudentClient {
     @DeleteMapping("/{userId}")
-    String deleteStudent(@PathVariable("userId") Long userId);
+    void deleteStudent(@PathVariable("userId") Long userId);
 }

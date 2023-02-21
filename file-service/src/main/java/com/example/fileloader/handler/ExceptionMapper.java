@@ -1,15 +1,16 @@
 package com.example.fileloader.handler;
 
-import org.springframework.http.ResponseEntity;
+import com.example.fileloader.dto.ResponseDto;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.IOException;
+
+
 @ControllerAdvice
 public class ExceptionMapper {
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handeException(final Exception exception) {
-        return ResponseEntity.badRequest().body(exception.getMessage());
+    @ExceptionHandler(IOException.class)
+    public ResponseDto handeException() {
+        return new ResponseDto("Some error occurred");
     }
-
 }

@@ -32,12 +32,12 @@ public class FileController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Optional<List<String>>> getFilesList() {
-        return ResponseEntity.ok(fileService.getFilesList());
+    public List<String> getFilesList() {
+        return fileService.getFilesList();
     }
 
     @GetMapping("/{fileName}")
-    public Optional<String> getFileUrl(@PathVariable final String fileName) {
+    public Optional<String> getAvatarUrl(@PathVariable final String fileName) {
         return fileService.getAvatarUrl(fileName);
     }
 

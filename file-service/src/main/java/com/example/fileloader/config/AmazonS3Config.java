@@ -37,9 +37,9 @@ public class AmazonS3Config {
         return builder.build();
     }
 
-    @Bean
-    public Bucket bucket() {
-        return amazonS3().createBucket(storageName);
-    }
+//    @Bean
+//    public Bucket bucket() {
+//        return amazonS3().createBucket(storageName);
+//    }
 
 }

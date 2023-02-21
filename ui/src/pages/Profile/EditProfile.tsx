@@ -5,6 +5,7 @@ import {Box, Button, Modal, Paper} from "@mui/material";
 import {SidebarHeader} from "../../Components/SidebarHeader";
 import {useProfileStore} from "./profileStore";
 import {Avatar} from "../../Components/Profile/Avatar";
+import {ErrorMessage} from "../../Components/ErrorMessage";
 
 export const EditProfile = () => {
     const newAvatarUrl = useEditProfileStore(state => state.newAvatarUrl);
@@ -12,6 +13,8 @@ export const EditProfile = () => {
     const editMode = useEditProfileStore(state => state.editMode);
     const setEditMode = useEditProfileStore(state => state.setEditMode);
     const deleteAvatar = useEditProfileStore(state => state.deleteAvatar);
+    const errorOpen = useEditProfileStore(state => state.errorOpen);
+    const errorMessage = useEditProfileStore(state => state.errorMessage);
 
     const getMe = useProfileStore(state => state.getMe)
     useEffect(() => {
@@ -44,6 +47,7 @@ export const EditProfile = () => {
     return (
         <>
             <SidebarHeader/>
+            {errorOpen && (<ErrorMessage message={errorMessage}/>)}
             <Box sx={{m: 2, height: "62vh"}}
                  display="flex"
                  justifyContent="center"
@@ -78,7 +82,7 @@ export const EditProfile = () => {
 
                 {editMode && (
                     <Modal
-                        open={true}
+                        open={editMode}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >

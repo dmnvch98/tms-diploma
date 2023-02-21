@@ -7,12 +7,11 @@ export const Avatar = () => {
     const user = useProfileStore(state => state.user);
     const existingAvatarUrl = useEditProfileStore(state => state.existingAvatarUrl);
     const getAvatar = useEditProfileStore(state => state.getAvatar);
-    const getDefaultAvatar = useEditProfileStore(state => state.getDefaultAvatar);
 
     useEffect(() => {
-        user?.avatarName != null
-            ? getAvatar(user.avatarName)
-            : getDefaultAvatar()
+        if (user != null) {
+            getAvatar(user.id);
+        }
     })
 
     const style = {

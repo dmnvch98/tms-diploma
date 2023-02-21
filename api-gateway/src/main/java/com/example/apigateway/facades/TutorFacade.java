@@ -10,7 +10,7 @@ public class TutorFacade {
 
     private final TutorService tutorService;
 
-    public String deleteTutor(Long userId) {
-        return tutorService.deleteTutor(userId);
+    public void deleteTutor(Long userId) {
+        tutorService.deleteTutor(userId);
     }
 }

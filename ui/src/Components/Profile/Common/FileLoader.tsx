@@ -2,7 +2,8 @@ import "cropperjs/dist/cropper.css";
 import {Cropper} from "react-cropper";
 import {useEditProfileStore} from "../../../pages/Profile/editProfileStore";
 import {Box, Button} from "@mui/material";
-import React from "react";
+import React, {useState} from "react";
+import {ErrorMessage} from "../../ErrorMessage";
 
 
 type Props = {
@@ -15,18 +16,27 @@ export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
     const cropper = useEditProfileStore(state => state.cropper);
     const setCropper = useEditProfileStore(state => state.setCropper);
     const uploadAvatar = useEditProfileStore(state => state.uploadAvatar);
+    const errorOpen = useEditProfileStore(state => state.errorOpen);
+    const setErrorOpen = useEditProfileStore(state => state.setErrorOpen);
+    const errorMessage = useEditProfileStore(state => state.errorMessage);
+
 
     const getCropData = async () => {
         if (cropper) {
-            const avatar = await fetch(cropper.getCroppedCanvas().toDataURL())
-                .then((res) => res.blob())
-                .then((blob) => {
-                    return new File([blob], "newAvatar.png", {type: "image/png"});
-                });
-            const form = new FormData();
-            form.append('file', avatar, "newAvatar.png");
-            uploadAvatar(form);
-            setEditMode(false);
+            try {
+                const avatar = await fetch(cropper.getCroppedCanvas().toDataURL())
+                    .then((res) => res.blob())
+                    .then((blob) => {
+                        return new File([blob], "newAvatar.png", {type: "image/png"});
+                    });
+                const form = new FormData();
+                form.append('file', avatar, "newAvatar.png");
+                uploadAvatar(form);
+                setEditMode(false);
+                setErrorOpen(true);
+            } catch (e: unknown) {
+
+            }
         }
     };
 
@@ -64,7 +74,6 @@ export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
                             Cancel
                         </Button>
                     </Box>
-
                 </>
             )}
 

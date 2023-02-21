@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,9 +24,13 @@ import java.util.Optional;
 @Slf4j
 public class FileServiceImpl implements FileService {
     private final AmazonS3 amazonS3;
-    private final Bucket bucket;
+    @Value("${aws.storage_name}")
+    public String storageName;
     @Value("${avatar.default}")
     public String defaultAvatarName;
+
+    @Value("${avatar.user_postfix}")
+    public String userAvatarNamePostfix;
 
     @Override
     public Optional<String> uploadFile(InputStream inputStream, String fileName) throws IOException {
@@ -34,40 +39,40 @@ public class FileServiceImpl implements FileService {
         log.info("Started uploading {}", fileName);
         try {
             amazonS3.putObject(
-                bucket.getName(),
+                storageName,
                 fileName,
                 inputStream,
                 metadata);
             log.info("{} successfully uploaded", fileName);
             return getAvatarUrl(fileName);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             log.error("An error occurred while uploading {}: ", fileName + e);
-            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     @Override
-    public Optional<List<String>> getFilesList() {
+    public List<String> getFilesList() {
         log.info("Getting list of all files");
+        List<String> filesList = new ArrayList<>();
         try {
-            Optional<List<String>> filesList = Optional.of(amazonS3.listObjects(bucket.getName())
+            filesList = amazonS3.listObjects(storageName)
                 .getObjectSummaries()
                 .stream()
                 .map(S3ObjectSummary::getKey)
-                .toList());
-            log.info("All files are successfully loaded. The list size is {}", filesList.get().size());
-            return filesList;
+                .toList();
+            log.info("All files are successfully loaded. The list size is {}", filesList.size());
         } catch (Exception e) {
             log.error("An error occurred while loading all files: " + e);
-            return Optional.empty();
         }
+        return filesList;
     }
 
     @Override
     public Boolean deleteFile(String fileName) {
         try {
             log.info("Deleting avatar with name: {}", fileName);
-            amazonS3.deleteObject(bucket.getName(), fileName);
+            amazonS3.deleteObject(storageName, fileName);
             log.info("Avatar with name: {} successfully deleted", fileName);
             return true;
         } catch (Exception e) {
@@ -82,7 +87,7 @@ public class FileServiceImpl implements FileService {
         Instant accessExpirationInstant = now.plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant();
         Date date = Date.from(accessExpirationInstant);
         String preSignedUrl = amazonS3
-            .generatePresignedUrl(bucket.getName(), fileName, date, HttpMethod.GET)
+            .generatePresignedUrl(storageName, fileName, date, HttpMethod.GET)
             .toString();
         log.info("Url successfully generated");
         return preSignedUrl;
@@ -91,11 +96,11 @@ public class FileServiceImpl implements FileService {
     @Override
     public Optional<String> getAvatarUrl(String fileName) {
         log.info("Getting {}", fileName);
-        if (amazonS3.doesObjectExist(bucket.getName(), fileName)) {
+        if (amazonS3.doesObjectExist(storageName, fileName)) {
             return Optional.of(generateUrl(fileName));
         } else {
             log.warn("{} doesn't exist. Getting default avatar", fileName);
-            if (amazonS3.doesObjectExist(bucket.getName(), defaultAvatarName)) {
+            if (amazonS3.doesObjectExist(storageName, defaultAvatarName)) {
                 return Optional.of(generateUrl(defaultAvatarName));
             } else {
                 log.warn("Default avatar doesn't exist");
