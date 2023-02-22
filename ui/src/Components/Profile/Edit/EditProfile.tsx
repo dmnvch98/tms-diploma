@@ -1,11 +1,11 @@
 import {Container, Grid} from "@mui/material";
-import {EditAvatar} from "../../Components/Profile/Edit/EditAvatar";
-import {SidebarHeader} from "../../Components/SidebarHeader";
-import {EditUserInfo} from "../../Components/Profile/Edit/EditUserInfo";
-import {useProfileStore} from "./profileStore";
+import {EditAvatar} from "./EditAvatar";
+import {SidebarHeader} from "../../SidebarHeader";
+import {EditUserInfo} from "./EditUserInfo";
+import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {useEffect} from "react";
 
-export const EditProfile = () => {
+export const EditProfile = ({ children }: any) => {
     const user = useProfileStore(state => state.user);
     const getMe = useProfileStore(state => state.getMe)
 
@@ -24,6 +24,7 @@ export const EditProfile = () => {
                         <EditAvatar/>
                     </Grid>
                     <Grid item xs={7}>
+                        {children}
                         <EditUserInfo/>
                     </Grid>
                 </Grid>

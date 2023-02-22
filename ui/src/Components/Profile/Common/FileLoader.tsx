@@ -1,6 +1,6 @@
 import "cropperjs/dist/cropper.css";
 import {Cropper} from "react-cropper";
-import {useEditProfileStore} from "../../../pages/Profile/editProfileStore";
+import {useEditProfileStore} from "../../../pages/Profile/Edit/editProfileStore";
 import {Box, Button} from "@mui/material";
 import React from "react";
 

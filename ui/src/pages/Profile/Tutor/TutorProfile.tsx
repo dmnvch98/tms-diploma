@@ -1,12 +1,12 @@
-import {useProfileStore} from "./profileStore";
+import {useProfileStore} from "../profileStore";
 import {useEffect} from "react";
 import {Container, Grid} from "@mui/material";
-import {SidebarHeader} from "../../Components/SidebarHeader";
+import {SidebarHeader} from "../../../Components/SidebarHeader";
 import {useParams} from "react-router-dom";
-import {TutorAvatarSection} from "../../Components/Profile/Tutor/TutorAvatarSection";
-import {TutorInfo} from "../../Components/Profile/Tutor/TutorInfo";
-import {ErrorMessage} from "../../Components/Error/ErrorMessage";
-import {useEditProfileStore} from "./editProfileStore";
+import {TutorAvatarSection} from "../../../Components/Profile/Tutor/TutorAvatarSection";
+import {TutorInfo} from "../../../Components/Profile/Tutor/TutorInfo";
+import {ErrorMessage} from "../../../Components/Error/ErrorMessage";
+import {useEditProfileStore} from "../Edit/editProfileStore";
 
 export const TutorProfile = () => {
     const Profile = () => {

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import {styled, useTheme, Theme, CSSObject} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import MuiAppBar, {AppBarProps as MuiAppBarProps} from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,6 +20,7 @@ import PublicIcon from '@mui/icons-material/Public';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import {Button, Grid} from "@mui/material";
+import {Link as RouterLink} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -35,11 +36,14 @@ const openedMixin = (theme: Theme): CSSObject => ({
 interface TabIcon {
     name: string;
     icon: any;
+    redirect: string
 }
+
 const tabs: TabIcon[] = [
-    {name: 'Find tutor', icon: <PublicIcon/>},
-    {name: 'My Profile', icon: <AccountCircleIcon/>},
-    {name: 'My conversations', icon: <EmojiPeopleIcon/>}
+    {name: 'Find tutor', icon: <PublicIcon/>, redirect: ''},
+    {name: 'My Student Profile', icon: <AccountCircleIcon/>, redirect: '/my-student-profile'},
+    {name: 'My Tutor Profile', icon: <AccountCircleIcon/>, redirect: '/my-tutor-profile'},
+    {name: 'My conversations', icon: <EmojiPeopleIcon/>, redirect: ''}
 ]
 
 
@@ -55,7 +59,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     },
 });
 
-const DrawerHeader = styled('div')(({ theme }) => ({
+const DrawerHeader = styled('div')(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -70,7 +74,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
+})<AppBarProps>(({theme, open}) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
@@ -86,8 +90,8 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
+const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
+    ({theme, open}) => ({
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
@@ -116,8 +120,8 @@ export const SidebarHeader = (props: any) => {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
+        <Box sx={{display: 'flex'}}>
+            <CssBaseline/>
             <AppBar position="fixed" open={open}>
                 <Toolbar>
                     <IconButton
@@ -127,22 +131,22 @@ export const SidebarHeader = (props: any) => {
                         edge="start"
                         sx={{
                             marginRight: 5,
-                            ...(open && { display: 'none' }),
+                            ...(open && {display: 'none'}),
                         }}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
 
                     <Grid container>
                         <Grid item sm={12}>
                             <Box display="flex" justifyContent="space-between">
-                                    <Typography variant="h6" noWrap component="div">
-                                        Logo
-                                    </Typography>
-                                    <Button
-                                        color="inherit"
-                                        variant="text"
-                                    >Logout</Button>
+                                <Typography variant="h6" noWrap component="div">
+                                    Logo
+                                </Typography>
+                                <Button
+                                    color="inherit"
+                                    variant="text"
+                                >Logout</Button>
                             </Box>
                         </Grid>
                     </Grid>
@@ -152,13 +156,13 @@ export const SidebarHeader = (props: any) => {
             <Drawer variant="permanent" open={open}>
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
                     </IconButton>
                 </DrawerHeader>
-                <Divider />
+                <Divider/>
                 <List>
-                    {tabs.map((t, index) => (
-                        <ListItem key={t.name} disablePadding sx={{ display: 'block' }}>
+                    {tabs.map((t) => (
+                        <ListItem key={t.name} disablePadding sx={{display: 'block'}}>
                             <ListItemButton
                                 sx={{
                                     minHeight: 48,
@@ -174,9 +178,17 @@ export const SidebarHeader = (props: any) => {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    {t.icon}
+                                    <Button
+                                        {...{
+                                            to: t.redirect,
+                                            component: RouterLink,
+                                        }}
+                                        color="inherit"
+                                    >
+                                        {t.icon}
+                                    </Button>
                                 </ListItemIcon>
-                                <ListItemText primary={t.name} sx={{ opacity: open ? 1 : 0 }} />
+                                <ListItemText primary={t.name} sx={{opacity: open ? 1 : 0}}/>
                             </ListItemButton>
                         </ListItem>
                     ))}

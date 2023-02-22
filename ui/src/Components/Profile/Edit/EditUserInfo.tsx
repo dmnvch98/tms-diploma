@@ -4,7 +4,7 @@ import {LanguageLevelSelectorTwo} from "../../LanguageLevelSelector/LanguageLeve
 import {useSignUpStore} from "../../../pages/SignUp/store/signUpStore";
 import {useEffect} from "react";
 import {UpdateUserDto, User} from "../../../CommonStore/store";
-import {useEditProfileStore} from "../../../pages/Profile/editProfileStore";
+import {useEditProfileStore} from "../../../pages/Profile/Edit/editProfileStore";
 
 export const EditUserInfo = () => {
     const updateUserDto = useEditProfileStore(state => state.updateUserDto);
@@ -79,7 +79,6 @@ export const EditUserInfo = () => {
                         <Button
                             variant="contained"
                             sx={{mt: 4}}
-                         //   disabled={languageLevels.length == 0}
                             onClick={() => {
                                updateUser();
                             }}

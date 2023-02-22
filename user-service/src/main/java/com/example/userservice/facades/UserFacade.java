@@ -51,8 +51,10 @@ public class UserFacade {
         List<UserLanguageLevel> userLanguageLevels =
             extractUserLanguageLevelsFromDto(userRequestDto, user.getId());
 
-        List<Long> as = findLanguageLevelIdsToDelete(existingUserLanguageLevels, userLanguageLevels);
-        as.forEach(x -> languageLevelService.deleteUserLanguageLevel(x, userId));
+        List<Long> languageLevelsIdToDelete = findLanguageLevelIdsToDelete(existingUserLanguageLevels, userLanguageLevels);
+        if (languageLevelsIdToDelete.size() > 0) {
+            languageLevelsIdToDelete.forEach(x -> languageLevelService.deleteUserLanguageLevel(x, userId));
+        }
         List<LanguageLevelDto> languageLevelDtoList = saveUserLanguageLevels(userLanguageLevels);
         return userConverter.userToResponseDto(user, languageLevelDtoList);
     }

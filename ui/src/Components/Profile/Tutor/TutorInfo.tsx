@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Container, Rating, Typography} from "@mui/material";
 import {UserProfileTabs} from "../../UserProfileTabs";
+import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
 
 export const TutorInfo = () => {
     const [showMore, setShowMore] = useState(false);
@@ -16,6 +17,7 @@ export const TutorInfo = () => {
                         <Typography sx={{mr: 1}}><b>Rate:</b></Typography>
                         <Rating name="read-only" value={4.5} readOnly precision={0.5}/>
                     </Box>
+                    <LanguageLevelsProfile/>
                     <Box>
                         <Typography sx={{mr: 7, mt: 3}}><b>About me:</b> </Typography>
                         <Typography sx={{mb: 5}}>

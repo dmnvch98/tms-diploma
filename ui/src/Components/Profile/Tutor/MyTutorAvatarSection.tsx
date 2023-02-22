@@ -35,7 +35,7 @@ export const MyTutorAvatarSection = () => {
                             fullWidth
                             sx={{mt: 2}}
                             {...{
-                                to: "/edit-profile",
+                                to: "/edit-profile-tutor",
                                 component: RouterLink,
                             }}
                     >

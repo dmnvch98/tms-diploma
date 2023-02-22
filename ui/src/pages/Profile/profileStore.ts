@@ -34,7 +34,7 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
         if (user?.student?.aboutMe == null) {
             user.student.aboutMe = '';
         }
-        if (user?.tutor?.aboutMe) {
+        if (user?.tutor?.aboutMe == null) {
             user.tutor.aboutMe = '';
         }
         set({user: user})

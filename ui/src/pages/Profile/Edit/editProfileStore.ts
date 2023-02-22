@@ -1,8 +1,8 @@
 import {create} from "zustand";
-import FileService from "../../services/FileService";
+import FileService from "../../../services/FileService";
 import {AxiosError} from "axios";
-import {UpdateUserDto, User} from "../../CommonStore/store";
-import UserService from "../../services/UserService";
+import {UpdateUserDto, User} from "../../../CommonStore/store";
+import UserService from "../../../services/UserService";
 
 export interface EditProfileStore {
     existingAvatarUrl: string;
@@ -103,7 +103,6 @@ export const useEditProfileStore = create<EditProfileStore>((set: any, get: any)
     },
     setUser: async (user: UpdateUserDto) => {
         set({updateUserDto: user})
-        console.log(user)
     },
     updateUser: async () => {
         await UserService.updateUser(get().updateUserDto)

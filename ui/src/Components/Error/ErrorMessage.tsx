@@ -1,6 +1,6 @@
 import {Alert, Snackbar} from "@mui/material";
 import {useState} from "react";
-import {useEditProfileStore} from "../../pages/Profile/editProfileStore";
+import {useEditProfileStore} from "../../pages/Profile/Edit/editProfileStore";
 
 export const ErrorMessage = () => {
     const [snackBarOpen, setSnackBar] = useState(true);

@@ -31,7 +31,7 @@ export const MyStudentAvatarSection = () => {
                             fullWidth
                             sx={{mt: 2}}
                             {...{
-                                to: "/edit-profile",
+                                to: "/edit-profile-student",
                                 component: RouterLink,
                             }}
                     >

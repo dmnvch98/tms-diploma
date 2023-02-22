@@ -1,5 +1,5 @@
 import {useProfileStore} from "../../pages/Profile/profileStore";
-import {useEditProfileStore} from "../../pages/Profile/editProfileStore";
+import {useEditProfileStore} from "../../pages/Profile/Edit/editProfileStore";
 import React, {useEffect} from "react";
 import {Box} from "@mui/material";
 import {AxiosError} from "axios";

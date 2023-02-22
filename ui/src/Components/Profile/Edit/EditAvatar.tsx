@@ -1,4 +1,4 @@
-import {useEditProfileStore} from "../../../pages/Profile/editProfileStore";
+import {useEditProfileStore} from "../../../pages/Profile/Edit/editProfileStore";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {ChangeEvent, useEffect} from "react";
 import {Box, Button, Modal, Paper, Typography} from "@mui/material";
