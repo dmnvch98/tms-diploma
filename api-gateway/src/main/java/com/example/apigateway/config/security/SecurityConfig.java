@@ -1,5 +1,6 @@
 package com.example.apigateway.config.security;
 
+import com.example.apigateway.config.filters.ExceptionHandlerFilter;
 import com.example.apigateway.config.security.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,8 +13,10 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +24,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final ExceptionHandlerFilter exceptionHandlerFilter;
     @Value("${csrf.xsrf_cookie_name}")
     public String xsrfCookieName;
     @Value("${csrf.xsrf_header_name}")
@@ -54,6 +58,7 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student", "Tutor")
                 .anyRequest().authenticated()
             )
+            .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
 //            .csrf().csrfTokenRepository(csrfTokenRepository())
 //            .and()
             .logout(LogoutConfigurer::permitAll)
@@ -68,6 +73,10 @@ public class SecurityConfig {
         repository.setHeaderName(xsrfHeaderName);
         repository.setCookieDomain(cookieDomain);
         return repository;
+    }
+
+    private ExceptionHandlerFilter exceptionHandlerFilter() {
+        return new ExceptionHandlerFilter();
     }
 
 }
