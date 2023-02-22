@@ -3,7 +3,7 @@ import {Language, LanguageLevel} from "./languagesStore";
 import UserService from "../../../services/UserService";
 import {Country} from "./countryStore";
 import {Level} from "./levelStore";
-import {Student, Tutor} from "../../../CommonStore/store";
+import {Student, Tutor, User} from "../../../CommonStore/store";
 
 export interface UserDto {
     firstName: string;

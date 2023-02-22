@@ -57,4 +57,12 @@ public class LanguageLevelService {
                 userLanguageLevel.getUserId(), userLanguageLevel.getLanguageLevelId());
     }
 
+    public List<UserLanguageLevel> findAllUllByUserId(Long userId) {
+        return userLanguageLevelRepository.findAllByUserId(userId);
+    }
+
+    public void deleteUserLanguageLevelById(Long userLanguageLevelId) {
+        userLanguageLevelRepository.deleteAllById(userLanguageLevelId);
+    }
+
 }

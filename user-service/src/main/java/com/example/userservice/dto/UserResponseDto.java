@@ -20,6 +20,7 @@ public class UserResponseDto {
     String password;
     Country nationality;
     String gender;
+    List<String> roles;
     @NonFinal
     @Setter
     Student student;

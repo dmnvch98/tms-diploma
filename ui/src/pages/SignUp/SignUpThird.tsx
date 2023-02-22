@@ -1,5 +1,4 @@
 import {Authentication} from "../../Components/Authentication";
-import {LanguageLevelSelector} from "../../Components/LanguageLevelSelector/LanguageLevelSelector";
 import {Box, Button, FormControl} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {useSignUpStore} from "./store/signUpStore";

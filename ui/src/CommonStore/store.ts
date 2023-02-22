@@ -20,7 +20,22 @@ export interface User {
     email: string;
     password: string;
     nationality: Country;
-    roles: string;
+    roles: string[];
+    gender: string;
+    languageLevels: LanguageLevel[];
+    student: Student;
+    tutor: Tutor;
+    location: string | null;
+    avatarName: string | null;
+}
+export interface UpdateUserDto {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    nationality: number;
+    roles: string[];
     gender: string;
     languageLevels: LanguageLevel[];
     student: Student;

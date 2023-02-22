@@ -1,6 +1,8 @@
 import {create} from "zustand";
 import FileService from "../../services/FileService";
-import {AxiosError} from "axios/index";
+import {AxiosError} from "axios";
+import {UpdateUserDto, User} from "../../CommonStore/store";
+import UserService from "../../services/UserService";
 
 export interface EditProfileStore {
     existingAvatarUrl: string;
@@ -9,6 +11,7 @@ export interface EditProfileStore {
     cropper: any
     errorMessage: string;
     errorOpen: boolean
+    updateUserDto: UpdateUserDto | null;
     setExistingAvatarUrl: (url: string) => void;
     setNewAvatarUrl: (url: string) => void;
     setEditMode: (flag: boolean) => void;
@@ -19,6 +22,8 @@ export interface EditProfileStore {
     getDefaultAvatar: () => void;
     setErrorMessage: (message: any) => void;
     setErrorOpen: (flag: boolean) => void;
+    setUser: (userDto: UpdateUserDto) => void;
+    updateUser: () => void;
 }
 
 export const useEditProfileStore = create<EditProfileStore>((set: any, get: any) => ({
@@ -28,6 +33,7 @@ export const useEditProfileStore = create<EditProfileStore>((set: any, get: any)
     cropper: null,
     errorMessage: '',
     errorOpen: false,
+    updateUserDto: null,
     setExistingAvatarUrl: async (url: string) => {
         set({existingAvatarUrl: url})
     },
@@ -94,6 +100,13 @@ export const useEditProfileStore = create<EditProfileStore>((set: any, get: any)
     },
     setErrorOpen: async (flag: boolean) => {
         set({errorOpen: flag})
+    },
+    setUser: async (user: UpdateUserDto) => {
+        set({updateUserDto: user})
+        console.log(user)
+    },
+    updateUser: async () => {
+        await UserService.updateUser(get().updateUserDto)
     }
 
 }))

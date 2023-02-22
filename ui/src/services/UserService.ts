@@ -1,5 +1,6 @@
 import axios, {AxiosError} from 'axios';
 import {UserDto} from "../pages/SignUp/store/signUpStore";
+import {UpdateUserDto, User} from "../CommonStore/store";
 
 class UserService {
 
@@ -81,11 +82,11 @@ class UserService {
 
     getToken = async (email: string, password: string) => {
         let response;
-        try{
+        try {
             response = await axios.post('http://localhost:8080/api/v1/auth/login',
                 {email: email, password: password}, {withCredentials: true});
+        } catch (e: unknown) {
         }
-        catch (e: unknown) {}
         return response?.status == 200;
     }
 
@@ -93,6 +94,17 @@ class UserService {
         try {
             const response = await axios.get('http://localhost:8080/api/v1/users/me',
                 {withCredentials: true});
+            return response.data;
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            alert(error.message);
+        }
+    }
+
+    updateUser = async (user: UpdateUserDto) => {
+        try {
+            const response = await axios.put('http://localhost:8080/api/v1/users/', user
+                , {withCredentials: true});
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;

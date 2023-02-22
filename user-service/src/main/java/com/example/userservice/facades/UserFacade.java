@@ -14,7 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
 
 @RequiredArgsConstructor
 @Component
@@ -40,8 +46,13 @@ public class UserFacade {
     public UserResponseDto update(UserRequestDto userRequestDto, Long userId) {
         User user = userConverter.userRequestDtoToUserUpdate(userRequestDto, userId);
         user = userService.save(user);
+        List<UserLanguageLevel> existingUserLanguageLevels = languageLevelService.findAllUllByUserId(userId);
+
         List<UserLanguageLevel> userLanguageLevels =
             extractUserLanguageLevelsFromDto(userRequestDto, user.getId());
+
+        List<Long> as = findLanguageLevelIdsToDelete(existingUserLanguageLevels, userLanguageLevels);
+        as.forEach(x -> languageLevelService.deleteUserLanguageLevel(x, userId));
         List<LanguageLevelDto> languageLevelDtoList = saveUserLanguageLevels(userLanguageLevels);
         return userConverter.userToResponseDto(user, languageLevelDtoList);
     }
@@ -114,5 +125,13 @@ public class UserFacade {
 
     public int deleteAvatar(Long userId) {
         return userService.deleteAvatar(userId);
+    }
+
+    private List<Long> findLanguageLevelIdsToDelete(List<UserLanguageLevel> existing,
+                                                    List<UserLanguageLevel> fromDto) {
+        List<Long> list1 = new ArrayList<>(existing.stream().map(UserLanguageLevel::getLanguageLevelId).toList());
+        List<Long> list2 = fromDto.stream().map(UserLanguageLevel::getLanguageLevelId).toList();
+        list1.removeAll(list2);
+        return list1;
     }
 }
