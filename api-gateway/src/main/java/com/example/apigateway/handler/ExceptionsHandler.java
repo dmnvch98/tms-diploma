@@ -8,11 +8,17 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.io.FileNotFoundException;
+
 @ControllerAdvice
 public class ExceptionsHandler {
 
     @ExceptionHandler(FeignException.Forbidden.class)
     public ResponseEntity<String> handleFeignStatusException(FeignException e) {
         return ResponseEntity.status(403).body(e.contentUTF8());
+    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> handleException() {
+        return ResponseEntity.internalServerError().build();
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
+
 @RequestMapping("/api/v1/files")
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +24,6 @@ public class FileController {
         return ResponseEntity.ok(fileFacade.uploadFile(file, userId));
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/avatar/{userId}")
     public String getFile(@PathVariable Long userId) {
         return fileFacade.getFile(userId);

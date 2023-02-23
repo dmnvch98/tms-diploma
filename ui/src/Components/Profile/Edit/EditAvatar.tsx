@@ -11,11 +11,13 @@ export const EditAvatar = () => {
     const editMode = useEditProfileStore(state => state.editMode);
     const setEditMode = useEditProfileStore(state => state.setEditMode);
     const deleteAvatar = useEditProfileStore(state => state.deleteAvatar);
-    const errorOpen = useEditProfileStore(state => state.errorOpen);
-
+    const user = useProfileStore(state => state.user)
     const getMe = useProfileStore(state => state.getMe)
+
     useEffect(() => {
-        getMe();
+        if (user == null) {
+            getMe();
+        }
     }, [])
 
     const style = {

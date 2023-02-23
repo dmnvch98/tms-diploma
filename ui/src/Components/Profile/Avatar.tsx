@@ -1,19 +1,12 @@
 import {useProfileStore} from "../../pages/Profile/profileStore";
 import {useEditProfileStore} from "../../pages/Profile/Edit/editProfileStore";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Box} from "@mui/material";
 import {AxiosError} from "axios";
+import {useNotificationStore} from "../Notifications/notificationStore";
 
 export const Avatar = () => {
-    const user = useProfileStore(state => state.user);
     const existingAvatarUrl = useEditProfileStore(state => state.existingAvatarUrl);
-    const getAvatar = useEditProfileStore(state => state.getAvatar);
-
-    useEffect(() => {
-        if (user != null) {
-            getAvatar(user.id);
-        }
-    })
 
     const style = {
         maxWidth: "100%",

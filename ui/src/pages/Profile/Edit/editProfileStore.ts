@@ -1,7 +1,7 @@
 import {create} from "zustand";
 import FileService from "../../../services/FileService";
 import {AxiosError} from "axios";
-import {UpdateUserDto, User} from "../../../CommonStore/store";
+import {UpdateUserDto} from "../../../CommonStore/store";
 import UserService from "../../../services/UserService";
 
 export interface EditProfileStore {
@@ -9,21 +9,17 @@ export interface EditProfileStore {
     newAvatarUrl: string;
     editMode: boolean
     cropper: any
-    errorMessage: string;
-    errorOpen: boolean
     updateUserDto: UpdateUserDto | null;
     setExistingAvatarUrl: (url: string) => void;
     setNewAvatarUrl: (url: string) => void;
     setEditMode: (flag: boolean) => void;
     setCropper: (cropper: any) => void;
     uploadAvatar: (file: FormData) => void;
-    getAvatar: (userId: number) => void;
+    getAvatar: (userId: number) => Promise<boolean>;
     deleteAvatar: () => void;
     getDefaultAvatar: () => void;
-    setErrorMessage: (message: any) => void;
-    setErrorOpen: (flag: boolean) => void;
     setUser: (userDto: UpdateUserDto) => void;
-    updateUser: () => void;
+    updateUser: () => Promise<boolean>;
 }
 
 export const useEditProfileStore = create<EditProfileStore>((set: any, get: any) => ({
@@ -31,8 +27,6 @@ export const useEditProfileStore = create<EditProfileStore>((set: any, get: any)
     newAvatarUrl: "",
     editMode: false,
     cropper: null,
-    errorMessage: '',
-    errorOpen: false,
     updateUserDto: null,
     setExistingAvatarUrl: async (url: string) => {
         set({existingAvatarUrl: url})
@@ -58,17 +52,14 @@ export const useEditProfileStore = create<EditProfileStore>((set: any, get: any)
             })
         }
     },
-    getAvatar: async (userId: number) => {
+    getAvatar: async (userId: number): Promise<boolean> => {
         try {
-            set({existingAvatarUrl: await FileService.getAvatar(userId)})
+            const avatarUrl: string = await FileService.getAvatar(userId);
+            set({existingAvatarUrl: avatarUrl})
+            return true;
         } catch (e: unknown) {
-            const error = e as AxiosError;
-            set({
-                errorMessage: error.message,
-                errorOpen: true
-            })
+            return false;
         }
-
     },
     deleteAvatar: async () => {
         try {
@@ -95,17 +86,11 @@ export const useEditProfileStore = create<EditProfileStore>((set: any, get: any)
             })
         }
     },
-    setErrorMessage: async (message: string) => {
-        set({errorMessage: message})
-    },
-    setErrorOpen: async (flag: boolean) => {
-        set({errorOpen: flag})
-    },
     setUser: async (user: UpdateUserDto) => {
         set({updateUserDto: user})
     },
-    updateUser: async () => {
-        await UserService.updateUser(get().updateUserDto)
+    updateUser: async (): Promise<boolean> => {
+        return await UserService.updateUser(get().updateUserDto) as boolean;
     }
 
 }))

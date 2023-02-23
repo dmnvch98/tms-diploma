@@ -105,7 +105,7 @@ class UserService {
         try {
             const response = await axios.put('http://localhost:8080/api/v1/users/', user
                 , {withCredentials: true});
-            return response.data;
+            return response.status == 200;
         } catch (e: unknown) {
             const error = e as AxiosError;
             alert(error.message);

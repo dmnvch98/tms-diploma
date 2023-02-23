@@ -6,11 +6,12 @@ import {useParams} from "react-router-dom";
 import {StudentAvatarSection} from "../../../Components/Profile/Student/StudentAvatarSection";
 import {StudentInfo} from "../../../Components/Profile/Student/StudentInfo";
 import {useEditProfileStore} from "../Edit/editProfileStore";
-import {ErrorMessage} from "../../../Components/Error/ErrorMessage";
+import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
+import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
 
 export const StudentProfile = () => {
     const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
-    const errorOpen = useEditProfileStore(state => state.errorOpen);
+    const isErrorOpen = useNotificationStore(state => state.isOpen);
     const {id} = useParams();
     useEffect(() => {
         getUserByStudentId(Number(id))
@@ -24,7 +25,7 @@ export const StudentProfile = () => {
 
         return (
             <>
-                {errorOpen && (<ErrorMessage/>)}
+                {isErrorOpen && (<ErrorMessage/>)}
                 <Container sx={{mt: 7}}>
                     <Grid container spacing={2}>
                         <Grid item xs={3}>

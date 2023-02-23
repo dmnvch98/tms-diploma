@@ -1,13 +1,13 @@
 import {Alert, Snackbar} from "@mui/material";
 import {useState} from "react";
-import {useEditProfileStore} from "../../pages/Profile/Edit/editProfileStore";
+import {useNotificationStore} from "./notificationStore";
 
 export const ErrorMessage = () => {
     const [snackBarOpen, setSnackBar] = useState(true);
-    const errorOpen = useEditProfileStore(state => state.errorOpen);
-    const setErrorOpen = useEditProfileStore(state => state.setErrorOpen);
-    const setErrorMessage = useEditProfileStore(state => state.setErrorMessage);
-    const errorMessage = useEditProfileStore(state => state.errorMessage);
+    const isOpen = useNotificationStore(state => state.isOpen);
+    const setIsOpen = useNotificationStore(state => state.setIsOpen);
+    const setMessage = useNotificationStore(state => state.setMessage);
+    const message = useNotificationStore(state => state.message);
 
     return (
         <>
@@ -16,12 +16,12 @@ export const ErrorMessage = () => {
                 autoHideDuration={3000}
                 onClose={() => {
                     setSnackBar(!snackBarOpen)
-                    setErrorOpen(!errorOpen)
-                    setErrorMessage('')
+                    setIsOpen(!isOpen)
+                    setMessage('')
                 }}
             >
                 <Alert severity="error">
-                    {errorMessage}
+                    {message}
                 </Alert>
             </Snackbar>
         </>

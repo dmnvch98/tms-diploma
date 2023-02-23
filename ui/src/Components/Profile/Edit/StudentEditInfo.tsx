@@ -1,10 +1,11 @@
 import {Box, FormControl, Paper, TextField, Typography} from "@mui/material";
 import {UpdateUserDto} from "../../../CommonStore/store";
 import {useEditProfileStore} from "../../../pages/Profile/Edit/editProfileStore";
+import {useProfileStore} from "../../../pages/Profile/profileStore";
+import {useEffect} from "react";
 
 export const StudentEditInfo = () => {
     const updateUserDto = useEditProfileStore(state => state.updateUserDto);
-
     const setUserDto = useEditProfileStore(state => state.setUser)
 
     return (

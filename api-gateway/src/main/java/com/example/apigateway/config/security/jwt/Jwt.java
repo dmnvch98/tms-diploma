@@ -1,6 +1,5 @@
 package com.example.apigateway.config.security.jwt;
 
-import com.example.apigateway.handler.TokenExpiredException;
 import com.example.apigateway.model.User;
 import io.jsonwebtoken.*;
 import lombok.Getter;

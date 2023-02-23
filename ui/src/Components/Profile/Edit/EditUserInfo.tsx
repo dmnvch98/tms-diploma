@@ -5,19 +5,25 @@ import {useSignUpStore} from "../../../pages/SignUp/store/signUpStore";
 import {useEffect} from "react";
 import {UpdateUserDto, User} from "../../../CommonStore/store";
 import {useEditProfileStore} from "../../../pages/Profile/Edit/editProfileStore";
+import {useNotificationStore} from "../../Notifications/notificationStore";
+import {Notification} from "../../Notifications/Notification";
 
 export const EditUserInfo = () => {
     const updateUserDto = useEditProfileStore(state => state.updateUserDto);
     const user = useProfileStore(state => state.user);
     const setUserDto = useEditProfileStore(state => state.setUser)
     const updateUser = useEditProfileStore(state => state.updateUser)
+    const isNotificationOpen = useNotificationStore(state => state.isOpen);
+    const setMessage = useNotificationStore(state => state.setMessage);
+    const setNotificationOpen = useNotificationStore(state => state.setIsOpen);
 
     useEffect(() => {
-        if (user!= null) {
+        if (user != null) {
             const nationality: number = user.nationality.countryId;
             let userDto: UpdateUserDto = {...user, nationality};
             setUserDto(userDto);
         }
+        setMessage('Profile successfully updated')
     }, [])
 
     return (
@@ -26,6 +32,7 @@ export const EditUserInfo = () => {
                 <Paper>
                     <FormControl sx={{p: 2}}>
                         <Box>
+                            {isNotificationOpen && <Notification/>}
                             <TextField
                                 variant="standard"
                                 label="Email"
@@ -80,7 +87,11 @@ export const EditUserInfo = () => {
                             variant="contained"
                             sx={{mt: 4}}
                             onClick={() => {
-                               updateUser();
+                                updateUser().then(result => {
+                                    if (result) {
+                                        setNotificationOpen(!isNotificationOpen);
+                                    }
+                                })
                             }}
                         >Save</Button>
                     </FormControl>

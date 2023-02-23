@@ -5,13 +5,14 @@ import {SidebarHeader} from "../../../Components/SidebarHeader";
 import {useParams} from "react-router-dom";
 import {TutorAvatarSection} from "../../../Components/Profile/Tutor/TutorAvatarSection";
 import {TutorInfo} from "../../../Components/Profile/Tutor/TutorInfo";
-import {ErrorMessage} from "../../../Components/Error/ErrorMessage";
+import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useEditProfileStore} from "../Edit/editProfileStore";
+import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
 
 export const TutorProfile = () => {
     const Profile = () => {
         const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
-        const errorOpen = useEditProfileStore(state => state.errorOpen);
+        const isErrorOpen = useNotificationStore(state => state.isOpen);
         const { id } = useParams();
         useEffect(() => {
             getUserByTutorId(Number(id));
@@ -19,7 +20,7 @@ export const TutorProfile = () => {
 
         return (
             <>
-                {errorOpen && (<ErrorMessage/>)}
+                {isErrorOpen && (<ErrorMessage/>)}
                 <Container sx={{mt: 7}}>
                     <Grid container spacing={2}>
                         <Grid item xs={3}>
