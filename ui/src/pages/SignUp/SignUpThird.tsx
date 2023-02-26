@@ -2,7 +2,7 @@ import {Authentication} from "../../Components/Authentication";
 import {Box, Button, FormControl} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {useSignUpStore} from "./store/signUpStore";
-import {LanguageLevelSelectorTwo} from "../../Components/LanguageLevelSelector/LanguageLevelSelectorTwo";
+import {LanguageLevelSelector} from "../../Components/LanguageLevelSelector/LanguageLevelSelector";
 
 export const SignUpThird = () => {
     const createUser = useSignUpStore(state => state.createUser);
@@ -18,7 +18,7 @@ export const SignUpThird = () => {
                     alignItems="center">
                     <FormControl
                         sx={{width: '30%', backgroundColor: "white", borderRadius: 3}}>
-                        <LanguageLevelSelectorTwo/>
+                        <LanguageLevelSelector/>
                         <Button
                             variant="contained"
                             sx={{mt: 4}}

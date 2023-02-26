@@ -12,17 +12,28 @@ import {useNotificationStore} from "../../../Components/Notifications/notificati
 export const StudentProfile = () => {
     const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
     const isErrorOpen = useNotificationStore(state => state.isOpen);
+    const user = useProfileStore(state => state.user);
+    const getAvatar = useEditProfileStore(state => state.getAvatar);
+    const setIsErrorOpen = useNotificationStore(state => state.setIsOpen);
+    const setErrorMessage = useNotificationStore(state => state.setMessage)
+
     const {id} = useParams();
+
     useEffect(() => {
         getUserByStudentId(Number(id))
     }, []);
-    const Profile = () => {
-        const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
-        const {id} = useParams();
-        useEffect(() => {
-            getUserByStudentId(Number(id))
-        }, []);
 
+    useEffect(() => {
+        if (user != null) {
+            getAvatar(user.id).then(r => {
+                if (!r) {
+                    setIsErrorOpen(!isErrorOpen)
+                    setErrorMessage("An error occurred during avatar fetching");
+                }
+            })
+        }
+    }, [user])
+    const Profile = () => {
         return (
             <>
                 {isErrorOpen && (<ErrorMessage/>)}

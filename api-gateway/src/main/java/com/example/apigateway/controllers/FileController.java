@@ -1,6 +1,7 @@
 package com.example.apigateway.controllers;
 
 import com.example.apigateway.config.security.service.PrincipalUser;
+import com.example.apigateway.dto.ResponseDto;
 import com.example.apigateway.facades.FileFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,13 +20,13 @@ public class FileController {
     private final FileFacade fileFacade;
 
     @PostMapping(value = "/")
-    public ResponseEntity<String> uploadFile(@RequestPart("file") final MultipartFile file, Authentication authentication) {
+    public ResponseDto uploadFile(@RequestPart("file") final MultipartFile file, Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
-        return ResponseEntity.ok(fileFacade.uploadFile(file, userId));
+        return fileFacade.uploadFile(file, userId);
     }
 
     @GetMapping("/avatar/{userId}")
-    public String getFile(@PathVariable Long userId) {
+    public ResponseDto getFile(@PathVariable Long userId) {
         return fileFacade.getFile(userId);
     }
 
@@ -36,7 +37,7 @@ public class FileController {
     }
 
     @GetMapping("/default-avatar")
-    public ResponseEntity<String> getDefaultAvatar() {
-        return ResponseEntity.ok(fileFacade.getDefaultAvatar());
+    public ResponseDto getDefaultAvatar() {
+        return fileFacade.getDefaultAvatar();
     }
 }

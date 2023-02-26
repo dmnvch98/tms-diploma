@@ -33,7 +33,7 @@ public class FileServiceImpl implements FileService {
     public String userAvatarNamePostfix;
 
     @Override
-    public Optional<String> uploadFile(InputStream inputStream, String fileName) throws IOException {
+    public String uploadFile(InputStream inputStream, String fileName) throws IOException {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(inputStream.available());
         log.info("Started uploading {}", fileName);
@@ -48,7 +48,7 @@ public class FileServiceImpl implements FileService {
         } catch (RuntimeException e) {
             log.error("An error occurred while uploading {}: ", fileName + e);
         }
-        return Optional.empty();
+        return "";
     }
 
     @Override
@@ -94,17 +94,17 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Optional<String> getAvatarUrl(String fileName) {
+    public String getAvatarUrl(String fileName) {
         log.info("Getting {}", fileName);
         if (amazonS3.doesObjectExist(storageName, fileName)) {
-            return Optional.of(generateUrl(fileName));
+            return generateUrl(fileName);
         } else {
             log.warn("{} doesn't exist. Getting default avatar", fileName);
             if (amazonS3.doesObjectExist(storageName, defaultAvatarName)) {
-                return Optional.of(generateUrl(defaultAvatarName));
+                return generateUrl(defaultAvatarName);
             } else {
                 log.warn("Default avatar doesn't exist");
-                return Optional.empty();
+                return "";
             }
         }
     }

@@ -5,7 +5,6 @@ import com.example.apigateway.dto.UserRequestDto;
 import com.example.apigateway.dto.UserResponseDto;
 import com.example.apigateway.facades.UserFacade;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users")
-@Slf4j
 public class UserController {
 
     public final UserFacade userFacade;

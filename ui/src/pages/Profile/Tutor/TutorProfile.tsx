@@ -6,17 +6,33 @@ import {useParams} from "react-router-dom";
 import {TutorAvatarSection} from "../../../Components/Profile/Tutor/TutorAvatarSection";
 import {TutorInfo} from "../../../Components/Profile/Tutor/TutorInfo";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
-import {useEditProfileStore} from "../Edit/editProfileStore";
 import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
+import {useEditProfileStore} from "../Edit/editProfileStore";
 
 export const TutorProfile = () => {
     const Profile = () => {
         const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
         const isErrorOpen = useNotificationStore(state => state.isOpen);
+        const user = useProfileStore(state => state.user);
+        const getAvatar = useEditProfileStore(state => state.getAvatar);
+        const setIsErrorOpen = useNotificationStore(state => state.setIsOpen);
+        const setErrorMessage = useNotificationStore(state => state.setMessage)
+
         const { id } = useParams();
         useEffect(() => {
             getUserByTutorId(Number(id));
         }, []);
+
+        useEffect(() => {
+            if (user != null) {
+                getAvatar(user.id).then(r => {
+                    if (!r) {
+                        setIsErrorOpen(!isErrorOpen)
+                        setErrorMessage("An error occurred during avatar fetching");
+                    }
+                })
+            }
+        }, [user])
 
         return (
             <>

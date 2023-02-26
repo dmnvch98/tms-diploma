@@ -9,14 +9,14 @@ class FileService {
                         'Content-Type': `multipart/form-data; boundary=<calculated when request is sent>`,
                     },
                 });
-            return response.data;
+            return response.data.message;
     }
 
     getAvatar = async (userId: number) => {
             const response = await axios.get('http://localhost:8080/api/v1/files/avatar/' + userId, {
                 withCredentials: true
             });
-            return response.data;
+            return response.data.message;
     }
 
     deleteAvatar = async () => {
@@ -30,7 +30,7 @@ class FileService {
             const response = await axios.get('http://localhost:8080/api/v1/files/default-avatar', {
                 withCredentials: true
             });
-            return response.data;
+            return response.data.message;
     }
 }
 

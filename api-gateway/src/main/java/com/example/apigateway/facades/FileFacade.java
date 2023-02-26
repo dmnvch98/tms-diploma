@@ -1,5 +1,6 @@
 package com.example.apigateway.facades;
 
+import com.example.apigateway.dto.ResponseDto;
 import com.example.apigateway.services.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,11 +17,11 @@ public class FileFacade {
     @Value("${avatar.user_postfix}")
     public String userAvatarNamePostfix;
 
-    public String uploadFile(final MultipartFile file, final Long userId) {
+    public ResponseDto uploadFile(final MultipartFile file, final Long userId) {
         return fileService.uploadFile(file, userId);
     }
 
-    public String getFile(Long userId) {
+    public ResponseDto getFile(Long userId) {
         return fileService.getFile(userId + userAvatarNamePostfix);
     }
 
@@ -28,7 +29,7 @@ public class FileFacade {
         return fileService.deleteFile(userId + userAvatarNamePostfix, userId);
     }
 
-    public String getDefaultAvatar() {
+    public ResponseDto getDefaultAvatar() {
         return fileService.getFile(defaultAvatarName);
     }
 }

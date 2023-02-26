@@ -1,6 +1,5 @@
 import {useProfileStore} from "../../profileStore";
 import {useEffect} from "react";
-import {StudentEditInfo} from "../../../../Components/Profile/Edit/StudentEditInfo";
 import {EditProfile} from "../../../../Components/Profile/Edit/EditProfile";
 import {TutorEditInfo} from "../../../../Components/Profile/Edit/TutorEditInfo";
 

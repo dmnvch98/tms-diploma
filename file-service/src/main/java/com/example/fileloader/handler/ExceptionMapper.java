@@ -11,6 +11,6 @@ import java.io.IOException;
 public class ExceptionMapper {
     @ExceptionHandler(IOException.class)
     public ResponseDto handeException() {
-        return new ResponseDto("Some error occurred");
+        return ResponseDto.builder().message("Some error occurred").build();
     }
 }

@@ -1,27 +1,32 @@
 import {Box, Button, FormControl, Paper, TextField} from "@mui/material";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
-import {LanguageLevelSelectorTwo} from "../../LanguageLevelSelector/LanguageLevelSelectorTwo";
-import {useSignUpStore} from "../../../pages/SignUp/store/signUpStore";
+import {LanguageLevelSelector} from "../../LanguageLevelSelector/LanguageLevelSelector";
 import {useEffect} from "react";
-import {UpdateUserDto, User} from "../../../CommonStore/store";
-import {useEditProfileStore} from "../../../pages/Profile/Edit/editProfileStore";
 import {useNotificationStore} from "../../Notifications/notificationStore";
 import {Notification} from "../../Notifications/Notification";
+import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";
 
 export const EditUserInfo = () => {
-    const updateUserDto = useEditProfileStore(state => state.updateUserDto);
     const user = useProfileStore(state => state.user);
-    const setUserDto = useEditProfileStore(state => state.setUser)
-    const updateUser = useEditProfileStore(state => state.updateUser)
+    const updateUser = useUpdateUserInfo(state => state.updateUser)
     const isNotificationOpen = useNotificationStore(state => state.isOpen);
     const setMessage = useNotificationStore(state => state.setMessage);
     const setNotificationOpen = useNotificationStore(state => state.setIsOpen);
 
+    const setExistingUser = useUpdateUserInfo(state => state.setExistingUser);
+    const firstName = useUpdateUserInfo(state => state.firstName);
+    const lastName = useUpdateUserInfo(state => state.lastName);
+    const email = useUpdateUserInfo(state => state.email);
+    const location = useUpdateUserInfo(state => state.location)
+
+    const setFirstName = useUpdateUserInfo(state => state.setFirstName);
+    const setLastName = useUpdateUserInfo(state => state.setLastName);
+    const setEmail = useUpdateUserInfo(state => state.setEmail);
+    const setLocation = useUpdateUserInfo(state => state.setLocation)
+
     useEffect(() => {
         if (user != null) {
-            const nationality: number = user.nationality.countryId;
-            let userDto: UpdateUserDto = {...user, nationality};
-            setUserDto(userDto);
+            setExistingUser(user);
         }
         setMessage('Profile successfully updated')
     }, [])
@@ -37,52 +42,44 @@ export const EditUserInfo = () => {
                                 variant="standard"
                                 label="Email"
                                 sx={{mb: 2}}
-                                value={updateUserDto?.email}
+                                value={email}
                                 fullWidth
                                 onChange={e => {
-                                    const email: string = e.target.value;
-                                    const userDto = {...updateUserDto, email}
-                                    setUserDto(userDto as UpdateUserDto);
+                                    setEmail(e.target.value);
                                 }}
                             />
                             <TextField
                                 variant="standard"
                                 label="First Name"
                                 sx={{mb: 2}}
-                                value={updateUserDto?.firstName}
+                                value={firstName}
                                 fullWidth
                                 onChange={e => {
-                                    const firstName: string = e.target.value;
-                                    const userDto = {...updateUserDto, firstName}
-                                    setUserDto(userDto as UpdateUserDto);
+                                    setFirstName(e.target.value);
                                 }}
                             />
                             <TextField
                                 variant="standard"
                                 label="Last Name"
                                 sx={{mb: 2}}
-                                value={updateUserDto?.lastName}
+                                value={lastName}
                                 fullWidth
                                 onChange={e => {
-                                    const lastName: string = e.target.value;
-                                    const userDto = {...updateUserDto, lastName}
-                                    setUserDto(userDto as UpdateUserDto);
+                                    setLastName(e.target.value);
                                 }}
                             />
                             <TextField
                                 variant="standard"
                                 label="Location"
                                 sx={{mb: 2}}
-                                value={updateUserDto?.location}
+                                value={location}
                                 fullWidth
                                 onChange={e => {
-                                    const location: string = e.target.value;
-                                    const userDto = {...updateUserDto, location}
-                                    setUserDto(userDto as UpdateUserDto);
+                                    setLocation(e.target.value);
                                 }}
                             />
                         </Box>
-                        <LanguageLevelSelectorTwo/>
+                        <LanguageLevelSelector/>
                         <Button
                             variant="contained"
                             sx={{mt: 4}}

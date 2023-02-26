@@ -7,6 +7,7 @@ import {LanguageLevelTable} from "../LanguageLevelTable";
 import {useProfileStore} from "../../pages/Profile/profileStore";
 import {useEditProfileStore} from "../../pages/Profile/Edit/editProfileStore";
 import {UpdateUserDto} from "../../CommonStore/store";
+import {useUpdateUserInfo} from "../../pages/Profile/Edit/editProfileInfoStore";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -19,7 +20,7 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-export const LanguageLevelSelectorTwo = () => {
+export const LanguageLevelSelector = () => {
     const languagesList = useLanguagesStore(state => state.languagesList);
     const languageLevels = useSignUpStore(state => state.languageLevels);
     const level = useSignUpStore(state => state.level);
@@ -28,7 +29,6 @@ export const LanguageLevelSelectorTwo = () => {
     const languageId = useSignUpStore(state => state.languageId);
     const levelsList = useLevelsStore(state => state.levelsList);
     const user = useProfileStore(state => state.user);
-    const updateUserDto = useEditProfileStore(state => state.updateUserDto);
 
     const setLanguageLevels = useSignUpStore(state => state.setLanguageLevels);
     const setLanguageId = useSignUpStore(state => state.setLanguageId);
@@ -37,7 +37,8 @@ export const LanguageLevelSelectorTwo = () => {
     const setLevel = useSignUpStore(state => state.setLevel);
     const getLevels = useLevelsStore(state => state.getLevels);
     const getLanguages = useLanguagesStore(state => state.getLanguages);
-    const setUserDto = useEditProfileStore(state => state.setUser)
+
+    const editProfileSetLanguageLevels = useUpdateUserInfo(state => state.setLanguageLevels)
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -53,8 +54,7 @@ export const LanguageLevelSelectorTwo = () => {
     }, [])
 
     useEffect(() => {
-        const userDto = {...updateUserDto, languageLevels}
-        setUserDto(userDto as UpdateUserDto);
+        editProfileSetLanguageLevels(languageLevels);
     }, [languageLevels])
 
     const addLanguageLevel = () => {

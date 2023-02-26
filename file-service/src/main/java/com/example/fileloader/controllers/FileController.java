@@ -1,5 +1,6 @@
 package com.example.fileloader.controllers;
 
+import com.example.fileloader.dto.ResponseDto;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/api/v1/files")
 @RestController
@@ -26,9 +26,12 @@ public class FileController {
     public String defaultAvatarName;
 
     @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Optional<String> uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable Long userId)
+    public ResponseDto uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable Long userId)
         throws IOException {
-        return fileService.uploadFile(file.getInputStream(), userId + userAvatarNamePostfix);
+        return ResponseDto
+            .builder()
+            .message(fileService.uploadFile(file.getInputStream(), userId + userAvatarNamePostfix))
+            .build();
     }
 
     @GetMapping("/")
@@ -37,8 +40,10 @@ public class FileController {
     }
 
     @GetMapping("/{fileName}")
-    public Optional<String> getAvatarUrl(@PathVariable final String fileName) {
-        return fileService.getAvatarUrl(fileName);
+    public ResponseDto getAvatarUrl(@PathVariable final String fileName) {
+        return ResponseDto.builder()
+            .message(fileService.getAvatarUrl(fileName))
+            .build();
     }
 
     @DeleteMapping("/{fileName}")
@@ -47,8 +52,9 @@ public class FileController {
     }
 
     @PostMapping(value = "/default-avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Optional<String> uploadDefaultAvatar(@RequestPart("file") final MultipartFile file) throws IOException {
-        return fileService.uploadFile(file.getInputStream(), defaultAvatarName);
+    public ResponseDto uploadDefaultAvatar(@RequestPart("file") final MultipartFile file) throws IOException {
+        return ResponseDto.builder()
+            .message(fileService.uploadFile(file.getInputStream(), defaultAvatarName))
+            .build();
     }
-
 }

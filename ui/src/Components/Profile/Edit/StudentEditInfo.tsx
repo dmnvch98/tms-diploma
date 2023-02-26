@@ -3,10 +3,12 @@ import {UpdateUserDto} from "../../../CommonStore/store";
 import {useEditProfileStore} from "../../../pages/Profile/Edit/editProfileStore";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {useEffect} from "react";
+import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";
 
 export const StudentEditInfo = () => {
-    const updateUserDto = useEditProfileStore(state => state.updateUserDto);
-    const setUserDto = useEditProfileStore(state => state.setUser)
+
+    const aboutMe = useUpdateUserInfo(state => state.studentAboutMe);
+    const setAboutMe = useUpdateUserInfo(state => state.setStudentAboutMe);
 
     return (
         <>
@@ -16,14 +18,11 @@ export const StudentEditInfo = () => {
                                 variant="standard"
                                 label="About me"
                                 sx={{mb: 2}}
-                                value={updateUserDto?.student.aboutMe}
+                                value={aboutMe}
                                 fullWidth
                                 multiline
                                 onChange={e => {
-                                    const aboutMe: string = e.target.value;
-                                    const student = {...updateUserDto?.student, aboutMe};
-                                    const userDto = {...updateUserDto, student}
-                                    setUserDto(userDto as UpdateUserDto);
+                                    setAboutMe(e.target.value)
                                 }}
                             />
                 </Paper>
