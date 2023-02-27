@@ -114,7 +114,7 @@ class UserService {
 
     createTutor = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/tutors/',
+            const response = await axios.post('http://localhost:8080/api/v1/tutors/', null ,
                 {withCredentials: true});
             return response.status == 201;
         } catch (e: unknown) {
@@ -136,7 +136,7 @@ class UserService {
 
     createStudent = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/students/',
+            const response = await axios.post('http://localhost:8080/api/v1/students/', null,
                 {withCredentials: true});
             return response.status == 201;
         } catch (e: unknown) {
