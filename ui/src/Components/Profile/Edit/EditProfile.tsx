@@ -5,7 +5,6 @@ import {EditUserInfo} from "./EditUserInfo";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {useEffect} from "react";
 import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";
-import {useNotificationStore} from "../../Notifications/notificationStore";
 import {CreateTutorProfile} from "../Student/CreateTutorProfile";
 import {CreateStudentProfile} from "../Tutor/CreateStudentProfile";
 

@@ -4,7 +4,7 @@ import {TutorInfo} from "../../../Components/Profile/Tutor/TutorInfo";
 import {MyTutorAvatarSection} from "../../../Components/Profile/Tutor/MyTutorAvatarSection";
 import {useProfileStore} from "../profileStore";
 import {useEffect} from "react";
-import {useEditProfileStore} from "../Edit/editProfileStore";
+import {useEditProfileStore} from "../Edit/editAvatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 

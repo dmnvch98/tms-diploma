@@ -5,7 +5,7 @@ import {SidebarHeader} from "../../../Components/SidebarHeader";
 import {useParams} from "react-router-dom";
 import {StudentAvatarSection} from "../../../Components/Profile/Student/StudentAvatarSection";
 import {StudentInfo} from "../../../Components/Profile/Student/StudentInfo";
-import {useEditProfileStore} from "../Edit/editProfileStore";
+import {useEditProfileStore} from "../Edit/editAvatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 

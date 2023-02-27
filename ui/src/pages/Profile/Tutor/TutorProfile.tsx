@@ -6,7 +6,7 @@ import {useParams} from "react-router-dom";
 import {TutorAvatarSection} from "../../../Components/Profile/Tutor/TutorAvatarSection";
 import {TutorInfo} from "../../../Components/Profile/Tutor/TutorInfo";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
-import {useEditProfileStore} from "../Edit/editProfileStore";
+import {useEditProfileStore} from "../Edit/editAvatarStore";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 
 export const TutorProfile = () => {
