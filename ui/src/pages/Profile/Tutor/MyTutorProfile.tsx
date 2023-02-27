@@ -6,23 +6,24 @@ import {useProfileStore} from "../profileStore";
 import {useEffect} from "react";
 import {useEditProfileStore} from "../Edit/editProfileStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
-import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
+import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 
 export const MyTutorProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
-    const isErrorOpen = useNotificationStore(state => state.isOpen);
+    const isErrorOpen = useErrorMessageStore(state => state.isOpen);
     const user = useProfileStore(state => state.user);
     const getAvatar = useEditProfileStore(state => state.getAvatar);
-    const setIsErrorOpen = useNotificationStore(state => state.setIsOpen);
-    const setErrorMessage = useNotificationStore(state => state.setMessage)
+    const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
+    const setErrorMessage = useErrorMessageStore(state => state.setMessage)
+
     useEffect(() => {
         getMe();
     }, [])
 
     useEffect(() => {
         if (user != null) {
-            getAvatar(user.id).then(r => {
-                if (!r) {
+            getAvatar(user.id).then(result => {
+                if (!result) {
                     setIsErrorOpen(!isErrorOpen)
                     setErrorMessage("An error occurred during avatar fetching");
                 }

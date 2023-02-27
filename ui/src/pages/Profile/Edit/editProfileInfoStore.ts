@@ -14,6 +14,7 @@ export interface EditProfileInfo {
     studentAboutMe: string | null,
     tutorAboutMe: string | null
     existingUser: User | null,
+    isTutorOrStudentProfileCreated: boolean;
     setEmail: (email: string) => void;
     setFirstName: (firstname: string) => void;
     setLastName: (lastName: string) => void;
@@ -22,9 +23,12 @@ export interface EditProfileInfo {
     setTutorAboutMe: (aboutMe: string) => void;
     updateUser: () => Promise<boolean>;
     setExistingUser: (user: User) => void;
-    updateStudent: (student: Student) => void;
-    updateTutor: (tutor: Tutor) => void;
+    addStudentToStore: () => void;
+    addTutorToStore: () => void;
     setLocation: (location: string) => void;
+    setIsTutorOrStudentProfileCreated: (flag: boolean) => void;
+    deleteStudentFromStore: () => void;
+    deleteTutorFromStore: () => void;
 }
 
 export const useUpdateUserInfo = create<EditProfileInfo>((set: any, get: any) => ({
@@ -38,6 +42,7 @@ export const useUpdateUserInfo = create<EditProfileInfo>((set: any, get: any) =>
     studentAboutMe: '',
     tutorAboutMe: '',
     existingUser: null,
+    isTutorOrStudentProfileCreated: false,
     setEmail: async (email: string) => {
         set({email: email})
     },
@@ -58,7 +63,11 @@ export const useUpdateUserInfo = create<EditProfileInfo>((set: any, get: any) =>
         })
     },
     setTutorAboutMe: async (aboutMe: string) => {
-        set({tutorAboutMe: aboutMe})
+        const tutor: Tutor = {... get().tutor, aboutMe}
+        set({
+            tutorAboutMe: aboutMe,
+            tutor: tutor
+        })
     },
     updateUser: async (): Promise<boolean> => {
         const updateUserDto: UpdateUserDto = {
@@ -91,13 +100,22 @@ export const useUpdateUserInfo = create<EditProfileInfo>((set: any, get: any) =>
             tutorAboutMe: user.tutor?.aboutMe
         });
     },
-    updateStudent: async (student: Student) => {
-        set({student: student});
+    addStudentToStore: async () => {
+        set({student: {}});
     },
-    updateTutor: async (tutor: Tutor) => {
-        set({tutor: tutor});
+    addTutorToStore: async () => {
+        set({tutor: {}});
     },
     setLocation: async (location: string) => {
         set({location: location})
+    },
+    setIsTutorOrStudentProfileCreated: async (flag: boolean) => {
+        set({isTutorOrStudentProfileCreated: flag})
+    },
+    deleteStudentFromStore: async () => {
+        set({student: null})
+    },
+    deleteTutorFromStore: async () => {
+        set({tutor: null})
     }
 }))

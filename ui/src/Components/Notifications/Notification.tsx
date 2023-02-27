@@ -1,6 +1,5 @@
 import {Alert, Snackbar} from "@mui/material";
 import {useState} from "react";
-import {useEditProfileStore} from "../../pages/Profile/Edit/editProfileStore";
 import {useNotificationStore} from "./notificationStore";
 
 export const Notification = () => {
@@ -14,7 +13,7 @@ export const Notification = () => {
         <>
             <Snackbar
                 open={snackBarOpen}
-                autoHideDuration={3000}
+                autoHideDuration={1500}
                 onClose={() => {
                     setSnackBar(!snackBarOpen)
                     setIsOpen(!isOpen)

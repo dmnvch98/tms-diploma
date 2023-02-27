@@ -6,15 +6,15 @@ import {StudentInfo} from "../../../Components/Profile/Student/StudentInfo";
 import {MyStudentAvatarSection} from "../../../Components/Profile/Student/MyStudentAvatarSection";
 import {useEditProfileStore} from "../Edit/editProfileStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
-import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
+import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 
 export const MyStudentProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
-    const isErrorOpen = useNotificationStore(state => state.isOpen);
     const user = useProfileStore(state => state.user);
     const getAvatar = useEditProfileStore(state => state.getAvatar);
-    const setIsErrorOpen = useNotificationStore(state => state.setIsOpen);
-    const setErrorMessage = useNotificationStore(state => state.setMessage)
+    const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
+    const setErrorMessage = useErrorMessageStore(state => state.setMessage)
+    const isErrorOpen = useErrorMessageStore(state => state.isOpen);
 
     useEffect(() => {
         getMe();
@@ -22,8 +22,8 @@ export const MyStudentProfile = () => {
 
     useEffect(() => {
         if (user != null) {
-            getAvatar(user.id).then(r => {
-                if (!r) {
+            getAvatar(user.id).then(result => {
+                if (!result) {
                     setIsErrorOpen(!isErrorOpen)
                     setErrorMessage("An error occurred during avatar fetching");
                 }

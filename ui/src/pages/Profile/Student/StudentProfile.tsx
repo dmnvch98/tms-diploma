@@ -7,15 +7,15 @@ import {StudentAvatarSection} from "../../../Components/Profile/Student/StudentA
 import {StudentInfo} from "../../../Components/Profile/Student/StudentInfo";
 import {useEditProfileStore} from "../Edit/editProfileStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
-import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
+import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 
 export const StudentProfile = () => {
     const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
-    const isErrorOpen = useNotificationStore(state => state.isOpen);
     const user = useProfileStore(state => state.user);
     const getAvatar = useEditProfileStore(state => state.getAvatar);
-    const setIsErrorOpen = useNotificationStore(state => state.setIsOpen);
-    const setErrorMessage = useNotificationStore(state => state.setMessage)
+    const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
+    const setErrorMessage = useErrorMessageStore(state => state.setMessage);
+    const isErrorOpen = useErrorMessageStore(state => state.isOpen);
 
     const {id} = useParams();
 

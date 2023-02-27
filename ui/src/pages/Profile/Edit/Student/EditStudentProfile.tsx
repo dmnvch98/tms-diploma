@@ -2,6 +2,7 @@ import {useProfileStore} from "../../profileStore";
 import {useEffect} from "react";
 import {StudentEditInfo} from "../../../../Components/Profile/Edit/StudentEditInfo";
 import {EditProfile} from "../../../../Components/Profile/Edit/EditProfile";
+import {Button} from "@mui/material";
 export const EditStudentProfile = () => {
     const user = useProfileStore(state => state.user);
     const getMe = useProfileStore(state => state.getMe)

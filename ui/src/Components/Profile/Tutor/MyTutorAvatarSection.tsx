@@ -23,7 +23,7 @@ export const MyTutorAvatarSection = () => {
                     </Button>
                     <Button variant="contained"
                             fullWidth
-                            sx={{mt: 2}}
+                            sx={{mt: 2, display: user?.student != null ? "flex" : "none"}}
                             {...{
                                 to: "/my-student-profile",
                                 component: RouterLink,

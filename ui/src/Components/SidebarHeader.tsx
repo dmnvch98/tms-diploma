@@ -21,6 +21,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import {Button, Grid} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
+import {useProfileStore} from "../pages/Profile/profileStore";
 
 const drawerWidth = 240;
 
@@ -36,16 +37,9 @@ const openedMixin = (theme: Theme): CSSObject => ({
 interface TabIcon {
     name: string;
     icon: any;
-    redirect: string
+    redirect: string;
+    visible: boolean;
 }
-
-const tabs: TabIcon[] = [
-    {name: 'Find tutor', icon: <PublicIcon/>, redirect: ''},
-    {name: 'My Student Profile', icon: <AccountCircleIcon/>, redirect: '/my-student-profile'},
-    {name: 'My Tutor Profile', icon: <AccountCircleIcon/>, redirect: '/my-tutor-profile'},
-    {name: 'My conversations', icon: <EmojiPeopleIcon/>, redirect: ''}
-]
-
 
 const closedMixin = (theme: Theme): CSSObject => ({
     transition: theme.transitions.create('width', {
@@ -108,8 +102,37 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 );
 
 export const SidebarHeader = (props: any) => {
+    const user = useProfileStore(state => state.user);
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+
+    const tabs: TabIcon[] = [
+        {
+            name: 'Find tutor',
+            icon: <PublicIcon/>,
+            redirect: '',
+            visible: true
+        },
+        {
+            name: 'My Student Profile',
+            icon: <AccountCircleIcon/>,
+            redirect: '/my-student-profile',
+            visible: user?.student != null
+        },
+        {
+            name: 'My Tutor Profile',
+            icon: <AccountCircleIcon/>,
+            redirect: '/my-tutor-profile',
+            visible: user?.tutor != null
+        },
+        {
+            name: 'My conversations',
+            icon: <EmojiPeopleIcon/>,
+            redirect: '',
+            visible: true
+        }
+    ]
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -168,7 +191,8 @@ export const SidebarHeader = (props: any) => {
                                     minHeight: 48,
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
-                                    mb: 2
+                                    mb: 2,
+                                    display: t.visible ? "flex" : "none"
                                 }}
                             >
                                 <ListItemIcon

@@ -1,19 +1,19 @@
 import {Alert, Snackbar} from "@mui/material";
 import {useState} from "react";
-import {useNotificationStore} from "./notificationStore";
+import {useErrorMessageStore} from "./errorMessageStore";
 
 export const ErrorMessage = () => {
     const [snackBarOpen, setSnackBar] = useState(true);
-    const isOpen = useNotificationStore(state => state.isOpen);
-    const setIsOpen = useNotificationStore(state => state.setIsOpen);
-    const setMessage = useNotificationStore(state => state.setMessage);
-    const message = useNotificationStore(state => state.message);
+    const isOpen = useErrorMessageStore(state => state.isOpen);
+    const setIsOpen = useErrorMessageStore(state => state.setIsOpen);
+    const setMessage = useErrorMessageStore(state => state.setMessage);
+    const message = useErrorMessageStore(state => state.message);
 
     return (
         <>
             <Snackbar
                 open={snackBarOpen}
-                autoHideDuration={3000}
+                autoHideDuration={1500}
                 onClose={() => {
                     setSnackBar(!snackBarOpen)
                     setIsOpen(!isOpen)
