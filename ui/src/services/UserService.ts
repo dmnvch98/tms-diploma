@@ -114,7 +114,7 @@ class UserService {
 
     createTutor = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/tutors',
+            const response = await axios.post('http://localhost:8080/api/v1/tutors/',
                 {withCredentials: true});
             return response.status == 201;
         } catch (e: unknown) {
@@ -125,7 +125,7 @@ class UserService {
 
     deleteTutor = async () => {
         try {
-            const response = await axios.delete('http://localhost:8080/api/v1/tutors',
+            const response = await axios.delete('http://localhost:8080/api/v1/tutors/',
                 {withCredentials: true});
             return response.status == 204;
         } catch (e: unknown) {
@@ -136,7 +136,7 @@ class UserService {
 
     createStudent = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/students',
+            const response = await axios.post('http://localhost:8080/api/v1/students/',
                 {withCredentials: true});
             return response.status == 201;
         } catch (e: unknown) {
@@ -147,7 +147,7 @@ class UserService {
 
     deleteStudent = async () => {
         try {
-            const response = await axios.delete('http://localhost:8080/api/v1/students',
+            const response = await axios.delete('http://localhost:8080/api/v1/students/',
                 {withCredentials: true});
             return response.status == 204;
         } catch (e: unknown) {

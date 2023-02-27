@@ -23,7 +23,7 @@ public class TutorController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping("/")
     Tutor save(Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         return tutorFacade.saveTutor(Tutor.builder().userId(userId).build());

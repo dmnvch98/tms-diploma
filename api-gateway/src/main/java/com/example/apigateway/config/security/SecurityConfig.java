@@ -54,7 +54,8 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/api/v1/tutors/**").hasAnyRole("Student")
                 .antMatchers(HttpMethod.DELETE, "/api/v1/students/**").hasAnyRole("Tutor")
-                .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student", "Tutor")
+//                .antMatchers(HttpMethod.POST, "/api/v1/tutors/**").hasAnyRole("Student")
+//                .antMatchers(HttpMethod.POST, "/api/v1/students/**").hasAnyRole("Tutor")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
@@ -72,10 +73,6 @@ public class SecurityConfig {
         repository.setHeaderName(xsrfHeaderName);
         repository.setCookieDomain(cookieDomain);
         return repository;
-    }
-
-    private ExceptionHandlerFilter exceptionHandlerFilter() {
-        return new ExceptionHandlerFilter();
     }
 
 }
