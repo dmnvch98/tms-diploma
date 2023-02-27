@@ -23,12 +23,12 @@ export interface EditProfileInfo {
     setTutorAboutMe: (aboutMe: string) => void;
     updateUser: () => Promise<boolean>;
     setExistingUser: (user: User) => void;
-    addStudentToStore: () => void;
-    addTutorToStore: () => void;
+    createStudent: () => Promise<boolean>;
+    createTutor: () => Promise<boolean>;
     setLocation: (location: string) => void;
     setIsTutorOrStudentProfileCreated: (flag: boolean) => void;
-    deleteStudentFromStore: () => void;
-    deleteTutorFromStore: () => void;
+    deleteStudent: () => Promise<boolean>;
+    deleteTutor: () => Promise<boolean>;
 }
 
 export const useUpdateUserInfo = create<EditProfileInfo>((set: any, get: any) => ({
@@ -56,14 +56,14 @@ export const useUpdateUserInfo = create<EditProfileInfo>((set: any, get: any) =>
         set({languageLevels: data})
     },
     setStudentAboutMe: async (aboutMe: string) => {
-        const student: Student = {... get().student, aboutMe}
+        const student: Student = {...get().student, aboutMe}
         set({
             studentAboutMe: aboutMe,
             student: student
         })
     },
     setTutorAboutMe: async (aboutMe: string) => {
-        const tutor: Tutor = {... get().tutor, aboutMe}
+        const tutor: Tutor = {...get().tutor, aboutMe}
         set({
             tutorAboutMe: aboutMe,
             tutor: tutor
@@ -100,11 +100,13 @@ export const useUpdateUserInfo = create<EditProfileInfo>((set: any, get: any) =>
             tutorAboutMe: user.tutor?.aboutMe
         });
     },
-    addStudentToStore: async () => {
+    createStudent: async (): Promise<boolean> => {
         set({student: {}});
+        return await UserService.createStudent() as boolean;
     },
-    addTutorToStore: async () => {
+    createTutor: async (): Promise<boolean> => {
         set({tutor: {}});
+        return await UserService.createTutor() as boolean;
     },
     setLocation: async (location: string) => {
         set({location: location})
@@ -112,10 +114,12 @@ export const useUpdateUserInfo = create<EditProfileInfo>((set: any, get: any) =>
     setIsTutorOrStudentProfileCreated: async (flag: boolean) => {
         set({isTutorOrStudentProfileCreated: flag})
     },
-    deleteStudentFromStore: async () => {
+    deleteStudent: async (): Promise<boolean> => {
         set({student: null})
+        return await UserService.deleteStudent() as boolean;
     },
-    deleteTutorFromStore: async () => {
+    deleteTutor: async (): Promise<boolean> => {
         set({tutor: null})
+        return await UserService.deleteTutor() as boolean;
     }
 }))

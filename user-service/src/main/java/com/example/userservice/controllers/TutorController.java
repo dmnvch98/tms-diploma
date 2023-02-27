@@ -1,6 +1,7 @@
 package com.example.userservice.controllers;
 
 import com.example.userservice.facades.TutorFacade;
+import com.example.userservice.model.Tutor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,5 +16,11 @@ public class TutorController {
     @DeleteMapping("/{userId}")
     public void deleteTutor(@PathVariable("userId") Long userId) {
         tutorFacade.deleteTutor(userId);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Tutor save(@RequestBody Tutor tutor) {
+        return tutorFacade.save(tutor);
     }
 }

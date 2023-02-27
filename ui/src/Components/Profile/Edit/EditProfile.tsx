@@ -5,8 +5,8 @@ import {EditUserInfo} from "./EditUserInfo";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {useEffect} from "react";
 import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";
-import {CreateTutorProfile} from "../Student/CreateTutorProfile";
-import {CreateStudentProfile} from "../Tutor/CreateStudentProfile";
+import {CreateDeleteTutorProfile} from "../Student/CreateDeleteTutorProfile";
+import {CreateDeleteStudentProfile} from "../Tutor/CreateDeleteStudentProfile";
 
 export const EditProfile = ({ children }: any) => {
     const user = useProfileStore(state => state.user);
@@ -33,8 +33,8 @@ export const EditProfile = ({ children }: any) => {
                 <Grid container spacing={2}>
                     <Grid item xs={3}>
                         <EditAvatar/>
-                        <CreateTutorProfile/>
-                        <CreateStudentProfile/>
+                        <CreateDeleteTutorProfile/>
+                        <CreateDeleteStudentProfile/>
                     </Grid>
                     <Grid item xs={7}>
                         {children}

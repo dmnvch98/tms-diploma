@@ -2,6 +2,7 @@ package com.example.apigateway.controllers;
 
 import com.example.apigateway.config.security.service.PrincipalUser;
 import com.example.apigateway.facades.StudentFacade;
+import com.example.apigateway.model.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +20,13 @@ public class StudentController {
     public void deleteStudent(Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         studentFacade.deleteStudent(userId);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Student save(Authentication authentication) {
+        Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
+        Student student = Student.builder().userId(userId).build();
+        return studentFacade.save(student);
     }
 }

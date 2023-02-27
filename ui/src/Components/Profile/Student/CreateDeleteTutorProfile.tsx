@@ -1,15 +1,15 @@
-import {Box, Button, Paper} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";
 import {useNotificationStore} from "../../Notifications/notificationStore";
 import {useErrorMessageStore} from "../../Notifications/errorMessageStore";
-import {useNavigate} from "react-router-dom";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
+import {useEffect} from "react";
 
-export const CreateStudentProfile = () => {
+export const CreateDeleteTutorProfile = () => {
     const user = useProfileStore(state => state.user);
-    const addStudentToStore = useUpdateUserInfo(state => state.addStudentToStore);
-    const deleteStudentFromStore = useUpdateUserInfo(state => state.deleteTutorFromStore);
-    const updateUser = useUpdateUserInfo(state => state.updateUser);
+    const addTutorToStore = useUpdateUserInfo(state => state.createTutor);
+    const deleteTutorFromStore = useUpdateUserInfo(state => state.deleteTutor);
 
     const setNotificationMessage = useNotificationStore(state => state.setMessage)
     const setErrorMessage = useErrorMessageStore(state => state.setMessage)
@@ -22,54 +22,51 @@ export const CreateStudentProfile = () => {
 
     const navigate = useNavigate();
 
-    const createStudent = () => {
-        addStudentToStore();
-        updateUser().then(result => {
+    const createTutor = () => {
+        addTutorToStore().then(result => {
             if (result) {
                 setIsNotificationOpen(!isNotificationOpen);
-                setNotificationMessage("Student profile successfully created!");
+                setNotificationMessage("Tutor profile successfully created!");
             } else {
                 setIsErrorOpen(!isErrorOpen);
-                setErrorMessage("Some error occurred during student profile creating")
+                setErrorMessage("Some error occurred during tutor profile creating")
             }
         })
     }
 
-    const deleteStudent = () => {
-        deleteStudentFromStore();
-        updateUser().then(result => {
+    const deleteTutor = () => {
+        deleteTutorFromStore().then(result => {
             if (result) {
                 setIsNotificationOpen(!isNotificationOpen);
-                setNotificationMessage("Student profile successfully deleted!");
-                navigate("/my-tutor-profile");
+                setNotificationMessage("Tutor profile successfully deleted!");
+                navigate("/my-student-profile");
             } else {
                 setIsErrorOpen(!isErrorOpen);
-                setErrorMessage("Some error occurred during student profile deleting")
+                setErrorMessage("Some error occurred during tutor profile deleting")
             }
         })
     }
 
     return (
         <>
-            {user?.student == null
-                ?
+            {user?.tutor == null ?
                 (<Box sx={{mt: 2}}>
                     <Button
                         fullWidth
-                        onClick={createStudent}
+                        onClick={createTutor}
                         variant="contained">
-                        Create student profile
+                        Create tutor profile
                     </Button>
                 </Box>)
-                : user.tutor != null
+                : user.student != null
                     ?
                     (<Box sx={{mt: 2}}>
                         <Button
                             fullWidth
                             color="error"
-                            onClick={deleteStudent}
+                            onClick={deleteTutor}
                             variant="outlined">
-                            Delete student profile
+                            Delete tutor profile
                         </Button>
                     </Box>)
                     : <></>

@@ -32,3 +32,7 @@ spring:
 avatar:
   user_postfix: '_avatar.png'
   default: 'default_avatar.png'
+
+logging:
+  level:
+    root: debug
