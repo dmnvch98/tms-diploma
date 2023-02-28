@@ -1,6 +1,6 @@
 create table conversation_types
 (
-    id BIGSERIAL NOT NULL PRIMARY KEY,
+    conv_type_id BIGSERIAL NOT NULL PRIMARY KEY,
     description TEXT NOT NULL,
 
     UNIQUE (description)
