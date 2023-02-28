@@ -2,6 +2,7 @@ package com.example.userservice.model;
 
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -9,16 +10,19 @@ import org.springframework.data.relational.core.mapping.Table;
 @Value
 @Builder
 @Table("addresses")
+@Jacksonized
 public class Address {
     @Id
-    Long id;
+    Long addressId;
     @Column("address")
     String address;
+    @Column("city")
+    String city;
     @Column("lat")
     String latitude;
     @Column("long")
     String longitude;
-    @Column("userId")
+    @Column("user_id")
     Long userId;
 
 }
