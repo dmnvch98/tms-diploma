@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Table("conv_details")
 public class ConversationDetails {
     @Id
-    Long id;
+    Long convDetailsId;
     @Column("tutor_id")
     Long tutorId;
     @Column("conv_type_id")

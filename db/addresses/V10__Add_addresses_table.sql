@@ -5,5 +5,6 @@ create table addresses
     address    TEXT,
     lat        TEXT      NOT NULL,
     long       TEXT      NOT NULL,
-    user_id    BIGSERIAL NOT NULL
+    tutor_id   BIGSERIAL NOT NULL,
+    FOREIGN KEY (tutor_id) REFERENCES tutors (tutor_id)
 )

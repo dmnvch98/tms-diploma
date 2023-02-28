@@ -22,7 +22,7 @@ public class Address {
     String latitude;
     @Column("long")
     String longitude;
-    @Column("user_id")
-    Long userId;
+    @Column("tutor_id")
+    Long tutorId;
 
 }
