@@ -1,6 +1,5 @@
 package com.example.userservice.services;
 
-import com.example.userservice.converters.utils.FindLanguageLevelId;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.model.Language;
 import com.example.userservice.model.LanguageLevel;
