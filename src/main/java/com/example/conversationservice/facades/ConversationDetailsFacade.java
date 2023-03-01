@@ -54,4 +54,9 @@ public class ConversationDetailsFacade {
                 addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId())))
             .toList();
     }
+
+    public List<User> filterTutors(double price, Long convTypeId,
+                                   String location, Long languageId, Long levelId) {
+        return service.filterTutors(price, convTypeId, location, languageId, levelId);
+    }
 }
