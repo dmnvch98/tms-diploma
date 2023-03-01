@@ -1,9 +1,6 @@
 package com.example.conversationservice.controllers;
 
-import com.example.conversationservice.dto.ConversationDetailsRequestDto;
-import com.example.conversationservice.dto.ConversationDetailsResponseDto;
-import com.example.conversationservice.dto.ConversationRequestDto;
-import com.example.conversationservice.dto.ConversationResponseDto;
+import com.example.conversationservice.dto.*;
 import com.example.conversationservice.facades.ConversationDetailsFacade;
 import com.example.conversationservice.facades.ConversationFacade;
 import com.example.conversationservice.model.User;
@@ -37,14 +34,8 @@ public class ConversationController {
         return conversationFacade.save(dto);
     }
 
-    @GetMapping("/details/tutors")
-    public List<User> findTutorsWithExistingConvDetails() {
-        return conversationDetailsFacade.findTutorsWithExistingConvDetails();
-    }
-
-    @GetMapping("/details/tutors/price/{price}/convTypeId/{convTypeId}/location/{location}/languageId/{languageId}/levelId/{levelId}")
-    public List<User> filterTutors(@PathVariable double price, @PathVariable Long convTypeId,
-                                   @PathVariable String location, @PathVariable Long languageId, @PathVariable Long levelId) {
-        return conversationDetailsFacade.filterTutors(price, convTypeId, location, languageId, levelId);
+    @GetMapping("/details/tutors/filter")
+    public List<User> filterTutors(@RequestBody FilterTutorsRequestDto dto) {
+        return conversationDetailsFacade.filterTutors(dto);
     }
 }

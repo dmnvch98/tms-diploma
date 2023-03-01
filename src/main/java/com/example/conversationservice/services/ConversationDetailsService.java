@@ -27,12 +27,8 @@ public class ConversationDetailsService implements FindConversationDetailsById {
         return repository.findAllByConvDetailsId(convDetailsId);
     }
 
-    public List<User> findTutorsWithExistingConvDetails() {
-        return repository.findTutorsWithExistingConvDetails();
-    }
-
-    public List<User> filterTutors(double price, Long convTypeId,
+    public List<User> filterTutors(double minPrice, double maxPrice, Long convTypeId,
                                    String location, Long languageId, Long levelId) {
-        return repository.filterTutors(price, convTypeId, location, languageId, levelId);
+        return repository.filterTutors(minPrice, maxPrice, convTypeId, location, languageId, levelId);
     }
 }

@@ -25,16 +25,13 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
 
     ConversationDetails findAllByConvDetailsId(Long convDetailsId);
 
-    @Query(FIND_TUTORS_WITH_EXISTING_CONV_DETAILS)
-    List<User> findTutorsWithExistingConvDetails();
-
     @Query(FIND_TUTORS_WITH_EXISTING_CONV_DETAILS + 
         " LEFT OUTER JOIN language_levels ll on cd.min_lang_level_id = ll.language_level_id" +
         " LEFT OUTER JOIN languages l on l.language_id = ll.language_id" +
         " LEFT OUTER JOIN levels l2 on ll.level_id = l2.level_id" +
-        " WHERE cd.price <=:price and cd.conv_type_id =:convTypeId and users.location =:location " +
+        " WHERE cd.price between :minPrice and :maxPrice and cd.conv_type_id =:convTypeId and users.location =:location " +
         "and ll.language_id =:languageId AND l2.level_id <=:levelId")
-    List<User> filterTutors(@Param("price") double price, @Param("convTypeId") Long convTypeId,
-                            @Param("location") String location, @Param("languageId") Long languageId,
-                            @Param("levelId") Long levelId);
+    List<User> filterTutors(@Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice,
+                            @Param("convTypeId") Long convTypeId, @Param("location") String location,
+                            @Param("languageId") Long languageId, @Param("levelId") Long levelId);
 }
