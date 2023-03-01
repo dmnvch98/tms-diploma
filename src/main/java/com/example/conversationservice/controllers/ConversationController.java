@@ -34,6 +34,12 @@ public class ConversationController {
         return conversationFacade.save(dto);
     }
 
+    @CrossOrigin
+    @GetMapping("/details/tutors")
+    public List<TutorCardInfoMinPrice> findTutorsWithExistingConvDetails() {
+        return conversationDetailsFacade.findTutorCardInfoWithMinPrice();
+    }
+
     @GetMapping("/details/tutors/filter")
     public List<User> filterTutors(@RequestBody FilterTutorsRequestDto dto) {
         return conversationDetailsFacade.filterTutors(dto);

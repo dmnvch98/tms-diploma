@@ -31,4 +31,8 @@ public class ConversationDetailsService implements FindConversationDetailsById {
                                    String location, Long languageId, Long levelId) {
         return repository.filterTutors(minPrice, maxPrice, convTypeId, location, languageId, levelId);
     }
+
+    public double findMinimumPriceByUserId(Long tutorId) {
+        return repository.findMinimumPriceByUserId(tutorId);
+    }
 }

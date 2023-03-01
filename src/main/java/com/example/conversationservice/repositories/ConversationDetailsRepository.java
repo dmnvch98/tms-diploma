@@ -34,4 +34,10 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
     List<User> filterTutors(@Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice,
                             @Param("convTypeId") Long convTypeId, @Param("location") String location,
                             @Param("languageId") Long languageId, @Param("levelId") Long levelId);
+
+    @Query("SELECT MIN(price) FROM conv_details " +
+        "join tutors t on t.tutor_id = conv_details.tutor_id " +
+        "join users u on u.id = t.user_id " +
+        "where u.id=:userId")
+    double findMinimumPriceByUserId(@Param("userId") Long userId);
 }

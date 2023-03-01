@@ -1,12 +1,15 @@
 package com.example.conversationservice.facades;
 
 import com.example.conversationservice.converters.ConversationConverter;
+import com.example.conversationservice.converters.UserConverter;
 import com.example.conversationservice.dto.ConversationDetailsRequestDto;
 import com.example.conversationservice.dto.ConversationDetailsResponseDto;
 import com.example.conversationservice.dto.FilterTutorsRequestDto;
+import com.example.conversationservice.dto.TutorCardInfoMinPrice;
 import com.example.conversationservice.model.ConversationDetails;
 import com.example.conversationservice.model.User;
 import com.example.conversationservice.services.ConversationDetailsService;
+import com.example.conversationservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +19,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConversationDetailsFacade {
     private final ConversationDetailsService service;
+    private final UserService userService;
     private final ConversationConverter converter;
+    private final UserConverter userConverter;
 
     public ConversationDetailsResponseDto save(ConversationDetailsRequestDto conversationDetailsDto) {
         ConversationDetails conversationDetails =
@@ -33,5 +38,16 @@ public class ConversationDetailsFacade {
     public List<User> filterTutors(FilterTutorsRequestDto dto) {
         return service.filterTutors(dto.getMinPrice(), dto.getMaxPrice(), dto.getConversationTypeId(), dto.getLocation(),
             dto.getLanguageId(), dto.getLevelId());
+    }
+
+    public double findMinimumPriceByTutorId(Long tutorId) {
+        return service.findMinimumPriceByUserId(tutorId);
+    }
+
+    public List<TutorCardInfoMinPrice> findTutorCardInfoWithMinPrice() {
+        return userService.findTutorsWithExistingConvDetails()
+            .stream()
+            .map(tutor -> userConverter.tutorCardInfoToMinPrice(tutor, findMinimumPriceByTutorId(tutor.getUserId())))
+            .toList();
     }
 }
