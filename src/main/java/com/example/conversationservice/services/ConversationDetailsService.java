@@ -2,6 +2,7 @@ package com.example.conversationservice.services;
 
 import com.example.conversationservice.converters.utils.FindConversationDetailsById;
 import com.example.conversationservice.model.ConversationDetails;
+import com.example.conversationservice.model.User;
 import com.example.conversationservice.repositories.ConversationDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,9 @@ public class ConversationDetailsService implements FindConversationDetailsById {
 
     public ConversationDetails findAllByConvDetailsId(Long convDetailsId) {
         return repository.findAllByConvDetailsId(convDetailsId);
+    }
+
+    public List<User> findTutorsWithExistingConvDetails() {
+        return repository.findTutorsWithExistingConvDetails();
     }
 }

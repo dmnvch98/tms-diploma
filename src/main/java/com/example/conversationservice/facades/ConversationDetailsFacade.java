@@ -4,6 +4,7 @@ import com.example.conversationservice.converters.ConversationConverter;
 import com.example.conversationservice.dto.ConversationDetailsRequestDto;
 import com.example.conversationservice.dto.ConversationDetailsResponseDto;
 import com.example.conversationservice.model.ConversationDetails;
+import com.example.conversationservice.model.User;
 import com.example.conversationservice.services.ConversationDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,5 +27,9 @@ public class ConversationDetailsFacade {
         return service.findAllByTutorId(tutorId).stream()
             .map(converter::conversationDetailsToResponseDto)
             .toList();
+    }
+
+    public List<User> findTutorsWithExistingConvDetails() {
+        return service.findTutorsWithExistingConvDetails();
     }
 }

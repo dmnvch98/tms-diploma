@@ -6,6 +6,7 @@ import com.example.conversationservice.dto.ConversationRequestDto;
 import com.example.conversationservice.dto.ConversationResponseDto;
 import com.example.conversationservice.facades.ConversationDetailsFacade;
 import com.example.conversationservice.facades.ConversationFacade;
+import com.example.conversationservice.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,10 @@ public class ConversationController {
     @PostMapping("/")
     public ConversationResponseDto saveConversation(@RequestBody ConversationRequestDto dto) {
         return conversationFacade.save(dto);
+    }
+
+    @GetMapping("/details/tutors")
+    public List<User> findTutorsWithExistingConvDetails() {
+        return conversationDetailsFacade.findTutorsWithExistingConvDetails();
     }
 }
