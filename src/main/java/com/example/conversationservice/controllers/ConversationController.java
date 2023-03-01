@@ -62,4 +62,10 @@ public class ConversationController {
                                    @PathVariable String location, @PathVariable Long languageId, @PathVariable Long levelId) {
         return conversationDetailsFacade.filterTutors(price, convTypeId, location, languageId, levelId);
     }
+
+    @GetMapping("/details/tutors/price/{price}/convTypeId/{convTypeId}/location/{location}/languageId/{languageId}/levelId/{levelId}")
+    public List<User> filterTutors(@PathVariable double price, @PathVariable Long convTypeId,
+                                   @PathVariable String location, @PathVariable Long languageId, @PathVariable Long levelId) {
+        return conversationDetailsFacade.filterTutors(price, convTypeId, location, languageId, levelId);
+    }
 }
