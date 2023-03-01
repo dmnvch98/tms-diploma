@@ -11,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("conv_statuses")
 public class ConversationStatus {
     @Id
-    Long id;
+    Long convStatusId;
     @Column("description")
     String description;
 }

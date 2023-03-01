@@ -11,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("conversations")
 public class Conversation {
     @Id
-    Long id;
+    Long convId;
     @Column("status_id")
     Long statusId;
     @Column("student_id")
