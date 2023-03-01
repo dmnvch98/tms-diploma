@@ -1,6 +1,5 @@
 package com.example.userservice.services;
 
-import com.example.userservice.converters.utils.FindLanguageLevelById;
 import com.example.userservice.converters.utils.FindLanguageLevelId;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.model.Language;
@@ -18,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class LanguageLevelService implements FindLanguageLevelId {
+public class LanguageLevelService {
     private final LanguageLevelRepository languageLevelRepository;
     private final UserLanguageLevelRepository userLanguageLevelRepository;
     private final LanguageRepository languageRepository;
