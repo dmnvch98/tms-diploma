@@ -32,4 +32,9 @@ public class ConversationDetailsFacade {
     public List<User> findTutorsWithExistingConvDetails() {
         return service.findTutorsWithExistingConvDetails();
     }
+
+    public List<User> filterTutors(double price, Long convTypeId,
+                                   String location, Long languageId, Long levelId) {
+        return service.filterTutors(price, convTypeId, location, languageId, levelId);
+    }
 }
