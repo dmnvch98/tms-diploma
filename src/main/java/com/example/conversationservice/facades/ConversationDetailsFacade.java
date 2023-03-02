@@ -22,6 +22,7 @@ public class ConversationDetailsFacade {
     private final UserService userService;
     private final ConversationConverter converter;
     private final UserConverter userConverter;
+    private final AddressFacade addressFacade;
 
     public ConversationDetailsResponseDto save(ConversationDetailsRequestDto conversationDetailsDto) {
         ConversationDetails conversationDetails =
@@ -47,7 +48,10 @@ public class ConversationDetailsFacade {
     public List<TutorCardInfoMinPrice> findTutorCardInfoWithMinPrice() {
         return userService.findTutorsWithExistingConvDetails()
             .stream()
-            .map(tutor -> userConverter.tutorCardInfoToMinPrice(tutor, findMinimumPriceByTutorId(tutor.getTutorId())))
+            .map(tutor -> userConverter.tutorCardInfoToMinPrice(
+                tutor,
+                findMinimumPriceByTutorId(tutor.getTutorId()),
+                addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId())))
             .toList();
     }
 }

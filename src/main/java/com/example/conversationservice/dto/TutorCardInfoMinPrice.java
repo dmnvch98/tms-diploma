@@ -12,5 +12,6 @@ public class TutorCardInfoMinPrice {
     String lastName;
     List<LanguageLevelDto> languageLevels;
     double minPrice;
+    List<AddressDto> addresses;
 
 }

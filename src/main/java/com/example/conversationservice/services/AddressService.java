@@ -6,6 +6,8 @@ import com.example.conversationservice.repositories.AddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AddressService implements FindAddress {
@@ -17,5 +19,9 @@ public class AddressService implements FindAddress {
 
     public Address findAddressById(Long addressId) {
         return addressRepository.findAllByAddressId(addressId);
+    }
+
+    public List<Address> findAddressesDistinctByTutorId(Long tutorId) {
+        return addressRepository.findDistinctByTutorId(tutorId);
     }
 }
