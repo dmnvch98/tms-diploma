@@ -10,7 +10,7 @@ import java.util.List;
 @Value
 @Jacksonized
 public class TutorCardInfo {
-    Long userId;
+    Long tutorId;
     String firstName;
     String lastName;
     List<LanguageLevelDto> languageLevels;

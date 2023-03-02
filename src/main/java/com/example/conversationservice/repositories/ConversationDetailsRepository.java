@@ -35,9 +35,6 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
                             @Param("convTypeId") Long convTypeId, @Param("location") String location,
                             @Param("languageId") Long languageId, @Param("levelId") Long levelId);
 
-    @Query("SELECT MIN(price) FROM conv_details " +
-        "join tutors t on t.tutor_id = conv_details.tutor_id " +
-        "join users u on u.id = t.user_id " +
-        "where u.id=:userId")
-    double findMinimumPriceByUserId(@Param("userId") Long userId);
+    @Query("SELECT MIN(price) FROM conv_details where tutor_id=:tutorId")
+    double findMinimumPriceByUserId(@Param("tutorId") Long tutorId);
 }

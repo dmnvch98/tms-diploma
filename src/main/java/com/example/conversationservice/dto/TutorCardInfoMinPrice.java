@@ -7,6 +7,7 @@ import java.util.List;
 @Builder
 @Value
 public class TutorCardInfoMinPrice {
+    Long tutorId;
     String firstName;
     String lastName;
     List<LanguageLevelDto> languageLevels;

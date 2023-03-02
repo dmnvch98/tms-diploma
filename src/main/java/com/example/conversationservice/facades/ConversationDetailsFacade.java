@@ -47,7 +47,7 @@ public class ConversationDetailsFacade {
     public List<TutorCardInfoMinPrice> findTutorCardInfoWithMinPrice() {
         return userService.findTutorsWithExistingConvDetails()
             .stream()
-            .map(tutor -> userConverter.tutorCardInfoToMinPrice(tutor, findMinimumPriceByTutorId(tutor.getUserId())))
+            .map(tutor -> userConverter.tutorCardInfoToMinPrice(tutor, findMinimumPriceByTutorId(tutor.getTutorId())))
             .toList();
     }
 }
