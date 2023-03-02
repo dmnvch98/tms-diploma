@@ -1,6 +1,5 @@
 package com.example.userservice.converters;
 
-import com.example.userservice.converters.utils.CountryFlag;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;

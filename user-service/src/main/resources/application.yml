@@ -1,10 +1,20 @@
 server:
   port: 9090
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: TRACE
 spring:
   datasource:
     driver-class-name: 'org.postgresql.Driver'
     username: postgres
     password: postgres
     url: jdbc:postgresql://localhost:35432/diploma
-conversations:
-  initStatus: 1
+
+messages:
+  delete-student-profile-error: "you cannot delete a student profile because you only have a student profile. 
+  To delete a student profile, you must have a tutor profile or delete your entire account"
+  delete-tutor-profile-error: "you cannot delete a tutor profile because you only have a tutor profile. 
+    To delete a tutor profile, you must have a student profile or delete your entire account"

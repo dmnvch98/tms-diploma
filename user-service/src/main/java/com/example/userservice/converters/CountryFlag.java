@@ -1,4 +1,4 @@
-package com.example.userservice.converters.utils;
+package com.example.userservice.converters;
 
 import com.example.userservice.model.Country;
 
