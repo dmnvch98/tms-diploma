@@ -7,7 +7,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableFeignClients(basePackages = "com.example.convservice.client")
 public class ConvServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ConvServiceApplication.class, args);
     }
