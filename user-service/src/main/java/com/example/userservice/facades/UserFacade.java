@@ -50,7 +50,7 @@ public class UserFacade {
         return userConverter.userToResponseDto(userService.get(id), findLanguageLevelsByUserId(id));
     }
 
-    private List<LanguageLevelDto> findLanguageLevelsByUserId(Long userId) {
+    public List<LanguageLevelDto> findLanguageLevelsByUserId(Long userId) {
         return languageLevelService
             .findLanguageLevelsByUserId(userId)
             .stream()

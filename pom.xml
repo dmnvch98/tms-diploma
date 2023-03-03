@@ -10,6 +10,7 @@
     <modules>
         <module>api-gateway</module>
         <module>user-service</module>
+        <module>conversation-service</module>
     </modules>
 
     <properties>

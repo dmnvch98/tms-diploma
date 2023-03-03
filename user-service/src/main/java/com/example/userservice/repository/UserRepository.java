@@ -7,6 +7,8 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface UserRepository extends Repository<User, Long> {
 
     @Transactional
@@ -38,4 +40,9 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("UPDATE users set refresh_token=:refreshToken WHERE id=:userId")
     @Modifying
     void updateRefreshToken(@Param("refreshToken") String refreshToken, @Param("userId") Long userId);
+
+    @Query("select distinct u.*, t.tutor_id AS tutor_tutor_id from users u" +
+        " left outer join tutors t on u.id = t.user_id" +
+        " right outer join conv_details cd on t.tutor_id = cd.tutor_id;")
+    List<User> findTutorsWithExistingConvDetails();
 }
