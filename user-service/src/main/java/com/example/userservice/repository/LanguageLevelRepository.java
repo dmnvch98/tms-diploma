@@ -25,6 +25,4 @@ public interface LanguageLevelRepository extends Repository<LanguageLevel, Long>
     @Query(FIND_LANGUAGE_LEVEL_SQL + " WHERE language_level_id=:languageLevelId")
     LanguageLevel findAllByLanguageLevelId(@Param("languageLevelId") Long languageLevelId);
 
-
-
 }

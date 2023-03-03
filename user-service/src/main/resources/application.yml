@@ -12,6 +12,7 @@ spring:
     username: postgres
     password: postgres
     url: jdbc:postgresql://localhost:35432/diploma
-
 avatar:
   user_postfix: '_avatar.png'
+conversations:
+  initStatus: 1

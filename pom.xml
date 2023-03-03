@@ -14,10 +14,11 @@
     </modules>
 
     <properties>
+        <postgres.version>42.5.1</postgres.version>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring.boot.starter.version>2.7.7</spring.boot.starter.version>
+        <spring.boot.starter.version>2.7.8</spring.boot.starter.version>
         <lombok.version>1.18.24</lombok.version>
         <spring.security>6.0.1</spring.security>
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
@@ -86,6 +87,21 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
+            <version>${spring.boot.starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
