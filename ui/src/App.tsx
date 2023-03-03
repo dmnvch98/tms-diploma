@@ -4,13 +4,15 @@ import {SignUpFirst} from "./pages/SignUp/SignUpFirst";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {SignUpSecond} from "./pages/SignUp/SignUpSecond";
 import {SignUpThird} from "./pages/SignUp/SignUpThird";
-import {StudentProfile} from "./pages/Profile/StudentProfile";
-import {TutorProfile} from "./pages/Profile/TutorProfile";
+import {StudentProfile} from "./pages/Profile/Student/StudentProfile";
+import {TutorProfile} from "./pages/Profile/Tutor/TutorProfile";
 import {SignIn} from "./pages/Sign In/SignIn";
-import {MyTutorProfile} from "./pages/Profile/MyTutorProfile";
-import {MyStudentProfile} from "./pages/Profile/MyStudentProfile";
+import {MyTutorProfile} from "./pages/Profile/Tutor/MyTutorProfile";
+import {MyStudentProfile} from "./pages/Profile/Student/MyStudentProfile";
 import {Loading} from "./Components/Loading";
 import {FindTutor} from "./pages/FIndTutor/FindTutor";
+import {EditStudentProfile} from "./pages/Profile/Edit/Student/EditStudentProfile";
+import {EditTutorProfile} from "./pages/Profile/Edit/Tutor/EditTutorProfile";
 
 function App() {
     const theme = createTheme({
@@ -28,6 +30,9 @@ function App() {
             secondary: {
                 main: '#f50057',
             },
+            error: {
+                main: '#e57373'
+            }
         },
     });
 
@@ -44,6 +49,8 @@ function App() {
                     <Route path={'/my-student-profile'} element={<MyStudentProfile/>}/>
                     <Route path={'/loading'} element={<Loading/>}/>
                     <Route path={'/find-tutor'} element={<FindTutor/>}/>
+                    <Route path={'/edit-profile-student'} element={<EditStudentProfile/>}/>
+                    <Route path={'/edit-profile-tutor'} element={<EditTutorProfile/>}/>
                 </Routes>
             </ThemeProvider>
         );

@@ -3,6 +3,7 @@ package com.example.userservice.services;
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
+
+    @Value("${avatar.user_postfix}")
+    public String userAvatarNamePostfix;
 
     public User save(User user) {
         return repository.save(user);
@@ -46,5 +50,12 @@ public class UserService {
 
     public List<User> findTutorsWithExistingConvDetails() {
         return repository.findTutorsWithExistingConvDetails();
+    }
+    public int setAvatar(Long userId) {
+        return repository.setAvatar(userId + userAvatarNamePostfix, userId);
+    }
+
+    public int deleteAvatar(Long userId) {
+        return repository.deleteAvatar(userId);
     }
 }

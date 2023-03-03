@@ -28,12 +28,12 @@ public class Jwt {
         Instant accessExpirationInstant = now.plusMinutes(15).atZone(ZoneId.systemDefault()).toInstant();
         Date date = Date.from(accessExpirationInstant);
         return Jwts.builder()
-                .setSubject(user.getEmail())
-                .setExpiration(date)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .claim("role", user.getRoles())
-                .claim("userId", user.getId())
-                .compact();
+            .setSubject(user.getEmail())
+            .setExpiration(date)
+            .signWith(SignatureAlgorithm.HS512, jwtSecret)
+            .claim("role", user.getRoles())
+            .claim("userId", user.getId())
+            .compact();
     }
 
     public String generateRefreshToken(String login) {
@@ -41,28 +41,15 @@ public class Jwt {
         Instant refreshExpirationInstant = now.plusDays(30).atZone(ZoneId.systemDefault()).toInstant();
         Date date = Date.from(refreshExpirationInstant);
         return Jwts.builder()
-                .setSubject(login)
-                .setExpiration(date)
-                .signWith(SignatureAlgorithm.HS512, jwtRefreshSecret)
-                .compact();
+            .setSubject(login)
+            .setExpiration(date)
+            .signWith(SignatureAlgorithm.HS512, jwtRefreshSecret)
+            .compact();
     }
 
     private boolean validateToken(String token, String secret) {
-        try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException expEx) {
-            log.info("Token expired");
-        } catch (UnsupportedJwtException unsEx) {
-            log.info("Unsupported jwt");
-        } catch (MalformedJwtException mjEx) {
-            log.info("Malformed jwt");
-        } catch (SignatureException sEx) {
-            log.info("Invalid signature");
-        } catch (Exception e) {
-            log.info("invalid token");
-        }
-        return false;
+        Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+        return true;
     }
 
     public boolean validateAccessToken(String accessToken) {

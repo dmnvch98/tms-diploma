@@ -7,8 +7,6 @@ import {useSignUpStore} from "./store/signUpStore";
 import {Link as RouterLink} from "react-router-dom";
 import {useCountryStore} from "./store/countryStore";
 import {useEffect} from "react";
-import {SignUpThird} from "./SignUpThird";
-import {SignUpFirst} from "./SignUpFirst";
 
 export const SignUpSecond = () => {
 

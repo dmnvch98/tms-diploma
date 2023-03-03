@@ -1,81 +1,35 @@
-import {
-    Box,
-    Button,
-    FormControl,
-    MenuItem, Modal,
-    TextField
-} from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
-import {useEffect, useState} from "react";
-import {LanguageLevelTable} from "../../Components/LanguageLevelTable";
-import {useSignUpStore} from "./store/signUpStore";
+import {Box, Button, FormControl} from "@mui/material";
 import {Link as RouterLink, useNavigate} from "react-router-dom";
-import {Language, useLanguagesStore} from "./store/languagesStore";
-import {Level, useLevelsStore} from "./store/levelStore";
+import {useSignUpStore} from "./store/signUpStore";
+import {LanguageLevelSelector} from "../../Components/LanguageLevelSelector/LanguageLevelSelector";
+import {useEffect} from "react";
 
 export const SignUpThird = () => {
-    const style = {
-        position: 'absolute' as 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
+    const createUser = useSignUpStore(state => state.createUser);
+    const languageLevels = useSignUpStore(state => state.languageLevels);
 
-    const LanguagesForm = () => {
-        const [open, setOpen] = useState(false);
-        const handleOpen = () => setOpen(true);
-        const handleClose = () => setOpen(false);
+    const userCreated = useSignUpStore(state => state.userCreated);
+    const getToken = useSignUpStore(state => state.getToken);
+    const isAuthorized = useSignUpStore(state => state.isAuthorized);
+    const navigate = useNavigate();
+    const roles = useSignUpStore(state => state.roles);
 
-        const languageLevels = useSignUpStore(state => state.languageLevels);
-        const level = useSignUpStore(state => state.level);
-        const levelId = useSignUpStore(state => state.levelId);
-        const language = useSignUpStore(state => state.language);
-        const languageId = useSignUpStore(state => state.languageId);
-        const levelsList = useLevelsStore(state => state.levelsList);
-        const languagesList = useLanguagesStore(state => state.languagesList);
-        const createUser = useSignUpStore(state => state.createUser);
+    useEffect(() => {
+        getToken()
+    }, [userCreated])
 
-        const setLanguageLevels = useSignUpStore(state => state.setLanguageLevels);
-        const setLanguageId = useSignUpStore(state => state.setLanguageId);
-        const setLanguage = useSignUpStore(state => state.setLanguage);
-        const setLevelId = useSignUpStore(state => state.setLevelId);
-        const setLevel = useSignUpStore(state => state.setLevel);
-        const getLevels = useLevelsStore(state => state.getLevels);
-        const getLanguages = useLanguagesStore(state => state.getLanguages);
-        const isAuthorized = useSignUpStore(state => state.isAuthorized);
-        const userCreated = useSignUpStore(state =>  state.userCreated);
+    useEffect(() => {
+        if (isAuthorized) {
+            roles[0] == 'Student'
+                ? navigate("/my-student-profile")
+                : navigate("/my-tutor-profile")
+        }
+    }, [isAuthorized])
 
-        const navigate = useNavigate();
-        const getToken = useSignUpStore(state => state.getToken);
-
-        const addLanguageLevel = () => {
-            setLanguageLevels([...languageLevels, {level: level, language: language}]);
-            setLevelId('');
-            setLanguageId('')
-        };
-
-        useEffect(() => {
-            getLanguages();
-            getLevels();
-        }, [])
-
-        useEffect(() => {
-            getToken()
-        }, [userCreated])
-
-        useEffect(() => {
-            if (isAuthorized) {
-                navigate("/my-student-profile")
-            }
-        }, [isAuthorized])
-
-        return (
-            <>
+    return (
+        <>
+            <Authentication>
                 <Box
                     sx={{m: 2, height: "70vh"}}
                     display="flex"
@@ -83,58 +37,12 @@ export const SignUpThird = () => {
                     alignItems="center">
                     <FormControl
                         sx={{width: '30%', backgroundColor: "white", borderRadius: 3}}>
-                        <TextField
-                            select
-                            variant="standard"
-                            label="Language"
-                            sx={{mb: 2}}
-                            value={languageId}
-                            onChange={(e) => {
-                                setLanguageId(+e.target.value);
-                                setLanguage(languagesList[+e.target.value - 1]);
-                            }}>{languagesList.map((language: Language) => (
-                            <MenuItem key={language?.description}
-                                      value={language?.languageId}>{language?.description}</MenuItem>
-                        ))}
-                        </TextField>
-
-                        <TextField
-                            select
-                            variant="standard"
-                            label="Level"
-                            sx={{mb: 2}}
-                            value={levelId}
-                            onChange={(e) => {
-                                setLevelId(+e.target.value)
-                                setLevel(levelsList[+e.target.value - 1])
-                            }}>{levelsList.map((level: Level) => (
-                            <MenuItem key={level.description}
-                                      value={+level.levelId}>{level.description}</MenuItem>
-                        ))}
-                        </TextField>
-
-                        <Button
-                            variant="outlined"
-                            sx={{mt: 2}}
-                            disabled={languageId == '' || levelId == ''}
-                            onClick={addLanguageLevel}>Add Language</Button>
-
-                        <Button variant="outlined" sx={{mt: 2}} onClick={handleOpen}>View your languages</Button>
-                        <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <Box sx={style}>
-                                <LanguageLevelTable/>
-                            </Box>
-                        </Modal>
+                        <LanguageLevelSelector/>
                         <Button
                             variant="contained"
                             sx={{mt: 4}}
                             disabled={languageLevels.length == 0}
-                            onClick={()=> {
+                            onClick={() => {
                                 createUser();
                             }}
                         >Continue</Button>
@@ -148,14 +56,6 @@ export const SignUpThird = () => {
                         >Back</Button>
                     </FormControl>
                 </Box>
-            </>
-        )
-    }
-
-    return (
-        <>
-            <Authentication>
-                <LanguagesForm/>
             </Authentication>
         </>
     )

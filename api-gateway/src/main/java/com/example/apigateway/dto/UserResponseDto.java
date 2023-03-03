@@ -20,9 +20,11 @@ public class UserResponseDto {
     String email;
     String password;
     Country nationality;
+    List<String> roles;
     String gender;
     Student student;
     Tutor tutor;
     List<LanguageLevelDto> languageLevels;
     String location;
+    String avatarName;
 }

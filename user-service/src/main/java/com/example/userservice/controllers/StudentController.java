@@ -1,7 +1,9 @@
 package com.example.userservice.controllers;
 
 import com.example.userservice.facades.StudentFacade;
+import com.example.userservice.model.Student;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -10,8 +12,15 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
     private final StudentFacade studentFacade;
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{userId}")
-    public String deleteStudent(@PathVariable("userId") Long userId) {
-        return studentFacade.deleteStudent(userId);
+    public void deleteStudent(@PathVariable("userId") Long userId) {
+        studentFacade.deleteStudent(userId);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Student save(@RequestBody Student student) {
+        return studentFacade.save(student);
     }
 }

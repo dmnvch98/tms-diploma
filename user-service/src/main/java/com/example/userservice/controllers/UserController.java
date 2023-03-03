@@ -65,9 +65,19 @@ public class UserController {
         return facade.existsByEmailAndPassword(credentialsDto);
     }
 
-    @PatchMapping
+    @PatchMapping("/refresh-token")
     void updateRefreshToken(@RequestBody RefreshTokenSave refreshToken) {
         facade.updateRefreshToken(refreshToken.getToken(), refreshToken.getUserId());
+    }
+
+    @PatchMapping("/{userId}/avatar")
+    int setAvatar(@PathVariable("userId") Long userId) {
+        return facade.setAvatar(userId);
+    }
+
+    @DeleteMapping("/{userId}/avatar")
+    int deleteAvatar(@PathVariable("userId") Long userId) {
+        return facade.deleteAvatar(userId);
     }
 
 }

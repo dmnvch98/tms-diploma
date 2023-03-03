@@ -7,9 +7,10 @@ create table users
     password      TEXT      NOT NULL,
     nationality   BIGSERIAL NOT NULL,
     location      TEXT,
-    roles         TEXT[]      NOT NULL,
+    roles         TEXT[]    NOT NULL,
     gender        TEXT      NOT NULL,
     refresh_token TEXT,
+    avatar_name   TEXT,
 
     UNIQUE (email),
     FOREIGN KEY (nationality) REFERENCES countries (country_id)

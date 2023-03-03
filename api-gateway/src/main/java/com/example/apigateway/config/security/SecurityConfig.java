@@ -1,5 +1,6 @@
 package com.example.apigateway.config.security;
 
+import com.example.apigateway.config.filters.ExceptionHandlerFilter;
 import com.example.apigateway.config.security.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,8 +13,10 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,21 +24,23 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
-
+    private final ExceptionHandlerFilter exceptionHandlerFilter;
     @Value("${csrf.xsrf_cookie_name}")
     public String xsrfCookieName;
     @Value("${csrf.xsrf_header_name}")
     public String xsrfHeaderName;
     @Value("${csrf.cookie_domain}")
     public String cookieDomain;
+    @Value("${security.allowed-origin}")
+    public String allowedOrigin;
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         http
             .cors()
             .and()
-            .csrf().ignoringAntMatchers( "/api/v1/auth/login")
-            .ignoringRequestMatchers((new AntPathRequestMatcher( "/api/v1/users", "POST")))
+            .csrf().ignoringAntMatchers("/api/v1/auth/login")
+            .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
@@ -49,9 +54,9 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/api/v1/tutors/**").hasAnyRole("Student")
                 .antMatchers(HttpMethod.DELETE, "/api/v1/students/**").hasAnyRole("Tutor")
-                .antMatchers("/api/v1/users/tutors/**").hasAnyRole("Student", "Tutor")
                 .anyRequest().authenticated()
             )
+            .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
             .csrf().csrfTokenRepository(csrfTokenRepository())
             .and()
             .logout(LogoutConfigurer::permitAll)

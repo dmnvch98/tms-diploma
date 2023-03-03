@@ -1,7 +1,9 @@
 package com.example.userservice.model;
 
 import lombok.Builder;
+import lombok.Setter;
 import lombok.Value;
+import lombok.experimental.NonFinal;
 import lombok.extern.jackson.Jacksonized;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -30,13 +32,20 @@ public class User {
     @Column("gender")
     String gender;
     @Column("roles")
+    @NonFinal
     List<String> roles;
     @MappedCollection(idColumn = "user_id")
+    @NonFinal
+    @Setter
     Student student;
     @MappedCollection(idColumn = "user_id")
+    @NonFinal
+    @Setter
     Tutor tutor;
     @Column("location")
     String location;
     @Column("refresh_token")
     String refreshToken;
+    @Column("avatar_name")
+    String avatarName;
 }

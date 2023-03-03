@@ -8,4 +8,12 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: diploma
     ports:
-      - 35432:5432
+      - "35432:5432"
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
+    network_mode: bridge
+    ports:
+      - "4566:4566"
+    volumes:
+      - ./storage:/docker-entrypoint-initaws.d

@@ -1,21 +1,17 @@
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Button, Paper, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
+import {Avatar} from "../Avatar";
+import {useEffect} from "react";
 
 export const MyStudentAvatarSection = () => {
     const user = useProfileStore(state => state.user);
     return (
         <>
+
             <Box sx={{mt: 4}}>
                 <Paper sx={{p: 2}}>
-                    <img style={{
-                        maxWidth: "100%",
-                        margin: "auto",
-                        display: "block",
-                        borderRadius: 3
-                    }}
-                         src="https://sunmag.me/wp-content/uploads/2020/08/sunmag-2-kachestva-nastoyashchego-muzhchiny.jpg"
-                         alt="Avatar"/>
+                    <Avatar/>
                     <Box sx={{mt: 1, mb: 3}}>
                         <Typography  variant="h6">{user?.firstName} {user?.lastName}</Typography>
                         <Typography  variant="subtitle1">Nationality: {user?.nationality.description}</Typography>
@@ -23,7 +19,7 @@ export const MyStudentAvatarSection = () => {
                     </Box>
                     <Button variant="contained"
                             fullWidth
-                            sx={{mt: 2}}
+                            sx={{mt: 2, display: user?.tutor != null ? "flex" : "none"}}
                             {...{
                                 to: "/my-tutor-profile",
                                 component: RouterLink,
@@ -34,6 +30,10 @@ export const MyStudentAvatarSection = () => {
                     <Button variant="outlined"
                             fullWidth
                             sx={{mt: 2}}
+                            {...{
+                                to: "/edit-profile-student",
+                                component: RouterLink,
+                            }}
                     >
                         Edit Profile
                     </Button>

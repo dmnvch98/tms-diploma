@@ -1,6 +1,6 @@
 package com.example.apigateway.services;
 
-import com.example.apigateway.client.UserClient;
+import com.example.apigateway.client.user.UserClient;
 import com.example.apigateway.config.security.PasswordConfig;
 import com.example.apigateway.dto.CredentialsDto;
 import com.example.apigateway.dto.UserRefreshToken;
@@ -34,10 +34,6 @@ public class UserService {
         return userClient.update(userRequestDto, userId);
     }
 
-    public UserResponseDto deleteUserLanguageLevel(Long languageId, Long levelId, Long userId) {
-        return userClient.deleteUserLanguageLevel(languageId, levelId, userId);
-    }
-
     public User findUserByEmail(String email) {
         return userClient.findUserByEmail(email);
     }
@@ -49,11 +45,11 @@ public class UserService {
             .matches(credentialsDto.getPassword(), user.getPassword());
     }
 
-    public UserResponseDto findUserByTutorId (Long tutorId) {
+    public UserResponseDto findUserByTutorId(Long tutorId) {
         return userClient.findUserByTutorId(tutorId);
     }
 
-    public UserResponseDto findUserByStudentId (Long studentId) {
+    public UserResponseDto findUserByStudentId(Long studentId) {
         return userClient.findUserByStudentId(studentId);
     }
 

@@ -1,0 +1,11 @@
+server:
+  port: 9091
+aws:
+  region: us-east-1
+  s3_endpoint: http://localhost:4566/
+  access_key: foo
+  secret_key: bar
+  storage_name: avatars
+avatar:
+  user_postfix: '_avatar.png'
+  default: 'default_avatar.png'

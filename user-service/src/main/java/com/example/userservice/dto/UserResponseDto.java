@@ -20,6 +20,7 @@ public class UserResponseDto {
     String password;
     Country nationality;
     String gender;
+    List<String> roles;
     @NonFinal
     @Setter
     Student student;
@@ -28,4 +29,7 @@ public class UserResponseDto {
     Tutor tutor;
     List<LanguageLevelDto> languageLevels;
     String location;
+    @NonFinal
+    @Setter
+    String avatarName;
 }

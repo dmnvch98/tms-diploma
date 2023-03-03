@@ -26,8 +26,7 @@ public class AuthController {
     private String accessTokenName;
     @Value("${jwt.refresh_token_name}")
     private String refreshTokenName;
-    private static final long expiration = Duration.ofHours(3).toSeconds();
-
+    private static final long EXPIRATION = Duration.ofHours(3).toSeconds();
     private final UserService userService;
     private final Jwt jwt;
 
@@ -48,7 +47,7 @@ public class AuthController {
                     cookie.setPath("/");
                     cookie.setHttpOnly(true);
                     cookie.setDomain(cookieDomain);
-                    cookie.setMaxAge((int) expiration);
+                    cookie.setMaxAge((int) EXPIRATION);
                 });
             UserRefreshToken userRefreshToken = UserRefreshToken.builder()
                 .userId(user.getId())
@@ -76,7 +75,7 @@ public class AuthController {
                 final Cookie cookie = new Cookie(accessTokenName, accessToken);
                 cookie.setPath("/");
                 cookie.setHttpOnly(true);
-                cookie.setMaxAge((int) expiration);
+                cookie.setMaxAge((int) EXPIRATION);
                 cookie.setDomain(cookieDomain);
                 response.addCookie(cookie);
                 UserRefreshToken userRefreshToken = UserRefreshToken.builder()

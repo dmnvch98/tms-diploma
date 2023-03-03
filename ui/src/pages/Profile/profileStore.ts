@@ -31,11 +31,15 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
     },
     getMe: async () => {
         const user: User = await UserService.getMe();
-        if (user?.student?.aboutMe == null) {
-            user.student.aboutMe = '';
+        if (user?.student != null) {
+            if (user.student.aboutMe == null) {
+                user.student.aboutMe = '';
+            }
         }
-        if (user?.tutor?.aboutMe) {
-            user.tutor.aboutMe = '';
+        if (user?.tutor != null) {
+            if (user.tutor.aboutMe == null) {
+                user.tutor.aboutMe = '';
+            }
         }
         set({user: user})
     }

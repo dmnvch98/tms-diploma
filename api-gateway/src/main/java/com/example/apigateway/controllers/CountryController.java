@@ -4,7 +4,6 @@ import com.example.apigateway.model.Country;
 import com.example.apigateway.services.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +17,7 @@ public class CountryController {
 
     private final CountryService countryService;
     @GetMapping
-    @CrossOrigin
-    public ResponseEntity<List<Country>> findAllCountries() {
-        return ResponseEntity.ok(countryService.findAllCountries());
+    public List<Country> findAllCountries() {
+        return countryService.findAllCountries();
     }
 }

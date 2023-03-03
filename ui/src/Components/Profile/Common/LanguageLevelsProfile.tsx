@@ -15,8 +15,8 @@ export const LanguageLevelsProfile = () => {
                     </Grid>
                     <Grid item>
                         <Typography><b>Level</b></Typography>
-                        {user?.languageLevels.map((ll) =>
-                            <Typography key={ll.level.description}>{ll.level.description}</Typography>
+                        {user?.languageLevels.map((ll, index) =>
+                            <Typography key={index}>{ll.level.description}</Typography>
                         )}
                     </Grid>
                 </Grid>
