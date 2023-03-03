@@ -1,8 +1,11 @@
 package com.example.userservice.controllers;
 
+import com.example.userservice.dto.TutorCardInfo;
 import com.example.userservice.facades.TutorFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -13,5 +16,10 @@ public class TutorController {
     @DeleteMapping("/{userId}")
     public String deleteTutor(@PathVariable("userId") Long userId) {
         return tutorFacade.deleteTutor(userId);
+    }
+
+    @GetMapping("/existing-conversations-details")
+    List<TutorCardInfo> findTutorsWithExistingConvDetails() {
+        return tutorFacade.findTutorsWithExistingConvDetails();
     }
 }

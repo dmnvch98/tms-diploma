@@ -5,6 +5,8 @@ import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -40,5 +42,9 @@ public class UserService {
 
     public void updateRefreshToken(String token, Long userId) {
         repository.updateRefreshToken(token, userId);
+    }
+
+    public List<User> findTutorsWithExistingConvDetails() {
+        return repository.findTutorsWithExistingConvDetails();
     }
 }

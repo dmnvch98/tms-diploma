@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @FeignClient(name = "user-service-tutors-card-info",
-    url = "${services.user.url}/api/v1/users")
-public interface UserClient {
-    @GetMapping("/tutors/existing-conversations-details")
+    url = "${services.user.url}/api/v1/tutors")
+public interface TutorClient {
+    @GetMapping("/existing-conversations-details")
     List<TutorCardInfo> findTutorsWithExistingConvDetails();
 }
