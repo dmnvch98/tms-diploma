@@ -28,7 +28,8 @@ public class TutorController {
     }
 
     @GetMapping("/existing-conversations-details")
-    List<TutorCardInfo> findTutorsWithExistingConvDetails() {
-        return tutorFacade.findTutorsWithExistingConvDetails();
+    List<TutorCardInfo> findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
+        defaultValue = "0", required = false) Long lastTutorId) {
+        return tutorFacade.findTutorsWithExistingConvDetails(lastTutorId);
     }
 }

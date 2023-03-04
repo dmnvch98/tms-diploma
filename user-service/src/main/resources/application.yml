@@ -14,5 +14,4 @@ spring:
     url: jdbc:postgresql://localhost:35432/diploma
 avatar:
   user_postfix: '_avatar.png'
-conversations:
-  initStatus: 1
+find-tutor-page-size: 10

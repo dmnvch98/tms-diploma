@@ -4,6 +4,9 @@ import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +18,9 @@ public class UserService {
 
     @Value("${avatar.user_postfix}")
     public String userAvatarNamePostfix;
+
+    @Value("${find-tutor-page-size}")
+    public int findTutorPageSize;
 
     public User save(User user) {
         return repository.save(user);
@@ -48,8 +54,8 @@ public class UserService {
         repository.updateRefreshToken(token, userId);
     }
 
-    public List<User> findTutorsWithExistingConvDetails() {
-        return repository.findTutorsWithExistingConvDetails();
+    public List<User> findTutorsWithExistingConvDetails(Long lastTutorId) {
+        return repository.findTutorsWithExistingConvDetails(lastTutorId, findTutorPageSize);
     }
     public int setAvatar(Long userId) {
         return repository.setAvatar(userId + userAvatarNamePostfix, userId);

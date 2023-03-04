@@ -13,7 +13,7 @@ public class UserService {
 
     private final TutorClient userClient;
 
-    public List<TutorCardInfo> findTutorsWithExistingConvDetails() {
-        return userClient.findTutorsWithExistingConvDetails();
+    public List<TutorCardInfo> findTutorsWithExistingConvDetails(Long lastTutorId) {
+        return userClient.findTutorsWithExistingConvDetails(lastTutorId);
     }
 }

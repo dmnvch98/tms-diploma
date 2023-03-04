@@ -35,9 +35,10 @@ public class ConversationController {
     }
 
     @CrossOrigin
-    @GetMapping("/details/tutors")
-    public List<TutorCardInfoMinPrice> findTutorsWithExistingConvDetails() {
-        return conversationDetailsFacade.findTutorCardInfoWithMinPrice();
+    @GetMapping("/details/tutors/")
+    public List<TutorCardInfoMinPrice> findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
+        defaultValue = "0", required = false) Long lastTutorId) {
+        return conversationDetailsFacade.findTutorCardInfoWithMinPrice(lastTutorId);
     }
 
     @GetMapping("/details/tutors/filter")

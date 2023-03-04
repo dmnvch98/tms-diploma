@@ -29,8 +29,8 @@ public class TutorFacade {
         }
     }
 
-    public List<TutorCardInfo> findTutorsWithExistingConvDetails() {
-        return userService.findTutorsWithExistingConvDetails()
+    public List<TutorCardInfo> findTutorsWithExistingConvDetails(Long lastTutorId) {
+        return userService.findTutorsWithExistingConvDetails(lastTutorId)
             .stream()
             .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))
             .toList();

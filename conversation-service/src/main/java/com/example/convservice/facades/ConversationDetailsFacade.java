@@ -45,23 +45,14 @@ public class ConversationDetailsFacade {
         return service.findMinimumPriceByUserId(tutorId);
     }
 
-    public List<TutorCardInfoMinPrice> findTutorCardInfoWithMinPrice() {
-        List<TutorCardInfo> list = userService.findTutorsWithExistingConvDetails();
-        List<TutorCardInfoMinPrice> list2 = new ArrayList<>();
-        for (TutorCardInfo tci: list) {
-            double price = findMinimumPriceByTutorId(tci.getTutorId());
-            List<AddressDto> addressDtos = addressFacade.findAddressesDistinctByTutorId(tci.getTutorId());
-            String url = fileService.getAvatarUrl(tci.getAvatarName());
-            list2.add(userConverter.tutorCardInfoToMinPrice(tci, price, addressDtos, url));
-        }
-        return list2;
-//        return userService.findTutorsWithExistingConvDetails()
-//            .stream()
-//            .map(tutor -> userConverter.tutorCardInfoToMinPrice(
-//                tutor,
-//                findMinimumPriceByTutorId(tutor.getTutorId()),
-//                addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
-//                fileService.getAvatarUrl(tutor.getAvatarName())))
-//            .toList();
+    public List<TutorCardInfoMinPrice> findTutorCardInfoWithMinPrice(Long lastTutorId) {
+        return userService.findTutorsWithExistingConvDetails(lastTutorId)
+            .stream()
+            .map(tutor -> userConverter.tutorCardInfoToMinPrice(
+                tutor,
+                findMinimumPriceByTutorId(tutor.getTutorId()),
+                addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
+                fileService.getAvatarUrl(tutor.getAvatarName())))
+            .toList();
     }
 }
