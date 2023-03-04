@@ -18,6 +18,7 @@ export const FindTutor = () => {
                                 lastName={t.lastName}
                                 languageLevels={t.languageLevels}
                                 minPrice={t.minPrice}
+                                avatarUrl={t.avatarUrl}
                                 key={index}
                             />
                         ))}

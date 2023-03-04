@@ -9,5 +9,6 @@ import java.util.List;
 
 @Mapper
 public interface UserConverter {
-    TutorCardInfoMinPrice tutorCardInfoToMinPrice(TutorCardInfo tutorCardInfo, double minPrice, List<AddressDto> addresses);
+    TutorCardInfoMinPrice tutorCardInfoToMinPrice(TutorCardInfo tutorCardInfo,
+                                                  double minPrice, List<AddressDto> addresses, String avatarUrl);
 }

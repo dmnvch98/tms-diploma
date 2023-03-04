@@ -6,6 +6,7 @@ export interface TutorCardInfo {
     lastName: string,
     languageLevels: LanguageLevel[],
     minPrice: number
+    avatarUrl: string
 }
 
 class ConversationService {

@@ -2,7 +2,7 @@ import {create} from "zustand";
 import FileService from "../../../services/FileService";
 import {AxiosError} from "axios";
 
-export interface EditAvatarStore {
+export interface AvatarStore {
     existingAvatarUrl: string;
     newAvatarUrl: string;
     editMode: boolean
@@ -15,7 +15,7 @@ export interface EditAvatarStore {
     deleteAvatar: () => void;
 }
 
-export const useEditProfileStore = create<EditAvatarStore>((set: any, get: any) => ({
+export const useAvatarStore = create<AvatarStore>((set: any, get: any) => ({
     existingAvatarUrl: "",
     newAvatarUrl: "",
     editMode: false,

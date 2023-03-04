@@ -66,4 +66,8 @@ public class LanguageLevelService {
         return userLanguageLevelRepository.existsByUserIdAndLanguageLevelId(
                 userLanguageLevel.getUserId(), userLanguageLevel.getLanguageLevelId());
     }
+
+    public List<UserLanguageLevel> findAllByUserId(Long userId) {
+        return userLanguageLevelRepository.findAllByUserId(userId);
+    }
 }

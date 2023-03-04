@@ -29,10 +29,12 @@ spring:
     multipart:
       max-file-size: 15MB
       max-request-size: 15MB
+  datasource:
+    driver-class-name: 'org.postgresql.Driver'
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:35432/diploma
 avatar:
   user_postfix: '_avatar.png'
   default: 'default_avatar.png'
 
-logging:
-  level:
-    root: debug

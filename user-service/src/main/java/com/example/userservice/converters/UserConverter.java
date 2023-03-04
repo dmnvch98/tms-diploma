@@ -19,6 +19,7 @@ public interface UserConverter {
     UserResponseDto userToResponseDto(User user, List<LanguageLevelDto> languageLevels);
 
     @Mapping(target = "tutorId", expression = "java(user.getTutor().getTutorId())")
+    @Mapping(target = "userId", source = "user.id")
     TutorCardInfo userToTutorCardInfo(User user, List<LanguageLevelDto> languageLevels);
 
 }

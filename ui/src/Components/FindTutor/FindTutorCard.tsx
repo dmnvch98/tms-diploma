@@ -1,6 +1,7 @@
 import {Box, Grid, Paper, Rating, styled, Typography} from "@mui/material";
 import React from "react";
 import {TutorCardInfo} from "../../services/ConversationService";
+import {useAvatarStore} from "../../pages/Profile/Edit/avatarStore";
 
 export const FindTutorCard = (props: TutorCardInfo, key: any) => {
     const Img = styled('img')({
@@ -26,7 +27,7 @@ export const FindTutorCard = (props: TutorCardInfo, key: any) => {
                 <Grid item>
                     <Box sx={{width: 150, height: 150}}>
                         <Img alt="complex"
-                             src="https://images.pexels.com/photos/2269872/pexels-photo-2269872.jpeg?auto=compress&cs=tinysrgb&w=640&h=640&dpr=2"/>
+                             src={props.avatarUrl}/>
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm container>

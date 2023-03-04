@@ -6,14 +6,14 @@ import {useParams} from "react-router-dom";
 import {TutorAvatarSection} from "../../../Components/Profile/Tutor/TutorAvatarSection";
 import {TutorInfo} from "../../../Components/Profile/Tutor/TutorInfo";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
-import {useEditProfileStore} from "../Edit/editAvatarStore";
+import {useAvatarStore} from "../Edit/avatarStore";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 
 export const TutorProfile = () => {
     const Profile = () => {
         const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
         const user = useProfileStore(state => state.user);
-        const getAvatar = useEditProfileStore(state => state.getAvatar);
+        const getAvatar = useAvatarStore(state => state.getAvatar);
         const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
         const setErrorMessage = useErrorMessageStore(state => state.setMessage);
         const isErrorOpen = useErrorMessageStore(state => state.isOpen);

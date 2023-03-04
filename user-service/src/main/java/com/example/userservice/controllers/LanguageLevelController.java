@@ -12,7 +12,7 @@ public class LanguageLevelController {
     private final LanguageLevelFacade languageLevelFacade;
 
     @GetMapping("/{languageLevelId}")
-    LanguageLevelDto findLanguageLevelById(@PathVariable Long languageLevelId){
+    LanguageLevelDto findLanguageLevelById(@PathVariable Long languageLevelId) {
         return languageLevelFacade.languageLevelIdToLanguageLevelDto(languageLevelId);
     }
 

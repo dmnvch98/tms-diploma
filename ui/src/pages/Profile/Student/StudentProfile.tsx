@@ -5,14 +5,14 @@ import {SidebarHeader} from "../../../Components/SidebarHeader";
 import {useParams} from "react-router-dom";
 import {StudentAvatarSection} from "../../../Components/Profile/Student/StudentAvatarSection";
 import {StudentInfo} from "../../../Components/Profile/Student/StudentInfo";
-import {useEditProfileStore} from "../Edit/editAvatarStore";
+import {useAvatarStore} from "../Edit/avatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 
 export const StudentProfile = () => {
     const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
     const user = useProfileStore(state => state.user);
-    const getAvatar = useEditProfileStore(state => state.getAvatar);
+    const getAvatar = useAvatarStore(state => state.getAvatar);
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage);
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);

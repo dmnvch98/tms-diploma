@@ -2,17 +2,16 @@ package com.example.convservice.facades;
 
 import com.example.convservice.converters.ConversationConverter;
 import com.example.convservice.converters.UserConverter;
-import com.example.convservice.dto.ConversationDetailsRequestDto;
-import com.example.convservice.dto.ConversationDetailsResponseDto;
-import com.example.convservice.dto.FilterTutorsRequestDto;
-import com.example.convservice.dto.TutorCardInfoMinPrice;
+import com.example.convservice.dto.*;
 import com.example.convservice.model.ConversationDetails;
 import com.example.convservice.model.User;
 import com.example.convservice.services.ConversationDetailsService;
+import com.example.convservice.services.FileService;
 import com.example.convservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -23,6 +22,7 @@ public class ConversationDetailsFacade {
     private final ConversationConverter converter;
     private final UserConverter userConverter;
     private final AddressFacade addressFacade;
+    private final FileService fileService;
 
     public ConversationDetailsResponseDto save(ConversationDetailsRequestDto conversationDetailsDto) {
         ConversationDetails conversationDetails =
@@ -46,12 +46,22 @@ public class ConversationDetailsFacade {
     }
 
     public List<TutorCardInfoMinPrice> findTutorCardInfoWithMinPrice() {
-        return userService.findTutorsWithExistingConvDetails()
-            .stream()
-            .map(tutor -> userConverter.tutorCardInfoToMinPrice(
-                tutor,
-                findMinimumPriceByTutorId(tutor.getTutorId()),
-                addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId())))
-            .toList();
+        List<TutorCardInfo> list = userService.findTutorsWithExistingConvDetails();
+        List<TutorCardInfoMinPrice> list2 = new ArrayList<>();
+        for (TutorCardInfo tci: list) {
+            double price = findMinimumPriceByTutorId(tci.getTutorId());
+            List<AddressDto> addressDtos = addressFacade.findAddressesDistinctByTutorId(tci.getTutorId());
+            String url = fileService.getAvatarUrl(tci.getAvatarName());
+            list2.add(userConverter.tutorCardInfoToMinPrice(tci, price, addressDtos, url));
+        }
+        return list2;
+//        return userService.findTutorsWithExistingConvDetails()
+//            .stream()
+//            .map(tutor -> userConverter.tutorCardInfoToMinPrice(
+//                tutor,
+//                findMinimumPriceByTutorId(tutor.getTutorId()),
+//                addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
+//                fileService.getAvatarUrl(tutor.getAvatarName())))
+//            .toList();
     }
 }
