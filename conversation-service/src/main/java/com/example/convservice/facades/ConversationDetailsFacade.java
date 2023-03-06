@@ -45,8 +45,8 @@ public class ConversationDetailsFacade {
         return service.findMinimumPriceByUserId(tutorId);
     }
 
-    public List<TutorCardInfoMinPrice> findTutorCardInfoWithMinPrice(Long lastTutorId) {
-        return userService.findTutorsWithExistingConvDetails(lastTutorId)
+    public TutorCardsResponseDto findTutorCardInfoWithMinPrice(Long lastTutorId) {
+        List<TutorCardInfoMinPrice> tutors = userService.findTutorsWithExistingConvDetails(lastTutorId)
             .stream()
             .map(tutor -> userConverter.tutorCardInfoToMinPrice(
                 tutor,
@@ -54,5 +54,15 @@ public class ConversationDetailsFacade {
                 addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
                 fileService.getAvatarUrl(tutor.getAvatarName())))
             .toList();
+
+        return TutorCardsResponseDto
+            .builder()
+            .tutors(tutors)
+            .totalCount(service.countAllTutorsWithConvDetails())
+            .build();
+    }
+
+    public int countAllTutorsWithConvDetails() {
+        return service.countAllTutorsWithConvDetails();
     }
 }

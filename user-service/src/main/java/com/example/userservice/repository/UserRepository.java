@@ -48,7 +48,7 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("select distinct u.*, t.tutor_id AS tutor_tutor_id from users u" +
         " left outer join tutors t on u.id = t.user_id" +
         " right outer join conv_details cd on t.tutor_id = cd.tutor_id " +
-        " where t.tutor_id >:lastTutorId limit :pageSize")
+        " where t.tutor_id >:lastTutorId order by t.tutor_id limit :pageSize")
     List<User> findTutorsWithExistingConvDetails(@Param("lastTutorId") Long lastTutorId, @Param("pageSize") int pageSize);
 
     @Query("UPDATE users set avatar_name=:avatarName WHERE id=:userId")
@@ -58,5 +58,4 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("UPDATE users set avatar_name = null WHERE id=:userId")
     @Modifying
     int deleteAvatar(@Param("userId") Long userId);
-
 }

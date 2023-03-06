@@ -33,4 +33,8 @@ public class ConversationDetailsService implements FindConversationDetailsById {
     public double findMinimumPriceByUserId(Long tutorId) {
         return repository.findMinimumPriceByUserId(tutorId);
     }
+
+    public int countAllTutorsWithConvDetails() {
+        return repository.countTutorsWithConvDetails();
+    }
 }

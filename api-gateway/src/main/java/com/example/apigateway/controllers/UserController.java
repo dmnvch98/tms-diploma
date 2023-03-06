@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    public final UserFacade userFacade;
+    private final UserFacade userFacade;
 
     @PostMapping
     public ResponseEntity<UserResponseDto> save(@RequestBody UserRequestDto userDto) {

@@ -37,4 +37,7 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
 
     @Query("SELECT MIN(price) FROM conv_details where tutor_id=:tutorId")
     double findMinimumPriceByUserId(@Param("tutorId") Long tutorId);
+
+    @Query("select count(distinct(tutor_id)) from conv_details")
+    int countTutorsWithConvDetails();
 }

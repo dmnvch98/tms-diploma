@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -36,8 +37,9 @@ public class ConversationController {
 
     @CrossOrigin
     @GetMapping("/details/tutors/")
-    public List<TutorCardInfoMinPrice> findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
-        defaultValue = "0", required = false) Long lastTutorId) {
+    public TutorCardsResponseDto findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
+        defaultValue = "0", required = false) Long lastTutorId, HttpServletResponse response) {
+        response.addHeader("X-Total-Count", String.valueOf(conversationDetailsFacade.countAllTutorsWithConvDetails()));
         return conversationDetailsFacade.findTutorCardInfoWithMinPrice(lastTutorId);
     }
 
