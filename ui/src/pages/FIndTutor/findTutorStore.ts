@@ -1,11 +1,10 @@
 import {create} from "zustand";
-import ConversationService, {TutorCardInfo, TutorCardsResponseData} from "../../services/ConversationService";
+import ConversationService, {TutorCardInfo} from "../../services/ConversationService";
 
 export interface FindTutor {
     tutors: TutorCardInfo[],
     lastTutorId: number,
     totalCount: number,
-    setTotalCount: (count: number) => void;
     loading: boolean,
     getTutors: () => void,
     setLoading: (flag: boolean) => void;
@@ -27,18 +26,13 @@ export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
                         totalCount: response.totalCount
                     })
                 })
-
         } catch (e: any) {
             alert(e as string)
         } finally {
             set({loading: false})
         }
-
     },
     setLoading: async (flag: boolean) => {
         set({loading: flag})
-    },
-    setTotalCount: async (count: number) => {
-        set({totalCount: count})
     }
 }))

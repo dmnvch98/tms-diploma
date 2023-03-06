@@ -5,9 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Arrays;
-
-
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
@@ -22,8 +19,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
             .allowCredentials(true)
             .allowedOrigins(allowedOrigin)
-            .exposedHeaders("Access-Control-Allow-Headers", "Authorization, x-xsrf-token, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
-                "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "X-Total-Count")
             .allowedMethods("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE");
     }
 }

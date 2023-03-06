@@ -30,7 +30,6 @@ export const FindTutor = () => {
         }
     }, [loading])
 
-
     return (
         <>
             <Container maxWidth="xl">
