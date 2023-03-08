@@ -3,7 +3,7 @@ import {FindTutorCard} from "../../Components/FindTutor/FindTutorCard";
 import {useFindTutorStore} from "./findTutorStore";
 import {useEffect} from "react";
 import {SidebarHeader} from "../../Components/SidebarHeader";
-import {FilterTutors} from "../../Components/FindTutor/FilterTutors";
+import {TutorsFilter} from "../../Components/FindTutor/TutorsFilter";
 
 export const FindTutor = () => {
     const tutors = useFindTutorStore(state => state.tutors);
@@ -35,9 +35,9 @@ export const FindTutor = () => {
     return (
         <>
             <SidebarHeader/>
-            <FilterTutors/>
+            <TutorsFilter/>
 
-            <Container maxWidth="xl" sx={{ml: 10, mt: 15}}>
+            <Container maxWidth="xl" sx={{ml: 10, mt: 18}}>
                 <Grid container spacing={1}>
                     <Grid item xs={5}>
                         {tutors.map((t, index) => (

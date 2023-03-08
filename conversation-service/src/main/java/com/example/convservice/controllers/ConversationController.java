@@ -43,9 +43,17 @@ public class ConversationController {
         return conversationDetailsFacade.findTutorCardInfoWithMinPrice(lastTutorId);
     }
 
+    @CrossOrigin
     @GetMapping("/details/tutors/filter")
-    public TutorCardsResponseDto filterTutors(@RequestParam(value = "lastTutorId",
-        defaultValue = "0", required = false) Long lastTutorId, @RequestBody FilterTutorsRequestDto dto) {
+    public TutorCardsResponseDto filterTutors(
+        @RequestParam(value = "lastTutorId", defaultValue = "0", required = false) Long lastTutorId,
+        @RequestParam(value = "minPrice", defaultValue = "0", required = false) Double minPrice,
+        @RequestParam(value = "maxPrice", required = false) Double maxPrice
+        ) {
+        FilterTutorsRequestDto dto = FilterTutorsRequestDto
+            .builder()
+            .minPrice(minPrice)
+            .maxPrice(maxPrice).build();
         return conversationDetailsFacade.filterTutors(lastTutorId, dto);
     }
 }

@@ -15,10 +15,30 @@ export interface TutorCardsResponseData {
     totalCount: number
 }
 
+export interface FilterTutorsRequestDto {
+    minPrice: number,
+    maxPrice: number
+}
+
 class ConversationService {
     getTutorWithExistingConversations = async (id: number): Promise<TutorCardsResponseData> => {
         try {
             const response = await axios.get('http://localhost:9093/api/v1/conversations/details/tutors/?lastTutorId=' + id);
+            return response.data;
+        } catch (e: unknown) {
+            throw e as AxiosError;
+        }
+    }
+
+    filterTutorsWithExistingConversations = async (id: number, config: FilterTutorsRequestDto): Promise<TutorCardsResponseData> => {
+        try {
+            const response = await axios.get('http://localhost:9093/api/v1/conversations/details/tutors/filter?lastTutorId='
+                + id, {
+                params: {
+                    minPrice: config.minPrice,
+                    maxPrice: config.maxPrice
+                }
+            });
             return response.data;
         } catch (e: unknown) {
             throw e as AxiosError;

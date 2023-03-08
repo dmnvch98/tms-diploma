@@ -1,6 +1,7 @@
 import {Box, Grid, Paper, Rating, styled, Typography} from "@mui/material";
 import React from "react";
 import {TutorCardInfo} from "../../services/ConversationService";
+import StarIcon from '@mui/icons-material/Star';
 
 export const FindTutorCard = (props: TutorCardInfo, key: any) => {
     const Img = styled('img')({
@@ -17,7 +18,7 @@ export const FindTutorCard = (props: TutorCardInfo, key: any) => {
                 p: 1,
                 margin: 'auto',
                 flexGrow: 1,
-                mt: 1,
+                mb: 1,
                 backgroundColor: (theme) =>
                     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
             }}
@@ -34,7 +35,7 @@ export const FindTutorCard = (props: TutorCardInfo, key: any) => {
                         <Grid item xs>
                             <Box display="flex" sx={{mb: 1}}>
                                 <Typography><b>{props.firstName} {props.lastName}</b></Typography>
-                                <Rating name="read-only" value={1} readOnly max={1} sx={{ml: 4}}/>
+                                <StarIcon sx={{ml: 4, color: '#FFBF00'}}/>
                                 <Typography>4.3</Typography>
                             </Box>
 

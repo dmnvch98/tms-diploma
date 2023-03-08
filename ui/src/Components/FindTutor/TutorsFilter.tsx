@@ -1,4 +1,5 @@
 import {Button, Container, Grid, MenuItem, TextField} from "@mui/material";
+import {useFindTutorStore} from "../../pages/FIndTutor/findTutorStore";
 
 interface ConvType {
     convTypeId: number;
@@ -13,7 +14,15 @@ const gridMarginRight = {
     mr: 6
 }
 
-export const FilterTutors = () => {
+export const TutorsFilter = () => {
+    const getTutors = useFindTutorStore(state => state.getTutors);
+    const clearTutors = useFindTutorStore(state => state.clearTutors);
+    const setMinPrice = useFindTutorStore(state => state.setMinPrice);
+    const minPrice = useFindTutorStore(state => state.minPrice);
+    const setMaxPrice = useFindTutorStore(state => state.setMaxPrice);
+    const maxPrice = useFindTutorStore(state => state.maxPrice);
+    const clearLastTutorId = useFindTutorStore(state => state.clearLastTutorId);
+
     const convTypes: ConvType[] = [
         {convTypeId: 1, description: "Offline"},
         {convTypeId: 1, description: "Online"}
@@ -23,12 +32,22 @@ export const FilterTutors = () => {
     return (
         <>
             <Container maxWidth="xl" sx={{position: 'fixed', backgroundColor: 'white', pb: 2}}>
-                <Grid container sx={{mt: 8, ml: 10}} alignItems="flex-end">
+                <Grid container sx={{mt: 10, ml: 10}} alignItems="flex-end">
                     <Grid item xs={1} sx={gridMarginRight}>
-                        <TextField label="Min Price $" variant="standard" sx={fieldWidth}/>
+                        <TextField
+                            label="Min Price $"
+                            variant="standard"
+                            value={minPrice}
+                            onChange={e => setMinPrice(Number(e.target.value))}
+                            sx={fieldWidth}/>
                     </Grid>
                     <Grid item xs={1} sx={gridMarginRight}>
-                        <TextField label="Max Price $" variant="standard" sx={fieldWidth}/>
+                        <TextField
+                            label="Max Price $"
+                            value={maxPrice}
+                            onChange={e => setMaxPrice(Number(e.target.value))}
+                            variant="standard"
+                            sx={fieldWidth}/>
                     </Grid>
                     <Grid item xs={1} sx={gridMarginRight}>
                         <TextField label="Country" variant="standard" sx={fieldWidth}/>
@@ -78,7 +97,14 @@ export const FilterTutors = () => {
                         </TextField>
                     </Grid>
                     <Grid item xs={1} sx={gridMarginRight}>
-                        <Button variant="outlined">Apply</Button>
+                        <Button
+                            variant="outlined"
+                            onClick={() => {
+                                clearTutors();
+                                clearLastTutorId();
+                                getTutors();
+                            }
+                            }>Apply</Button>
                     </Grid>
                 </Grid>
             </Container>
