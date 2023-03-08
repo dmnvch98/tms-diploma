@@ -1,7 +1,6 @@
 import {Box, Grid, Paper, Rating, styled, Typography} from "@mui/material";
 import React from "react";
 import {TutorCardInfo} from "../../services/ConversationService";
-import {useAvatarStore} from "../../pages/Profile/Edit/avatarStore";
 
 export const FindTutorCard = (props: TutorCardInfo, key: any) => {
     const Img = styled('img')({

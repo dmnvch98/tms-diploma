@@ -5,8 +5,6 @@ import {useSignUpStore} from "../../pages/SignUp/store/signUpStore";
 import {Level, useLevelsStore} from "../../pages/SignUp/store/levelStore";
 import {LanguageLevelTable} from "../LanguageLevelTable";
 import {useProfileStore} from "../../pages/Profile/profileStore";
-import {useAvatarStore} from "../../pages/Profile/Edit/avatarStore";
-import {UpdateUserDto} from "../../CommonStore/store";
 import {useUpdateUserInfo} from "../../pages/Profile/Edit/editProfileInfoStore";
 
 const style = {

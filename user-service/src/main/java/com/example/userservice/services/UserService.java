@@ -64,4 +64,8 @@ public class UserService {
     public int deleteAvatar(Long userId) {
         return repository.deleteAvatar(userId);
     }
+
+    public List<User> filterUsersWithExistingConvDetails(Long lastTutorId, Double minPrice, Double maxPrice) {
+        return repository.filterUsersWithExistingConvDetails(lastTutorId, findTutorPageSize, minPrice, maxPrice);
+    }
 }

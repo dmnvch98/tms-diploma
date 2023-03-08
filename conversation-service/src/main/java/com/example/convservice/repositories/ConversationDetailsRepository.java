@@ -25,19 +25,12 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
 
     ConversationDetails findAllByConvDetailsId(Long convDetailsId);
 
-    @Query(FIND_TUTORS_WITH_EXISTING_CONV_DETAILS +
-        " LEFT OUTER JOIN language_levels ll on cd.min_lang_level_id = ll.language_level_id" +
-        " LEFT OUTER JOIN languages l on l.language_id = ll.language_id" +
-        " LEFT OUTER JOIN levels l2 on ll.level_id = l2.level_id" +
-        " WHERE cd.price between :minPrice and :maxPrice and cd.conv_type_id =:convTypeId and users.location =:location " +
-        "and ll.language_id =:languageId AND l2.level_id <=:levelId")
-    List<User> filterTutors(@Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice,
-                            @Param("convTypeId") Long convTypeId, @Param("location") String location,
-                            @Param("languageId") Long languageId, @Param("levelId") Long levelId);
-
     @Query("SELECT MIN(price) FROM conv_details where tutor_id=:tutorId")
     double findMinimumPriceByUserId(@Param("tutorId") Long tutorId);
 
     @Query("select count(distinct(tutor_id)) from conv_details")
     int countTutorsWithConvDetails();
+
+    @Query("select count(distinct(tutor_id)) from conv_details where price between :minPrice and :maxPrice or :maxPrice is null")
+    int countFilteredTutorsWithConvDetails(@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice);
 }

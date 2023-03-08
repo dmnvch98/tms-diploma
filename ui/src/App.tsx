@@ -13,6 +13,7 @@ import {Loading} from "./Components/Loading";
 import {FindTutor} from "./pages/FIndTutor/FindTutor";
 import {EditStudentProfile} from "./pages/Profile/Edit/Student/EditStudentProfile";
 import {EditTutorProfile} from "./pages/Profile/Edit/Tutor/EditTutorProfile";
+import {FilterTutors} from "./Components/FindTutor/FilterTutors";
 
 function App() {
     const theme = createTheme({
@@ -51,6 +52,7 @@ function App() {
                     <Route path={'/find-tutor'} element={<FindTutor/>}/>
                     <Route path={'/edit-profile-student'} element={<EditStudentProfile/>}/>
                     <Route path={'/edit-profile-tutor'} element={<EditTutorProfile/>}/>
+                    <Route path={'/filter'} element={<FilterTutors/>}/>
                 </Routes>
             </ThemeProvider>
         );

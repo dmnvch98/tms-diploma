@@ -44,7 +44,8 @@ public class ConversationController {
     }
 
     @GetMapping("/details/tutors/filter")
-    public List<User> filterTutors(@RequestBody FilterTutorsRequestDto dto) {
-        return conversationDetailsFacade.filterTutors(dto);
+    public TutorCardsResponseDto filterTutors(@RequestParam(value = "lastTutorId",
+        defaultValue = "0", required = false) Long lastTutorId, @RequestBody FilterTutorsRequestDto dto) {
+        return conversationDetailsFacade.filterTutors(lastTutorId, dto);
     }
 }

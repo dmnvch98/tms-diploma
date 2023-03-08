@@ -1,7 +1,9 @@
-import {Container, Grid} from "@mui/material";
+import {Box, Container, Grid} from "@mui/material";
 import {FindTutorCard} from "../../Components/FindTutor/FindTutorCard";
 import {useFindTutorStore} from "./findTutorStore";
 import {useEffect} from "react";
+import {SidebarHeader} from "../../Components/SidebarHeader";
+import {FilterTutors} from "../../Components/FindTutor/FilterTutors";
 
 export const FindTutor = () => {
     const tutors = useFindTutorStore(state => state.tutors);
@@ -19,7 +21,7 @@ export const FindTutor = () => {
 
     const scrollHandler = (e: any) => {
         if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100
-        && tutors.length < totalCount) {
+            && tutors.length < totalCount) {
             setLoading(true);
         }
     }
@@ -32,8 +34,11 @@ export const FindTutor = () => {
 
     return (
         <>
-            <Container maxWidth="xl">
-                <Grid container>
+            <SidebarHeader/>
+            <FilterTutors/>
+
+            <Container maxWidth="xl" sx={{ml: 10, mt: 15}}>
+                <Grid container spacing={1}>
                     <Grid item xs={5}>
                         {tutors.map((t, index) => (
                             <FindTutorCard
@@ -49,7 +54,12 @@ export const FindTutor = () => {
 
                     </Grid>
                     <Grid item xs={7}>
-
+                        <Box sx={{position: 'fixed', height: '100vh'}}>
+                            <iframe
+                                src="https://yandex.com/map-widget/v1/?ll=27.569857%2C53.900789&masstransit%5BstopId%5D=station__9880204&mode=masstransit&tab=overview&z=15.28"
+                                width='250%' height="100%"
+                                ></iframe>
+                        </Box>
                     </Grid>
                 </Grid>
             </Container>

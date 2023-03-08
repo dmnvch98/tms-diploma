@@ -1,6 +1,7 @@
 package com.example.userservice.facades;
 
 import com.example.userservice.converters.UserConverter;
+import com.example.userservice.dto.FilterTutorsRequestDto;
 import com.example.userservice.dto.TutorCardInfo;
 import com.example.userservice.exceptions.TutorCannotBeDeletedException;
 import com.example.userservice.model.Tutor;
@@ -34,11 +35,20 @@ public class TutorFacade {
             .stream()
             .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))
             .toList();
-        }
+    }
+
     public Tutor save(Tutor tutor) {
         User user = userService.get(tutor.getUserId());
         user.setTutor(tutor);
         user.getRoles().add("Tutor");
         return userService.save(user).getTutor();
+    }
+
+    public List<TutorCardInfo> filterUsersWithExistingConvDetails(Long lastTutorId, FilterTutorsRequestDto dto) {
+        return userService
+            .filterUsersWithExistingConvDetails(lastTutorId, dto.getMinPrice(), dto.getMaxPrice())
+            .stream()
+            .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))
+            .toList();
     }
 }

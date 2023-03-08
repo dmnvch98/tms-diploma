@@ -58,4 +58,12 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("UPDATE users set avatar_name = null WHERE id=:userId")
     @Modifying
     int deleteAvatar(@Param("userId") Long userId);
+
+    @Query("select distinct u.*, t.tutor_id AS tutor_tutor_id from users u" +
+        " left outer join tutors t on u.id = t.user_id" +
+        " right outer join conv_details cd on t.tutor_id = cd.tutor_id " +
+        " where t.tutor_id >:lastTutorId and (price between :minPrice and :maxPrice or :maxPrice is null)" +
+        "order by t.tutor_id limit :pageSize")
+    List<User> filterUsersWithExistingConvDetails(@Param("lastTutorId") Long lastTutorId, @Param("pageSize") int pageSize,
+                                                  @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice);
 }

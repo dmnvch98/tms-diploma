@@ -1,5 +1,6 @@
 package com.example.userservice.controllers;
 
+import com.example.userservice.dto.FilterTutorsRequestDto;
 import com.example.userservice.dto.TutorCardInfo;
 import com.example.userservice.facades.TutorFacade;
 import com.example.userservice.model.Tutor;
@@ -31,5 +32,11 @@ public class TutorController {
     List<TutorCardInfo> findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
         defaultValue = "0", required = false) Long lastTutorId) {
         return tutorFacade.findTutorsWithExistingConvDetails(lastTutorId);
+    }
+
+    @GetMapping("/existing-conversations-details/filter")
+    public List<TutorCardInfo> filterTutors(@RequestParam(value = "lastTutorId",
+        defaultValue = "0", required = false) Long lastTutorId, @RequestBody FilterTutorsRequestDto dto) {
+        return tutorFacade.filterUsersWithExistingConvDetails(lastTutorId, dto);
     }
 }

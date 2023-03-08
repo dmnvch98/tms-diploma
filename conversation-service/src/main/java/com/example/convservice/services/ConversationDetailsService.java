@@ -5,6 +5,7 @@ import com.example.convservice.model.ConversationDetails;
 import com.example.convservice.model.User;
 import com.example.convservice.repositories.ConversationDetailsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,16 +26,15 @@ public class ConversationDetailsService implements FindConversationDetailsById {
         return repository.findAllByConvDetailsId(convDetailsId);
     }
 
-    public List<User> filterTutors(double minPrice, double maxPrice, Long convTypeId,
-                                   String location, Long languageId, Long levelId) {
-        return repository.filterTutors(minPrice, maxPrice, convTypeId, location, languageId, levelId);
-    }
-
     public double findMinimumPriceByUserId(Long tutorId) {
         return repository.findMinimumPriceByUserId(tutorId);
     }
 
     public int countAllTutorsWithConvDetails() {
         return repository.countTutorsWithConvDetails();
+    }
+
+    public int countFilteredTutorsWithConvDetails(Double minPrice, Double maxPrice) {
+        return repository.countFilteredTutorsWithConvDetails(minPrice, maxPrice);
     }
 }
