@@ -1,6 +1,9 @@
 import {Autocomplete, Button, Container, Grid, MenuItem, TextField} from "@mui/material";
 import {ConvType, useFindTutorStore} from "../../pages/FIndTutor/findTutorStore";
 import {useEffect} from "react";
+import {useLanguagesStore} from "../../pages/SignUp/store/languagesStore";
+import {useSignUpStore} from "../../pages/SignUp/store/signUpStore";
+import {useLevelsStore} from "../../pages/SignUp/store/levelStore";
 
 const fieldWidth = {
     width: '8vw'
@@ -29,9 +32,19 @@ export const TutorsFilter = () => {
     const setCity = useFindTutorStore(state => state.setCity);
     const convTypeId = useFindTutorStore(state => state.convTypeId);
     const setConvTypeId = useFindTutorStore(state => state.setConvTypeId);
+    const languageId = useFindTutorStore(state => state.languageId);
+    const setLanguageId = useFindTutorStore(state => state.setLanguageId);
+    const minLevelId = useFindTutorStore(state => state.minLevelId);
+    const setMinLevelId = useFindTutorStore(state => state.setMinLevelId);
+    const levels = useLevelsStore(state => state.levelsList);
+    const getLevels = useLevelsStore(state => state.getLevels);
+    const languages = useLanguagesStore(state => state.languagesList);
+    const getLanguages = useLanguagesStore(state => state.getLanguages);
 
     useEffect(() => {
         getCountries();
+        getLevels();
+        getLanguages();
     }, [])
 
     const convTypes: ConvType[] = [
@@ -109,7 +122,7 @@ export const TutorsFilter = () => {
                                 <TextField {...params}
                                            label="City"
                                            variant='standard'
-                                           />}
+                                />}
                         />
                     </Grid>
                     <Grid item xs={1} sx={gridMarginRight}>
@@ -118,8 +131,13 @@ export const TutorsFilter = () => {
                             variant="standard"
                             label="Language"
                             sx={fieldWidth}
-                        >{convTypes.map((conv) => (
-                            <MenuItem key={conv.convTypeId}>{conv.description}</MenuItem>
+                            value={languageId}
+                            onChange={(e) => {
+                                setLanguageId(+e.target.value)
+                            }
+                        }
+                        >{languages.map((lang) => (
+                            <MenuItem key={lang.languageId} value={lang.languageId}>{lang.description}</MenuItem>
                         ))}
                         </TextField>
                     </Grid>
@@ -129,8 +147,10 @@ export const TutorsFilter = () => {
                             variant="standard"
                             label="Min Level"
                             sx={fieldWidth}
-                        >{convTypes.map((conv) => (
-                            <MenuItem key={conv.convTypeId}>{conv.description}</MenuItem>
+                            onChange={(e) => setMinLevelId(+e.target.value)}
+                            value={minLevelId}
+                        >{levels.map((level) => (
+                            <MenuItem key={level.levelId} value={level.levelId}>{level.description}</MenuItem>
                         ))}
                         </TextField>
                     </Grid>

@@ -20,7 +20,9 @@ export interface FilterTutorsRequestDto {
     maxPrice: number,
     countryId: number,
     city: string,
-    convTypeId: string
+    convTypeId: string,
+    languageId: number,
+    minLevelId: number
 }
 
 class ConversationService {
@@ -42,7 +44,9 @@ class ConversationService {
                     maxPrice: config.maxPrice,
                     countryId: config.countryId,
                     city: config.city,
-                    convTypeId: config.convTypeId
+                    convTypeId: config.convTypeId,
+                    languageId: config.languageId,
+                    minLevelId: config.minLevelId
                 }
             });
             return response.data;

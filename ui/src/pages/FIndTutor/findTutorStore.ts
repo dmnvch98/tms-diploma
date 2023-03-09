@@ -21,6 +21,8 @@ export interface FindTutor {
     cities: string[],
     countries: Country[],
     convTypeId: number | string;
+    languageId: number | string,
+    minLevelId: number | string,
     getTutors: () => void,
     clearTutors: () => void,
     setLoadingTutorCards: (flag: boolean) => void;
@@ -36,6 +38,8 @@ export interface FindTutor {
     setLoadingCities: (flag: boolean) => void;
     setCity: (city: string) => void;
     setConvTypeId: (convTypeId: number | string) => void;
+    setLanguageId: (languageId: number | string) => void;
+    setMinLevelId: (minLevelId: number | string) => void;
 }
 
 export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
@@ -52,8 +56,11 @@ export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
     countryId: '',
     loadingCities: false,
     convTypeId: '',
+    languageId: '',
+    minLevelId: '',
     getTutors: async () => {
-        get().maxPrice != '' || get().country != '' || get().convTypeId != ''
+        get().maxPrice != '' || get().country != '' || get().convTypeId != '' || get().languageId != ''
+            || get().minLevelId != ''
             ? get().filterTutors()
             : await get().getAllTutors()
     },
@@ -85,7 +92,9 @@ export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
                     maxPrice: get().maxPrice,
                     countryId: get().countryId,
                     city: get().city,
-                    convTypeId: get().convTypeId
+                    convTypeId: get().convTypeId,
+                    languageId: get().languageId,
+                    minLevelId: get().minLevelId
                 }
             await ConversationService.filterTutorsWithExistingConversations(get().lastTutorId, filterTutorsRequestDto)
                 .then(response => {
@@ -145,5 +154,11 @@ export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
             set({country: '', countryId: '', city: '', cities: []})
         }
         set({convTypeId: convTypeId})
+    },
+    setLanguageId: async (languageId: number | string) => {
+        set({languageId: languageId})
+    },
+    setMinLevelId: async (minLevelId: number | string) => {
+        set({minLevelId: minLevelId})
     }
 }))
