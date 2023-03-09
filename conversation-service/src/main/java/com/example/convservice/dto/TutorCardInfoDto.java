@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 @Value
-public class TutorCardInfoMinPrice {
+public class TutorCardInfoDto {
     Long tutorId;
     String firstName;
     String lastName;

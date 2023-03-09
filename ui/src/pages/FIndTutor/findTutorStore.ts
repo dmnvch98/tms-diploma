@@ -1,31 +1,59 @@
 import {create} from "zustand";
 import ConversationService, {FilterTutorsRequestDto, TutorCardInfo} from "../../services/ConversationService";
+import CountryCityService from "../../services/CountryCityService";
+import {Country} from "../SignUp/store/countryStore";
+
+export interface ConvType {
+    convTypeId: number;
+    description: string;
+}
 
 export interface FindTutor {
     tutors: TutorCardInfo[],
     lastTutorId: number,
     totalCount: number,
-    loading: boolean,
-    minPrice: number,
-    maxPrice: number,
+    loadingTutorCards: boolean,
+    loadingCities: boolean,
+    minPrice: number | string,
+    maxPrice: number | string,
+    country: Country | string,
+    city: string,
+    cities: string[],
+    countries: Country[],
+    convTypeId: number | string;
     getTutors: () => void,
     clearTutors: () => void,
-    setLoading: (flag: boolean) => void;
+    setLoadingTutorCards: (flag: boolean) => void;
     filterTutors: () => void;
     setMinPrice: (minPrice: number) => void;
     setMaxPrice: (maxPrice: number) => void;
     clearLastTutorId: () => void;
+    setCountry: (country: Country) => void;
+    getCitiesByCountry: () => void;
+    getCountries: () => void;
+    countryId: number | string;
+    setCountryId: (countryId: number | string) => void;
+    setLoadingCities: (flag: boolean) => void;
+    setCity: (city: string) => void;
+    setConvTypeId: (convTypeId: number | string) => void;
 }
 
 export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
     tutors: [],
     lastTutorId: 0,
-    loading: true,
+    loadingTutorCards: true,
     totalCount: 0,
-    minPrice: 0,
-    maxPrice: 0,
+    minPrice: '',
+    maxPrice: '',
+    city: '',
+    country: '',
+    cities: [],
+    countries: [],
+    countryId: '',
+    loadingCities: false,
+    convTypeId: '',
     getTutors: async () => {
-        get().maxPrice != 0
+        get().maxPrice != '' || get().country != '' || get().convTypeId != ''
             ? get().filterTutors()
             : await get().getAllTutors()
     },
@@ -43,18 +71,21 @@ export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
         } catch (e: any) {
             alert(e as string)
         } finally {
-            set({loading: false})
+            set({loadingTutorCards: false})
         }
     },
-    setLoading: async (flag: boolean) => {
-        set({loading: flag})
+    setLoadingTutorCards: async (flag: boolean) => {
+        set({loadingTutorCards: flag})
     },
     filterTutors: async () => {
         try {
             const filterTutorsRequestDto: FilterTutorsRequestDto =
                 {
                     minPrice: get().minPrice,
-                    maxPrice: get().maxPrice
+                    maxPrice: get().maxPrice,
+                    countryId: get().countryId,
+                    city: get().city,
+                    convTypeId: get().convTypeId
                 }
             await ConversationService.filterTutorsWithExistingConversations(get().lastTutorId, filterTutorsRequestDto)
                 .then(response => {
@@ -66,9 +97,9 @@ export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
                     })
                 })
         } catch (e: any) {
-            alert(e as string)
+            console.log(e as string)
         } finally {
-            set({loading: false})
+            set({loadingTutorCards: false})
         }
     },
     clearTutors: () => {
@@ -82,5 +113,37 @@ export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
     },
     clearLastTutorId: () => {
         set({lastTutorId: 0})
+    },
+    setCountry: (country: Country) => {
+        set({country: country})
+    },
+    getCitiesByCountry: async () => {
+        try {
+            set({loadingCities: true})
+            set({cities: await CountryCityService.getCitiesByCountry(get().country.description)})
+        } catch (e) {
+            console.log(e)
+        } finally {
+            set({loadingCities: false})
+        }
+
+    },
+    getCountries: async () => {
+        set({countries: await CountryCityService.getCountries()})
+    },
+    setCountryId: async (countryId: number | string) => {
+        set({countryId: countryId})
+    },
+    setLoadingCities: async (flag: boolean) => {
+        set({loadingCities: flag})
+    },
+    setCity: async (city: string) => {
+        set({city: city})
+    },
+    setConvTypeId: async (convTypeId: number | string) => {
+        if (convTypeId == 2) {
+            set({country: '', countryId: '', city: '', cities: []})
+        }
+        set({convTypeId: convTypeId})
     }
 }))

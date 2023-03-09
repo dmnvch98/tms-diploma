@@ -2,8 +2,7 @@ package com.example.convservice.services;
 
 import com.example.convservice.client.TutorClient;
 import com.example.convservice.dto.FilterTutorsRequestDto;
-import com.example.convservice.dto.TutorCardInfo;
-import com.example.convservice.model.User;
+import com.example.convservice.dto.TutorShortUserInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +14,12 @@ public class UserService {
 
     private final TutorClient userClient;
 
-    public List<TutorCardInfo> findTutorsWithExistingConvDetails(Long lastTutorId) {
+    public List<TutorShortUserInfoDto> findTutorsWithExistingConvDetails(Long lastTutorId) {
         return userClient.findTutorsWithExistingConvDetails(lastTutorId);
     }
 
 
-    public List<TutorCardInfo> filterTutors(Long tutorId, FilterTutorsRequestDto dto) {
+    public List<TutorShortUserInfoDto> filterTutors(Long tutorId, FilterTutorsRequestDto dto) {
         return userClient.filterTutors(tutorId, dto);
     }
 }

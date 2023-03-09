@@ -2,7 +2,7 @@ package com.example.userservice.converters;
 
 import com.example.userservice.converters.utils.CountryFlag;
 import com.example.userservice.dto.LanguageLevelDto;
-import com.example.userservice.dto.TutorCardInfo;
+import com.example.userservice.dto.TutorShortUserInfoDto;
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.model.User;
@@ -20,6 +20,6 @@ public interface UserConverter {
 
     @Mapping(target = "tutorId", expression = "java(user.getTutor().getTutorId())")
     @Mapping(target = "userId", source = "user.id")
-    TutorCardInfo userToTutorCardInfo(User user, List<LanguageLevelDto> languageLevels);
+    TutorShortUserInfoDto userToTutorCardInfo(User user, List<LanguageLevelDto> languageLevels);
 
 }

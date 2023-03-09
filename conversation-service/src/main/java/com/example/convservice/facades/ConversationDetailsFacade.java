@@ -35,11 +35,12 @@ public class ConversationDetailsFacade {
     }
 
     public TutorCardsResponseDto filterTutors(Long tutorId, FilterTutorsRequestDto dto) {
-        List<TutorCardInfoMinPrice> tutors = userService.filterTutors(tutorId, dto)
+        List<TutorCardInfoDto> tutors = userService.filterTutors(tutorId, dto)
             .stream()
             .map(tutor -> userConverter.tutorCardInfoToMinPrice(
                 tutor,
-                findMinimumPriceByTutorId(tutor.getTutorId()),
+                findMinimumPrice(tutor.getTutorId(), dto.getConversationTypeId(),
+                    dto.getLevelId(), dto.getLanguageId()),
                 addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
                 fileService.getAvatarUrl(tutor.getAvatarName())))
             .toList();
@@ -47,20 +48,26 @@ public class ConversationDetailsFacade {
         return TutorCardsResponseDto
             .builder()
             .tutors(tutors)
-            .totalCount(conversationDetailsService.countFilteredTutorsWithConvDetails(dto.getMinPrice(), dto.getMaxPrice()))
+            .totalCount(conversationDetailsService.countFilteredTutorsWithConvDetails(dto.getMinPrice(),
+                dto.getMaxPrice(),dto.getCity(), dto.getCountryId(), dto.getConversationTypeId(),
+                dto.getLevelId(), dto.getLanguageId()))
             .build();
     }
 
-    public double findMinimumPriceByTutorId(Long tutorId) {
+    public double findMinimumPrice(Long tutorId) {
         return conversationDetailsService.findMinimumPriceByUserId(tutorId);
     }
 
+    public double findMinimumPrice(Long tutorId, Long convTypeId, Long minLanguageLevelId, Long languageId ) {
+        return conversationDetailsService.findMinimumPriceByUserId(tutorId, convTypeId, minLanguageLevelId, languageId);
+    }
+
     public TutorCardsResponseDto findTutorCardInfoWithMinPrice(Long lastTutorId) {
-        List<TutorCardInfoMinPrice> tutors = userService.findTutorsWithExistingConvDetails(lastTutorId)
+        List<TutorCardInfoDto> tutors = userService.findTutorsWithExistingConvDetails(lastTutorId)
             .stream()
             .map(tutor -> userConverter.tutorCardInfoToMinPrice(
                 tutor,
-                findMinimumPriceByTutorId(tutor.getTutorId()),
+                findMinimumPrice(tutor.getTutorId()),
                 addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
                 fileService.getAvatarUrl(tutor.getAvatarName())))
             .toList();

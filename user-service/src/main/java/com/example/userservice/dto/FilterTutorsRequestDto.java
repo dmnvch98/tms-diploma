@@ -13,5 +13,6 @@ public class FilterTutorsRequestDto {
     Long conversationTypeId;
     Long languageId;
     Long levelId;
-    String location;
+    String city;
+    Long countryId;
 }

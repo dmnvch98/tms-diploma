@@ -1,4 +1,4 @@
-import {Box, Grid, Paper, Rating, styled, Typography} from "@mui/material";
+import {Box, Grid, Paper, styled, Typography} from "@mui/material";
 import React from "react";
 import {TutorCardInfo} from "../../services/ConversationService";
 import StarIcon from '@mui/icons-material/Star';

@@ -17,7 +17,10 @@ export interface TutorCardsResponseData {
 
 export interface FilterTutorsRequestDto {
     minPrice: number,
-    maxPrice: number
+    maxPrice: number,
+    countryId: number,
+    city: string,
+    convTypeId: string
 }
 
 class ConversationService {
@@ -36,7 +39,10 @@ class ConversationService {
                 + id, {
                 params: {
                     minPrice: config.minPrice,
-                    maxPrice: config.maxPrice
+                    maxPrice: config.maxPrice,
+                    countryId: config.countryId,
+                    city: config.city,
+                    convTypeId: config.convTypeId
                 }
             });
             return response.data;

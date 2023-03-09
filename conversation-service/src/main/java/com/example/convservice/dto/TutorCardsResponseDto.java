@@ -9,5 +9,5 @@ import java.util.List;
 @Builder
 public class TutorCardsResponseDto {
     int totalCount;
-    List<TutorCardInfoMinPrice> tutors;
+    List<TutorCardInfoDto> tutors;
 }

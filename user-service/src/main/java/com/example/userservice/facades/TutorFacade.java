@@ -2,7 +2,7 @@ package com.example.userservice.facades;
 
 import com.example.userservice.converters.UserConverter;
 import com.example.userservice.dto.FilterTutorsRequestDto;
-import com.example.userservice.dto.TutorCardInfo;
+import com.example.userservice.dto.TutorShortUserInfoDto;
 import com.example.userservice.exceptions.TutorCannotBeDeletedException;
 import com.example.userservice.model.Tutor;
 import com.example.userservice.model.User;
@@ -30,7 +30,7 @@ public class TutorFacade {
         }
     }
 
-    public List<TutorCardInfo> findTutorsWithExistingConvDetails(Long lastTutorId) {
+    public List<TutorShortUserInfoDto> findTutorsWithExistingConvDetails(Long lastTutorId) {
         return userService.findTutorsWithExistingConvDetails(lastTutorId)
             .stream()
             .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))
@@ -44,9 +44,10 @@ public class TutorFacade {
         return userService.save(user).getTutor();
     }
 
-    public List<TutorCardInfo> filterUsersWithExistingConvDetails(Long lastTutorId, FilterTutorsRequestDto dto) {
+    public List<TutorShortUserInfoDto> filterUsersWithExistingConvDetails(Long lastTutorId, FilterTutorsRequestDto dto) {
         return userService
-            .filterUsersWithExistingConvDetails(lastTutorId, dto.getMinPrice(), dto.getMaxPrice())
+            .filterUsersWithExistingConvDetails(lastTutorId, dto.getMinPrice(), dto.getMaxPrice(),
+                dto.getCity(), dto.getCountryId(), dto.getConversationTypeId(), dto.getLevelId(), dto.getLanguageId())
             .stream()
             .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))
             .toList();

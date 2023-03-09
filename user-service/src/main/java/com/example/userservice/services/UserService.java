@@ -65,7 +65,10 @@ public class UserService {
         return repository.deleteAvatar(userId);
     }
 
-    public List<User> filterUsersWithExistingConvDetails(Long lastTutorId, Double minPrice, Double maxPrice) {
-        return repository.filterUsersWithExistingConvDetails(lastTutorId, findTutorPageSize, minPrice, maxPrice);
+    public List<User> filterUsersWithExistingConvDetails(Long lastTutorId, Double minPrice, Double maxPrice,
+                                                         String city, Long countryId, Long convTypeId,
+                                                         Long minLevel, Long languageId) {
+        return repository.filterUsersWithExistingConvDetails(lastTutorId, findTutorPageSize, minPrice,
+            maxPrice, countryId, city, convTypeId, minLevel, languageId);
     }
 }

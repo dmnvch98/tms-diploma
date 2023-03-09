@@ -8,8 +8,8 @@ import {TutorsFilter} from "../../Components/FindTutor/TutorsFilter";
 export const FindTutor = () => {
     const tutors = useFindTutorStore(state => state.tutors);
     const getTutors = useFindTutorStore(state => state.getTutors);
-    const loading = useFindTutorStore(state => state.loading);
-    const setLoading = useFindTutorStore(state => state.setLoading);
+    const loading = useFindTutorStore(state => state.loadingTutorCards);
+    const setLoading = useFindTutorStore(state => state.setLoadingTutorCards);
     const totalCount = useFindTutorStore(state => state.totalCount);
 
     useEffect(() => {
@@ -54,7 +54,7 @@ export const FindTutor = () => {
 
                     </Grid>
                     <Grid item xs={7}>
-                        <Box sx={{position: 'fixed', height: '100vh'}}>
+                        <Box sx={{position: 'fixed', height: '100vh', zIndex: -1}}>
                             <iframe
                                 src="https://yandex.com/map-widget/v1/?ll=27.569857%2C53.900789&masstransit%5BstopId%5D=station__9880204&mode=masstransit&tab=overview&z=15.28"
                                 width='250%' height="100%"

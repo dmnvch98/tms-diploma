@@ -62,8 +62,17 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("select distinct u.*, t.tutor_id AS tutor_tutor_id from users u" +
         " left outer join tutors t on u.id = t.user_id" +
         " right outer join conv_details cd on t.tutor_id = cd.tutor_id " +
+        " full join addresses a on a.address_id = cd.address_id" +
         " where t.tutor_id >:lastTutorId and (price between :minPrice and :maxPrice or :maxPrice is null)" +
-        "order by t.tutor_id limit :pageSize")
+        " and (:countryId is null or a.country_id =:countryId)" +
+        " and (:city is null or city = :city) " +
+        " and (:convTypeId is null or cd.conv_type_id=:convTypeId)" +
+        " and (:minLevel is null or cd.min_level >=:minLevel) " +
+        " and (:languageId is null or cd.language_id =:languageId)" +
+        " order by t.tutor_id limit :pageSize")
     List<User> filterUsersWithExistingConvDetails(@Param("lastTutorId") Long lastTutorId, @Param("pageSize") int pageSize,
-                                                  @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice);
+                                                  @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice,
+                                                  @Param("countryId") Long countryId, @Param("city") String city,
+                                                  @Param("convTypeId") Long convTypeId, @Param("minLevel") Long minLevel,
+                                                  @Param("languageId") Long languageId);
 }

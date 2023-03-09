@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @Value
 @Jacksonized
-public class TutorCardInfo {
+public class TutorShortUserInfoDto {
     Long userId;
     Long tutorId;
     String firstName;
