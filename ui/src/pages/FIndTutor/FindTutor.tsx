@@ -71,6 +71,11 @@ export const FindTutor = () => {
                                         <Marker
                                             lat={a.latitude}
                                             lng={a.longitude}
+                                            tutorId={t.tutorId}
+                                            firstName={t.firstName}
+                                            lastName={t.lastName}
+                                            minPrice={t.minPrice}
+                                            avatarUrl={t.avatarUrl}
                                         />
                                     )))}
                                 </GoogleMapReact>
