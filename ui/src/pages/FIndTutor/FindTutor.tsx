@@ -1,9 +1,12 @@
 import {Box, Container, Grid} from "@mui/material";
 import {FindTutorCard} from "../../Components/FindTutor/FindTutorCard";
 import {useFindTutorStore} from "./findTutorStore";
-import {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {SidebarHeader} from "../../Components/SidebarHeader";
 import {TutorsFilter} from "../../Components/FindTutor/TutorsFilter";
+import GoogleMapReact from "google-map-react";
+import Marker from "../../Components/Map/Marker";
+import {useLocationStore} from "./locationStore";
 
 export const FindTutor = () => {
     const tutors = useFindTutorStore(state => state.tutors);
@@ -11,6 +14,9 @@ export const FindTutor = () => {
     const loading = useFindTutorStore(state => state.loadingTutorCards);
     const setLoading = useFindTutorStore(state => state.setLoadingTutorCards);
     const totalCount = useFindTutorStore(state => state.totalCount);
+    const latitude = useLocationStore(state => state.latitude);
+    const zoom = useLocationStore(state => state.zoom);
+    const longitude = useLocationStore(state => state.longitude);
 
     useEffect(() => {
         document.addEventListener('scroll', scrollHandler);
@@ -36,7 +42,6 @@ export const FindTutor = () => {
         <>
             <SidebarHeader/>
             <TutorsFilter/>
-
             <Container maxWidth="xl" sx={{ml: 10, mt: 18}}>
                 <Grid container spacing={1}>
                     <Grid item xs={5}>
@@ -49,16 +54,27 @@ export const FindTutor = () => {
                                 minPrice={t.minPrice}
                                 avatarUrl={t.avatarUrl}
                                 key={index}
+                                addresses={[]}
                             />
                         ))}
 
                     </Grid>
                     <Grid item xs={7}>
-                        <Box sx={{position: 'fixed', height: '100vh', zIndex: -1}}>
-                            <iframe
-                                src="https://yandex.com/map-widget/v1/?ll=27.569857%2C53.900789&masstransit%5BstopId%5D=station__9880204&mode=masstransit&tab=overview&z=15.28"
-                                width='250%' height="100%"
-                                ></iframe>
+                        <Box>
+                            <div style={{ height: '100vh', width: '51%', position: 'fixed' }}>
+                                <GoogleMapReact
+                                    bootstrapURLKeys={{ key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc' }}
+                                    center={{lat: latitude, lng: longitude}}
+                                    zoom={zoom}
+                                >
+                                    {tutors.map(t => t.addresses.map(a => (
+                                        <Marker
+                                            lat={a.latitude}
+                                            lng={a.longitude}
+                                        />
+                                    )))}
+                                </GoogleMapReact>
+                            </div>
                         </Box>
                     </Grid>
                 </Grid>

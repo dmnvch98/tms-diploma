@@ -2,8 +2,8 @@ import {Autocomplete, Button, Container, Grid, MenuItem, TextField} from "@mui/m
 import {ConvType, useFindTutorStore} from "../../pages/FIndTutor/findTutorStore";
 import {useEffect} from "react";
 import {useLanguagesStore} from "../../pages/SignUp/store/languagesStore";
-import {useSignUpStore} from "../../pages/SignUp/store/signUpStore";
 import {useLevelsStore} from "../../pages/SignUp/store/levelStore";
+import {useLocationStore} from "../../pages/FIndTutor/locationStore";
 
 const fieldWidth = {
     width: '8vw'
@@ -40,6 +40,8 @@ export const TutorsFilter = () => {
     const getLevels = useLevelsStore(state => state.getLevels);
     const languages = useLanguagesStore(state => state.languagesList);
     const getLanguages = useLanguagesStore(state => state.getLanguages);
+    const getCityCoordinates = useLocationStore(state => state.getCityCoordinates);
+    const city = useFindTutorStore(state => state.city);
 
     useEffect(() => {
         getCountries();
@@ -56,22 +58,6 @@ export const TutorsFilter = () => {
         <>
             <Container maxWidth="xl" sx={{position: 'fixed', backgroundColor: 'white', pb: 2}}>
                 <Grid container sx={{mt: 10, ml: 10}} alignItems="flex-end">
-                    <Grid item xs={1} sx={gridMarginRight}>
-                        <TextField
-                            label="Min Price $"
-                            variant="standard"
-                            value={minPrice}
-                            onChange={e => setMinPrice(Number(e.target.value))}
-                            sx={fieldWidth}/>
-                    </Grid>
-                    <Grid item xs={1} sx={gridMarginRight}>
-                        <TextField
-                            label="Max Price $"
-                            value={maxPrice}
-                            onChange={e => setMaxPrice(Number(e.target.value))}
-                            variant="standard"
-                            sx={fieldWidth}/>
-                    </Grid>
                     <Grid item xs={1} sx={gridMarginRight}>
                         <TextField
                             select
@@ -117,13 +103,29 @@ export const TutorsFilter = () => {
                                     setCity(value as string);
                                 }
                             }}
-                            sx={{width: '12vw', position: 'relative'}}
+                            sx={{width: '12vw'}}
                             renderInput={(params) =>
                                 <TextField {...params}
                                            label="City"
                                            variant='standard'
                                 />}
                         />
+                    </Grid>
+                    <Grid item xs={1} sx={gridMarginRight}>
+                        <TextField
+                            label="Min Price $"
+                            variant="standard"
+                            value={minPrice}
+                            onChange={e => setMinPrice(Number(e.target.value))}
+                            sx={fieldWidth}/>
+                    </Grid>
+                    <Grid item xs={1} sx={gridMarginRight}>
+                        <TextField
+                            label="Max Price $"
+                            value={maxPrice}
+                            onChange={e => setMaxPrice(Number(e.target.value))}
+                            variant="standard"
+                            sx={fieldWidth}/>
                     </Grid>
                     <Grid item xs={1} sx={gridMarginRight}>
                         <TextField
@@ -135,7 +137,7 @@ export const TutorsFilter = () => {
                             onChange={(e) => {
                                 setLanguageId(+e.target.value)
                             }
-                        }
+                            }
                         >{languages.map((lang) => (
                             <MenuItem key={lang.languageId} value={lang.languageId}>{lang.description}</MenuItem>
                         ))}
@@ -158,12 +160,16 @@ export const TutorsFilter = () => {
                         <Button
                             variant="outlined"
                             onClick={() => {
+                                if (countryId != '') {
+                                    getCityCoordinates(countries[Number(countryId) - 1].description + "," + city)
+                                }
                                 clearTutors();
                                 clearLastTutorId();
                                 getTutors();
                             }
                             }>Apply</Button>
                     </Grid>
+
                 </Grid>
             </Container>
         </>

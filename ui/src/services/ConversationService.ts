@@ -1,5 +1,6 @@
 import {LanguageLevel} from "../pages/SignUp/store/languagesStore";
 import axios, {AxiosError} from "axios";
+import {Location} from "./LocationService";
 
 export interface TutorCardInfo {
     tutorId: number,
@@ -7,7 +8,8 @@ export interface TutorCardInfo {
     lastName: string,
     languageLevels: LanguageLevel[],
     minPrice: number
-    avatarUrl: string
+    avatarUrl: string,
+    addresses: Location[]
 }
 
 export interface TutorCardsResponseData {

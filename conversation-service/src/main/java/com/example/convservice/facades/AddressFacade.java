@@ -26,4 +26,8 @@ public class AddressFacade {
             .map(addressConverter::addressToDto)
             .toList();
     }
+
+    public Object getCityInfo(String query) {
+        return addressService.getCityInfo(query);
+    }
 }

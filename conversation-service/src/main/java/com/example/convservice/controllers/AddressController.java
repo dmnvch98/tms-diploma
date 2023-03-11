@@ -17,4 +17,10 @@ public class AddressController {
     public Address save(@RequestBody Address address) {
         return addressFacade.save(address);
     }
+
+    @CrossOrigin
+    @GetMapping("/city-info")
+    public Object getCityInfo(@RequestParam String query) {
+        return addressFacade.getCityInfo(query);
+    }
 }

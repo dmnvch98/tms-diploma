@@ -11,8 +11,11 @@ services:
     url: 'http://localhost:9090'
   file:
     url: 'http://localhost:9091'
+  places:
+    url: 'https://maps.googleapis.com/maps/api/place/textsearch/json'
 conversations:
   initStatus: 1
+places-key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc'
 logging:
   level:
     org:

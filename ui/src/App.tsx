@@ -14,6 +14,7 @@ import {FindTutor} from "./pages/FIndTutor/FindTutor";
 import {EditStudentProfile} from "./pages/Profile/Edit/Student/EditStudentProfile";
 import {EditTutorProfile} from "./pages/Profile/Edit/Tutor/EditTutorProfile";
 import {TutorsFilter} from "./Components/FindTutor/TutorsFilter";
+import SimpleMapExample from "./Components/Map/SimpleMapExample";
 
 function App() {
     const theme = createTheme({
@@ -53,6 +54,7 @@ function App() {
                     <Route path={'/edit-profile-student'} element={<EditStudentProfile/>}/>
                     <Route path={'/edit-profile-tutor'} element={<EditTutorProfile/>}/>
                     <Route path={'/filter'} element={<TutorsFilter/>}/>
+                    <Route path={'/map'} element={<SimpleMapExample/>}/>
                 </Routes>
             </ThemeProvider>
         );
