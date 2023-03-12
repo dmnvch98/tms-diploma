@@ -19,7 +19,7 @@ public class ConversationController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/details")
-    public ConversationDetailsResponseDto save(@RequestBody ConversationDetailsRequestDto dto) {
+    public ConversationDetailsResponseDto saveConversationDetails(@RequestBody ConversationDetailsRequestDto dto) {
         return conversationDetailsFacade.save(dto);
     }
 
@@ -33,48 +33,24 @@ public class ConversationController {
         return conversationFacade.save(dto);
     }
 
-    @CrossOrigin
-    @GetMapping("/details/tutors/")
-    public TutorCardsResponseDto findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
-        defaultValue = "0", required = false) Long lastTutorId) {
-        return conversationDetailsFacade.findTutorCardInfoWithMinPrice(lastTutorId);
-    }
-
-    @CrossOrigin
-    @GetMapping("/details/tutors/filter")
-    public TutorCardsResponseDto filterTutors(
-        @RequestParam(value = "lastTutorId", defaultValue = "0", required = false) Long lastTutorId,
-        @RequestParam(value = "minPrice", defaultValue = "0", required = false) Double minPrice,
-        @RequestParam(value = "maxPrice", required = false) Double maxPrice,
-        @RequestParam(value = "countryId", required = false) Long countryId,
-        @RequestParam(value = "city", required = false) String city,
-        @RequestParam(value = "convTypeId", required = false) Long convTypeId,
-        @RequestParam(value = "minLevelId", required = false) Long minLevelId,
-        @RequestParam(value = "languageId", required = false) Long languageId
-        ) {
-        if (city != null && city.equals("")) {
-            city = null;
-        }
-        FilterTutorsRequestDto dto = FilterTutorsRequestDto
-            .builder()
-            .minPrice(minPrice)
-            .maxPrice(maxPrice)
-            .countryId(countryId)
-            .city(city)
-            .conversationTypeId(convTypeId)
-            .languageId(languageId)
-            .levelId(minLevelId)
-            .build();
-        return conversationDetailsFacade.filterTutors(lastTutorId, dto);
-    }
-
     @GetMapping("/tutors/{tutorId}/minPrice")
     public double findTutorMinimumPrice(@PathVariable("tutorId") Long tutorId) {
         return conversationDetailsFacade.findTutorMinimumPrice(tutorId);
+    }
+
+    @GetMapping("/tutors/{tutorId}/minPrice/filter")
+    double findTutorMinimumPrice(@RequestBody FilterTutorsRequestDto dto, @PathVariable("tutorId") Long tutorId){
+        return conversationDetailsFacade.findTutorMinimumPrice(tutorId, dto);
     }
 
     @GetMapping("/tutors/total")
     public int countAllTutorsWithConvDetails() {
         return conversationDetailsFacade.countAllTutorsWithConvDetails();
     }
+
+    @GetMapping("/tutors/total/filter")
+    public int countFilteredTutorsWithConvDetails(@RequestBody FilterTutorsRequestDto dto) {
+        return conversationDetailsFacade.countFilteredTutorsWithConvDetails(dto);
+    }
+
 }

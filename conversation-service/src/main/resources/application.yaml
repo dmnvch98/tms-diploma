@@ -9,8 +9,6 @@ spring:
 services:
   user:
     url: 'http://localhost:9090'
-  file:
-    url: 'http://localhost:9091'
   places:
     url: 'https://maps.googleapis.com/maps/api/place/textsearch/json'
 conversations:

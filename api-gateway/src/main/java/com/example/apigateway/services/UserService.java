@@ -57,8 +57,4 @@ public class UserService {
     public void saveRefreshToken(UserRefreshToken refreshToken) {
         userClient.updateRefreshToken(refreshToken);
     }
-
-    public List<TutorShortUserInfoDto> findTutorsWithExistingConvDetails(Long lastTutorId) {
-        return tutorClient.findTutorsWithExistingConvDetails(lastTutorId);
-    }
 }

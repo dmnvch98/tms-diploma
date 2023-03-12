@@ -40,8 +40,9 @@ class ConversationService {
 
     filterTutorsWithExistingConversations = async (id: number, config: FilterTutorsRequestDto): Promise<TutorCardsResponseData> => {
         try {
-            const response = await axios.get('http://localhost:9093/api/v1/conversations/details/tutors/filter?lastTutorId='
+            const response = await axios.get('http://localhost:8080/api/v1/conversations/details/tutors/filter?lastTutorId='
                 + id, {
+                withCredentials: true,
                 params: {
                     minPrice: config.minPrice,
                     maxPrice: config.maxPrice,
