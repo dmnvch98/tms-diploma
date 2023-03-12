@@ -1,5 +1,5 @@
 import {SidebarHeader} from "../../Components/SidebarHeader";
-import {Autocomplete, Box, Button, Container, Grid, MenuItem, Paper, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Container, Grid, MenuItem, Paper, TextField, Typography} from "@mui/material";
 import React, {useEffect} from "react";
 import {useAddAddressStore} from "./addressesStore";
 import GoogleMapReact from "google-map-react";
@@ -10,19 +10,20 @@ export const AddAddress = () => {
     const getCountries = useAddAddressStore(state => state.getCountries);
     const latitude = useLocationStore(state => state.latitude);
     const longitude = useLocationStore(state => state.longitude);
-    const selectedLatitude = useLocationStore(state => state.selectedLatitude);
-    const setSelectedLatitude = useLocationStore(state => state.setSelectedLatitude);
-    const selectedLongitude = useLocationStore(state => state.selectedLongitude);
-    const setSelectedLongitude = useLocationStore(state => state.setSelectedLongitude);
+    const selectedLatitude = useAddAddressStore(state => state.selectedLatitude);
+    const setSelectedLatitude = useAddAddressStore(state => state.setSelectedLatitude);
+    const selectedLongitude = useAddAddressStore(state => state.selectedLongitude);
+    const setSelectedLongitude = useAddAddressStore(state => state.setSelectedLongitude);
     const zoom = useLocationStore(state => state.zoom);
     const getCityCoordinates = useLocationStore(state => state.getCityCoordinates);
+    const getAddressByCoordinates = useAddAddressStore(state => state.getAddressByCoordinates);
 
     useEffect(() => {
         getCountries();
     }, [])
 
 
-    const AddressFilter = () => {
+    const FindCityOnMap = () => {
         const getCities = useAddAddressStore(state => state.getCitiesByCountry);
         const cities = useAddAddressStore(state => state.cities);
         const city = useAddAddressStore(state => state.city);
@@ -80,9 +81,32 @@ export const AddAddress = () => {
 
                 </Paper>
             </Box>
-
         )
     }
+
+    const SelectedAddress = () => {
+        const address = useAddAddressStore(state => state.address);
+        const saveAddress = useAddAddressStore(state => state.saveTutorAddress);
+
+        return (
+            <>
+                <Box maxWidth='500px'>
+                    <Paper sx={{p: 2}}>
+                        <Typography>
+                            Selected address: {address}
+                        </Typography>
+                        <Button
+                            onClick={() => saveAddress()}
+                            variant='outlined'
+                        >
+                            Save address
+                        </Button>
+                    </Paper>
+                </Box>
+            </>
+        )
+    }
+
     return (
         <>
             <SidebarHeader/>
@@ -90,9 +114,11 @@ export const AddAddress = () => {
                 <Grid container spacing={1}>
                     <Grid item xs={5}>
                         <Box sx={{mt: 10, ml: 6.5}}>
-                            <AddressFilter/>
+                            <FindCityOnMap/>
                         </Box>
-
+                        <Box sx={{mt: 10, ml: 6.5}}>
+                            <SelectedAddress/>
+                        </Box>
                     </Grid>
                     <Grid item xs={7}>
                         <Box style={{height: '90vh'}} sx={{mt: 10}}>
@@ -103,6 +129,7 @@ export const AddAddress = () => {
                                 onClick={ev => {
                                     setSelectedLatitude(ev.lat);
                                     setSelectedLongitude(ev.lng);
+                                    getAddressByCoordinates();
                                 }}
                             >
                                 {selectedLatitude != '' && selectedLongitude != '' && (

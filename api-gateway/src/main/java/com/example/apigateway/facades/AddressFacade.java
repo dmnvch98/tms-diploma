@@ -1,0 +1,23 @@
+package com.example.apigateway.facades;
+
+import com.example.apigateway.model.Address;
+import com.example.apigateway.services.AddressService;
+import com.example.apigateway.services.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@RequiredArgsConstructor
+@Component
+public class AddressFacade {
+
+    private final AddressService addressService;
+    private final UserService userService;
+
+    public Address saveAddress(Address address, Long userId) {
+        Long tutorId = userService.get(userId).getTutor().getTutorId();
+        address.setTutorId(tutorId);
+        return addressService.saveAddress(address);
+    }
+
+
+}

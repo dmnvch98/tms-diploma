@@ -1,7 +1,14 @@
-import {Location} from "../../services/LocationService";
+import LocationService, {Location} from "../../services/LocationService";
 import {Country} from "../SignUp/store/countryStore";
 import {create} from "zustand";
 import CountryCityService from "../../services/CountryCityService";
+
+export interface Address {
+    address: string,
+    city: string,
+    latitude: string,
+    longitude: string
+}
 
 export interface AddressesStore {
     location: Location | string;
@@ -12,6 +19,10 @@ export interface AddressesStore {
     city: string,
     cities: string[],
     loadingCities: boolean,
+    setSelectedLatitude: (selectedLatitude: number) => void;
+    setSelectedLongitude: (selectedLongitude: number) => void;
+    selectedLatitude: number | string,
+    selectedLongitude: number | string,
     setLocation: (location: Location) => void;
     setAddress: (address: string) => void;
     getCitiesByCountry: () => void;
@@ -19,6 +30,8 @@ export interface AddressesStore {
     setCity: (city: string) => void;
     setCountryId: (countryId: number | string) => void;
     setCountry: (country: Country) => void;
+    getAddressByCoordinates: () => void;
+    saveTutorAddress: () => void;
 }
 
 export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
@@ -30,6 +43,8 @@ export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
     loadingCities: false,
     countryId: '',
     country: '',
+    selectedLatitude: '',
+    selectedLongitude: '',
     setLocation: async (location: Location) => {
         set({location: location})
     },
@@ -57,5 +72,24 @@ export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
     },
     setCountry: (country: Country) => {
         set({country: country})
+    },
+    getAddressByCoordinates: async () => {
+        const latlng: string = get().selectedLatitude + ',' + get().selectedLongitude;
+        set({address: await LocationService.getAddressByCoordinates(latlng)});
+    },
+    setSelectedLatitude: async (selectedLatitude: number) => {
+        set({selectedLatitude: selectedLatitude})
+    },
+    setSelectedLongitude: async (selectedLongitude: number) => {
+        set({selectedLongitude: selectedLongitude})
+    },
+    saveTutorAddress: async () => {
+        const address: Address = {
+            address: get().address,
+            latitude: get().selectedLatitude,
+            longitude: get().selectedLongitude,
+            city: get().city
+        }
+        await LocationService.saveTutorAddress(address);
     }
 }))

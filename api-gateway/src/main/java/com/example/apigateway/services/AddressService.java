@@ -2,6 +2,7 @@ package com.example.apigateway.services;
 
 import com.example.apigateway.client.conversation.AddressClient;
 import com.example.apigateway.dto.AddressDto;
+import com.example.apigateway.model.Address;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +16,9 @@ public class AddressService {
 
     public List<AddressDto> findAddressesDistinctByTutorId(Long tutorId) {
         return addressClient.findAddressesDistinctByTutorId(tutorId);
+    }
+
+    public Address saveAddress(Address address) {
+        return addressClient.saveAddress(address);
     }
 }

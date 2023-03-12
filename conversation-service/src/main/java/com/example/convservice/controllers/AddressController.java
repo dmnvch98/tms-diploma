@@ -17,7 +17,7 @@ public class AddressController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/")
-    public Address save(@RequestBody Address address) {
+    public Address saveAddress(@RequestBody Address address) {
         return addressFacade.save(address);
     }
 
