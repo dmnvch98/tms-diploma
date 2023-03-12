@@ -8,6 +8,7 @@ import com.example.convservice.services.ConversationDetailsService;
 import com.example.convservice.services.FileService;
 import com.example.convservice.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public class ConversationDetailsFacade {
     private final UserConverter userConverter;
     private final AddressFacade addressFacade;
     private final FileService fileService;
+
+    @Value("${avatar.user_postfix}")
+    public String userAvatarNamePostfix;
 
     public ConversationDetailsResponseDto save(ConversationDetailsRequestDto conversationDetailsDto) {
         ConversationDetails conversationDetails =
@@ -42,7 +46,7 @@ public class ConversationDetailsFacade {
                 findMinimumPrice(tutor.getTutorId(), dto.getConversationTypeId(),
                     dto.getLevelId(), dto.getLanguageId()),
                 addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
-                fileService.getAvatarUrl(tutor.getAvatarName())))
+                fileService.getAvatarUrl(tutor.getUserId() + userAvatarNamePostfix)))
             .toList();
 
         return TutorCardsResponseDto
@@ -58,8 +62,8 @@ public class ConversationDetailsFacade {
         return conversationDetailsService.findMinimumPriceByUserId(tutorId);
     }
 
-    public double findMinimumPrice(Long tutorId, Long convTypeId, Long minLanguageLevelId, Long languageId ) {
-        return conversationDetailsService.findMinimumPriceByUserId(tutorId, convTypeId, minLanguageLevelId, languageId);
+    public double findMinimumPrice(Long tutorId, Long convTypeId, Long minLevelId, Long languageId ) {
+        return conversationDetailsService.findMinimumPriceByUserId(tutorId, convTypeId, minLevelId, languageId);
     }
 
     public TutorCardsResponseDto findTutorCardInfoWithMinPrice(Long lastTutorId) {
@@ -69,7 +73,7 @@ public class ConversationDetailsFacade {
                 tutor,
                 findMinimumPrice(tutor.getTutorId()),
                 addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
-                fileService.getAvatarUrl(tutor.getAvatarName())))
+                fileService.getAvatarUrl(tutor.getUserId() + userAvatarNamePostfix)))
             .toList();
 
         return TutorCardsResponseDto
@@ -79,7 +83,4 @@ public class ConversationDetailsFacade {
             .build();
     }
 
-    public int countAllTutorsWithConvDetails() {
-        return conversationDetailsService.countAllTutorsWithConvDetails();
-    }
 }

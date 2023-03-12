@@ -10,31 +10,30 @@ import {useAvatarStore} from "../Edit/avatarStore";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 
 export const TutorProfile = () => {
+    const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
+    const user = useProfileStore(state => state.lookupUser);
+    const getAvatar = useAvatarStore(state => state.getAvatar);
+    const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
+    const setErrorMessage = useErrorMessageStore(state => state.setMessage);
+    const isErrorOpen = useErrorMessageStore(state => state.isOpen);
+
+    const { id } = useParams();
+
+    useEffect(() => {
+        getUserByTutorId(Number(id));
+    }, []);
+
+    useEffect(() => {
+        if (user != null) {
+            getAvatar(user.id).then(result => {
+                if (!result) {
+                    setIsErrorOpen(!isErrorOpen)
+                    setErrorMessage("An error occurred during avatar fetching");
+                }
+            })
+        }
+    }, [user])
     const Profile = () => {
-        const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
-        const user = useProfileStore(state => state.user);
-        const getAvatar = useAvatarStore(state => state.getAvatar);
-        const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
-        const setErrorMessage = useErrorMessageStore(state => state.setMessage);
-        const isErrorOpen = useErrorMessageStore(state => state.isOpen);
-
-        const { id } = useParams();
-
-        useEffect(() => {
-            getUserByTutorId(Number(id));
-        }, []);
-
-        useEffect(() => {
-            if (user != null) {
-                getAvatar(user.id).then(result => {
-                    if (!result) {
-                        setIsErrorOpen(!isErrorOpen)
-                        setErrorMessage("An error occurred during avatar fetching");
-                    }
-                })
-            }
-        }, [user])
-
         return (
             <>
                 {isErrorOpen && (<ErrorMessage/>)}

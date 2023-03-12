@@ -1,6 +1,6 @@
 import axios, {AxiosError} from 'axios';
 import {UserDto} from "../pages/SignUp/store/signUpStore";
-import {UpdateUserDto, User} from "../CommonStore/store";
+import {UpdateUserDto} from "../CommonStore/store";
 
 class UserService {
 

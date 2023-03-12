@@ -26,7 +26,7 @@ export const LanguageLevelSelector = () => {
     const language = useSignUpStore(state => state.language);
     const languageId = useSignUpStore(state => state.languageId);
     const levelsList = useLevelsStore(state => state.levelsList);
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
 
     const setLanguageLevels = useSignUpStore(state => state.setLanguageLevels);
     const setLanguageId = useSignUpStore(state => state.setLanguageId);

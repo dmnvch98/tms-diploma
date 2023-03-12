@@ -6,7 +6,7 @@ import {useErrorMessageStore} from "../../Notifications/errorMessageStore";
 import {useNavigate} from "react-router-dom";
 
 export const CreateDeleteStudentProfile = () => {
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     const addStudentToStore = useUpdateUserInfo(state => state.createStudent);
     const deleteStudentFromStore = useUpdateUserInfo(state => state.deleteStudent);
 

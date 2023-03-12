@@ -11,7 +11,7 @@ export const EditAvatar = () => {
     const editMode = useAvatarStore(state => state.editMode);
     const setEditMode = useAvatarStore(state => state.setEditMode);
     const deleteAvatar = useAvatarStore(state => state.deleteAvatar);
-    const user = useProfileStore(state => state.user)
+    const user = useProfileStore(state => state.loggedInUser)
     const getMe = useProfileStore(state => state.getMe)
 
     useEffect(() => {

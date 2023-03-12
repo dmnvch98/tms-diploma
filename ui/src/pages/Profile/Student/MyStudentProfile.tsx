@@ -10,7 +10,7 @@ import {useErrorMessageStore} from "../../../Components/Notifications/errorMessa
 
 export const MyStudentProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     const getAvatar = useAvatarStore(state => state.getAvatar);
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage)

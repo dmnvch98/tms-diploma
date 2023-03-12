@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Route, Routes} from 'react-router-dom';
 import {SignUpFirst} from "./pages/SignUp/SignUpFirst";
 import {createTheme, ThemeProvider} from "@mui/material";
@@ -15,8 +15,11 @@ import {EditStudentProfile} from "./pages/Profile/Edit/Student/EditStudentProfil
 import {EditTutorProfile} from "./pages/Profile/Edit/Tutor/EditTutorProfile";
 import {TutorsFilter} from "./Components/FindTutor/TutorsFilter";
 import SimpleMapExample from "./Components/Map/SimpleMapExample";
+import {useProfileStore} from "./pages/Profile/profileStore";
 
 function App() {
+    const getMe = useProfileStore(state => state.getMe)
+    const user = useProfileStore(state => state.loggedInUser);
     const theme = createTheme({
         typography: {
             fontFamily: [
@@ -37,6 +40,12 @@ function App() {
             }
         },
     });
+
+    useEffect(() => {
+        if (!user) {
+            getMe();
+        }
+    }, [])
 
         return (
             <ThemeProvider theme={theme}>

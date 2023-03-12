@@ -4,7 +4,7 @@ import {Link as RouterLink} from "react-router-dom";
 import {Avatar} from "../Avatar";
 
 export const MyTutorAvatarSection = () => {
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
 
     return (
         <>

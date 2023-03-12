@@ -3,11 +3,10 @@ import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";
 import {useNotificationStore} from "../../Notifications/notificationStore";
 import {useErrorMessageStore} from "../../Notifications/errorMessageStore";
-import {Link as RouterLink, useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 export const CreateDeleteTutorProfile = () => {
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     const addTutorToStore = useUpdateUserInfo(state => state.createTutor);
     const deleteTutorFromStore = useUpdateUserInfo(state => state.deleteTutor);
 

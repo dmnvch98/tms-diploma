@@ -1,7 +1,7 @@
 import {Box, Container, Grid} from "@mui/material";
 import {FindTutorCard} from "../../Components/FindTutor/FindTutorCard";
 import {useFindTutorStore} from "./findTutorStore";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {SidebarHeader} from "../../Components/SidebarHeader";
 import {TutorsFilter} from "../../Components/FindTutor/TutorsFilter";
 import GoogleMapReact from "google-map-react";
@@ -61,7 +61,7 @@ export const FindTutor = () => {
                     </Grid>
                     <Grid item xs={7}>
                         <Box>
-                            <div style={{ height: '100vh', width: '51%', position: 'fixed' }}>
+                            <Box style={{ height: '100vh', width: '51%', position: 'fixed' }}>
                                 <GoogleMapReact
                                     bootstrapURLKeys={{ key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc' }}
                                     center={{lat: latitude, lng: longitude}}
@@ -79,7 +79,7 @@ export const FindTutor = () => {
                                         />
                                     )))}
                                 </GoogleMapReact>
-                            </div>
+                            </Box>
                         </Box>
                     </Grid>
                 </Grid>

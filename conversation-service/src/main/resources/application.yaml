@@ -16,6 +16,8 @@ services:
 conversations:
   initStatus: 1
 places-key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc'
+avatar:
+  user_postfix: '_avatar.png'
 logging:
   level:
     org:

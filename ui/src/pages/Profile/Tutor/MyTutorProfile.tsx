@@ -11,7 +11,7 @@ import {useErrorMessageStore} from "../../../Components/Notifications/errorMessa
 export const MyTutorProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     const getAvatar = useAvatarStore(state => state.getAvatar);
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage)

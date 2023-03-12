@@ -37,8 +37,7 @@ public class ConversationController {
     @CrossOrigin
     @GetMapping("/details/tutors/")
     public TutorCardsResponseDto findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
-        defaultValue = "0", required = false) Long lastTutorId, HttpServletResponse response) {
-        response.addHeader("X-Total-Count", String.valueOf(conversationDetailsFacade.countAllTutorsWithConvDetails()));
+        defaultValue = "0", required = false) Long lastTutorId) {
         return conversationDetailsFacade.findTutorCardInfoWithMinPrice(lastTutorId);
     }
 
