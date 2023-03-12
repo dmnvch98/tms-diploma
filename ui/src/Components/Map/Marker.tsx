@@ -76,7 +76,9 @@ const Marker = (props: any) => {
             <ClickAwayListener onClickAway={() => (setOpen(false))}>
                 <Box sx={{position: 'relative'}}>
                     <RoomRoundedIcon sx={markerStyle} onClick={() => {
-                        setOpen(!open)
+                        if (props.firstName) {
+                            setOpen(!open)
+                        }
                     }}/>
                     {open ? (
                         <Box sx={styles}>

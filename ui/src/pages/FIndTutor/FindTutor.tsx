@@ -66,6 +66,10 @@ export const FindTutor = () => {
                                     bootstrapURLKeys={{key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc'}}
                                     center={{lat: latitude, lng: longitude}}
                                     zoom={zoom}
+                                    // onClick={ev => {
+                                    //     console.log("latitide = ", ev.lat);
+                                    //     console.log("longitude = ", ev.lng);
+                                    // }}
                                 >
                                     {tutors.map(t => t.addresses.map(a => (
                                         <Marker

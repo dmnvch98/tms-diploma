@@ -2,30 +2,31 @@ import {create} from "zustand";
 import LocationService from "../../services/LocationService";
 
 export interface LocationStore {
-    defaultLatitude: string,
-    defaultLongitude: string,
     latitude: number,
     longitude: number,
+    selectedLatitude: number | string,
+    selectedLongitude: number | string,
     zoom: number,
-    setLatitude: (latitude: number) => void,
-    setLongitude: (longitude: number) => void,
-    getCityCoordinates: (query: string) => void
+    getCityCoordinates: (query: string) => void;
+    setSelectedLatitude: (selectedLatitude: number) => void;
+    setSelectedLongitude: (selectedLongitude: number) => void;
 }
 
-export const useLocationStore = create<LocationStore>((set, get: any) => ({
-    defaultLatitude: '53.709807',
-    defaultLongitude: '27.953389',
+export const useLocationStore = create<LocationStore>((set) => ({
     latitude: 53.709807,
     longitude: 27.953389,
+    selectedLatitude: '',
+    selectedLongitude: '',
     zoom: 1,
-    setLongitude: async (longitude: number) => {
-        set({longitude: longitude})
-    },
-    setLatitude: async (latitude: number) => {
-        set({latitude: latitude})
-    },
     getCityCoordinates: async (query: string) => {
-        const response = await LocationService.getCountries(query);
-        set({latitude: response.lat, longitude: response.lng, zoom: 13})
-    }
+        const response = await LocationService.getLocationInfo(query);
+        set({latitude: response.results[0].geometry.location.lat,
+            longitude: response.results[0].geometry.location.lng, zoom: 13})
+    },
+    setSelectedLatitude: async (selectedLatitude: number) => {
+        set({selectedLatitude: selectedLatitude})
+    },
+    setSelectedLongitude: async (selectedLongitude: number) => {
+        set({selectedLongitude: selectedLongitude})
+    },
 }))
