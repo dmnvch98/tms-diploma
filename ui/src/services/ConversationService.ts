@@ -30,7 +30,8 @@ export interface FilterTutorsRequestDto {
 class ConversationService {
     getTutorWithExistingConversations = async (id: number): Promise<TutorCardsResponseData> => {
         try {
-            const response = await axios.get('http://localhost:9093/api/v1/conversations/details/tutors/?lastTutorId=' + id);
+            const response = await axios.get('http://localhost:8080/api/v1/conversations/details/tutors/?lastTutorId='
+                + id, {withCredentials: true});
             return response.data;
         } catch (e: unknown) {
             throw e as AxiosError;

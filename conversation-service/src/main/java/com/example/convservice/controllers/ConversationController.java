@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -67,5 +66,15 @@ public class ConversationController {
             .levelId(minLevelId)
             .build();
         return conversationDetailsFacade.filterTutors(lastTutorId, dto);
+    }
+
+    @GetMapping("/tutors/{tutorId}/minPrice")
+    public double findTutorMinimumPrice(@PathVariable("tutorId") Long tutorId) {
+        return conversationDetailsFacade.findTutorMinimumPrice(tutorId);
+    }
+
+    @GetMapping("/tutors/total")
+    public int countAllTutorsWithConvDetails() {
+        return conversationDetailsFacade.countAllTutorsWithConvDetails();
     }
 }

@@ -40,7 +40,7 @@ class UserService {
     getLevels = async () => {
         try {
             const response =
-                await axios.get('http://localhost:9090/api/v1/levels');
+                await axios.get('http://localhost:8080/api/v1/levels');
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
@@ -97,7 +97,7 @@ class UserService {
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
-            alert(error.message);
+            console.log(error.message);
         }
     }
 

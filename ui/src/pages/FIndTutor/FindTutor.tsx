@@ -61,9 +61,9 @@ export const FindTutor = () => {
                     </Grid>
                     <Grid item xs={7}>
                         <Box>
-                            <Box style={{ height: '100vh', width: '51%', position: 'fixed' }}>
+                            <Box style={{height: '100vh', width: '51%', position: 'fixed'}}>
                                 <GoogleMapReact
-                                    bootstrapURLKeys={{ key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc' }}
+                                    bootstrapURLKeys={{key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc'}}
                                     center={{lat: latitude, lng: longitude}}
                                     zoom={zoom}
                                 >

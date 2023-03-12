@@ -43,7 +43,7 @@ public class ConversationDetailsFacade {
             .stream()
             .map(tutor -> userConverter.tutorCardInfoToMinPrice(
                 tutor,
-                findMinimumPrice(tutor.getTutorId(), dto.getConversationTypeId(),
+                findTutorMinimumPrice(tutor.getTutorId(), dto.getConversationTypeId(),
                     dto.getLevelId(), dto.getLanguageId()),
                 addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
                 fileService.getAvatarUrl(tutor.getUserId() + userAvatarNamePostfix)))
@@ -58,11 +58,11 @@ public class ConversationDetailsFacade {
             .build();
     }
 
-    public double findMinimumPrice(Long tutorId) {
+    public double findTutorMinimumPrice(Long tutorId) {
         return conversationDetailsService.findMinimumPriceByUserId(tutorId);
     }
 
-    public double findMinimumPrice(Long tutorId, Long convTypeId, Long minLevelId, Long languageId ) {
+    public double findTutorMinimumPrice(Long tutorId, Long convTypeId, Long minLevelId, Long languageId ) {
         return conversationDetailsService.findMinimumPriceByUserId(tutorId, convTypeId, minLevelId, languageId);
     }
 
@@ -71,7 +71,7 @@ public class ConversationDetailsFacade {
             .stream()
             .map(tutor -> userConverter.tutorCardInfoToMinPrice(
                 tutor,
-                findMinimumPrice(tutor.getTutorId()),
+                findTutorMinimumPrice(tutor.getTutorId()),
                 addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId()),
                 fileService.getAvatarUrl(tutor.getUserId() + userAvatarNamePostfix)))
             .toList();
@@ -81,6 +81,10 @@ public class ConversationDetailsFacade {
             .tutors(tutors)
             .totalCount(conversationDetailsService.countAllTutorsWithConvDetails())
             .build();
+    }
+
+    public int countAllTutorsWithConvDetails() {
+        return conversationDetailsService.countAllTutorsWithConvDetails();
     }
 
 }

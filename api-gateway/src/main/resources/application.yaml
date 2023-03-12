@@ -13,6 +13,8 @@ services:
     url: 'http://localhost:9090'
   file:
     url: 'http://localhost:9091'
+  conversation:
+    url: 'http://localhost:9093'
 security:
   secret: "SECRET"
   refresh-secret: "REFRESH-SECRET"

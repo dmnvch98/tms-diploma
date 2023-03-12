@@ -14,12 +14,12 @@ import {FindTutor} from "./pages/FIndTutor/FindTutor";
 import {EditStudentProfile} from "./pages/Profile/Edit/Student/EditStudentProfile";
 import {EditTutorProfile} from "./pages/Profile/Edit/Tutor/EditTutorProfile";
 import {TutorsFilter} from "./Components/FindTutor/TutorsFilter";
-import SimpleMapExample from "./Components/Map/SimpleMapExample";
 import {useProfileStore} from "./pages/Profile/profileStore";
 
 function App() {
     const getMe = useProfileStore(state => state.getMe)
     const user = useProfileStore(state => state.loggedInUser);
+
     const theme = createTheme({
         typography: {
             fontFamily: [
@@ -47,26 +47,25 @@ function App() {
         }
     }, [])
 
-        return (
-            <ThemeProvider theme={theme}>
-                <Routes>
-                    <Route path={'/sign-up'} element={<SignUpFirst/>}/>
-                    <Route path={'/sign-up2'} element={<SignUpSecond/>}/>
-                    <Route path={'/sign-up3'} element={<SignUpThird/>}/>
-                    <Route path={'/sign-in'} element={<SignIn/> }/>
-                    <Route path={'/students/:id'} element={<StudentProfile/>}/>
-                    <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
-                    <Route path={'/my-tutor-profile'} element={<MyTutorProfile/>}/>
-                    <Route path={'/my-student-profile'} element={<MyStudentProfile/>}/>
-                    <Route path={'/loading'} element={<Loading/>}/>
-                    <Route path={'/find-tutor'} element={<FindTutor/>}/>
-                    <Route path={'/edit-profile-student'} element={<EditStudentProfile/>}/>
-                    <Route path={'/edit-profile-tutor'} element={<EditTutorProfile/>}/>
-                    <Route path={'/filter'} element={<TutorsFilter/>}/>
-                    <Route path={'/map'} element={<SimpleMapExample/>}/>
-                </Routes>
-            </ThemeProvider>
-        );
+    return (
+        <ThemeProvider theme={theme}>
+            <Routes>
+                <Route path={'/students/:id'} element={<StudentProfile/>}/>
+                <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
+                <Route path={'/my-tutor-profile'} element={<MyTutorProfile/>}/>
+                <Route path={'/my-student-profile'} element={<MyStudentProfile/>}/>
+                <Route path={'/loading'} element={<Loading/>}/>
+                <Route path={'/find-tutor'} element={<FindTutor/>}/>
+                <Route path={'/edit-profile-student'} element={<EditStudentProfile/>}/>
+                <Route path={'/edit-profile-tutor'} element={<EditTutorProfile/>}/>
+                <Route path={'/filter'} element={<TutorsFilter/>}/>
+                <Route path={'/sign-up'} element={<SignUpFirst/>}/>
+                <Route path={'/sign-up2'} element={<SignUpSecond/>}/>
+                <Route path={'/sign-up3'} element={<SignUpThird/>}/>
+                <Route path={'/sign-in'} element={<SignIn/>}/>
+            </Routes>
+        </ThemeProvider>
+    )
 }
 
 export default App;

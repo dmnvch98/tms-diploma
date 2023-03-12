@@ -36,9 +36,10 @@ public class SecurityConfig {
         http
             .cors()
             .and()
-            .csrf().ignoringAntMatchers("/api/v1/auth/login")
-            .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
-            .and()
+            .csrf().disable()
+//            .csrf().ignoringAntMatchers("/api/v1/auth/login")
+//            .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
+     //       .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests(requests -> requests
@@ -54,8 +55,8 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
-            .csrf().csrfTokenRepository(csrfTokenRepository())
-            .and()
+          //  .csrf().csrfTokenRepository(csrfTokenRepository())
+       //     .and()
             .logout(LogoutConfigurer::permitAll)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

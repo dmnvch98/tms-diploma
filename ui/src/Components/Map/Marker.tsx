@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import './Marker.css';
 import RoomRoundedIcon from '@mui/icons-material/RoomRounded';
 import {Box, ClickAwayListener, Grid, Paper, styled, SxProps, Typography} from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import Link from "@mui/material/Link";
 
 const markerStyle = {
     position: 'absolute',
@@ -34,37 +34,39 @@ const Marker = (props: any) => {
     const Card = () => {
         return (
             <>
-                <Grid container>
-                    <Paper sx={{p: 1}}>
-                        <Grid item xs={2}>
-                            <Box sx={{width: 170, height: 170, mb: 1}}>
-                                <Img alt="complex"
-                                     src={props.avatarUrl}/>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={10}>
-                            <Grid item>
-                                <Box display="flex" sx={{mb: 1}}>
-                                    <Typography><b>{props.firstName} {props.lastName}</b></Typography>
+                <Link href={"/tutors/" + props.tutorId} underline='none' target='_blank'>
+                    <Grid container>
+                        <Paper sx={{p: 1}}>
+                            <Grid item xs={2}>
+                                <Box sx={{width: 170, height: 170, mb: 1}}>
+                                    <Img alt="complex"
+                                         src={props.avatarUrl}/>
                                 </Box>
-                                <Grid container>
-                                    <Grid item xs={5}>
-                                        <Typography sx={{mb: 1}}>Price</Typography>
-                                        <Typography>Rating</Typography>
-                                    </Grid>
-                                    <Grid item xs={7}>
-                                        <Typography sx={{mb: 1}}>from {props.minPrice}$</Typography>
+                            </Grid>
+                            <Grid item xs={10}>
+                                <Grid item>
+                                    <Box display="flex" sx={{mb: 1}}>
+                                        <Typography><b>{props.firstName} {props.lastName}</b></Typography>
+                                    </Box>
+                                    <Grid container>
+                                        <Grid item xs={5}>
+                                            <Typography sx={{mb: 1}}>Price</Typography>
+                                            <Typography>Rating</Typography>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Typography sx={{mb: 1}}>from {props.minPrice}$</Typography>
 
-                                        <Box display='flex' justifyContent='flex-end'>
-                                            <Typography>4.3</Typography>
-                                            <StarIcon sx={{color: '#FFBF00'}}/>
-                                        </Box>
+                                            <Box display='flex' justifyContent='flex-end'>
+                                                <Typography>4.3</Typography>
+                                                <StarIcon sx={{color: '#FFBF00'}}/>
+                                            </Box>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                    </Paper>
-                </Grid>
+                        </Paper>
+                    </Grid>
+                </Link>
             </>
         )
     }
@@ -73,7 +75,7 @@ const Marker = (props: any) => {
         <>
             <ClickAwayListener onClickAway={() => (setOpen(false))}>
                 <Box sx={{position: 'relative'}}>
-                    <RoomRoundedIcon sx={markerStyle} onClick={ () => {
+                    <RoomRoundedIcon sx={markerStyle} onClick={() => {
                         setOpen(!open)
                     }}/>
                     {open ? (
