@@ -12,9 +12,12 @@ import java.util.List;
     url = "${services.conversation.url}/api/v1/addresses")
 public interface AddressClient {
 
-    @GetMapping("/tutors/{tutorId}")
+    @GetMapping("/tutors/{tutorId}/conversation-details")
     List<AddressDto> findAddressesDistinctByTutorId(@PathVariable("tutorId") Long tutorId);
 
     @PostMapping("/")
     Address saveAddress(@RequestBody Address address);
+
+    @GetMapping("/tutors/{tutorId}")
+    List<Address> findAllTutorAddresses(@PathVariable("tutorId") Long tutorId);
 }

@@ -7,7 +7,8 @@ export interface Address {
     address: string,
     city: string,
     latitude: string,
-    longitude: string
+    longitude: string,
+    countryId: number
 }
 
 export interface AddressesStore {
@@ -31,7 +32,7 @@ export interface AddressesStore {
     setCountryId: (countryId: number | string) => void;
     setCountry: (country: Country) => void;
     getAddressByCoordinates: () => void;
-    saveTutorAddress: () => void;
+    saveTutorAddress: () => Promise<boolean>;
 }
 
 export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
@@ -83,13 +84,14 @@ export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
     setSelectedLongitude: async (selectedLongitude: number) => {
         set({selectedLongitude: selectedLongitude})
     },
-    saveTutorAddress: async () => {
+    saveTutorAddress: async (): Promise<boolean> => {
         const address: Address = {
             address: get().address,
             latitude: get().selectedLatitude,
             longitude: get().selectedLongitude,
-            city: get().city
+            city: get().city,
+            countryId: get().countryId
         }
-        await LocationService.saveTutorAddress(address);
+        return await LocationService.saveTutorAddress(address);
     }
 }))

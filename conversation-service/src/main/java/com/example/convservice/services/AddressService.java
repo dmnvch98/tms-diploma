@@ -33,4 +33,8 @@ public class AddressService implements FindAddress {
     public Object getCityInfo(String query) {
         return placesClient.getCityInfo(query, key);
     }
+
+    public List<Address> findAllTutorAddresses(Long tutorId) {
+        return addressRepository.findAllByTutorId(tutorId);
+    }
 }

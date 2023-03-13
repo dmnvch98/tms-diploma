@@ -16,4 +16,6 @@ public interface AddressRepository extends Repository<Address, Long> {
         " join conv_details cd on a.address_id = cd.address_id" +
         " where cd.tutor_id=:tutorId")
     List<Address> findDistinctByTutorId(@Param("tutorId") Long tutorId);
+
+    List<Address> findAllByTutorId(@Param("tutorId") Long tutorId);
 }

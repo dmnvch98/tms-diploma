@@ -30,4 +30,8 @@ public class AddressFacade {
     public Object getCityInfo(String query) {
         return addressService.getCityInfo(query);
     }
+
+    public List<Address> findAllTutorAddresses(Long tutorId) {
+        return addressService.findAllTutorAddresses(tutorId);
+    }
 }

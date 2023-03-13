@@ -27,8 +27,13 @@ public class AddressController {
         return addressFacade.getCityInfo(query);
     }
 
-    @GetMapping("/tutors/{tutorId}")
+    @GetMapping("/tutors/{tutorId}/conversation-details")
     public List<AddressDto> findAddressesDistinctByTutorId(@PathVariable("tutorId") Long tutorId) {
         return addressFacade.findAddressesDistinctByTutorId(tutorId);
+    }
+
+    @GetMapping("/tutors/{tutorId}")
+    public List<Address> findAllTutorAddresses(@PathVariable("tutorId") Long tutorId) {
+        return addressFacade.findAllTutorAddresses(tutorId);
     }
 }

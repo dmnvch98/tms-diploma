@@ -30,7 +30,7 @@ class LocationService {
         }
     }
 
-    saveTutorAddress = async (address: Address) => {
+    saveTutorAddress = async (address: Address): Promise<boolean> => {
         try {
             const response =
                 await axios.post('http://localhost:8080/api/v1/addresses/', address
@@ -40,6 +40,7 @@ class LocationService {
             const error = e as AxiosError;
             console.log(error.message);
         }
+        return false;
     }
 }
 

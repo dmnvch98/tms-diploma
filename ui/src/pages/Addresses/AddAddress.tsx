@@ -5,6 +5,8 @@ import {useAddAddressStore} from "./addressesStore";
 import GoogleMapReact from "google-map-react";
 import {useLocationStore} from "../FIndTutor/locationStore";
 import Marker from "../../Components/Map/Marker";
+import {useNavigate} from "react-router-dom";
+import {useNotificationStore} from "../../Components/Notifications/notificationStore";
 
 export const AddAddress = () => {
     const getCountries = useAddAddressStore(state => state.getCountries);
@@ -21,7 +23,6 @@ export const AddAddress = () => {
     useEffect(() => {
         getCountries();
     }, [])
-
 
     const FindCityOnMap = () => {
         const getCities = useAddAddressStore(state => state.getCitiesByCountry);
@@ -72,7 +73,7 @@ export const AddAddress = () => {
                                            variant='standard'
                                 />}
                         />
-                        <Button variant='outlined' onClick={
+                        <Button variant='contained' onClick={
                             () => {
                                 getCityCoordinates(countries[Number(countryId) - 1].description + "," + city)
                             }
@@ -87,20 +88,48 @@ export const AddAddress = () => {
     const SelectedAddress = () => {
         const address = useAddAddressStore(state => state.address);
         const saveAddress = useAddAddressStore(state => state.saveTutorAddress);
+        const navigate = useNavigate();
+        const isNotificationOpen = useNotificationStore(state => state.isOpen);
+        const setMessage = useNotificationStore(state => state.setMessage);
+        const setNotificationOpen = useNotificationStore(state => state.setIsOpen);
+
+        const setNotificationAddressIsSaved = () => {
+            setNotificationOpen(!isNotificationOpen);
+            setMessage("Address successfully saved");
+        }
 
         return (
             <>
                 <Box maxWidth='500px'>
                     <Paper sx={{p: 2}}>
                         <Typography>
-                            Selected address: {address}
+                            Selected address: <b>{address}</b>
                         </Typography>
-                        <Button
-                            onClick={() => saveAddress()}
-                            variant='outlined'
-                        >
-                            Save address
-                        </Button>
+                        <Box display='flex' sx={{mt: 4}} justifyContent='space-between'>
+                            <Button
+                                sx={{width:'48%'}}
+                                onClick={() => navigate("/my-tutor-profile")}
+                                variant='contained'
+                                color='error'
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                sx={{width:'48%'}}
+                                onClick={() => {
+                                    saveAddress().then(result => {
+                                        if (result) {
+                                            setNotificationAddressIsSaved();
+                                            navigate("/my-tutor-profile");
+                                        }
+                                    })
+                                }}
+                                variant='contained'
+                            >
+                                Save address
+                            </Button>
+
+                        </Box>
                     </Paper>
                 </Box>
             </>

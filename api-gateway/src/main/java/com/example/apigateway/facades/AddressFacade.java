@@ -6,6 +6,8 @@ import com.example.apigateway.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class AddressFacade {
@@ -19,5 +21,7 @@ public class AddressFacade {
         return addressService.saveAddress(address);
     }
 
-
+    public List<Address> findAllTutorAddresses(Long tutorId) {
+        return addressService.findAllTutorAddresses(tutorId);
+    }
 }

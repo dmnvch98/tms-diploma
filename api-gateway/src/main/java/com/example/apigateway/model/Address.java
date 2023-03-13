@@ -21,5 +21,6 @@ public class Address {
     @Setter
     @NonFinal
     Long tutorId;
+    Long countryId;
 
 }
