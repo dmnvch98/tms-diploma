@@ -4,7 +4,7 @@ import {EditProfile} from "../../../../Components/Profile/Edit/EditProfile";
 import {TutorEditInfo} from "../../../../Components/Profile/Edit/TutorEditInfo";
 
 export const EditTutorProfile = () => {
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     const getMe = useProfileStore(state => state.getMe)
 
     useEffect(() => {

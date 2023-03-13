@@ -1,7 +1,7 @@
 package com.example.apigateway.facades;
 
-import com.example.apigateway.dto.ResponseDto;
 import com.example.apigateway.services.FileService;
+import com.example.fileloader.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

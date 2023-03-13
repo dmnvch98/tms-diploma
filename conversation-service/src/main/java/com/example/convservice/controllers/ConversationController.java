@@ -3,7 +3,6 @@ package com.example.convservice.controllers;
 import com.example.convservice.dto.*;
 import com.example.convservice.facades.ConversationDetailsFacade;
 import com.example.convservice.facades.ConversationFacade;
-import com.example.convservice.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,7 @@ public class ConversationController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/details")
-    public ConversationDetailsResponseDto save(@RequestBody ConversationDetailsRequestDto dto) {
+    public ConversationDetailsResponseDto saveConversationDetails(@RequestBody ConversationDetailsRequestDto dto) {
         return conversationDetailsFacade.save(dto);
     }
 
@@ -34,14 +33,24 @@ public class ConversationController {
         return conversationFacade.save(dto);
     }
 
-    @CrossOrigin
-    @GetMapping("/details/tutors")
-    public List<TutorCardInfoMinPrice> findTutorsWithExistingConvDetails() {
-        return conversationDetailsFacade.findTutorCardInfoWithMinPrice();
+    @GetMapping("/tutors/{tutorId}/minPrice")
+    public double findTutorMinimumPrice(@PathVariable("tutorId") Long tutorId) {
+        return conversationDetailsFacade.findTutorMinimumPrice(tutorId);
     }
 
-    @GetMapping("/details/tutors/filter")
-    public List<User> filterTutors(@RequestBody FilterTutorsRequestDto dto) {
-        return conversationDetailsFacade.filterTutors(dto);
+    @GetMapping("/tutors/{tutorId}/minPrice/filter")
+    double findTutorMinimumPrice(@RequestBody FilterTutorsRequestDto dto, @PathVariable("tutorId") Long tutorId){
+        return conversationDetailsFacade.findTutorMinimumPrice(tutorId, dto);
     }
+
+    @GetMapping("/tutors/total")
+    public int countAllTutorsWithConvDetails() {
+        return conversationDetailsFacade.countAllTutorsWithConvDetails();
+    }
+
+    @GetMapping("/tutors/total/filter")
+    public int countFilteredTutorsWithConvDetails(@RequestBody FilterTutorsRequestDto dto) {
+        return conversationDetailsFacade.countFilteredTutorsWithConvDetails(dto);
+    }
+
 }

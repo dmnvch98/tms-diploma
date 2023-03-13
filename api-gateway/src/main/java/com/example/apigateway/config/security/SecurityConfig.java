@@ -13,11 +13,8 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -39,9 +36,10 @@ public class SecurityConfig {
         http
             .cors()
             .and()
-            .csrf().ignoringAntMatchers("/api/v1/auth/login")
-            .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
-            .and()
+            .csrf().disable()
+//            .csrf().ignoringAntMatchers("/api/v1/auth/login")
+//            .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
+     //       .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests(requests -> requests
@@ -57,8 +55,8 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
-            .csrf().csrfTokenRepository(csrfTokenRepository())
-            .and()
+          //  .csrf().csrfTokenRepository(csrfTokenRepository())
+       //     .and()
             .logout(LogoutConfigurer::permitAll)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -26,4 +26,12 @@ public class AddressFacade {
             .map(addressConverter::addressToDto)
             .toList();
     }
+
+    public Object getCityInfo(String query) {
+        return addressService.getCityInfo(query);
+    }
+
+    public List<Address> findAllTutorAddresses(Long tutorId) {
+        return addressService.findAllTutorAddresses(tutorId);
+    }
 }

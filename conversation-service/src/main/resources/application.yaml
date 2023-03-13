@@ -1,5 +1,5 @@
 server:
-  port: 9093
+  port: 9092
 spring:
   datasource:
     driver-class-name: 'org.postgresql.Driver'
@@ -9,5 +9,16 @@ spring:
 services:
   user:
     url: 'http://localhost:9090'
+  places:
+    url: 'https://maps.googleapis.com/maps/api/place/textsearch/json'
 conversations:
   initStatus: 1
+places-key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc'
+avatar:
+  user_postfix: '_avatar.png'
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: TRACE

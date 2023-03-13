@@ -1,13 +1,11 @@
 package com.example.apigateway.client.file;
 
-import com.example.apigateway.dto.ResponseDto;
+import com.example.fileloader.dto.ResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 @FeignClient(name = "file-service",
     url = "${services.file.url}/api/v1/files")

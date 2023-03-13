@@ -1,16 +1,11 @@
 package com.example.convservice.facades;
 
 import com.example.convservice.converters.ConversationConverter;
-import com.example.convservice.converters.UserConverter;
-import com.example.convservice.dto.ConversationDetailsRequestDto;
-import com.example.convservice.dto.ConversationDetailsResponseDto;
-import com.example.convservice.dto.FilterTutorsRequestDto;
-import com.example.convservice.dto.TutorCardInfoMinPrice;
+import com.example.convservice.dto.*;
 import com.example.convservice.model.ConversationDetails;
-import com.example.convservice.model.User;
 import com.example.convservice.services.ConversationDetailsService;
-import com.example.convservice.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,40 +13,39 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class ConversationDetailsFacade {
-    private final ConversationDetailsService service;
-    private final UserService userService;
+    private final ConversationDetailsService conversationDetailsService;
     private final ConversationConverter converter;
-    private final UserConverter userConverter;
-    private final AddressFacade addressFacade;
+
+    @Value("${avatar.user_postfix}")
+    public String userAvatarNamePostfix;
 
     public ConversationDetailsResponseDto save(ConversationDetailsRequestDto conversationDetailsDto) {
         ConversationDetails conversationDetails =
-            service.save(converter.dtoToConversationDetails(conversationDetailsDto));
+            conversationDetailsService.save(converter.dtoToConversationDetails(conversationDetailsDto));
         return converter.conversationDetailsToResponseDto(conversationDetails);
     }
 
     public List<ConversationDetailsResponseDto> findAllByTutorId(Long tutorId) {
-        return service.findAllByTutorId(tutorId).stream()
+        return conversationDetailsService.findAllByTutorId(tutorId).stream()
             .map(converter::conversationDetailsToResponseDto)
             .toList();
     }
 
-    public List<User> filterTutors(FilterTutorsRequestDto dto) {
-        return service.filterTutors(dto.getMinPrice(), dto.getMaxPrice(), dto.getConversationTypeId(), dto.getLocation(),
-            dto.getLanguageId(), dto.getLevelId());
+    public double findTutorMinimumPrice(Long tutorId) {
+        return conversationDetailsService.findMinimumPriceByUserId(tutorId);
     }
 
-    public double findMinimumPriceByTutorId(Long tutorId) {
-        return service.findMinimumPriceByUserId(tutorId);
+    public double findTutorMinimumPrice(Long tutorId, FilterTutorsRequestDto dto) {
+        return conversationDetailsService.findMinimumPriceByUserId(tutorId, dto.getConversationTypeId(),
+            dto.getLevelId(), dto.getLanguageId());
     }
 
-    public List<TutorCardInfoMinPrice> findTutorCardInfoWithMinPrice() {
-        return userService.findTutorsWithExistingConvDetails()
-            .stream()
-            .map(tutor -> userConverter.tutorCardInfoToMinPrice(
-                tutor,
-                findMinimumPriceByTutorId(tutor.getTutorId()),
-                addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId())))
-            .toList();
+    public int countAllTutorsWithConvDetails() {
+        return conversationDetailsService.countAllTutorsWithConvDetails();
+    }
+
+    public int countFilteredTutorsWithConvDetails(FilterTutorsRequestDto dto) {
+        return conversationDetailsService.countFilteredTutorsWithConvDetails(dto.getMinPrice(), dto.getMaxPrice(),
+            dto.getCity(), dto.getCountryId(), dto.getConversationTypeId(), dto.getLevelId(), dto.getLanguageId());
     }
 }

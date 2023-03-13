@@ -1,6 +1,7 @@
 package com.example.userservice.controllers;
 
-import com.example.userservice.dto.TutorCardInfo;
+import com.example.userservice.dto.FilterTutorsRequestDto;
+import com.example.userservice.dto.TutorShortUserInfoDto;
 import com.example.userservice.facades.TutorFacade;
 import com.example.userservice.model.Tutor;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,14 @@ public class TutorController {
     }
 
     @GetMapping("/existing-conversations-details")
-    List<TutorCardInfo> findTutorsWithExistingConvDetails() {
-        return tutorFacade.findTutorsWithExistingConvDetails();
+    List<TutorShortUserInfoDto> findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
+        defaultValue = "0", required = false) Long lastTutorId) {
+        return tutorFacade.findTutorsWithExistingConvDetails(lastTutorId);
+    }
+
+    @GetMapping("/existing-conversations-details/filter")
+    public List<TutorShortUserInfoDto> filterTutors(@RequestParam(value = "lastTutorId",
+        defaultValue = "0", required = false) Long lastTutorId, @RequestBody FilterTutorsRequestDto dto) {
+        return tutorFacade.filterUsersWithExistingConvDetails(lastTutorId, dto);
     }
 }

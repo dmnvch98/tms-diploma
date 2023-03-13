@@ -14,13 +14,12 @@ import org.mapstruct.Mapping;
 @Mapper(uses = {FindAddress.class, FindLanguageLevelId.class, FindLanguageLevelById.class,
     FindConversationTypeById.class, FindConversationDetailsById.class, FindConversationStatusById.class})
 public interface ConversationConverter {
-    @Mapping(source = "minimumLanguageLevel", target = "minLangLevel")
+//    @Mapping(source = "minimumLanguageLevel", target = "minLangLevel")
     @Mapping(source = "startDate", target = "startDate", dateFormat = "yyyy-MM-dd HH:mm")
     @Mapping(source = "endDate", target = "endDate", dateFormat = "yyyy-MM-dd HH:mm")
     ConversationDetails dtoToConversationDetails(ConversationDetailsRequestDto dto);
 
     @Mapping(source = "addressId", target = "address")
-    @Mapping(source = "minLangLevel", target = "minimumLanguageLevel")
     @Mapping(source = "conversationTypeId", target = "conversationType")
     ConversationDetailsResponseDto conversationDetailsToResponseDto(ConversationDetails conversationDetails);
 

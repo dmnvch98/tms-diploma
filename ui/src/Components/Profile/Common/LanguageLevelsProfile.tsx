@@ -2,7 +2,7 @@ import {Box, Grid, Typography} from "@mui/material";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 
 export const LanguageLevelsProfile = () => {
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     return (
         <>
             <Box sx={{mt: 3}}>

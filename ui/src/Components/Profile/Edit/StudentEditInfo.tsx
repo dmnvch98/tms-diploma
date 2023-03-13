@@ -1,6 +1,6 @@
 import {Box, FormControl, Paper, TextField, Typography} from "@mui/material";
 import {UpdateUserDto} from "../../../CommonStore/store";
-import {useEditProfileStore} from "../../../pages/Profile/Edit/editAvatarStore";
+import {useAvatarStore} from "../../../pages/Profile/Edit/avatarStore";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {useEffect} from "react";
 import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";

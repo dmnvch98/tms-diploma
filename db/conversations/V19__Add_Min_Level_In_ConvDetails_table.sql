@@ -1,0 +1,1 @@
+alter table conv_details add column min_level BIGSERIAL NOT NULL;

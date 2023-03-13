@@ -6,7 +6,7 @@ import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
 
 export const TutorInfo = () => {
     const [showMore, setShowMore] = useState(false);
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     const getMe = useProfileStore(state => state.getMe)
 
     return (

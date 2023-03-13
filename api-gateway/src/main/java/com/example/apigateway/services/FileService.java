@@ -2,12 +2,10 @@ package com.example.apigateway.services;
 
 import com.example.apigateway.client.user.UserClient;
 import com.example.apigateway.client.file.FileClient;
-import com.example.apigateway.dto.ResponseDto;
+import com.example.fileloader.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

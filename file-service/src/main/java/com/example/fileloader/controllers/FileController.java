@@ -40,7 +40,7 @@ public class FileController {
     }
 
     @GetMapping("/{fileName}")
-    public ResponseDto getAvatarUrl(@PathVariable final String fileName) {
+    public ResponseDto getAvatarUrl(@PathVariable("fileName") final String fileName) {
         return ResponseDto.builder()
             .message(fileService.getAvatarUrl(fileName))
             .build();

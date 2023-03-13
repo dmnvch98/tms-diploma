@@ -24,5 +24,7 @@ public class Address {
     String longitude;
     @Column("tutor_id")
     Long tutorId;
+    @Column("country_id")
+    Long countryId;
 
 }

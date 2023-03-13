@@ -15,13 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
-
 @RequiredArgsConstructor
 @Component
 public class UserFacade {
@@ -46,7 +40,7 @@ public class UserFacade {
     public UserResponseDto update(UserRequestDto userRequestDto, Long userId) {
         User user = userConverter.userRequestDtoToUserUpdate(userRequestDto, userId);
         user = userService.save(user);
-        List<UserLanguageLevel> existingUserLanguageLevels = languageLevelService.findAllUllByUserId(userId);
+        List<UserLanguageLevel> existingUserLanguageLevels = languageLevelService.findAllByUserId(userId);
 
         List<UserLanguageLevel> userLanguageLevels =
             extractUserLanguageLevelsFromDto(userRequestDto, user.getId());
