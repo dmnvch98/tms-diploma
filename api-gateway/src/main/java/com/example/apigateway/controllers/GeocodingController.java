@@ -10,12 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/addresses")
-public class MapsController {
+public class GeocodingController {
 
     private final GeocodingFacade geocodingFacade;
 
-    @GetMapping()
+    @GetMapping("/address")
     public Object getCoordinatesAddress(@RequestParam("latlng") String latLng) {
         return geocodingFacade.getCoordinatesAddress(latLng);
+    }
+
+    @GetMapping("/coordinates")
+    public Object getCoordinatesByAddress(@RequestParam("address") String address) {
+        return geocodingFacade.getCoordinatesByAddress(address);
     }
 }

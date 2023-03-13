@@ -11,6 +11,10 @@ public class GeocodingService {
     private final GeocodingClient geocodingClient;
 
     public Object getCoordinatesAddress(String latLng, String key) {
-        return geocodingClient.getCoordinatesAddress(latLng, key);
+        return geocodingClient.getAddressByCoordinates(latLng, key);
+    }
+
+    public Object getCoordinatesByAddress(String address, String key) {
+        return geocodingClient.getCoordinatesByAddress(address, key);
     }
 }

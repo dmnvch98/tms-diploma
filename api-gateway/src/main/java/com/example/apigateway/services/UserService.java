@@ -1,14 +1,14 @@
 package com.example.apigateway.services;
 
-import com.example.apigateway.client.user.TutorClient;
 import com.example.apigateway.client.user.UserClient;
 import com.example.apigateway.config.security.PasswordConfig;
 import com.example.apigateway.dto.*;
 import com.example.apigateway.model.User;
+import com.example.userservice.dto.UserRequestDto;
+import com.example.userservice.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +16,6 @@ public class UserService {
 
     private final UserClient userClient;
     private final PasswordConfig passwordConfig;
-    private final TutorClient tutorClient;
 
     public UserResponseDto save(UserRequestDto userDto) {
         userDto.setPassword(passwordConfig.passwordEncoder().encode(userDto.getPassword()));

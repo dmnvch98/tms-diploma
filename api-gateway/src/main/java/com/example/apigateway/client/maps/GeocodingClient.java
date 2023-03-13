@@ -9,5 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface GeocodingClient {
 
     @GetMapping()
-    Object getCoordinatesAddress(@RequestParam("latlng") String latLng, @RequestParam("key") String key);
+    Object getAddressByCoordinates(@RequestParam("latlng") String latLng, @RequestParam("key") String key);
+
+    @GetMapping()
+    Object getCoordinatesByAddress(@RequestParam("address") String query, @RequestParam("key") String key);
 }

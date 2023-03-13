@@ -18,4 +18,8 @@ public class GeocodingFacade {
         return geocodingService.getCoordinatesAddress(latLng, key);
     }
 
+    public Object getCoordinatesByAddress(String address) {
+        return geocodingService.getCoordinatesByAddress(address, key);
+    }
+
 }

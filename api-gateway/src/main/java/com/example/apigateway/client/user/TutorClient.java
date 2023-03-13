@@ -1,8 +1,8 @@
 package com.example.apigateway.client.user;
 
-import com.example.apigateway.dto.TutorShortUserInfoDto;
 import com.example.apigateway.model.Tutor;
 import com.example.convservice.dto.FilterTutorsRequestDto;
+import com.example.userservice.dto.TutorShortUserInfoDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

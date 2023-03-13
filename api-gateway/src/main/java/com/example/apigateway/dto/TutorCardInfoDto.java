@@ -1,6 +1,7 @@
 package com.example.apigateway.dto;
 
 import com.example.convservice.dto.AddressDto;
+import com.example.userservice.dto.LanguageLevelDto;
 import lombok.Builder;
 import lombok.Value;
 
