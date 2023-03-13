@@ -1,10 +1,25 @@
 import {useProfileStore} from "../../../pages/Profile/profileStore";
-import {Box, Button, Paper, Typography} from "@mui/material";
+import {Box, Button, Modal, Paper, TextField, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {Avatar} from "../Avatar";
+import {useState} from "react";
+import {Create} from "@mui/icons-material";
+import {CreateConversation} from "../../CreateConversation/CreateConversation";
 
 export const MyTutorAvatarSection = () => {
     const user = useProfileStore(state => state.loggedInUser);
+    const [open, setOpen] = useState(false);
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 500,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
     return (
         <>
@@ -18,9 +33,18 @@ export const MyTutorAvatarSection = () => {
                     </Box>
                     <Button variant="contained"
                             fullWidth
+                            onClick={() => setOpen(!open)}
                             sx={{mt: 2}}>
                         Change availability
                     </Button>
+                    <Modal
+                        open={open}
+                        onClose={() => setOpen(!open)}
+                    >
+                        <Box sx={style}>
+                            <CreateConversation/>
+                        </Box>
+                    </Modal>
                     <Button variant="contained"
                             fullWidth
                             sx={{mt: 2, display: user?.student != null ? "flex" : "none"}}

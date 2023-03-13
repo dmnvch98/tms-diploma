@@ -21,7 +21,8 @@ public class AddressFacade {
         return addressService.saveAddress(address);
     }
 
-    public List<Address> findAllTutorAddresses(Long tutorId) {
+    public List<Address> findAllTutorAddresses(Long userId) {
+        Long tutorId = userService.get(userId).getTutor().getTutorId();
         return addressService.findAllTutorAddresses(tutorId);
     }
 }

@@ -22,8 +22,9 @@ public class AddressController {
         return addressFacade.saveAddress(address, userId);
     }
 
-    @GetMapping("/tutors/{tutorId}")
-    public List<Address> findAllTutorAddresses(@PathVariable("tutorId") Long tutorId) {
-        return addressFacade.findAllTutorAddresses(tutorId);
+    @GetMapping("/tutors")
+    public List<Address> findAllTutorAddresses(Authentication authentication) {
+        Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
+        return addressFacade.findAllTutorAddresses(userId);
     }
 }
