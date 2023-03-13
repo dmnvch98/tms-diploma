@@ -54,6 +54,8 @@ class LocationService {
             console.log(error.message);
         }
     }
+
+
 }
 
 export default new LocationService();

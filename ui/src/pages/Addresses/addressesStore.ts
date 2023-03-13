@@ -4,6 +4,7 @@ import {create} from "zustand";
 import CountryCityService from "../../services/CountryCityService";
 
 export interface Address {
+    addressId: number | string,
     address: string,
     city: string,
     latitude: string,
@@ -86,6 +87,7 @@ export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
     },
     saveTutorAddress: async (): Promise<boolean> => {
         const address: Address = {
+            addressId: '',
             address: get().address,
             latitude: get().selectedLatitude,
             longitude: get().selectedLongitude,

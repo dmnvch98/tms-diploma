@@ -2,12 +2,6 @@ import {create} from "zustand";
 import ConversationService, {FilterTutorsRequestDto, TutorCardInfo} from "../../services/ConversationService";
 import CountryCityService from "../../services/CountryCityService";
 import {Country} from "../SignUp/store/countryStore";
-
-export interface ConvType {
-    convTypeId: number;
-    description: string;
-}
-
 export interface FindTutor {
     tutors: TutorCardInfo[],
     lastTutorId: number,

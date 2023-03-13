@@ -1,10 +1,12 @@
 package com.example.apigateway.facades;
 
 import com.example.apigateway.converters.UserConverter;
+import com.example.apigateway.dto.ConversationDetailsRequestDto;
 import com.example.apigateway.dto.FilterTutorsRequestDto;
 import com.example.apigateway.dto.TutorCardInfoDto;
 import com.example.apigateway.dto.TutorCardsResponseDto;
 import com.example.apigateway.services.*;
+import com.example.convservice.dto.ConversationDetailsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,8 @@ public class ConversationDetailsFacade {
     private final FileService fileService;
     private final UserConverter userConverter;
     private final TutorService tutorService;
+    private final UserService userService;
+
     @Value("${avatar.user_postfix}")
     public String userAvatarNamePostfix;
 
@@ -55,5 +59,11 @@ public class ConversationDetailsFacade {
             .tutors(tutors)
             .totalCount(conversationDetailsService.countFilteredTutorsWithConvDetails(dto))
             .build();
+    }
+
+    public ConversationDetailsResponseDto saveConversationDetails(ConversationDetailsRequestDto dto, Long userId) {
+        Long tutorId = userService.get(userId).getTutor().getTutorId();
+        dto.setTutorId(tutorId);
+        return conversationDetailsService.saveConversationDetails(dto);
     }
 }

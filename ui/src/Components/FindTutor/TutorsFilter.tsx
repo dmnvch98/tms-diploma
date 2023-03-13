@@ -1,9 +1,10 @@
 import {Autocomplete, Button, Container, Grid, MenuItem, TextField} from "@mui/material";
-import {ConvType, useFindTutorStore} from "../../pages/FIndTutor/findTutorStore";
 import {useEffect} from "react";
 import {useLanguagesStore} from "../../pages/SignUp/store/languagesStore";
 import {useLevelsStore} from "../../pages/SignUp/store/levelStore";
 import {useLocationStore} from "../../pages/FIndTutor/locationStore";
+import {useConversationTypeStore} from "../../CommonStore/conversationTypeStore";
+import { useFindTutorStore } from "../../pages/FIndTutor/findTutorStore";
 
 const fieldWidth = {
     width: '8vw'
@@ -42,17 +43,13 @@ export const TutorsFilter = () => {
     const getLanguages = useLanguagesStore(state => state.getLanguages);
     const getCityCoordinates = useLocationStore(state => state.getCityCoordinates);
     const city = useFindTutorStore(state => state.city);
+    const convTypes = useConversationTypeStore(state => state.convTypes);
 
     useEffect(() => {
         getCountries();
         getLevels();
         getLanguages();
     }, [])
-
-    const convTypes: ConvType[] = [
-        {convTypeId: 1, description: "Offline"},
-        {convTypeId: 2, description: "Online"}
-    ]
 
     return (
         <>

@@ -1,6 +1,7 @@
 import {LanguageLevel} from "../pages/SignUp/store/languagesStore";
 import axios, {AxiosError} from "axios";
 import {Location} from "./LocationService";
+import {ConversationDetailsRequestDto} from "../Components/CreateConversation/createConversationStore";
 
 export interface TutorCardInfo {
     tutorId: number,
@@ -52,6 +53,18 @@ class ConversationService {
                     languageId: config.languageId,
                     minLevelId: config.minLevelId
                 }
+            });
+            return response.data;
+        } catch (e: unknown) {
+            throw e as AxiosError;
+        }
+    }
+
+    saveConversationDetails = async (dto: ConversationDetailsRequestDto) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/conversations/details/'
+                , dto, {
+                withCredentials: true,
             });
             return response.data;
         } catch (e: unknown) {

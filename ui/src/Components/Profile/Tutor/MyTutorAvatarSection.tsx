@@ -3,7 +3,6 @@ import {Box, Button, Modal, Paper, TextField, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {Avatar} from "../Avatar";
 import {useState} from "react";
-import {Create} from "@mui/icons-material";
 import {CreateConversation} from "../../CreateConversation/CreateConversation";
 
 export const MyTutorAvatarSection = () => {

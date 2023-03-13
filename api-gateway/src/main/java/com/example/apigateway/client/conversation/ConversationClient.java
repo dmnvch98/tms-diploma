@@ -1,9 +1,12 @@
 package com.example.apigateway.client.conversation;
 
+import com.example.apigateway.dto.ConversationDetailsRequestDto;
 import com.example.apigateway.dto.FilterTutorsRequestDto;
+import com.example.convservice.dto.ConversationDetailsResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "conversation-service",
@@ -21,4 +24,7 @@ public interface ConversationClient {
 
     @GetMapping("/tutors/total/filter")
     int countFilteredTutorsWithConvDetails(FilterTutorsRequestDto dto);
+
+    @PostMapping("/details")
+    ConversationDetailsResponseDto saveConversationDetails(@RequestBody ConversationDetailsRequestDto dto);
 }

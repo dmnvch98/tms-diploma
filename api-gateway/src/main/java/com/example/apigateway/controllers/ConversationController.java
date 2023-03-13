@@ -1,13 +1,14 @@
 package com.example.apigateway.controllers;
 
+import com.example.apigateway.config.security.service.PrincipalUser;
+import com.example.apigateway.dto.ConversationDetailsRequestDto;
 import com.example.apigateway.dto.FilterTutorsRequestDto;
 import com.example.apigateway.dto.TutorCardsResponseDto;
 import com.example.apigateway.facades.ConversationDetailsFacade;
+import com.example.convservice.dto.ConversationDetailsResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -47,6 +48,12 @@ public class ConversationController {
             .levelId(minLevelId)
             .build();
         return conversationDetailsFacade.filterTutors(lastTutorId, dto);
+    }
+
+    @PostMapping("/details")
+    public ConversationDetailsResponseDto saveConversationDetails(@RequestBody ConversationDetailsRequestDto dto, Authentication authentication) {
+        Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
+        return conversationDetailsFacade.saveConversationDetails(dto, userId);
     }
 
 }
