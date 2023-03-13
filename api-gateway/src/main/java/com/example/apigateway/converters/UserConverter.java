@@ -1,8 +1,8 @@
 package com.example.apigateway.converters;
 
-import com.example.apigateway.dto.AddressDto;
 import com.example.apigateway.dto.TutorCardInfoDto;
 import com.example.apigateway.dto.TutorShortUserInfoDto;
+import com.example.convservice.dto.AddressDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;

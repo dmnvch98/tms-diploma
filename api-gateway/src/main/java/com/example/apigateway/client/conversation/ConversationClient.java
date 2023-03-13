@@ -1,8 +1,8 @@
 package com.example.apigateway.client.conversation;
 
-import com.example.apigateway.dto.ConversationDetailsRequestDto;
-import com.example.apigateway.dto.FilterTutorsRequestDto;
+import com.example.convservice.dto.ConversationDetailsRequestDto;
 import com.example.convservice.dto.ConversationDetailsResponseDto;
+import com.example.convservice.dto.FilterTutorsRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

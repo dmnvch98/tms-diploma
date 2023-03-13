@@ -1,12 +1,12 @@
 package com.example.apigateway.facades;
 
 import com.example.apigateway.converters.UserConverter;
-import com.example.apigateway.dto.ConversationDetailsRequestDto;
-import com.example.apigateway.dto.FilterTutorsRequestDto;
 import com.example.apigateway.dto.TutorCardInfoDto;
 import com.example.apigateway.dto.TutorCardsResponseDto;
 import com.example.apigateway.services.*;
+import com.example.convservice.dto.ConversationDetailsRequestDto;
 import com.example.convservice.dto.ConversationDetailsResponseDto;
+import com.example.convservice.dto.FilterTutorsRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

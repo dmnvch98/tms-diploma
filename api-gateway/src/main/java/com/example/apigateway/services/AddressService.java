@@ -1,11 +1,10 @@
 package com.example.apigateway.services;
 
 import com.example.apigateway.client.conversation.AddressClient;
-import com.example.apigateway.dto.AddressDto;
 import com.example.apigateway.model.Address;
+import com.example.convservice.dto.AddressDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 

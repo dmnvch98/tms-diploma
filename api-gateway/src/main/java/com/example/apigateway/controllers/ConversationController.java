@@ -1,11 +1,11 @@
 package com.example.apigateway.controllers;
 
 import com.example.apigateway.config.security.service.PrincipalUser;
-import com.example.apigateway.dto.ConversationDetailsRequestDto;
-import com.example.apigateway.dto.FilterTutorsRequestDto;
 import com.example.apigateway.dto.TutorCardsResponseDto;
 import com.example.apigateway.facades.ConversationDetailsFacade;
+import com.example.convservice.dto.ConversationDetailsRequestDto;
 import com.example.convservice.dto.ConversationDetailsResponseDto;
+import com.example.convservice.dto.FilterTutorsRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

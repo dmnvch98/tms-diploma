@@ -1,9 +1,9 @@
 package com.example.apigateway.services;
 
 import com.example.apigateway.client.user.TutorClient;
-import com.example.apigateway.dto.FilterTutorsRequestDto;
 import com.example.apigateway.dto.TutorShortUserInfoDto;
 import com.example.apigateway.model.Tutor;
+import com.example.convservice.dto.FilterTutorsRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

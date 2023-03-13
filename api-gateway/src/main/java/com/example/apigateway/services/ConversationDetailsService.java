@@ -1,9 +1,9 @@
 package com.example.apigateway.services;
 
 import com.example.apigateway.client.conversation.ConversationClient;
-import com.example.apigateway.dto.ConversationDetailsRequestDto;
-import com.example.apigateway.dto.FilterTutorsRequestDto;
+import com.example.convservice.dto.ConversationDetailsRequestDto;
 import com.example.convservice.dto.ConversationDetailsResponseDto;
+import com.example.convservice.dto.FilterTutorsRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
