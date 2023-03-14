@@ -12,6 +12,7 @@
         <module>user-service</module>
         <module>conversation-service</module>
         <module>file-service</module>
+        <module>common</module>
     </modules>
 
     <properties>
