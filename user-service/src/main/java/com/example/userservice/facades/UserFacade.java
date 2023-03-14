@@ -2,10 +2,7 @@ package com.example.userservice.facades;
 
 import com.example.userservice.converters.LanguageLevelConverter;
 import com.example.userservice.converters.UserConverter;
-import com.example.userservice.dto.CredentialsDto;
-import com.example.userservice.dto.LanguageLevelDto;
-import com.example.userservice.dto.UserRequestDto;
-import com.example.userservice.dto.UserResponseDto;
+import com.example.userservice.dto.*;
 import com.example.userservice.model.User;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.services.LanguageLevelService;
@@ -32,8 +29,8 @@ public class UserFacade {
         user = userService.save(user);
         List<UserLanguageLevel> userLanguageLevels =
             extractUserLanguageLevelsFromDto(userRequestDto, user.getId());
-        List<LanguageLevelDto> languageLevelDtoList = saveUserLanguageLevels(userLanguageLevels);
-        return userConverter.userToResponseDto(user, languageLevelDtoList);
+        List<LanguageLevelDto> LanguageLevelDto2List = saveUserLanguageLevels(userLanguageLevels);
+        return userConverter.userToResponseDto(user, LanguageLevelDto2List);
     }
 
     @Transactional
@@ -49,8 +46,8 @@ public class UserFacade {
         if (languageLevelsIdToDelete.size() > 0) {
             languageLevelsIdToDelete.forEach(x -> languageLevelService.deleteUserLanguageLevel(x, userId));
         }
-        List<LanguageLevelDto> languageLevelDtoList = saveUserLanguageLevels(userLanguageLevels);
-        return userConverter.userToResponseDto(user, languageLevelDtoList);
+        List<LanguageLevelDto> LanguageLevelDto2List = saveUserLanguageLevels(userLanguageLevels);
+        return userConverter.userToResponseDto(user, LanguageLevelDto2List);
     }
 
     public UserResponseDto get(Long id) {
@@ -73,7 +70,7 @@ public class UserFacade {
     private List<UserLanguageLevel> extractUserLanguageLevelsFromDto(UserRequestDto userRequestDto, Long userId) {
         return userRequestDto.getLanguageLevels().stream()
             .map(x -> languageLevelService
-                .getLanguageLevelId(x.getLevel().getLevelId(), x.getLanguage().getLanguageId()))
+                .getLanguageLevelId(x.getLevelId(), x.getLanguageId()))
             .map(x -> languageLevelConverter.languageLevelIdToUll(x, userId))
             .toList();
     }

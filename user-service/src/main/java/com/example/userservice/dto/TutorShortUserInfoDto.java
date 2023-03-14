@@ -1,5 +1,6 @@
 package com.example.userservice.dto;
 
+import com.example.userservice.model.LanguageLevel;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
@@ -14,6 +15,6 @@ public class TutorShortUserInfoDto {
     Long tutorId;
     String firstName;
     String lastName;
-    List<LanguageLevelDto> languageLevels;
+    List<LanguageLevel> languageLevels;
     String avatarName;
 }

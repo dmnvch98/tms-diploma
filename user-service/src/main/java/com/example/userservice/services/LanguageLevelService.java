@@ -27,8 +27,8 @@ public class LanguageLevelService {
     }
 
     public Long getLanguageLevelId(LanguageLevelDto languageLevelDto) {
-        return languageLevelRepository.getId(languageLevelDto.getLevel().getLevelId(),
-            languageLevelDto.getLanguage().getLanguageId());
+        return languageLevelRepository.getId(languageLevelDto.getLevelId(),
+            languageLevelDto.getLanguageId());
     }
 
     public UserLanguageLevel saveUserLanguageLevel(UserLanguageLevel userLanguageLevel) {

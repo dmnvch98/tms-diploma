@@ -1,10 +1,7 @@
 package com.example.userservice.converters;
 
 import com.example.userservice.converters.utils.CountryFlag;
-import com.example.userservice.dto.LanguageLevelDto;
-import com.example.userservice.dto.TutorShortUserInfoDto;
-import com.example.userservice.dto.UserRequestDto;
-import com.example.userservice.dto.UserResponseDto;
+import com.example.userservice.dto.*;
 import com.example.userservice.model.User;
 import org.mapstruct.*;
 
