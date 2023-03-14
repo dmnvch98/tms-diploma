@@ -6,12 +6,11 @@ export interface Location {
     longitude: number
 }
 
-class LocationService {
-    getLocationInfo = async (query: string) => {
+class AddressService {
+    getCoordinatesByAdress = async (query: string) => {
         try {
-            const response =
-                await axios.get('http://localhost:9093/api/v1/addresses/city-info?query=' + query
-                    + '&key=AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc');
+            const response = await axios.get("http://localhost:8080/api/v1/geocoding/coordinates?address="
+            + query, {withCredentials: true})
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
@@ -21,7 +20,7 @@ class LocationService {
     getAddressByCoordinates = async (latlng: string) => {
         try {
             const response =
-                await axios.get('http://localhost:8080/api/v1/addresses/?latlng=' + latlng
+                await axios.get('http://localhost:8080/api/v1/geocoding/address/?latlng=' + latlng
                     , {withCredentials: true});
             return response.data.results[0].formatted_address;
         } catch (e: unknown) {
@@ -58,4 +57,4 @@ class LocationService {
 
 }
 
-export default new LocationService();
+export default new AddressService();

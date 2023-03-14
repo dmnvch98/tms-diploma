@@ -1,7 +1,7 @@
 import {LanguageLevel} from "../pages/SignUp/store/languagesStore";
 import axios, {AxiosError} from "axios";
-import {Location} from "./LocationService";
 import {ConversationDetailsRequestDto} from "../Components/CreateConversation/createConversationStore";
+import {Location} from "./AddressService";
 
 export interface TutorCardInfo {
     tutorId: number,
@@ -66,7 +66,7 @@ class ConversationService {
                 , dto, {
                 withCredentials: true,
             });
-            return response.data;
+            return response.status == 200;
         } catch (e: unknown) {
             throw e as AxiosError;
         }

@@ -20,10 +20,10 @@ import PublicIcon from '@mui/icons-material/Public';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import {Button, Grid} from "@mui/material";
-import {Link as RouterLink} from "react-router-dom";
 import {useProfileStore} from "../pages/Profile/profileStore";
+import Link from "@mui/material/Link";
 
-const drawerWidth = 240;
+const drawerWidth = 320;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
@@ -101,7 +101,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-export const SidebarHeader = (props: any) => {
+export const SidebarHeader = () => {
     const user = useProfileStore(state => state.loggedInUser);
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -132,7 +132,6 @@ export const SidebarHeader = (props: any) => {
             visible: true
         }
     ]
-
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -202,15 +201,12 @@ export const SidebarHeader = (props: any) => {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <Button
-                                        {...{
-                                            to: t.redirect,
-                                            component: RouterLink,
-                                        }}
-                                        color="inherit"
-                                    >
-                                        {t.icon}
-                                    </Button>
+                                    <Link href={t.redirect} underline='none' color="inherit">
+                                        <Button color='inherit'>
+                                            {t.icon}
+                                        </Button>
+                                    </Link>
+
                                 </ListItemIcon>
                                 <ListItemText primary={t.name} sx={{opacity: open ? 1 : 0}}/>
                             </ListItemButton>

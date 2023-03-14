@@ -1,7 +1,8 @@
 import {Address} from "../../pages/Addresses/addressesStore";
 import {create} from "zustand";
-import LocationService from "../../services/LocationService";
+import LocationService from "../../services/AddressService";
 import ConversationService from "../../services/ConversationService";
+import dayjs from "dayjs";
 
 export interface ConversationDetailsRequestDto {
     conversationTypeId: number,
@@ -32,8 +33,9 @@ export interface CreateConversationStore {
     setDate: (date: string) => void;
     setLanguageId: (languageId: number | string) => void;
     setMinLevelId: (minLevelId: number | string) => void;
-    createConversation: () => void;
-
+    createConversation: () => Promise<boolean>;
+    isOpen: boolean;
+    setIsOpen: (flag: boolean) => void;
 }
 
 export const useCreateConversationStore = create<CreateConversationStore>((set, get: any) => ({
@@ -43,9 +45,10 @@ export const useCreateConversationStore = create<CreateConversationStore>((set, 
     convTypeId: '',
     startTime: '',
     endTime: '',
-    date: '',
+    date: dayjs().add(1, "day").format('YYYY-MM-DD'),
     languageId: '',
     levelId: '',
+    isOpen: false,
     getAddresses: async () => {
         const response: Address[] = await LocationService.getTutorAddresses();
         set({tutorAddresses: response})
@@ -75,7 +78,7 @@ export const useCreateConversationStore = create<CreateConversationStore>((set, 
     setMinLevelId: async (minLevelId: number | string) => {
         set({levelId: minLevelId})
     },
-    createConversation: async () => {
+    createConversation: async ():Promise<boolean> => {
         const dto: ConversationDetailsRequestDto = {
             conversationTypeId: get().convTypeId,
             price: get().price,
@@ -85,7 +88,22 @@ export const useCreateConversationStore = create<CreateConversationStore>((set, 
             startDate: get().date + " " + get().startTime,
             endDate: get().date + " " + get().endTime
         }
-        console.log(dto);
-        await ConversationService.saveConversationDetails(dto);
+        get().clearFields();
+        get().setIsOpen(!get().isOpen);
+        return await ConversationService.saveConversationDetails(dto);
+    },
+    setIsOpen: async (flag: boolean) => {
+        set({isOpen: flag})
+    },
+    clearFields: () => {
+        set({
+            convTypeId: '',
+            price: '',
+            addressId: '',
+            levelId: '',
+            languageId: '',
+            startTime: '',
+            endTime: ''
+        })
     }
 }))

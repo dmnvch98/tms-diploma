@@ -1,5 +1,5 @@
-import {Box, Button, Grid, MenuItem, styled, TextField, Typography} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import {Box, Button, MenuItem, TextField, Typography} from "@mui/material";
+import React, {useEffect} from "react";
 import {useCreateConversationStore} from "./createConversationStore";
 import Link from "@mui/material/Link";
 import {useConversationTypeStore} from "../../CommonStore/conversationTypeStore";
@@ -8,7 +8,8 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs, {Dayjs} from "dayjs";
 import {DatePicker, TimePicker} from "@mui/x-date-pickers";
 import {useLevelsStore} from "../../pages/SignUp/store/levelStore";
-import {useLanguagesStore} from "../../pages/SignUp/store/languagesStore";
+import {useNotificationStore} from "../Notifications/notificationStore";
+import {useProfileStore} from "../../pages/Profile/profileStore";
 
 export const CreateConversation = () => {
     const getTutorAddresses = useCreateConversationStore(state => state.getAddresses);
@@ -29,29 +30,64 @@ export const CreateConversation = () => {
     const setMinLevelId = useCreateConversationStore(state => state.setMinLevelId);
     const getLevels = useLevelsStore(state => state.getLevels);
     const levels = useLevelsStore(state => state.levelsList);
-    const languages = useLanguagesStore(state => state.languagesList);
-    const getLanguages = useLanguagesStore(state => state.getLanguages);
+    const user = useProfileStore(state => state.loggedInUser);
     const createConversation = useCreateConversationStore(state => state.createConversation);
 
     useEffect(() => {
         getTutorAddresses();
         getLevels();
-        getLanguages();
     }, [])
 
-    const [pickerDate, setPickerDate] = React.useState<Dayjs | null>(dayjs('2023-04-17'));
-    const [pickerStartTime, setPickerStartTime] = React.useState<Dayjs | null>(dayjs('2023-04-17T14:00'));
-    const [pickerEndTime, setPickerEndTime] = React.useState<Dayjs | null>(dayjs('2023-04-17T15:00'));
+    const [pickerDate, setPickerDate] = React.useState<Dayjs | null>(dayjs(null));
+    const [pickerStartTime, setPickerStartTime] = React.useState<Dayjs | null>(dayjs(null));
+    const [pickerEndTime, setPickerEndTime] = React.useState<Dayjs | null>(dayjs(null));
+
+    const isNotificationOpen = useNotificationStore(state => state.isOpen);
+    const setMessage = useNotificationStore(state => state.setMessage);
+    const setNotificationOpen = useNotificationStore(state => state.setIsOpen);
+
+    const setNotificationConvDetailsAreSaved = () => {
+        setNotificationOpen(!isNotificationOpen);
+        setMessage("Conversation details successfully saved");
+    }
 
     return (
         <>
             <Box>
+                <Box display='flex' justifyContent='space-between'>
+                    <TextField
+                        sx={{width: '48%'}}
+                        select
+                        variant="outlined"
+                        label="Type"
+                        value={convTypeId}
+                        onChange={(e) => {
+                            setConvTypeId(+e.target.value)
+                        }}
+                        fullWidth
+                    >{convTypes.map((conv) => (
+                        <MenuItem key={conv.convTypeId} value={conv.convTypeId}>{conv.description}</MenuItem>
+                    ))}
+                    </TextField>
+                    <TextField
+                        sx={{width: '48%'}}
+                        variant="outlined"
+                        label="Price $"
+                        value={price}
+                        onChange={(e) => {
+                            setPrice(+e.target.value)
+                        }}>
+                    </TextField>
+                </Box>
+
                 <TextField
+                    disabled={convTypeId == 2}
                     fullWidth
                     select
                     variant="outlined"
                     label="Address"
                     value={addressId}
+                    sx={{mt: 3}}
                     onChange={(e) => {
                         setAddressId(+e.target.value)
                     }}
@@ -68,32 +104,6 @@ export const CreateConversation = () => {
                         Add address
                     </Link>
                 </Typography>
-                <Box display='flex' justifyContent='space-between'>
-                    <TextField
-                        sx={{width: '48%'}}
-                        variant="outlined"
-                        label="Price $"
-                        value={price}
-                        onChange={(e) => {
-                            setPrice(+e.target.value)
-                        }}>
-                    </TextField>
-
-                    <TextField
-                        sx={{width: '48%'}}
-                        select
-                        variant="outlined"
-                        label="Type"
-                        value={convTypeId}
-                        onChange={(e) => {
-                            setConvTypeId(+e.target.value)
-                        }}
-                        fullWidth
-                    >{convTypes.map((conv) => (
-                        <MenuItem key={conv.convTypeId} value={conv.convTypeId}>{conv.description}</MenuItem>
-                    ))}
-                    </TextField>
-                </Box>
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
@@ -104,13 +114,14 @@ export const CreateConversation = () => {
                         value={pickerDate}
                         disablePast
                         label="Date"
-                        sx={{width: '100%', mt: 3}}/>
+                        sx={{width: '100%'}}/>
                     <Box sx={{mt: 3}} display='flex' justifyContent='space-between'>
                         <TimePicker
                             onChange={(newValue) => {
                                 setPickerStartTime(newValue);
                                 setStartTime(newValue?.format('H:m') as string);
                             }}
+                            ampm={false}
                             value={pickerStartTime}
                             label="Start time"
                             sx={{width: '48%'}}/>
@@ -119,6 +130,7 @@ export const CreateConversation = () => {
                                 setPickerEndTime(newValue);
                                 setEndTime(newValue?.format('H:m') as string);
                             }}
+                            ampm={false}
                             value={pickerEndTime}
                             label="End time"
                             sx={{width: '48%'}}/>
@@ -135,9 +147,11 @@ export const CreateConversation = () => {
                             setLanguageId(+e.target.value)
                         }
                         }
-                    >{languages.map((lang) => (
-                        <MenuItem key={lang.languageId} value={lang.languageId}>{lang.description}</MenuItem>
+                    >
+                        {user?.languageLevels.map((ll, index) => (
+                        <MenuItem key={index} value={ll.language.languageId}>{ll.language.description}</MenuItem>
                     ))}
+
                     </TextField>
                     <TextField
                         select
@@ -153,10 +167,22 @@ export const CreateConversation = () => {
                 </Box>
                 <Button fullWidth
                         onClick={() => {
-                            createConversation();
+                            createConversation().then(result => {
+                                if (result) {
+                                    setNotificationConvDetailsAreSaved();
+                                }
+                            });
                         }}
                         variant='contained'
                         size='large'
+                        disabled={
+                            price == ''
+                            || pickerDate == null
+                            || pickerStartTime == null
+                            || pickerEndTime == null
+                            || languageId == ''
+                            || minLevelId == ''
+                        }
                         sx={{mt: 3}}>
                     Add Coversation details
                 </Button>

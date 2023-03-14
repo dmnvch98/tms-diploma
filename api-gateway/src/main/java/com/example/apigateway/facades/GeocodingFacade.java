@@ -14,8 +14,12 @@ public class GeocodingFacade {
     @Value("${geocoding.key}")
     public String key;
 
-    public Object getCoordinatesAddress(String latLng) {
-        return geocodingService.getCoordinatesAddress(latLng, key);
+    public Object getAddressByCoordinates(String latLng) {
+        return geocodingService.getAddressByCoordinates(latLng, key);
+    }
+
+    public Object getCoordinatesByAddress(String address) {
+        return geocodingService.getCoordinatesByAddress(address, key);
     }
 
     public Object getCoordinatesByAddress(String address) {

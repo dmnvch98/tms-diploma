@@ -2,12 +2,13 @@ import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Button, Modal, Paper, TextField, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {Avatar} from "../Avatar";
-import {useState} from "react";
 import {CreateConversation} from "../../CreateConversation/CreateConversation";
+import {useCreateConversationStore} from "../../CreateConversation/createConversationStore";
 
 export const MyTutorAvatarSection = () => {
     const user = useProfileStore(state => state.loggedInUser);
-    const [open, setOpen] = useState(false);
+    const isModalOpen = useCreateConversationStore(state => state.isOpen);
+    const setIsModalOpen = useCreateConversationStore(state => state.setIsOpen);
     const style = {
         position: 'absolute' as 'absolute',
         top: '50%',
@@ -32,13 +33,13 @@ export const MyTutorAvatarSection = () => {
                     </Box>
                     <Button variant="contained"
                             fullWidth
-                            onClick={() => setOpen(!open)}
+                            onClick={() => setIsModalOpen(!isModalOpen)}
                             sx={{mt: 2}}>
                         Change availability
                     </Button>
                     <Modal
-                        open={open}
-                        onClose={() => setOpen(!open)}
+                        open={isModalOpen}
+                        onClose={() => setIsModalOpen(!isModalOpen)}
                     >
                         <Box sx={style}>
                             <CreateConversation/>

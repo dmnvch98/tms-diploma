@@ -1,4 +1,4 @@
-import LocationService, {Location} from "../../services/LocationService";
+import LocationService, {Location} from "../../services/AddressService";
 import {Country} from "../SignUp/store/countryStore";
 import {create} from "zustand";
 import CountryCityService from "../../services/CountryCityService";
