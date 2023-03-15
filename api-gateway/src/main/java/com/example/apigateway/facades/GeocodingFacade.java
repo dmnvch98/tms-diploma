@@ -22,8 +22,4 @@ public class GeocodingFacade {
         return geocodingService.getCoordinatesByAddress(address, key);
     }
 
-    public Object getCoordinatesByAddress(String address) {
-        return geocodingService.getCoordinatesByAddress(address, key);
-    }
-
 }

@@ -1,7 +1,7 @@
-package com.example.userservice.dto;
+package com.example.apigateway.dto;
 
-import com.example.userservice.model.Language;
-import com.example.userservice.model.Level;
+import com.example.apigateway.model.Language;
+import com.example.apigateway.model.Level;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;

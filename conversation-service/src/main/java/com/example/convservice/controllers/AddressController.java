@@ -21,12 +21,6 @@ public class AddressController {
         return addressFacade.save(address);
     }
 
-    @CrossOrigin
-    @GetMapping("/city-info")
-    public Object getCityInfo(@RequestParam String query) {
-        return addressFacade.getCityInfo(query);
-    }
-
     @GetMapping("/tutors/{tutorId}/conversation-details")
     public List<AddressDto> findAddressesDistinctByTutorId(@PathVariable("tutorId") Long tutorId) {
         return addressFacade.findAddressesDistinctByTutorId(tutorId);

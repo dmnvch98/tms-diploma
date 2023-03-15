@@ -70,7 +70,7 @@ public class UserFacade {
     private List<UserLanguageLevel> extractUserLanguageLevelsFromDto(UserRequestDto userRequestDto, Long userId) {
         return userRequestDto.getLanguageLevels().stream()
             .map(x -> languageLevelService
-                .getLanguageLevelId(x.getLevelId(), x.getLanguageId()))
+                .getLanguageLevelId(x.getLevel().getLevelId(), x.getLanguage().getLanguageId()))
             .map(x -> languageLevelConverter.languageLevelIdToUll(x, userId))
             .toList();
     }

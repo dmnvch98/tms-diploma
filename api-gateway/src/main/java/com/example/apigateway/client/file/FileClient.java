@@ -1,6 +1,6 @@
 package com.example.apigateway.client.file;
 
-import com.example.fileloader.dto.ResponseDto;
+import com.example.apigateway.dto.ResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

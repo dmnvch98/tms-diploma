@@ -1,7 +1,7 @@
 package com.example.apigateway.client.conversation;
 
+import com.example.apigateway.dto.AddressDto;
 import com.example.apigateway.model.Address;
-import com.example.convservice.dto.AddressDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

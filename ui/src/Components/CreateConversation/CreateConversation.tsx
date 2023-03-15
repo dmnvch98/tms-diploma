@@ -51,6 +51,9 @@ export const CreateConversation = () => {
         setMessage("Conversation details successfully saved");
     }
 
+    const TIME_FORMAT: string = 'HH:mm';
+    const DATE_FORMAT: string = 'YYYY-MM-DD';
+
     return (
         <>
             <Box>
@@ -109,7 +112,7 @@ export const CreateConversation = () => {
                     <DatePicker
                         onChange={(newValue) => {
                             setPickerDate(newValue);
-                            setDate(newValue?.format('YYYY-MM-DD') as string);
+                            setDate(newValue?.format(DATE_FORMAT) as string);
                         }}
                         value={pickerDate}
                         disablePast
@@ -119,7 +122,7 @@ export const CreateConversation = () => {
                         <TimePicker
                             onChange={(newValue) => {
                                 setPickerStartTime(newValue);
-                                setStartTime(newValue?.format('H:m') as string);
+                                setStartTime(newValue?.format(TIME_FORMAT) as string);
                             }}
                             ampm={false}
                             value={pickerStartTime}
@@ -128,7 +131,7 @@ export const CreateConversation = () => {
                         <TimePicker
                             onChange={(newValue) => {
                                 setPickerEndTime(newValue);
-                                setEndTime(newValue?.format('H:m') as string);
+                                setEndTime(newValue?.format(TIME_FORMAT) as string);
                             }}
                             ampm={false}
                             value={pickerEndTime}

@@ -34,6 +34,7 @@ export interface FindTutor {
     setConvTypeId: (convTypeId: number | string) => void;
     setLanguageId: (languageId: number | string) => void;
     setMinLevelId: (minLevelId: number | string) => void;
+    clearFields: () => void;
 }
 
 export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
@@ -154,5 +155,19 @@ export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
     },
     setMinLevelId: async (minLevelId: number | string) => {
         set({minLevelId: minLevelId})
+    },
+    clearFields: async () => {
+        set({
+            minPrice: '',
+            maxPrice: '',
+            city: '',
+            country: '',
+            cities: [],
+            countries: [],
+            countryId: '',
+            convTypeId: '',
+            languageId: '',
+            minLevelId: ''
+        })
     }
 }))

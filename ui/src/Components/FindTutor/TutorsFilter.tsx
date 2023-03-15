@@ -1,10 +1,10 @@
-import {Autocomplete, Button, Container, Grid, MenuItem, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Container, Grid, MenuItem, TextField} from "@mui/material";
 import {useEffect} from "react";
 import {useLanguagesStore} from "../../pages/SignUp/store/languagesStore";
 import {useLevelsStore} from "../../pages/SignUp/store/levelStore";
 import {useLocationStore} from "../../pages/FIndTutor/locationStore";
 import {useConversationTypeStore} from "../../CommonStore/conversationTypeStore";
-import { useFindTutorStore } from "../../pages/FIndTutor/findTutorStore";
+import {useFindTutorStore} from "../../pages/FIndTutor/findTutorStore";
 
 const fieldWidth = {
     width: '8vw'
@@ -44,6 +44,7 @@ export const TutorsFilter = () => {
     const getCityCoordinates = useLocationStore(state => state.getCityCoordinates);
     const city = useFindTutorStore(state => state.city);
     const convTypes = useConversationTypeStore(state => state.convTypes);
+    const clearFields = useFindTutorStore(state => state.clearFields);
 
     useEffect(() => {
         getCountries();
@@ -153,20 +154,31 @@ export const TutorsFilter = () => {
                         ))}
                         </TextField>
                     </Grid>
-                    <Grid item xs={1} sx={gridMarginRight}>
-                        <Button
-                            variant="outlined"
-                            onClick={() => {
-                                if (countryId != '') {
-                                    getCityCoordinates(countries[Number(countryId) - 1].description + "," + city)
+                    <Grid item xs={1.5}>
+                        <Box display='flex' justifyContent='space-between'>
+                            <Button
+                                onClick={() => {
+                                    if (countryId != '') {
+                                        getCityCoordinates(countries[Number(countryId) - 1].description + "," + city)
+                                    }
+                                    clearTutors();
+                                    clearLastTutorId();
+                                    getTutors();
                                 }
-                                clearTutors();
-                                clearLastTutorId();
-                                getTutors();
-                            }
-                            }>Apply</Button>
-                    </Grid>
+                            }>
+                                Apply
+                            </Button>
+                            <Button
+                                color='error'
+                                onClick={() => {
+                                    clearFields();
+                                }
+                                }>
+                                Clear
+                            </Button>
+                        </Box>
 
+                    </Grid>
                 </Grid>
             </Container>
         </>

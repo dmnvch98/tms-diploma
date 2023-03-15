@@ -28,6 +28,7 @@ public class ConversationController {
         return conversationDetailsFacade.findAllByTutorId(tutorId);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/")
     public ConversationResponseDto saveConversation(@RequestBody ConversationRequestDto dto) {
         return conversationFacade.save(dto);

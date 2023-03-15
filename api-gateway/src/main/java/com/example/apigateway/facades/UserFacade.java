@@ -1,8 +1,8 @@
 package com.example.apigateway.facades;
 
+import com.example.apigateway.dto.UserRequestDto;
+import com.example.apigateway.dto.UserResponseDto;
 import com.example.apigateway.services.UserService;
-import com.example.userservice.dto.UserRequestDto;
-import com.example.userservice.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

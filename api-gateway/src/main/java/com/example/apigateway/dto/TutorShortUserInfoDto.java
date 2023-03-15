@@ -2,18 +2,18 @@ package com.example.apigateway.dto;
 
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
 @Builder
 @Value
-public class TutorCardInfoDto {
+@Jacksonized
+public class TutorShortUserInfoDto {
+    Long userId;
     Long tutorId;
     String firstName;
     String lastName;
     List<LanguageLevelDto> languageLevels;
-    double minPrice;
-    List<AddressDto> addresses;
-    String avatarUrl;
-
+    String avatarName;
 }

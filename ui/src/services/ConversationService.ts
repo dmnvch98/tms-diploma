@@ -66,7 +66,7 @@ class ConversationService {
                 , dto, {
                 withCredentials: true,
             });
-            return response.status == 200;
+            return response.status == 201;
         } catch (e: unknown) {
             throw e as AxiosError;
         }

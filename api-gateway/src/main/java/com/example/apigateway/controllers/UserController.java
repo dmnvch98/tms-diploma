@@ -1,9 +1,9 @@
 package com.example.apigateway.controllers;
 
 import com.example.apigateway.config.security.service.PrincipalUser;
+import com.example.apigateway.dto.UserRequestDto;
+import com.example.apigateway.dto.UserResponseDto;
 import com.example.apigateway.facades.UserFacade;
-import com.example.userservice.dto.UserRequestDto;
-import com.example.userservice.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

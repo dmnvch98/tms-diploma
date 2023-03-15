@@ -4,14 +4,14 @@ import com.example.apigateway.client.user.UserClient;
 import com.example.apigateway.config.security.PasswordConfig;
 import com.example.apigateway.dto.*;
 import com.example.apigateway.model.User;
-import com.example.userservice.dto.UserRequestDto;
-import com.example.userservice.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserClient userClient;
@@ -23,7 +23,12 @@ public class UserService {
     }
 
     public UserResponseDto get(Long userId) {
-        return userClient.get(userId);
+        try {
+            return userClient.get(userId);
+        } catch (Exception e) {
+            log.error("An error occurred during fetching current user info {}", e.getMessage());
+        }
+        return null;
     }
 
     public Boolean isEmailExists(String email) {

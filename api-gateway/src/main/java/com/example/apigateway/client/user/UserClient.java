@@ -2,9 +2,9 @@ package com.example.apigateway.client.user;
 
 import com.example.apigateway.dto.CredentialsDto;
 import com.example.apigateway.dto.UserRefreshToken;
+import com.example.apigateway.dto.UserRequestDto;
+import com.example.apigateway.dto.UserResponseDto;
 import com.example.apigateway.model.User;
-import com.example.userservice.dto.UserRequestDto;
-import com.example.userservice.dto.UserResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

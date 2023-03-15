@@ -67,7 +67,6 @@ export const useCreateConversationStore = create<CreateConversationStore>((set, 
     },
     setEndTime: async (endTime: string) => {
         set({endTime: endTime})
-        console.log(endTime)
     },
     setDate: async (date: string) => {
         set({date: date});

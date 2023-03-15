@@ -1,8 +1,8 @@
 package com.example.apigateway.controllers;
 
 import com.example.apigateway.config.security.service.PrincipalUser;
+import com.example.apigateway.dto.ResponseDto;
 import com.example.apigateway.facades.FileFacade;
-import com.example.fileloader.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
