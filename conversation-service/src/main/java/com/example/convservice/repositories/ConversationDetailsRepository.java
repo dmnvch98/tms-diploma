@@ -27,7 +27,8 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
     Double findMinimumPrice(@Param("tutorId") Long tutorId, @Param("convTypeId") Long convTypeId,
                             @Param("minLevel") Long minLevel, @Param("languageId") Long languageId);
 
-    @Query("select count(distinct(tutor_id)) from conv_details")
+    @Query("select count(distinct(tutor_id)) from conv_details cd " +
+        "where cd.conv_details_id not in (select conv_details_id from conversations)")
     int countTutorsWithConvDetails();
 
     @Query("select count(distinct(cd.tutor_id)) from conv_details cd " +

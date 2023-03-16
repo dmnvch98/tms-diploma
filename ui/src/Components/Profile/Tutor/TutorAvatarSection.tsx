@@ -3,7 +3,7 @@ import {Box, Button, Paper, Typography} from "@mui/material";
 import {Avatar} from "../Avatar";
 
 export const TutorAvatarSection = () => {
-    const user = useProfileStore(state => state.loggedInUser);
+    const user = useProfileStore(state => state.lookupUser);
 
     return (
         <>

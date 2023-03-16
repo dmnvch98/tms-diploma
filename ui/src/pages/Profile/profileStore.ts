@@ -26,6 +26,7 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
     },
     getUserByTutorId: async (tutorId: number) => {
         const user: User = await UserService.getUserByTutorId(tutorId);
+        console.log("get tutor")
         if (!user.tutor.aboutMe) {
             user.tutor.aboutMe = '';
         }

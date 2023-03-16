@@ -9,7 +9,8 @@ import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
 import {Notification} from "../../../Components/Notifications/Notification";
-import {CurrentTutorProfileTabs} from "../../../Components/Profile/Tutor/CurrentTutorProfileTabs";
+import {TutorProfileTabs} from "../../../Components/Profile/Tutor/TutorProfileTabs";
+import {CurrentTutorInfo} from "../../../Components/Profile/Tutor/CurrentTutorInfo";
 
 export const MyTutorProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
@@ -46,9 +47,7 @@ export const MyTutorProfile = () => {
                             <MyTutorAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <TutorInfo>
-                                <CurrentTutorProfileTabs/>
-                            </TutorInfo>
+                            <CurrentTutorInfo/>
                         </Grid>
                     </Grid>
                 </Container>

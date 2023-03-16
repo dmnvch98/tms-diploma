@@ -48,9 +48,7 @@ export const TutorProfile = () => {
                             <TutorAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <TutorInfo>
-                                <TutorProfileTabs/>
-                            </TutorInfo>
+                            <TutorInfo/>
                         </Grid>
                     </Grid>
                 </Container>

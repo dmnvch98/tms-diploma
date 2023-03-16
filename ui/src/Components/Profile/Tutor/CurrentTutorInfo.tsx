@@ -1,15 +1,17 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Container, Rating, Typography} from "@mui/material";
-import {UserProfileTabs} from "../../UserProfileTabs";
+import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
+import {CurrentTutorProfileTabs} from "./CurrentTutorProfileTabs";
 import {LanguageLevelsCurrentProfile} from "../Common/LanguageLevelsCurrentProfile";
 
-export const StudentInfo = () => {
+export const CurrentTutorInfo = () => {
     const [showMore, setShowMore] = useState(false);
     const user = useProfileStore(state => state.loggedInUser);
 
     return (
         <>
+
             <Container sx={{bgcolor: "white", borderRadius: 2}}>
                 <Box>
                     <Box sx={{mt: 2, display: "flex", pt: 2}}>
@@ -22,11 +24,11 @@ export const StudentInfo = () => {
                         <Typography sx={{mr: 7, mt: 3}}><b>About me:</b> </Typography>
                         <Typography sx={{mb: 5}}>
                             {showMore
-                                ? user?.student.aboutMe
-                                : user?.student.aboutMe.substring(0, 250)
+                                ? user?.tutor.aboutMe
+                                : user?.tutor.aboutMe.substring(0, 250)
                             }
 
-                            {user?.student.aboutMe.length as number > 250 ?
+                            {user?.tutor.aboutMe.length as number > 250 ?
                                 <span
                                     onClick={() => setShowMore(state => !state)}
                                     style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>
@@ -35,7 +37,7 @@ export const StudentInfo = () => {
                                 : <></>}
                         </Typography>
                     </Box>
-                    <UserProfileTabs/>
+                    <CurrentTutorProfileTabs/>
                 </Box>
             </Container>
         </>
