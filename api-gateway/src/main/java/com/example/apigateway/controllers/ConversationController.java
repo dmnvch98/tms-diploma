@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/conversations")
@@ -56,6 +58,11 @@ public class ConversationController {
     public ConversationDetailsResponseDto saveConversationDetails(@RequestBody ConversationDetailsRequestDto dto, Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         return conversationDetailsFacade.saveConversationDetails(dto, userId);
+    }
+
+    @GetMapping("/details/tutor/{tutorId}")
+    public List<ConversationDetailsResponseDto> getTutorConversationDetails(@PathVariable("tutorId") Long tutorId) {
+        return conversationDetailsFacade.getTutorConversationDetails(tutorId);
     }
 
 }

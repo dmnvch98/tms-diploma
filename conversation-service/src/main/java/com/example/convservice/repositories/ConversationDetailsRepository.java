@@ -40,4 +40,5 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
                                            @Param("countryId") Long countryId, @Param("city") String city,
                                            @Param("convTypeId") Long convTypeId, @Param("minLevel") Long minLevel,
                                            @Param("languageId") Long languageId);
+
 }

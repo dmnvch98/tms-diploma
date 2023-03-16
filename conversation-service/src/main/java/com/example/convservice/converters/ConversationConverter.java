@@ -21,8 +21,7 @@ public interface ConversationConverter {
 
     Conversation requestDtoToConversation(ConversationRequestDto dto, Long statusId);
 
-    @Mapping(source = "convId", target = "id")
-    @Mapping(source = "conversationDetailsId", target = "conversationDetails")
-    @Mapping(source = "statusId", target = "status")
-    ConversationResponseDto conversationToResponseDto(Conversation conversation);
+    @Mapping(source = "conversation.convId", target = "id")
+    @Mapping(source = "conversation.statusId", target = "status")
+    ConversationResponseDto conversationToResponseDto(Conversation conversation, ConversationDetailsResponseDto conversationDetails);
 }

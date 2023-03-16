@@ -1,5 +1,7 @@
 package com.example.apigateway.dto;
 
+import com.example.apigateway.model.Address;
+import com.example.apigateway.model.ConversationType;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
@@ -12,10 +14,10 @@ import java.time.LocalDateTime;
 public class ConversationDetailsResponseDto {
     Long convDetailsId;
     Long tutorId;
-    Long conversationTypeId;
+    ConversationType conversationType;
     double price;
-    AddressDto address;
-    LanguageLevelDto minimumLanguageLevel;
+    Address address;
+    LanguageLevelDto minLanguageLevel;
     LocalDateTime startDate;
     LocalDateTime endDate;
 }

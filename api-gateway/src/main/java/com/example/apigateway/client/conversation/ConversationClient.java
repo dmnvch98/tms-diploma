@@ -2,12 +2,15 @@ package com.example.apigateway.client.conversation;
 
 import com.example.apigateway.dto.ConversationDetailsRequestDto;
 import com.example.apigateway.dto.ConversationDetailsResponseDto;
+import com.example.apigateway.dto.ConversationRequestDto;
 import com.example.apigateway.dto.FilterTutorsRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @FeignClient(name = "conversation-service",
     url = "${services.conversation.url}/api/v1/conversations")
@@ -27,4 +30,10 @@ public interface ConversationClient {
 
     @PostMapping("/details")
     ConversationDetailsResponseDto saveConversationDetails(@RequestBody ConversationDetailsRequestDto dto);
+
+    @GetMapping("/details/tutor/{tutorId}")
+    List<ConversationDetailsResponseDto> getTutorConversationDetails(@PathVariable("tutorId") Long tutorId);
+
+    @PostMapping("/")
+    ConversationResponseDto saveConversation(@RequestBody ConversationRequestDto dto)
 }

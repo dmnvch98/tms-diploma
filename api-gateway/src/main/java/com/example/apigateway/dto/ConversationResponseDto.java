@@ -1,7 +1,6 @@
-package com.example.convservice.dto;
+package com.example.apigateway.dto;
 
-import com.example.convservice.model.ConversationDetails;
-import com.example.convservice.model.ConversationStatus;
+import com.example.apigateway.model.ConversationStatus;
 import lombok.Builder;
 import lombok.Value;
 

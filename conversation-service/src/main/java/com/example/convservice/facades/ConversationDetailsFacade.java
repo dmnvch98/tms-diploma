@@ -18,8 +18,8 @@ public class ConversationDetailsFacade {
     private final ConversationConverter converter;
     private final LanguageLevelService languageLevelService;
 
-    @Value("${avatar.user_postfix}")
-    public String userAvatarNamePostfix;
+    @Value("${conversations.initStatus}")
+    public Long conversationInitStatus;
 
     public ConversationDetailsResponseDto save(ConversationDetailsRequestDto conversationDetailsDto) {
         ConversationDetails conversationDetails =

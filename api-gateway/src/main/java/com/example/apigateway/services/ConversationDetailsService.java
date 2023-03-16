@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -35,7 +37,16 @@ public class ConversationDetailsService {
         try {
             return conversationClient.saveConversationDetails(dto);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("An error occurred while saving conversation details: {}", e.getMessage());
+        }
+        return null;
+    }
+
+    public List<ConversationDetailsResponseDto> getTutorConversationDetails(Long tutorId) {
+        try {
+            return conversationClient.getTutorConversationDetails(tutorId);
+        } catch (Exception e) {
+            log.error("An error occurred while getting conversation details of tutorId {}: {}", tutorId, e.getMessage());
         }
         return null;
     }
