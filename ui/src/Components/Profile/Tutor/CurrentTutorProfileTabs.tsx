@@ -5,8 +5,8 @@ import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {ConversationCard} from "../../Conversations/ConversationCard";
 import {useTutorStore} from "./tutorStore";
 
-export const TutorProfileTabs = () => {
-    const user = useProfileStore(state => state.lookupUser);
+export const CurrentTutorProfileTabs = () => {
+    const user = useProfileStore(state => state.loggedInUser);
     const getTutorNotBookedConversationDetails = useTutorStore(state => state.getTutorNotBookedConversationDetails);
     const convDetails = useTutorStore(state => state.convDetails);
 
@@ -16,6 +16,7 @@ export const TutorProfileTabs = () => {
             getTutorNotBookedConversationDetails(tutorId);
         }
     }, [])
+
 
     interface TabPanelProps {
         children?: React.ReactNode;
@@ -81,7 +82,7 @@ export const TutorProfileTabs = () => {
                                 minLanguageLevel={cd.minLanguageLevel}
                                 startDate={cd.startDate}
                                 address={cd.address}
-                                displayBookButton={true}
+                                displayBookButton={false}
                                 endDate={cd.endDate}/>
                         )
                     )}

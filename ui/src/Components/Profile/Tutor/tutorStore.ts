@@ -20,6 +20,7 @@ export interface ConversationDetails {
 export interface TutorStore {
     convDetails: ConversationDetails[];
     getTutorNotBookedConversationDetails: (tutorId: number) => void;
+    bookConversation: (convDetailsId: number) => Promise<boolean>;
 }
 
 export const useTutorStore = create<TutorStore>((set) => ({
@@ -28,6 +29,8 @@ export const useTutorStore = create<TutorStore>((set) => ({
         ConversationService.getTutorConversationDetails(tutorId).then(result => {
             set({convDetails: result});
         });
-
+    },
+    bookConversation: async (convDetailsId: number): Promise<boolean> => {
+        return ConversationService.bookConversation(convDetailsId);
     }
 }))

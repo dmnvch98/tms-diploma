@@ -65,8 +65,8 @@ class ConversationService {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/conversations/details/'
                 , dto, {
-                withCredentials: true,
-            });
+                    withCredentials: true,
+                });
             return response.status == 201;
         } catch (e: unknown) {
             throw e as AxiosError;
@@ -80,6 +80,18 @@ class ConversationService {
                     withCredentials: true,
                 });
             return response.data;
+        } catch (e: unknown) {
+            throw e as AxiosError;
+        }
+    }
+
+    bookConversation = async (convDetailsId: number) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/conversations?conv-details-id='
+                + convDetailsId, null,{
+                    withCredentials: true,
+                });
+            return response.status == 201;
         } catch (e: unknown) {
             throw e as AxiosError;
         }

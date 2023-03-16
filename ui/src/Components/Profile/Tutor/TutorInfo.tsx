@@ -1,10 +1,10 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Container, Rating, Typography} from "@mui/material";
 import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
-import {TutorProfileTabs} from "./TutorProfileTabs";
+import {CurrentTutorProfileTabs} from "./CurrentTutorProfileTabs";
 
-export const TutorInfo = () => {
+export const TutorInfo = ({children}: any) => {
     const [showMore, setShowMore] = useState(false);
     const user = useProfileStore(state => state.loggedInUser);
 
@@ -35,7 +35,7 @@ export const TutorInfo = () => {
                                 : <></>}
                         </Typography>
                     </Box>
-                    <TutorProfileTabs/>
+                    {children}
                 </Box>
             </Container>
         </>

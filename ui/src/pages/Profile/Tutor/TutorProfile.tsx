@@ -8,6 +8,9 @@ import {TutorInfo} from "../../../Components/Profile/Tutor/TutorInfo";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useAvatarStore} from "../Edit/avatarStore";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
+import {TutorProfileTabs} from "../../../Components/Profile/Tutor/TutorProfileTabs";
+import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
+import {Notification} from "../../../Components/Notifications/Notification";
 
 export const TutorProfile = () => {
     const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
@@ -16,6 +19,7 @@ export const TutorProfile = () => {
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage);
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
+    const isNotificationOpen = useNotificationStore(state => state.isOpen);
 
     const { id } = useParams();
 
@@ -37,13 +41,16 @@ export const TutorProfile = () => {
         return (
             <>
                 {isErrorOpen && (<ErrorMessage/>)}
+                {isNotificationOpen && (<Notification/>)}
                 <Container sx={{mt: 7}}>
                     <Grid container spacing={2}>
                         <Grid item xs={3}>
                             <TutorAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <TutorInfo/>
+                            <TutorInfo>
+                                <TutorProfileTabs/>
+                            </TutorInfo>
                         </Grid>
                     </Grid>
                 </Container>

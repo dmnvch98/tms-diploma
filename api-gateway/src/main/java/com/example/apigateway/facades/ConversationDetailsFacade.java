@@ -66,4 +66,14 @@ public class ConversationDetailsFacade {
     public List<ConversationDetailsResponseDto> getTutorConversationDetails(Long tutorId) {
         return conversationDetailsService.getTutorConversationDetails(tutorId);
     }
+
+    public ConversationResponseDto saveConversation(Long convDetailsId, Long userId) {
+        Long studentId = userService.get(userId).getStudent().getStudentId();
+        ConversationRequestDto dto = ConversationRequestDto
+                .builder()
+                .conversationDetailsId(convDetailsId)
+                .studentId(studentId)
+                .build();
+        return conversationDetailsService.saveConversation(dto);
+    }
 }

@@ -1,30 +1,44 @@
 import {Box, Button, Grid, Paper, Typography} from "@mui/material";
 import React from "react";
-import {ConversationDetails} from "../Profile/Tutor/tutorStore";
+import {ConversationDetails, useTutorStore} from "../Profile/Tutor/tutorStore";
 import {Address} from "../../pages/Addresses/addressesStore";
 import {LanguageLevel} from "../../pages/SignUp/store/languagesStore";
 import dayjs from "dayjs";
+import {useNotificationStore} from "../Notifications/notificationStore";
 
 interface ConversationDetailsShortInfo {
+    convDetailsId: number,
     conversationType: string
     price: number,
     address: Address | null,
     minLanguageLevel: LanguageLevel,
     startDate: string
     endDate: string
+    displayBookButton: boolean
 }
 
 export const ConversationCard = (props: ConversationDetailsShortInfo) => {
     const date1 = dayjs(props.startDate)
     const date2 = dayjs(props.endDate);
-    const duration = date2.diff(date1, 'm', );
+    const duration = date2.diff(date1, 'm');
+    const bookConversation = useTutorStore(state => state.bookConversation);
+
+    const isNotificationOpen = useNotificationStore(state => state.isOpen);
+    const setMessage = useNotificationStore(state => state.setMessage);
+    const setNotificationOpen = useNotificationStore(state => state.setIsOpen);
+
+    const setNotificationConvIsBooked = () => {
+        setNotificationOpen(!isNotificationOpen);
+        setMessage("Conversation successfully booked!");
+    }
+
     return (
         <>
             <Paper
                 sx={{
                     p: 2,
                     margin: 'auto',
-                    mb: 1,
+                    mt: 2,
                     backgroundColor: (theme) =>
                         theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                 }}
@@ -54,9 +68,22 @@ export const ConversationCard = (props: ConversationDetailsShortInfo) => {
                     </Grid>
                     <Grid item xs={2} display='flex'
                           alignItems="flex-end">
-                            <Button variant='contained' fullWidth>
-                                Book
-                            </Button>
+                        <Button
+                            variant='contained'
+                            fullWidth
+                            sx={{
+                                display: props.displayBookButton ? "flex" : "none"
+                            }}
+                            onClick={() => {
+                                bookConversation(props.convDetailsId).then(result => {
+                                    if (result) {
+                                        setNotificationConvIsBooked();
+                                    }
+                                })
+                            }}
+                        >
+                            Book
+                        </Button>
                     </Grid>
 
                 </Grid>

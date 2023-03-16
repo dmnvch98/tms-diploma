@@ -9,6 +9,7 @@ import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
 import {Notification} from "../../../Components/Notifications/Notification";
+import {CurrentTutorProfileTabs} from "../../../Components/Profile/Tutor/CurrentTutorProfileTabs";
 
 export const MyTutorProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
@@ -18,7 +19,6 @@ export const MyTutorProfile = () => {
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage)
     const isNotificationOpen = useNotificationStore(state => state.isOpen);
-    const notificationMessage = useNotificationStore(state => state.message);
 
     useEffect(() => {
         getMe();
@@ -46,7 +46,9 @@ export const MyTutorProfile = () => {
                             <MyTutorAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <TutorInfo/>
+                            <TutorInfo>
+                                <CurrentTutorProfileTabs/>
+                            </TutorInfo>
                         </Grid>
                     </Grid>
                 </Container>

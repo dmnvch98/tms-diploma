@@ -1,10 +1,7 @@
 package com.example.apigateway.controllers;
 
 import com.example.apigateway.config.security.service.PrincipalUser;
-import com.example.apigateway.dto.ConversationDetailsRequestDto;
-import com.example.apigateway.dto.ConversationDetailsResponseDto;
-import com.example.apigateway.dto.FilterTutorsRequestDto;
-import com.example.apigateway.dto.TutorCardsResponseDto;
+import com.example.apigateway.dto.*;
 import com.example.apigateway.facades.ConversationDetailsFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -63,6 +60,15 @@ public class ConversationController {
     @GetMapping("/details/tutor/{tutorId}")
     public List<ConversationDetailsResponseDto> getTutorConversationDetails(@PathVariable("tutorId") Long tutorId) {
         return conversationDetailsFacade.getTutorConversationDetails(tutorId);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping()
+    public ConversationResponseDto saveConversation(@RequestParam("conv-details-id") Long convDetailsId,
+                                                    Authentication authentication) {
+        Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
+
+        return conversationDetailsFacade.saveConversation(convDetailsId, userId);
     }
 
 }

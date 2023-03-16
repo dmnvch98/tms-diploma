@@ -1,12 +1,11 @@
 package com.example.apigateway.services;
 
 import com.example.apigateway.client.conversation.ConversationClient;
-import com.example.apigateway.dto.ConversationDetailsRequestDto;
-import com.example.apigateway.dto.ConversationDetailsResponseDto;
-import com.example.apigateway.dto.FilterTutorsRequestDto;
+import com.example.apigateway.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -47,6 +46,15 @@ public class ConversationDetailsService {
             return conversationClient.getTutorConversationDetails(tutorId);
         } catch (Exception e) {
             log.error("An error occurred while getting conversation details of tutorId {}: {}", tutorId, e.getMessage());
+        }
+        return null;
+    }
+
+    public ConversationResponseDto saveConversation(ConversationRequestDto dto) {
+        try {
+            return conversationClient.saveConversation(dto);
+        } catch (Exception e) {
+            log.error("An error occurred while booking the conversation with id {}: {}", dto.getConversationDetailsId(), e.getMessage());
         }
         return null;
     }

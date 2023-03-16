@@ -11,7 +11,9 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
 
     ConversationDetails save(ConversationDetails conversationDetails);
 
-    List<ConversationDetails> findAllByTutorId(Long tutorId);
+    @Query("SELECT * from conv_details cd where cd.conv_details_id not in (select conv_details_id from conversations)" +
+        "and cd.tutor_id=:tutorId")
+    List<ConversationDetails> findAllByTutorId(@Param("tutorId") Long tutorId);
 
     ConversationDetails findAllByConvDetailsId(Long convDetailsId);
 
@@ -30,7 +32,8 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
 
     @Query("select count(distinct(cd.tutor_id)) from conv_details cd " +
         " full join addresses a on cd.address_id = a.address_id" +
-        " where (price between :minPrice and :maxPrice or :maxPrice is null)" +
+        " where cd.conv_details_id not in (select conv_details_id from conversations)" +
+        " and (price between :minPrice and :maxPrice or :maxPrice is null)" +
         " and (:countryId is null or a.country_id = :countryId)" +
         " and (:city is null or city = :city)" +
         " and (:convTypeId is null or cd.conv_type_id=:convTypeId)" +
