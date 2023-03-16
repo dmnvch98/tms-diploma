@@ -107,7 +107,7 @@ public class UserFacade {
         return userLanguageLevels
             .stream()
             .map(languageLevelService::saveUserLanguageLevel)
-            .map(languageLevelService::userLanguageLevelToLl)
+            .map(languageLevelService::findLanguageLevel)
             .map(languageLevelConverter::languageLevelToDto)
             .toList();
     }

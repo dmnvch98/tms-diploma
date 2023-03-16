@@ -2,6 +2,7 @@ package com.example.userservice.controllers;
 
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.facades.LanguageLevelFacade;
+import com.example.userservice.model.LanguageLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,5 +20,11 @@ public class LanguageLevelController {
     @GetMapping("/")
     Long findLanguageLevelId(@RequestBody LanguageLevelDto languageLevelDto) {
         return languageLevelFacade.getLanguageLevelId(languageLevelDto);
+    }
+
+    @GetMapping("/languageId/{languageId}/levelId/{levelId}")
+    public LanguageLevelDto findLanguageLevelByLanguageIdAndLevelId(@PathVariable("languageId") Long languageId,
+                                                                 @PathVariable("levelId") Long levelId) {
+        return languageLevelFacade.findLanguageLevel(languageId, levelId);
     }
 }

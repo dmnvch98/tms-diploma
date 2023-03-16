@@ -24,7 +24,7 @@ public class ConversationController {
     }
 
     @GetMapping("/details/tutor/{tutorId}")
-    public List<ConversationDetailsResponseDto> getTutorConversations(@PathVariable("tutorId") Long tutorId) {
+    public List<ConversationDetailsResponseDto> getTutorConversationDetails(@PathVariable("tutorId") Long tutorId) {
         return conversationDetailsFacade.findAllByTutorId(tutorId);
     }
 
