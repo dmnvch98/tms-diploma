@@ -24,7 +24,7 @@ public class ConversationDetailsFacade {
     public String userAvatarNamePostfix;
 
     public TutorCardsResponseDto findTutorCardInfoWithMinPrice(Long lastTutorId) {
-        List<TutorCardInfoDto> tutors = tutorService.findTutorsWithExistingConvDetails(lastTutorId)
+        List<TutorCardInfoDto> tutors = tutorService.findTutorsWhoHaveNotBookedConvDetails(lastTutorId)
             .stream()
             .map(tutor -> userConverter.tutorCardInfoToMinPrice(
                 tutor,

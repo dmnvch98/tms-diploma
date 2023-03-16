@@ -4,9 +4,6 @@ import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,8 +51,8 @@ public class UserService {
         repository.updateRefreshToken(token, userId);
     }
 
-    public List<User> findTutorsWithExistingConvDetails(Long lastTutorId) {
-        return repository.findTutorsWithExistingConvDetails(lastTutorId, findTutorPageSize);
+    public List<User> findTutorsWhoHaveNotBookedConvDetails(Long lastTutorId) {
+        return repository.findTutorsWhoHaveNotBookedConvDetails(lastTutorId, findTutorPageSize);
     }
     public int setAvatar(Long userId) {
         return repository.setAvatar(userId + userAvatarNamePostfix, userId);
@@ -65,10 +62,10 @@ public class UserService {
         return repository.deleteAvatar(userId);
     }
 
-    public List<User> filterUsersWithExistingConvDetails(Long lastTutorId, Double minPrice, Double maxPrice,
-                                                         String city, Long countryId, Long convTypeId,
-                                                         Long minLevel, Long languageId) {
-        return repository.filterUsersWithExistingConvDetails(lastTutorId, findTutorPageSize, minPrice,
+    public List<User> filterTutorsWhoHaveNotBookedConvDetails(Long lastTutorId, Double minPrice, Double maxPrice,
+                                                              String city, Long countryId, Long convTypeId,
+                                                              Long minLevel, Long languageId) {
+        return repository.filterTutorsWhoHaveNotBookedConvDetails(lastTutorId, findTutorPageSize, minPrice,
             maxPrice, countryId, city, convTypeId, minLevel, languageId);
     }
 }

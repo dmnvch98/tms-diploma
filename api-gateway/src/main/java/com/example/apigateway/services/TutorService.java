@@ -22,11 +22,11 @@ public class TutorService {
         return tutorClient.save(tutor);
     }
 
-    public List<TutorShortUserInfoDto> findTutorsWithExistingConvDetails(Long lastTutorId) {
-        return tutorClient.findTutorsWithExistingConvDetails(lastTutorId);
+    public List<TutorShortUserInfoDto> findTutorsWhoHaveNotBookedConvDetails(Long lastTutorId) {
+        return tutorClient.findTutorsWhoHaveNotBookedConvDetails(lastTutorId);
     }
 
     public List<TutorShortUserInfoDto> filterTutors(Long tutorId, FilterTutorsRequestDto dto) {
-        return tutorClient.filterTutors(tutorId, dto);
+        return tutorClient.filterTutorsWhoHaveNotBookedConvDetails(tutorId, dto);
     }
 }

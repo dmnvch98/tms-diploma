@@ -1,7 +1,8 @@
 import {LanguageLevel} from "../pages/SignUp/store/languagesStore";
 import axios, {AxiosError} from "axios";
-import {ConversationDetailsRequestDto} from "../Components/CreateConversation/createConversationStore";
+import {ConversationDetailsRequestDto} from "../Components/Conversations/createConversationStore";
 import {Location} from "./AddressService";
+import {ConversationDetails} from "../Components/Profile/Tutor/tutorStore";
 
 export interface TutorCardInfo {
     tutorId: number,
@@ -29,7 +30,7 @@ export interface FilterTutorsRequestDto {
 }
 
 class ConversationService {
-    getTutorWithExistingConversations = async (id: number): Promise<TutorCardsResponseData> => {
+    findTutorsWhoHaveNotBookedConvDetails = async (id: number): Promise<TutorCardsResponseData> => {
         try {
             const response = await axios.get('http://localhost:8080/api/v1/conversations/details/tutors/?lastTutorId='
                 + id, {withCredentials: true});
@@ -67,6 +68,18 @@ class ConversationService {
                 withCredentials: true,
             });
             return response.status == 201;
+        } catch (e: unknown) {
+            throw e as AxiosError;
+        }
+    }
+
+    getTutorConversationDetails = async (tutorId: number): Promise<ConversationDetails[]> => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/v1/conversations/details/tutor/' + tutorId
+                , {
+                    withCredentials: true,
+                });
+            return response.data;
         } catch (e: unknown) {
             throw e as AxiosError;
         }

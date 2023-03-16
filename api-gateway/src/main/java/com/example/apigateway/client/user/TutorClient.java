@@ -19,11 +19,11 @@ public interface TutorClient {
     @PostMapping
     Tutor save(@RequestBody Tutor tutor);
 
-    @GetMapping("/existing-conversations-details")
-    List<TutorShortUserInfoDto> findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
+    @GetMapping("/not-booked-conversations-details")
+    List<TutorShortUserInfoDto> findTutorsWhoHaveNotBookedConvDetails(@RequestParam(value = "lastTutorId",
         defaultValue = "0", required = false) Long lastTutorId);
 
-    @GetMapping("/existing-conversations-details/filter")
-    List<TutorShortUserInfoDto> filterTutors(@RequestParam(value = "lastTutorId",
+    @GetMapping("/not-booked-conversations-details/filter")
+    List<TutorShortUserInfoDto> filterTutorsWhoHaveNotBookedConvDetails(@RequestParam(value = "lastTutorId",
         defaultValue = "0", required = false) Long lastTutorId, @RequestBody FilterTutorsRequestDto dto);
 }

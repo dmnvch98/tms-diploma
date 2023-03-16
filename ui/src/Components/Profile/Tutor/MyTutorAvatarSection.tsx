@@ -2,8 +2,8 @@ import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Button, Modal, Paper, TextField, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {Avatar} from "../Avatar";
-import {CreateConversation} from "../../CreateConversation/CreateConversation";
-import {useCreateConversationStore} from "../../CreateConversation/createConversationStore";
+import {CreateConversation} from "../../Conversations/CreateConversation";
+import {useCreateConversationStore} from "../../Conversations/createConversationStore";
 
 export const MyTutorAvatarSection = () => {
     const user = useProfileStore(state => state.loggedInUser);

@@ -28,15 +28,15 @@ public class TutorController {
         return tutorFacade.save(tutor);
     }
 
-    @GetMapping("/existing-conversations-details")
-    List<TutorShortUserInfoDto> findTutorsWithExistingConvDetails(@RequestParam(value = "lastTutorId",
+    @GetMapping("/not-booked-conversations-details")
+    List<TutorShortUserInfoDto> findTutorsWhoHaveNotBookedConvDetails(@RequestParam(value = "lastTutorId",
         defaultValue = "0", required = false) Long lastTutorId) {
-        return tutorFacade.findTutorsWithExistingConvDetails(lastTutorId);
+        return tutorFacade.findTutorsWhoHaveNotBookedConvDetails(lastTutorId);
     }
 
-    @GetMapping("/existing-conversations-details/filter")
-    public List<TutorShortUserInfoDto> filterTutors(@RequestParam(value = "lastTutorId",
+    @GetMapping("/not-booked-conversations-details/filter")
+    public List<TutorShortUserInfoDto> filterTutorsWhoHaveNotBookedConvDetails(@RequestParam(value = "lastTutorId",
         defaultValue = "0", required = false) Long lastTutorId, @RequestBody FilterTutorsRequestDto dto) {
-        return tutorFacade.filterUsersWithExistingConvDetails(lastTutorId, dto);
+        return tutorFacade.filterTutorsWhoHaveNotBookedConvDetails(lastTutorId, dto);
     }
 }

@@ -61,7 +61,7 @@ export const useFindTutorStore = create<FindTutor>((set, get: any) => ({
     },
     getAllTutors: async () => {
         try {
-            await ConversationService.getTutorWithExistingConversations(get().lastTutorId)
+            await ConversationService.findTutorsWhoHaveNotBookedConvDetails(get().lastTutorId)
                 .then(response => {
                     const lastTutorId: number = Math.max(...response.tutors.map(t => t.tutorId));
                     set({

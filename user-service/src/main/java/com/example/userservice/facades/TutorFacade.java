@@ -30,8 +30,8 @@ public class TutorFacade {
         }
     }
 
-    public List<TutorShortUserInfoDto> findTutorsWithExistingConvDetails(Long lastTutorId) {
-        return userService.findTutorsWithExistingConvDetails(lastTutorId)
+    public List<TutorShortUserInfoDto> findTutorsWhoHaveNotBookedConvDetails(Long lastTutorId) {
+        return userService.findTutorsWhoHaveNotBookedConvDetails(lastTutorId)
             .stream()
             .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))
             .toList();
@@ -44,9 +44,9 @@ public class TutorFacade {
         return userService.save(user).getTutor();
     }
 
-    public List<TutorShortUserInfoDto> filterUsersWithExistingConvDetails(Long lastTutorId, FilterTutorsRequestDto dto) {
+    public List<TutorShortUserInfoDto> filterTutorsWhoHaveNotBookedConvDetails(Long lastTutorId, FilterTutorsRequestDto dto) {
         return userService
-            .filterUsersWithExistingConvDetails(lastTutorId, dto.getMinPrice(), dto.getMaxPrice(),
+            .filterTutorsWhoHaveNotBookedConvDetails(lastTutorId, dto.getMinPrice(), dto.getMaxPrice(),
                 dto.getCity(), dto.getCountryId(), dto.getConversationTypeId(), dto.getLevelId(), dto.getLanguageId())
             .stream()
             .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))

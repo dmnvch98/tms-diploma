@@ -1,11 +1,8 @@
 package com.example.userservice.repository;
 
 import com.example.userservice.model.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,8 +45,9 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("select distinct u.*, t.tutor_id AS tutor_tutor_id from users u" +
         " left outer join tutors t on u.id = t.user_id" +
         " right outer join conv_details cd on t.tutor_id = cd.tutor_id " +
-        " where t.tutor_id >:lastTutorId order by t.tutor_id limit :pageSize")
-    List<User> findTutorsWithExistingConvDetails(@Param("lastTutorId") Long lastTutorId, @Param("pageSize") int pageSize);
+        "where cd.conv_details_id not in (select conv_details_id from conversations)" +
+        " and t.tutor_id >:lastTutorId order by t.tutor_id limit :pageSize")
+    List<User> findTutorsWhoHaveNotBookedConvDetails(@Param("lastTutorId") Long lastTutorId, @Param("pageSize") int pageSize);
 
     @Query("UPDATE users set avatar_name=:avatarName WHERE id=:userId")
     @Modifying
@@ -63,16 +61,17 @@ public interface UserRepository extends Repository<User, Long> {
         " left outer join tutors t on u.id = t.user_id" +
         " right outer join conv_details cd on t.tutor_id = cd.tutor_id " +
         " full join addresses a on a.address_id = cd.address_id" +
-        " where t.tutor_id >:lastTutorId and (price between :minPrice and :maxPrice or :maxPrice is null)" +
+        " where cd.conv_details_id not in (select conv_details_id from conversations)" +
+        " and t.tutor_id >:lastTutorId and (price between :minPrice and :maxPrice or :maxPrice is null)" +
         " and (:countryId is null or a.country_id =:countryId)" +
         " and (:city is null or city = :city) " +
         " and (:convTypeId is null or cd.conv_type_id=:convTypeId)" +
         " and (:minLevel is null or cd.min_level >=:minLevel) " +
         " and (:languageId is null or cd.language_id =:languageId)" +
         " order by t.tutor_id limit :pageSize")
-    List<User> filterUsersWithExistingConvDetails(@Param("lastTutorId") Long lastTutorId, @Param("pageSize") int pageSize,
-                                                  @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice,
-                                                  @Param("countryId") Long countryId, @Param("city") String city,
-                                                  @Param("convTypeId") Long convTypeId, @Param("minLevel") Long minLevel,
-                                                  @Param("languageId") Long languageId);
+    List<User> filterTutorsWhoHaveNotBookedConvDetails(@Param("lastTutorId") Long lastTutorId, @Param("pageSize") int pageSize,
+                                                       @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice,
+                                                       @Param("countryId") Long countryId, @Param("city") String city,
+                                                       @Param("convTypeId") Long convTypeId, @Param("minLevel") Long minLevel,
+                                                       @Param("languageId") Long languageId);
 }
