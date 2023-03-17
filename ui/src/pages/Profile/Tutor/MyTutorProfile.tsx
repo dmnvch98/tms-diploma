@@ -9,8 +9,7 @@ import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
 import {Notification} from "../../../Components/Notifications/Notification";
-import {TutorProfileTabs} from "../../../Components/Profile/Tutor/TutorProfileTabs";
-import {CurrentTutorInfo} from "../../../Components/Profile/Tutor/CurrentTutorInfo";
+import {LanguageLevel} from "../../SignUp/store/languagesStore";
 
 export const MyTutorProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
@@ -47,7 +46,11 @@ export const MyTutorProfile = () => {
                             <MyTutorAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <CurrentTutorInfo/>
+                            <TutorInfo
+                                tutorId={user?.tutor.tutorId as number}
+                                currentUser={true}
+                                languageLevels={user?.languageLevels as LanguageLevel[]}
+                                aboutMe={user?.tutor?.aboutMe as string}/>
                         </Grid>
                     </Grid>
                 </Container>

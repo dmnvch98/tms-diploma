@@ -8,9 +8,9 @@ import {TutorInfo} from "../../../Components/Profile/Tutor/TutorInfo";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useAvatarStore} from "../Edit/avatarStore";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
-import {TutorProfileTabs} from "../../../Components/Profile/Tutor/TutorProfileTabs";
 import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
 import {Notification} from "../../../Components/Notifications/Notification";
+import {LanguageLevel} from "../../SignUp/store/languagesStore";
 
 export const TutorProfile = () => {
     const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
@@ -21,7 +21,7 @@ export const TutorProfile = () => {
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
     const isNotificationOpen = useNotificationStore(state => state.isOpen);
 
-    const { id } = useParams();
+    const {id} = useParams();
 
     useEffect(() => {
         getUserByTutorId(Number(id));
@@ -48,7 +48,11 @@ export const TutorProfile = () => {
                             <TutorAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <TutorInfo/>
+                            <TutorInfo
+                                tutorId={user?.tutor.tutorId as number}
+                                currentUser={false}
+                                languageLevels={user?.languageLevels as LanguageLevel[]}
+                                aboutMe={user?.tutor?.aboutMe as string}/>
                         </Grid>
                     </Grid>
                 </Container>

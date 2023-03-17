@@ -1,17 +1,18 @@
 import {Box, Tab, Tabs, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {FeedbackCard} from "../../FeedbackCard";
-import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {ConversationCard} from "../../Conversations/ConversationCard";
 import {useTutorStore} from "./tutorStore";
 
-export const TutorProfileTabs = () => {
-    const user = useProfileStore(state => state.lookupUser);
+type Props = {
+    currentUser: boolean;
+    tutorId: number;
+}
+export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId}) => {
     const getTutorNotBookedConversationDetails = useTutorStore(state => state.getTutorNotBookedConversationDetails);
     const convDetails = useTutorStore(state => state.convDetails);
 
     useEffect(() => {
-        const tutorId = user?.tutor.tutorId as number;
         if (tutorId) {
             getTutorNotBookedConversationDetails(tutorId);
         }
@@ -81,7 +82,7 @@ export const TutorProfileTabs = () => {
                                 minLanguageLevel={cd.minLanguageLevel}
                                 startDate={cd.startDate}
                                 address={cd.address}
-                                displayBookButton={true}
+                                displayBookButton={!currentUser}
                                 endDate={cd.endDate}/>
                         )
                     )}
