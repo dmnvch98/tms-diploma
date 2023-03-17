@@ -16,6 +16,7 @@ import {EditTutorProfile} from "./pages/Profile/Edit/Tutor/EditTutorProfile";
 import {TutorsFilter} from "./Components/FindTutor/TutorsFilter";
 import {useProfileStore} from "./pages/Profile/profileStore";
 import {AddAddress} from "./pages/Addresses/AddAddress";
+import {Conversations} from "./pages/Conversations/Conversations";
 
 function App() {
     const getMe = useProfileStore(state => state.getMe)
@@ -65,6 +66,7 @@ function App() {
                 <Route path={'/sign-up3'} element={<SignUpThird/>}/>
                 <Route path={'/sign-in'} element={<SignIn/>}/>
                 <Route path={'/add-address'} element={<AddAddress/>}/>
+                <Route path={'/conversations'} element={<Conversations/>}/>
             </Routes>
         </ThemeProvider>
     )

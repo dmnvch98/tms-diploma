@@ -3,6 +3,7 @@ import axios, {AxiosError} from "axios";
 import {ConversationDetailsRequestDto} from "../Components/Conversations/createConversationStore";
 import {Location} from "./AddressService";
 import {ConversationDetails} from "../Components/Profile/Tutor/tutorStore";
+import {Conversation} from "../pages/Conversations/conversationsStore";
 
 export interface TutorCardInfo {
     tutorId: number,
@@ -97,9 +98,21 @@ class ConversationService {
         }
     }
 
-    getTutorConversations = async (tutorId: number)=> {
+    getTutorConversations = async (): Promise<Conversation[]> => {
         try {
-            const response = await axios.get('http://localhost:8080/api/v1/conversations/details/tutor/' + tutorId
+            const response = await axios.get('http://localhost:8080/api/v1/conversations/tutors/'
+                , {
+                    withCredentials: true,
+                });
+            return response.data;
+        } catch (e: unknown) {
+            throw e as AxiosError;
+        }
+    }
+
+    getStudentConversations = async (): Promise<Conversation[]> => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/v1/conversations/students/'
                 , {
                     withCredentials: true,
                 });

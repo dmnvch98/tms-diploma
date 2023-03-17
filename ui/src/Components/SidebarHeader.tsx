@@ -128,7 +128,7 @@ export const SidebarHeader = () => {
         {
             name: 'My conversations',
             icon: <EmojiPeopleIcon/>,
-            redirect: '',
+            redirect: '/conversations',
             visible: true
         }
     ]

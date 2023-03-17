@@ -1,7 +1,7 @@
 import {Box, Tab, Tabs, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {FeedbackCard} from "../../FeedbackCard";
-import {ConversationCard} from "../../Conversations/ConversationCard";
+import {ConversationDetailsCard} from "../../Conversations/ConversationDetailsCard";
 import {useTutorStore} from "./tutorStore";
 
 type Props = {
@@ -75,7 +75,7 @@ export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId}) => {
                 <TabPanel value={value} index={1}>
                     {convDetails.map(cd =>
                         (
-                            <ConversationCard
+                            <ConversationDetailsCard
                                 convDetailsId={cd.convDetailsId}
                                 conversationType={cd.conversationType.description}
                                 price={cd.price}
