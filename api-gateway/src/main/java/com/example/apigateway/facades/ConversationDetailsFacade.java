@@ -76,4 +76,14 @@ public class ConversationDetailsFacade {
                 .build();
         return conversationDetailsService.saveConversation(dto);
     }
+
+    public List<ConversationResponseDto> findAllByStudentId(Long userId) {
+        Long studentId = userService.get(userId).getStudent().getStudentId();
+        return conversationDetailsService.findAllByStudentId(studentId);
+    }
+
+    public List<ConversationResponseDto> findAllByTutorId(Long userId) {
+        Long tutorId = userService.get(userId).getTutor().getTutorId();
+        return conversationDetailsService.findAllByTutorId(tutorId);
+    }
 }

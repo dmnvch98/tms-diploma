@@ -7,6 +7,7 @@ import {MyStudentAvatarSection} from "../../../Components/Profile/Student/MyStud
 import {useAvatarStore} from "../Edit/avatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
+import {LanguageLevel} from "../../SignUp/store/languagesStore";
 
 export const MyStudentProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
@@ -40,7 +41,9 @@ export const MyStudentProfile = () => {
                             <MyStudentAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <StudentInfo/>
+                            <StudentInfo
+                                aboutMe={user?.student.aboutMe as string}
+                                languageLevels={user?.languageLevels as LanguageLevel[]}/>
                         </Grid>
                     </Grid>
                 </Container>

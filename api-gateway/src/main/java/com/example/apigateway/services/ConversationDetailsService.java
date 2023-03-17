@@ -54,7 +54,28 @@ public class ConversationDetailsService {
         try {
             return conversationClient.saveConversation(dto);
         } catch (Exception e) {
-            log.error("An error occurred while booking the conversation with id {}: {}", dto.getConversationDetailsId(), e.getMessage());
+            log.error("An error occurred while booking the conversation with id {}: {}",
+                dto.getConversationDetailsId(), e.getMessage());
+        }
+        return null;
+    }
+
+    public List<ConversationResponseDto> findAllByStudentId(Long studentId) {
+        try {
+            return conversationClient.findAllByStudentId(studentId);
+        } catch (Exception e) {
+            log.error("An error occurred while looking for the conversation for student id {}: {}",
+                studentId, e.getMessage());
+        }
+        return null;
+    }
+
+    public List<ConversationResponseDto> findAllByTutorId(Long tutorId) {
+        try {
+            return conversationClient.findAllByTutorId(tutorId);
+        } catch (Exception e) {
+            log.error("An error occurred while looking for the conversation for tutor id {}: {}",
+                tutorId, e.getMessage());
         }
         return null;
     }

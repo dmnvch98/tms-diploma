@@ -96,6 +96,19 @@ class ConversationService {
             throw e as AxiosError;
         }
     }
+
+    getTutorConversations = async (tutorId: number)=> {
+        try {
+            const response = await axios.get('http://localhost:8080/api/v1/conversations/details/tutor/' + tutorId
+                , {
+                    withCredentials: true,
+                });
+            return response.data;
+        } catch (e: unknown) {
+            throw e as AxiosError;
+        }
+    }
+
 }
 
 export default new ConversationService();

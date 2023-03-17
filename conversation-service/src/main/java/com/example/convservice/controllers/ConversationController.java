@@ -54,4 +54,14 @@ public class ConversationController {
         return conversationDetailsFacade.countFilteredTutorsWithConvDetails(dto);
     }
 
+    @GetMapping("/students/{studentId}")
+    public List<ConversationResponseDto> findAllByStudentId(@PathVariable("studentId") Long studentId) {
+        return conversationFacade.findAllByStudentId(studentId);
+    }
+
+    @GetMapping("/tutors/{tutorId}")
+    public List<ConversationResponseDto> findAllByTutorId(@PathVariable("tutorId") Long tutorId) {
+        return conversationFacade.findAllByTutorId(tutorId);
+    }
+
 }

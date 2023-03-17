@@ -1,12 +1,16 @@
-import {useState} from "react";
-import {useProfileStore} from "../../../pages/Profile/profileStore";
+import React, {useState} from "react";
 import {Box, Container, Rating, Typography} from "@mui/material";
 import {UserProfileTabs} from "../../UserProfileTabs";
-import {LanguageLevelsCurrentProfile} from "../Common/LanguageLevelsCurrentProfile";
+import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
+import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
 
-export const StudentInfo = () => {
+type Props = {
+    aboutMe: string;
+    languageLevels: LanguageLevel[];
+}
+
+export const StudentInfo: React.FC<Props> = ({aboutMe, languageLevels}) => {
     const [showMore, setShowMore] = useState(false);
-    const user = useProfileStore(state => state.loggedInUser);
 
     return (
         <>
@@ -17,16 +21,16 @@ export const StudentInfo = () => {
                         <Typography sx={{mr: 1}}><b>Rate:</b></Typography>
                         <Rating name="read-only" value={4.5} readOnly precision={0.5}/>
                     </Box>
-                    <LanguageLevelsCurrentProfile/>
+                    <LanguageLevelsProfile languageLevels={languageLevels}/>
                     <Box>
                         <Typography sx={{mr: 7, mt: 3}}><b>About me:</b> </Typography>
                         <Typography sx={{mb: 5}}>
                             {showMore
-                                ? user?.student.aboutMe
-                                : user?.student.aboutMe.substring(0, 250)
+                                ? aboutMe?.toString()
+                                : aboutMe?.substring(0, 250)
                             }
 
-                            {user?.student.aboutMe.length as number > 250 ?
+                            {aboutMe?.length as number > 250 ?
                                 <span
                                     onClick={() => setShowMore(state => !state)}
                                     style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>

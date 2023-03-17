@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ConversationFacade {
@@ -26,13 +28,43 @@ public class ConversationFacade {
     public ConversationResponseDto save(ConversationRequestDto dto) {
         Conversation conversation = conversationService
             .save(converter.requestDtoToConversation(dto, conversationInitStatus));
+//
+//        ConversationDetails conversationDetails = conversationDetailsService
+//            .findAllByConvDetailsId(dto.getConversationDetailsId());
+//
+//        LanguageLevelDto languageLevelDto =
+//            languageLevelService.findLanguageLevelByLanguageIdAndLevelId(conversationDetails.getLanguageId(),
+//            conversationDetails.getMinLevelId());
+//
+//        ConversationDetailsResponseDto conversationResponseDto =
+//            converter.conversationDetailsToResponseDto(conversationDetails, languageLevelDto);
 
+        return findAllConversationInfo(conversation);
+    }
+
+    public List<ConversationResponseDto> findAllByStudentId(Long studentId) {
+        return conversationService
+            .findAllByStudentId(studentId)
+            .stream()
+            .map(this::findAllConversationInfo)
+            .toList();
+    }
+
+    public List<ConversationResponseDto> findAllByTutorId(Long tutorId) {
+        return conversationService
+            .findAllByTutorId(tutorId)
+            .stream()
+            .map(this::findAllConversationInfo)
+            .toList();
+    }
+
+    private ConversationResponseDto findAllConversationInfo(Conversation conversation) {
         ConversationDetails conversationDetails = conversationDetailsService
-            .findAllByConvDetailsId(dto.getConversationDetailsId());
+            .findAllByConvDetailsId(conversation.getConversationDetailsId());
 
         LanguageLevelDto languageLevelDto =
             languageLevelService.findLanguageLevelByLanguageIdAndLevelId(conversationDetails.getLanguageId(),
-            conversationDetails.getMinLevelId());
+                conversationDetails.getMinLevelId());
 
         ConversationDetailsResponseDto conversationResponseDto =
             converter.conversationDetailsToResponseDto(conversationDetails, languageLevelDto);

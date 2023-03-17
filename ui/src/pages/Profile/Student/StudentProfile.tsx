@@ -8,10 +8,11 @@ import {StudentInfo} from "../../../Components/Profile/Student/StudentInfo";
 import {useAvatarStore} from "../Edit/avatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
+import {LanguageLevel} from "../../SignUp/store/languagesStore";
 
 export const StudentProfile = () => {
     const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
-    const user = useProfileStore(state => state.loggedInUser);
+    const user = useProfileStore(state => state.lookupUser);
     const getAvatar = useAvatarStore(state => state.getAvatar);
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage);
@@ -43,7 +44,9 @@ export const StudentProfile = () => {
                             <StudentAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <StudentInfo/>
+                            <StudentInfo
+                                aboutMe={user?.student.aboutMe as string}
+                                languageLevels={user?.languageLevels as LanguageLevel[]}/>
                         </Grid>
                     </Grid>
                 </Container>

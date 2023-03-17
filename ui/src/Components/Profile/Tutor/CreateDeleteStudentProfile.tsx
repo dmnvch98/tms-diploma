@@ -1,4 +1,4 @@
-import {Box, Button, Paper} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";
 import {useNotificationStore} from "../../Notifications/notificationStore";

@@ -71,4 +71,18 @@ public class ConversationController {
         return conversationDetailsFacade.saveConversation(convDetailsId, userId);
     }
 
+    @GetMapping("/students")
+    public List<ConversationResponseDto> findAllByStudentId(Authentication authentication) {
+        Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
+
+        return conversationDetailsFacade.findAllByStudentId(userId);
+    }
+
+    @GetMapping("/tutors")
+    public List<ConversationResponseDto> findAllByTutorId(Authentication authentication) {
+        Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
+
+        return conversationDetailsFacade.findAllByTutorId(userId);
+    }
+
 }

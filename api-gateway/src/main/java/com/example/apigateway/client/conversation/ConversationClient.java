@@ -33,4 +33,10 @@ public interface ConversationClient {
 
     @PostMapping("/")
     ConversationResponseDto saveConversation(@RequestBody ConversationRequestDto dto);
+
+    @GetMapping("/students/{studentId}")
+    List<ConversationResponseDto> findAllByStudentId(@PathVariable("studentId") Long studentId);
+
+    @GetMapping("/tutors/{tutorId}")
+    List<ConversationResponseDto> findAllByTutorId(@PathVariable("tutorId") Long tutorId);
 }
