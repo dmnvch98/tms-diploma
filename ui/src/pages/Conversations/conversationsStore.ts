@@ -10,6 +10,8 @@ export interface ConversationStatus {
 export interface Conversation {
     studentId: number,
     status: ConversationStatus,
+    studentLeftFeedback: boolean,
+    tutorLeftFeedback: boolean,
     conversationDetails: ConversationDetails
 }
 

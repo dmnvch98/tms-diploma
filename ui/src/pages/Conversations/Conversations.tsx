@@ -60,6 +60,9 @@ export const Conversations = () => {
             <>
                 {tutorConversations.map(conversation => (
                     <ConversationCard
+                        profileType="tutor"
+                        studentLeftFeedback={conversation.studentLeftFeedback}
+                        tutorLeftFeedback={conversation.tutorLeftFeedback}
                         conversationType={conversation.conversationDetails.conversationType.description}
                         price={conversation.conversationDetails.price}
                         address={conversation.conversationDetails.address}
@@ -79,6 +82,9 @@ export const Conversations = () => {
             <>
                 {studentConversations.map(conversation => (
                     <ConversationCard
+                        profileType="student"
+                        studentLeftFeedback={conversation.studentLeftFeedback}
+                        tutorLeftFeedback={conversation.tutorLeftFeedback}
                         conversationType={conversation.conversationDetails.conversationType.description}
                         price={conversation.conversationDetails.price}
                         address={conversation.conversationDetails.address}

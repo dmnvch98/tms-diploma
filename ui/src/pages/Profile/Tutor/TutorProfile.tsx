@@ -14,7 +14,7 @@ import {LanguageLevel} from "../../SignUp/store/languagesStore";
 
 export const TutorProfile = () => {
     const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
-    const user = useProfileStore(state => state.lookupUser);
+    const lookupUser = useProfileStore(state => state.lookupUser);
     const getAvatar = useAvatarStore(state => state.getAvatar);
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage);
@@ -28,15 +28,15 @@ export const TutorProfile = () => {
     }, []);
 
     useEffect(() => {
-        if (user != null) {
-            getAvatar(user.id).then(result => {
+        if (lookupUser != null) {
+            getAvatar(lookupUser.id).then(result => {
                 if (!result) {
                     setIsErrorOpen(!isErrorOpen)
                     setErrorMessage("An error occurred during avatar fetching");
                 }
             })
         }
-    }, [user])
+    }, [lookupUser])
     const Profile = () => {
         return (
             <>
@@ -49,10 +49,10 @@ export const TutorProfile = () => {
                         </Grid>
                         <Grid item xs={9}>
                             <TutorInfo
-                                tutorId={user?.tutor.tutorId as number}
+                                tutorId={lookupUser?.tutor.tutorId as number}
                                 currentUser={false}
-                                languageLevels={user?.languageLevels as LanguageLevel[]}
-                                aboutMe={user?.tutor?.aboutMe as string}/>
+                                languageLevels={lookupUser?.languageLevels as LanguageLevel[]}
+                                aboutMe={lookupUser?.tutor?.aboutMe as string}/>
                         </Grid>
                     </Grid>
                 </Container>

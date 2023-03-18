@@ -1,10 +1,8 @@
-import {Grid, Paper, Typography} from "@mui/material";
+import {Button, Grid, Paper, Typography} from "@mui/material";
 import React from "react";
-import {useTutorStore} from "../Profile/Tutor/tutorStore";
 import {Address} from "../../pages/Addresses/addressesStore";
 import {LanguageLevel} from "../../pages/SignUp/store/languagesStore";
 import dayjs from "dayjs";
-import {useNotificationStore} from "../Notifications/notificationStore";
 import {ConversationStatus} from "../../pages/Conversations/conversationsStore";
 
 type ConversationProps = {
@@ -17,6 +15,9 @@ type ConversationProps = {
     studentId: number
     tutorId: number
     conversationStatus: ConversationStatus;
+    studentLeftFeedback: boolean;
+    tutorLeftFeedback: boolean;
+    profileType: string;
 }
 
 export const ConversationCard: React.FC<ConversationProps> = ({
@@ -28,20 +29,19 @@ export const ConversationCard: React.FC<ConversationProps> = ({
                                                                   endDate,
                                                                   studentId,
                                                                   tutorId,
-                                                                  conversationStatus
+                                                                  conversationStatus,
+                                                                  tutorLeftFeedback,
+                                                                  studentLeftFeedback,
+                                                                  profileType
                                                               }) => {
     const date1 = dayjs(startDate)
     const date2 = dayjs(endDate);
     const duration = date2.diff(date1, 'm');
-    const bookConversation = useTutorStore(state => state.bookConversation);
 
-    const isNotificationOpen = useNotificationStore(state => state.isOpen);
-    const setMessage = useNotificationStore(state => state.setMessage);
-    const setNotificationOpen = useNotificationStore(state => state.setIsOpen);
-
-    const setNotificationConvIsBooked = () => {
-        setNotificationOpen(!isNotificationOpen);
-        setMessage("Conversation successfully booked!");
+    const displayFeedbackButton = (): boolean => {
+        return profileType == "tutor"
+            ? conversationStatus.convStatusId == 5 && !tutorLeftFeedback
+            : conversationStatus.convStatusId == 5 && !studentLeftFeedback
     }
 
     return (
@@ -84,7 +84,18 @@ export const ConversationCard: React.FC<ConversationProps> = ({
                         {conversationType != 'Online' && (
                             <Typography>{address?.address}</Typography>)}
                     </Grid>
-
+                    <Grid item xs={2} display='flex'
+                          alignItems="flex-end">
+                        <Button
+                            variant='contained'
+                            fullWidth
+                            sx={{
+                                display: displayFeedbackButton() ? "flex" : "none"
+                            }}
+                        >
+                            Leave a feedback
+                        </Button>
+                    </Grid>
                 </Grid>
             </Paper>
         </>

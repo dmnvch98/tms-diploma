@@ -18,4 +18,18 @@ public interface ConversationRepository extends Repository<Conversation, Long> {
         " join conv_details cd on cd.conv_details_id = c.conv_details_id" +
         " where cd.tutor_id=:tutorId")
     List<Conversation> findAllByTutorId(@Param("tutorId") Long tutorId);
+
+    @Query("select c.student_id from conversations c where conv_id=:convId")
+    Long findStudentIdByConversationId(@Param("convId") Long convId);
+
+    @Query("select cd.tutor_id from conversations c " +
+        "join conv_details cd on cd.conv_details_id = c.conv_details_id " +
+        "where c.conv_id=:convId")
+    Long findTutorIdByConversationId(@Param("convId") Long convId);
+
+    @Query("select cd.language_id " +
+        "from conversations c " +
+        "join conv_details cd on cd.conv_details_id = c.conv_details_id " +
+        "where c.conv_id=:convId")
+    Long findLanguageIdByConversationId(@Param("convId") Long convId);
 }

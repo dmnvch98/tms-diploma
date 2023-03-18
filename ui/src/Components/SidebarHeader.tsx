@@ -16,6 +16,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import PublicIcon from '@mui/icons-material/Public';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
@@ -23,7 +24,7 @@ import {Button, Grid} from "@mui/material";
 import {useProfileStore} from "../pages/Profile/profileStore";
 import Link from "@mui/material/Link";
 
-const drawerWidth = 320;
+const drawerWidth = 250;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
@@ -121,7 +122,7 @@ export const SidebarHeader = () => {
         },
         {
             name: 'My Tutor Profile',
-            icon: <AccountCircleIcon/>,
+            icon: <LocalLibraryIcon/>,
             redirect: '/my-tutor-profile',
             visible: user?.tutor != null
         },
@@ -184,33 +185,29 @@ export const SidebarHeader = () => {
                 <Divider/>
                 <List>
                     {tabs.map((t) => (
-                        <ListItem key={t.name} disablePadding sx={{display: 'block'}}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                    mb: 2,
-                                    display: t.visible ? "flex" : "none"
-                                }}
-                            >
-                                <ListItemIcon
+                        <Link href={t.redirect} underline='none' color="inherit">
+                            <ListItem key={t.name} disablePadding sx={{display: 'block'}}>
+                                <ListItemButton
                                     sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                        mb: 2,
+                                        display: t.visible ? "flex" : "none"
                                     }}
                                 >
-                                    <Link href={t.redirect} underline='none' color="inherit">
-                                        <Button color='inherit'>
-                                            {t.icon}
-                                        </Button>
-                                    </Link>
-
-                                </ListItemIcon>
-                                <ListItemText primary={t.name} sx={{opacity: open ? 1 : 0}}/>
-                            </ListItemButton>
-                        </ListItem>
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}
+                                    >{t.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={t.name} sx={{opacity: open ? 1 : 0}}/>
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                     ))}
                 </List>
             </Drawer>

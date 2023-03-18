@@ -12,6 +12,8 @@ public class ConversationResponseDto {
     Long id;
     ConversationStatus status;
     Long studentId;
+    Boolean studentLeftFeedback;
+    Boolean tutorLeftFeedback;
     ConversationDetailsResponseDto conversationDetails;
 
 }

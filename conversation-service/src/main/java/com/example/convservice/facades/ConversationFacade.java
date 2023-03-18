@@ -28,16 +28,6 @@ public class ConversationFacade {
     public ConversationResponseDto save(ConversationRequestDto dto) {
         Conversation conversation = conversationService
             .save(converter.requestDtoToConversation(dto, conversationInitStatus));
-//
-//        ConversationDetails conversationDetails = conversationDetailsService
-//            .findAllByConvDetailsId(dto.getConversationDetailsId());
-//
-//        LanguageLevelDto languageLevelDto =
-//            languageLevelService.findLanguageLevelByLanguageIdAndLevelId(conversationDetails.getLanguageId(),
-//            conversationDetails.getMinLevelId());
-//
-//        ConversationDetailsResponseDto conversationResponseDto =
-//            converter.conversationDetailsToResponseDto(conversationDetails, languageLevelDto);
 
         return findAllConversationInfo(conversation);
     }
