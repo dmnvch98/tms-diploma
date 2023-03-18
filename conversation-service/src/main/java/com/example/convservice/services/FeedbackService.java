@@ -32,4 +32,12 @@ public class FeedbackService {
     public List<Feedback> findFeedbacksAboutStudent(Long studentId) {
         return feedbackRepository.findFeedbacksAboutStudent(studentId);
     }
+
+    public Double findAvgRateForTutor(Long tutorId) {
+        return feedbackRepository.findAvgRateForTutor(tutorId);
+    }
+
+    public Double findAvgRateForStudent(Long studentId) {
+        return feedbackRepository.findAvgRateForStudent(studentId);
+    }
 }

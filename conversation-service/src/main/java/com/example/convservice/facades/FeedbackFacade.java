@@ -68,4 +68,12 @@ public class FeedbackFacade {
                         .findLanguageIdByConversationId(feedback.getConversationId())))
             .toList();
     }
+
+    public Double findAvgRateForTutor(Long tutorId) {
+        return feedbackService.findAvgRateForTutor(tutorId);
+    }
+
+    public Double findAvgRateForStudent(Long studentId) {
+        return feedbackService.findAvgRateForStudent(studentId);
+    }
 }

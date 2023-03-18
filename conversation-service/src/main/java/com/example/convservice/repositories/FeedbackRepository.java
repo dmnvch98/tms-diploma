@@ -15,16 +15,16 @@ public interface FeedbackRepository extends Repository<Feedback, Long> {
         "VALUES (:convId, :studentFeedback, :studentRate) ON CONFLICT(conversation_id) " +
         " DO UPDATE SET student_feedback=:studentFeedback, student_rate=:studentRate")
     Integer saveStudentFeedback(@Param("convId") Long convId,
-                                 @Param("studentFeedback") String studentFeedback,
-                                 @Param("studentRate") Integer studentRate);
+                                @Param("studentFeedback") String studentFeedback,
+                                @Param("studentRate") Integer studentRate);
 
     @Modifying
     @Query("INSERT INTO feedbacks (conversation_id, tutor_feedback, tutor_rate) " +
         "VALUES (:convId, :tutorFeedback, :tutorRate) ON CONFLICT(conversation_id) " +
         "DO UPDATE SET tutor_feedback=:tutorFeedback, tutor_rate=:tutorRate")
     Integer saveTutorFeedback(@Param("convId") Long convId,
-                         @Param("tutorFeedback") String tutorFeedback,
-                         @Param("tutorRate") Integer tutorRate);
+                              @Param("tutorFeedback") String tutorFeedback,
+                              @Param("tutorRate") Integer tutorRate);
 
     Feedback findAllByConversationId(Long conversationId);
 
@@ -39,5 +39,16 @@ public interface FeedbackRepository extends Repository<Feedback, Long> {
         "join conv_details cd on cd.conv_details_id = c.conv_details_id " +
         "where c.student_id=:studentId")
     List<Feedback> findFeedbacksAboutStudent(@Param("studentId") Long studentId);
+
+    @Query("select avg(student_rate) from feedbacks " +
+        "join conversations c on c.conv_id = feedbacks.conversation_id " +
+        "join conv_details cd on cd.conv_details_id = c.conv_details_id " +
+        "where tutor_id=:tutorId")
+    Double findAvgRateForTutor(@Param("tutorId") Long tutorId);
+
+    @Query("select avg(tutor_rate) from feedbacks " +
+        "join conversations c on c.conv_id = feedbacks.conversation_id " +
+        "where student_id=:studentId")
+    Double findAvgRateForStudent(@Param("studentId") Long studentId);
 
 }

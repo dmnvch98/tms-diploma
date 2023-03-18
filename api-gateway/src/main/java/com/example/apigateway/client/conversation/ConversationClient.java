@@ -39,4 +39,12 @@ public interface ConversationClient {
 
     @GetMapping("/tutors/{tutorId}")
     List<ConversationResponseDto> findAllByTutorId(@PathVariable("tutorId") Long tutorId);
+
+    @GetMapping("/{convId}/student/{studentId}/exists")
+    Boolean countAllByConvIdAndStudentId(@PathVariable("convId") Long convId,
+                                         @PathVariable("studentId") Long studentId);
+
+    @GetMapping("/{convId}/tutor/{tutorId}/exists")
+    Boolean countAllByConvIdAndTutorId(@PathVariable("convId") Long convId,
+                                                      @PathVariable("tutorId") Long tutorId);
 }

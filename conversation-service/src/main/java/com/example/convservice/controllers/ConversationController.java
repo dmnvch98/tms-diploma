@@ -64,4 +64,16 @@ public class ConversationController {
         return conversationFacade.findAllByTutorId(tutorId);
     }
 
+    @GetMapping("/{convId}/student/{studentId}/exists")
+    public Boolean countAllByConvIdAndStudentId(@PathVariable("convId") Long convId,
+                                                @PathVariable("studentId") Long studentId) {
+        return conversationFacade.countAllByConvIdAndStudentId(convId, studentId);
+    }
+
+    @GetMapping("/{convId}/tutor/{tutorId}/exists")
+    public Boolean countAllByConvIdAndTutorId(@PathVariable("convId") Long convId,
+                                                             @PathVariable("tutorId") Long tutorId) {
+        return conversationFacade.countAllByConvIdAndTutorId(convId, tutorId);
+    }
+
 }

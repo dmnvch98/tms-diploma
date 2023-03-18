@@ -61,4 +61,12 @@ public class ConversationFacade {
 
         return converter.conversationToResponseDto(conversation, conversationResponseDto);
     }
+
+    public Boolean countAllByConvIdAndStudentId(Long convId, Long studentId) {
+        return conversationService.countAllByConvIdAndStudentId(convId, studentId);
+    }
+
+    public Boolean countAllByConvIdAndTutorId(Long convId, Long tutorId) {
+        return conversationService.countAllByConvIdAndTutorId(convId, tutorId);
+    }
 }

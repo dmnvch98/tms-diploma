@@ -19,12 +19,12 @@ public class FeedbackController {
     private final FeedbackFacade feedbackFacade;
 
     @PostMapping("/tutor")
-    public Feedback saveTutorFeedback(@RequestBody FeedbackAboutStudentRequestDto dto) {
+    public Feedback saveFeedbackAboutStudent(@RequestBody FeedbackAboutStudentRequestDto dto) {
         return feedbackFacade.saveTutorFeedback(dto);
     }
 
     @PostMapping("/student")
-    public Feedback saveStudentFeedback(@RequestBody FeedbackAboutTutorRequestDto dto) {
+    public Feedback saveFeedbackAboutTutor(@RequestBody FeedbackAboutTutorRequestDto dto) {
         return feedbackFacade.saveStudentFeedback(dto);
     }
 
@@ -36,5 +36,15 @@ public class FeedbackController {
     @GetMapping("/student/{studentId}")
     public List<FeedbackAboutStudentResponseDto> findFeedbacksAboutStudent(@PathVariable("studentId") Long studentId) {
         return feedbackFacade.findFeedbacksAboutStudent(studentId);
+    }
+
+    @GetMapping("/tutor/{tutorId}/rate")
+    public Double findAvgRateForTutor(@PathVariable("tutorId") Long tutorId) {
+        return feedbackFacade.findAvgRateForTutor(tutorId);
+    }
+
+    @GetMapping("/student/{studentId}/rate")
+    public Double findAvgRateForStudent(@PathVariable("studentId") Long studentId) {
+        return feedbackFacade.findAvgRateForStudent(studentId);
     }
 }
