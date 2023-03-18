@@ -19,14 +19,14 @@ public class FeedbackController {
     private final FeedbackFacade feedbackFacade;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/student")
+    @PutMapping("/student")
     public Feedback saveFeedbackAboutStudent(@RequestBody FeedbackAboutStudentRequestDto dto, Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         return feedbackFacade.saveFeedbackAboutStudent(dto, userId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/tutor")
+    @PutMapping("/tutor")
     public Feedback saveFeedbackAboutTutor(@RequestBody FeedbackAboutTutorRequestDto dto, Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         return feedbackFacade.saveFeedbackAboutTutor(dto, userId);

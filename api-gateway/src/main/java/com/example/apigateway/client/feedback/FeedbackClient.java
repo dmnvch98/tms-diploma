@@ -6,20 +6,17 @@ import com.example.apigateway.dto.FeedbackAboutTutorRequestDto;
 import com.example.apigateway.dto.FeedbackAboutTutorResponseDto;
 import com.example.apigateway.model.Feedback;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @FeignClient(name = "conversation-service-feedbacks",
     url = "${services.conversation.url}/api/v1/feedbacks")
 public interface FeedbackClient {
-    @PostMapping("/tutor")
+    @PutMapping("/tutor")
     Feedback saveFeedbackAboutStudent(@RequestBody FeedbackAboutStudentRequestDto dto);
 
-    @PostMapping("/student")
+    @PutMapping("/student")
     Feedback saveFeedbackAboutTutor(@RequestBody FeedbackAboutTutorRequestDto dto);
 
     @GetMapping("/tutor/{tutorId}")

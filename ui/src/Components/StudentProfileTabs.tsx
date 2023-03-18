@@ -1,8 +1,21 @@
 import {Box, Tab, Tabs, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {useFeedbackStore} from "./Profile/Common/feedbackStore";
 import {FeedbackCard} from "./Feedbacks/FeedbackCard";
-import React, {useState} from "react";
 
-export const UserProfileTabs = () => {
+type Props = {
+    studentId: number;
+}
+
+export const StudentProfileTabs: React.FC<Props> = ({studentId}) => {
+    const feedbacksAboutStudent = useFeedbackStore(state => state.feedbacksAboutStudent);
+    const getFeedbacksAboutStudent = useFeedbackStore(state => state.getFeedbacksAboutStudent);
+
+    useEffect(() => {
+        if (studentId) {
+            getFeedbacksAboutStudent(studentId);
+        }
+    }, [])
     interface TabPanelProps {
         children?: React.ReactNode;
         index: number;
@@ -52,10 +65,21 @@ export const UserProfileTabs = () => {
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    {/*<FeedbackCard/>*/}
-                    {/*<FeedbackCard/>*/}
-                    {/*<FeedbackCard/>*/}
-                    {/*<FeedbackCard/>*/}
+                    {feedbacksAboutStudent.map(feedback => (
+                        <Box key={feedback.feedbackId}>
+                            <FeedbackCard
+                                feedbackId={feedback.feedbackId}
+                                firstName={feedback.firstName}
+                                lastName={feedback.lastName}
+                                tutorId={feedback.tutorId}
+                                studentId={feedback.studentId}
+                                rate={feedback.rate}
+                                feedback={feedback.feedback}
+                                languageDescription={feedback.languageDescription}
+                                userAvatarUrl={feedback.userAvatarUrl}
+                            />
+                        </Box>
+                    ))}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Typography variant="h5">Video not uploaded</Typography>

@@ -104,7 +104,6 @@ export const ConversationCard: React.FC<ConversationProps> = ({
                                 setLeaveFeedBackModalOpen(!leaveFeedBackModalOpen);
                                 setConversationId(convId);
                                 setProfileType(profileType);
-                                console.log(profileType);
                             }}
                         >
                             Leave a feedback

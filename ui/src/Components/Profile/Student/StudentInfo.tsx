@@ -1,15 +1,16 @@
 import React, {useState} from "react";
 import {Box, Button, Container, Rating, Typography} from "@mui/material";
-import {UserProfileTabs} from "../../UserProfileTabs";
+import {StudentProfileTabs} from "../../StudentProfileTabs";
 import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
 import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
 
 type Props = {
     aboutMe: string;
     languageLevels: LanguageLevel[];
+    studentId: number
 }
 
-export const StudentInfo: React.FC<Props> = ({aboutMe, languageLevels}) => {
+export const StudentInfo: React.FC<Props> = ({aboutMe, languageLevels, studentId}) => {
     const [showMore, setShowMore] = useState(false);
 
     return (
@@ -38,7 +39,7 @@ export const StudentInfo: React.FC<Props> = ({aboutMe, languageLevels}) => {
                             )}
                         </Typography>
                     </Box>
-                    <UserProfileTabs/>
+                    <StudentProfileTabs studentId={studentId}/>
                 </Box>
             </Container>
         </>

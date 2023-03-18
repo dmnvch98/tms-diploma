@@ -63,10 +63,20 @@ export const FeedbackCard: React.FC<FeedbackCardData> = ({
                                 </Box>
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                {showMore ? feedback?.toString() : `${feedback?.substring(0, 200) + '...'}`}
+                                {showMore ? feedback?.toString() :
+                                    feedback.length > 200
+                                        ? `${feedback?.substring(0, 200).concat('...')}`
+                                        : feedback?.toString()
+                                }
 
                                 {feedback.length > 200 && (
                                     <Button
+                                        sx={{
+                                            display: 'inline-block',
+                                            padding: 0,
+                                            minHeight: 0,
+                                            minWidth: 0
+                                        }}
                                         onClick={() => setShowMore(state => !state)}>
                                         {showMore ? "Show less" : "Show more"}
                                     </Button>

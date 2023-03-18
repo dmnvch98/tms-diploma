@@ -3,6 +3,9 @@ package com.example.convservice.services;
 import com.example.convservice.model.Conversation;
 import com.example.convservice.repositories.ConversationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.relational.core.sql.In;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +47,14 @@ public class ConversationService {
 
     public Boolean countAllByConvIdAndTutorId(Long convId, Long tutorId) {
         return conversationRepository.countAllByConvIdAndTutorId(convId, tutorId) == 1;
+    }
+
+    public Integer updateStudentLeftFeedbackFlag(Long convId) {
+        return conversationRepository.updateStudentLeftFeedbackFlag(convId);
+    }
+
+
+    public Integer updateTutorLeftFeedbackFlag(Long convId) {
+        return conversationRepository.updateTutorLeftFeedbackFlag(convId);
     }
 }

@@ -14,17 +14,17 @@ public interface FeedbackRepository extends Repository<Feedback, Long> {
     @Query("INSERT INTO feedbacks (conversation_id, student_feedback, student_rate) " +
         "VALUES (:convId, :studentFeedback, :studentRate) ON CONFLICT(conversation_id) " +
         " DO UPDATE SET student_feedback=:studentFeedback, student_rate=:studentRate")
-    Integer saveStudentFeedback(@Param("convId") Long convId,
-                                @Param("studentFeedback") String studentFeedback,
-                                @Param("studentRate") Integer studentRate);
+    Integer saveFeedbackAboutTutor(@Param("convId") Long convId,
+                                   @Param("studentFeedback") String studentFeedback,
+                                   @Param("studentRate") Integer studentRate);
 
     @Modifying
     @Query("INSERT INTO feedbacks (conversation_id, tutor_feedback, tutor_rate) " +
         "VALUES (:convId, :tutorFeedback, :tutorRate) ON CONFLICT(conversation_id) " +
         "DO UPDATE SET tutor_feedback=:tutorFeedback, tutor_rate=:tutorRate")
-    Integer saveTutorFeedback(@Param("convId") Long convId,
-                              @Param("tutorFeedback") String tutorFeedback,
-                              @Param("tutorRate") Integer tutorRate);
+    Integer saveFeedbackAboutStudent(@Param("convId") Long convId,
+                                     @Param("tutorFeedback") String tutorFeedback,
+                                     @Param("tutorRate") Integer tutorRate);
 
     Feedback findAllByConversationId(Long conversationId);
 

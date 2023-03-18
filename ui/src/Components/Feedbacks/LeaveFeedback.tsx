@@ -23,9 +23,9 @@ export const LeaveFeedback = () => {
         saveFeedback().then(result => {
             if (result) {
                 setNotificationFeedbackIsSaved();
+                window.location.reload();
             }
         });
-
     }
 
 

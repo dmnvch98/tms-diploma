@@ -47,7 +47,7 @@ class FeedbackService {
 
     saveFeedbackAboutStudent = async (dto: FeedbackAboutStudentRequestDto) => {
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/feedbacks/student/',
+            const response = await axios.put('http://localhost:8080/api/v1/feedbacks/student/',
                 dto, {withCredentials: true});
             return response.status == 201;
         } catch (e: unknown) {
@@ -57,7 +57,7 @@ class FeedbackService {
 
     saveFeedbackAboutTutor = async (dto: FeedbackAboutTutorRequestDto) => {
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/feedbacks/tutor/',
+            const response = await axios.put('http://localhost:8080/api/v1/feedbacks/tutor/',
                 dto, {withCredentials: true});
             return response.status == 201;
         } catch (e: unknown) {

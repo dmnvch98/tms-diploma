@@ -1,10 +1,9 @@
 import {useConversationsStore} from "./conversationsStore";
 import React, {useEffect, useState} from "react";
 import {ConversationCard} from "../../Components/Conversations/ConversationCard";
-import {Box, Container, Modal, Tab, Tabs, Typography} from "@mui/material";
+import {Box, Button, Container, Modal, Rating, Tab, Tabs, TextField, Typography} from "@mui/material";
 import {SidebarHeader} from "../../Components/SidebarHeader";
 import {useFeedbackStore} from "../../Components/Profile/Common/feedbackStore";
-import {LeaveFeedback} from "../../Components/Feedbacks/LeaveFeedback";
 import {Notification} from "../../Components/Notifications/Notification";
 import {useNotificationStore} from "../../Components/Notifications/notificationStore";
 
@@ -17,16 +16,11 @@ export const Conversations = () => {
     const leaveFeedBackModalOpen = useFeedbackStore(state => state.leaveFeedBackModalOpen);
     const setLeaveFeedBackModalOpen = useFeedbackStore(state => state.setLeaveFeedBackModalOpen);
     const isNotificationOpen = useNotificationStore(state => state.isOpen);
-    const message = useNotificationStore(state => state.message);
 
     useEffect(() => {
         getStudentConversations();
         getTutorConversations();
     }, [])
-
-    useEffect(() => {
-        console.log(message)
-    }, [isNotificationOpen])
 
     const style = {
         position: 'absolute' as 'absolute',
@@ -39,6 +33,7 @@ export const Conversations = () => {
         boxShadow: 24,
         p: 4,
     };
+
 
     interface TabPanelProps {
         children?: React.ReactNode;
@@ -80,7 +75,6 @@ export const Conversations = () => {
     }
 
     const TutorConversation = () => {
-
         return (
             <>
                 {tutorConversations.map(conversation => (
@@ -122,6 +116,76 @@ export const Conversations = () => {
                         tutorId={conversation.conversationDetails.tutorId}
                         conversationStatus={conversation.status}/>
                 ))}
+            </>
+        )
+    }
+
+    const LeaveFeedback = () => {
+        const rate = useFeedbackStore(state => state.rate);
+        const feedback = useFeedbackStore(state => state.feedback);
+        const setRate = useFeedbackStore(state => state.setRate);
+        const setFeedback = useFeedbackStore(state => state.setFeedback);
+        const saveFeedback = useFeedbackStore(state => state.saveFeedback);
+
+        const isNotificationOpen = useNotificationStore(state => state.isOpen);
+        const setMessage = useNotificationStore(state => state.setMessage);
+        const setNotificationOpen = useNotificationStore(state => state.setIsOpen);
+
+        const setNotificationFeedbackIsSaved = () => {
+            setNotificationOpen(!isNotificationOpen);
+            setMessage("Feedback successfully saved");
+        }
+
+        const handleSaveFeedback = () => {
+            saveFeedback().then(result => {
+                if (result) {
+                    setNotificationFeedbackIsSaved();
+                    getStudentConversations();
+                    getTutorConversations();
+                }
+            });
+        }
+
+        return (
+            <>
+                <Box>
+                    <Box display='flex'>
+                        <Typography variant='h6' sx={{mr: 4}}>
+                            Rating
+                        </Typography>
+                        <Rating
+                            size='large'
+                            name="simple-controlled"
+                            value={rate}
+                            onChange={(event, rate) => {
+                                setRate(rate as number);
+                            }}
+                        />
+                    </Box>
+                    <TextField
+                        id="outlined-multiline-flexible"
+                        label="Your impressions"
+                        minRows={5}
+                        multiline
+                        sx={{mt: 2}}
+                        maxRows={10}
+                        value={feedback}
+                        fullWidth
+                        onChange={(e) => {
+                            setFeedback(e.target.value)
+                        }}
+                    />
+                    <Box display='flex' justifyContent='flex-end' sx={{mt: 2}}>
+                        <Button
+                            variant='contained'
+                            onClick={handleSaveFeedback}
+                            sx={{width: '35%'}}>
+                            Submit
+                        </Button>
+                    </Box>
+
+                </Box>
+
             </>
         )
     }

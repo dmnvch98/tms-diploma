@@ -1,6 +1,7 @@
 package com.example.convservice.repositories;
 
 import com.example.convservice.model.Conversation;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -39,4 +40,12 @@ public interface ConversationRepository extends Repository<Conversation, Long> {
         "join conversations c on cd.conv_details_id = c.conv_details_id " +
         "where tutor_id=:tutorId and c.conv_id=:convId")
     Integer countAllByConvIdAndTutorId(@Param("convId") Long convId, @Param("tutorId") Long tutorId);
+
+    @Modifying
+    @Query("UPDATE conversations set student_left_feedback = true where conv_id=:convId")
+    Integer updateStudentLeftFeedbackFlag(@Param("convId") Long convId);
+
+    @Modifying
+    @Query("UPDATE conversations set tutor_left_feedback = true where conv_id=:convId")
+    Integer updateTutorLeftFeedbackFlag(@Param("convId") Long convId);
 }

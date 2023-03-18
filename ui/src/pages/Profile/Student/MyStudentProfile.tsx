@@ -42,6 +42,7 @@ export const MyStudentProfile = () => {
                         </Grid>
                         <Grid item xs={9}>
                             <StudentInfo
+                                studentId={user?.student.studentId as number}
                                 aboutMe={user?.student.aboutMe as string}
                                 languageLevels={user?.languageLevels as LanguageLevel[]}/>
                         </Grid>

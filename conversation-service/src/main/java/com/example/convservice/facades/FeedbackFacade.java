@@ -21,20 +21,26 @@ public class FeedbackFacade {
     private final FeedbackConverter feedbackConverter;
     private final ConversationService conversationService;
 
-    public Feedback saveTutorFeedback(FeedbackAboutStudentRequestDto dto) {
-        Integer updatedRowsCount =
-            feedbackService.saveTutorFeedback(dto.getConversationId(), dto.getTutorFeedback(), dto.getTutorRate());
+    public Feedback saveFeedbackAboutStudent(FeedbackAboutStudentRequestDto dto) {
+        Integer updatedFeedbacksRowsCount =
+            feedbackService.saveFeedbackAboutStudent(dto.getConversationId(), dto.getTutorFeedback(), dto.getTutorRate());
 
-        return updatedRowsCount == 1
+        Integer updatedConversationRowsCount =
+            conversationService.updateTutorLeftFeedbackFlag(dto.getConversationId());
+
+        return updatedFeedbacksRowsCount == 1 && updatedConversationRowsCount == 1
             ? feedbackService.findAllByConversationId(dto.getConversationId())
             : null;
     }
 
-    public Feedback saveStudentFeedback(FeedbackAboutTutorRequestDto dto) {
+    public Feedback saveFeedbackAboutTutor(FeedbackAboutTutorRequestDto dto) {
         Integer updatedRowsCount =
-            feedbackService.saveStudentFeedback(dto.getConversationId(), dto.getStudentFeedback(), dto.getStudentRate());
+            feedbackService.saveFeedbackAboutTutor(dto.getConversationId(), dto.getStudentFeedback(), dto.getStudentRate());
 
-        return updatedRowsCount == 1
+        Integer updatedConversationRowsCount =
+            conversationService.updateStudentLeftFeedbackFlag(dto.getConversationId());
+
+        return updatedRowsCount == 1 && updatedConversationRowsCount == 1
             ? feedbackService.findAllByConversationId(dto.getConversationId())
             : null;
     }

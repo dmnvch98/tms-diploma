@@ -20,15 +20,15 @@ public class FeedbackController {
     private final FeedbackFacade feedbackFacade;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/tutor")
+    @PutMapping("/tutor")
     public Feedback saveFeedbackAboutStudent(@RequestBody FeedbackAboutStudentRequestDto dto) {
-        return feedbackFacade.saveTutorFeedback(dto);
+        return feedbackFacade.saveFeedbackAboutStudent(dto);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/student")
+    @PutMapping("/student")
     public Feedback saveFeedbackAboutTutor(@RequestBody FeedbackAboutTutorRequestDto dto) {
-        return feedbackFacade.saveStudentFeedback(dto);
+        return feedbackFacade.saveFeedbackAboutTutor(dto);
     }
 
     @GetMapping("/tutor/{tutorId}")

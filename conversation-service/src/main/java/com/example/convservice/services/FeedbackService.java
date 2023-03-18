@@ -13,12 +13,12 @@ public class FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
 
-    public Integer saveTutorFeedback(Long convId, String tutorFeedback, Integer tutorRate) {
-        return feedbackRepository.saveTutorFeedback(convId, tutorFeedback, tutorRate);
+    public Integer saveFeedbackAboutStudent(Long convId, String tutorFeedback, Integer tutorRate) {
+        return feedbackRepository.saveFeedbackAboutStudent(convId, tutorFeedback, tutorRate);
     }
 
-    public Integer saveStudentFeedback(Long convId, String studentFeedback, Integer studentRate) {
-        return feedbackRepository.saveStudentFeedback(convId, studentFeedback, studentRate);
+    public Integer saveFeedbackAboutTutor(Long convId, String studentFeedback, Integer studentRate) {
+        return feedbackRepository.saveFeedbackAboutTutor(convId, studentFeedback, studentRate);
     }
 
     public Feedback findAllByConversationId(Long findAllByConversationId) {
