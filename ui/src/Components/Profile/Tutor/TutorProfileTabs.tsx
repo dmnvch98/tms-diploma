@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {FeedbackCard} from "../../FeedbackCard";
 import {ConversationDetailsCard} from "../../Conversations/ConversationDetailsCard";
 import {useTutorStore} from "./tutorStore";
+import {useFeedbackStore} from "../Common/feedbackStore";
 
 type Props = {
     currentUser: boolean;
@@ -11,10 +12,13 @@ type Props = {
 export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId}) => {
     const getTutorNotBookedConversationDetails = useTutorStore(state => state.getTutorNotBookedConversationDetails);
     const convDetails = useTutorStore(state => state.convDetails);
+    const feedbacksAboutTutor = useFeedbackStore(state => state.feedbacksAboutTutor);
+    const getFeedbacksAboutTutor = useFeedbackStore(state => state.getFeedbacksAboutTutor);
 
     useEffect(() => {
         if (tutorId) {
             getTutorNotBookedConversationDetails(tutorId);
+            getFeedbacksAboutTutor(tutorId);
         }
     }, [])
 
@@ -67,12 +71,24 @@ export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId}) => {
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    <FeedbackCard/>
-                    <FeedbackCard/>
-                    <FeedbackCard/>
-                    <FeedbackCard/>
+                    {feedbacksAboutTutor.map(feedback => (
+                        <Box key={feedback.feedbackId}>
+                            <FeedbackCard
+                                feedbackId={feedback.feedbackId}
+                                firstName={feedback.firstName}
+                                lastName={feedback.lastName}
+                                tutorId={feedback.tutorId}
+                                studentId={feedback.studentId}
+                                rate={feedback.rate}
+                                feedback={feedback.feedback}
+                                languageDescription={feedback.languageDescription}
+                                userAvatarUrl={feedback.userAvatarUrl}
+                            />
+                        </Box>
+                    ))}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
+
                     {convDetails.map(cd =>
                         (
                             <ConversationDetailsCard

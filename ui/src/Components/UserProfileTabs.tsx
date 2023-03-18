@@ -52,10 +52,10 @@ export const UserProfileTabs = () => {
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    <FeedbackCard/>
-                    <FeedbackCard/>
-                    <FeedbackCard/>
-                    <FeedbackCard/>
+                    {/*<FeedbackCard/>*/}
+                    {/*<FeedbackCard/>*/}
+                    {/*<FeedbackCard/>*/}
+                    {/*<FeedbackCard/>*/}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Typography variant="h5">Video not uploaded</Typography>
