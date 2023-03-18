@@ -3,6 +3,7 @@ package com.example.userservice.facades;
 import com.example.userservice.converters.LanguageLevelConverter;
 import com.example.userservice.converters.UserConverter;
 import com.example.userservice.dto.*;
+import com.example.userservice.model.Language;
 import com.example.userservice.model.User;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.services.LanguageLevelService;

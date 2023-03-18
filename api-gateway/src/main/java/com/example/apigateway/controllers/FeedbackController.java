@@ -1,10 +1,7 @@
 package com.example.apigateway.controllers;
 
 import com.example.apigateway.config.security.service.PrincipalUser;
-import com.example.apigateway.dto.FeedbackAboutStudentRequestDto;
-import com.example.apigateway.dto.FeedbackAboutStudentResponseDto;
-import com.example.apigateway.dto.FeedbackAboutTutorRequestDto;
-import com.example.apigateway.dto.FeedbackAboutTutorResponseDto;
+import com.example.apigateway.dto.*;
 import com.example.apigateway.facades.FeedbackFacade;
 import com.example.apigateway.model.Feedback;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +30,12 @@ public class FeedbackController {
     }
 
     @GetMapping("/tutor/{tutorId}")
-    public List<FeedbackAboutTutorResponseDto> findFeedbacksAboutTutor(@PathVariable("tutorId") Long tutorId) {
+    public List<FeedbackCardInfoDto> findFeedbacksAboutTutor(@PathVariable("tutorId") Long tutorId) {
         return feedbackFacade.findFeedbacksAboutTutor(tutorId);
     }
 
     @GetMapping("/student/{studentId}")
-    public List<FeedbackAboutStudentResponseDto> findFeedbacksAboutStudent(@PathVariable("studentId") Long studentId) {
+    public List<FeedbackCardInfoDto> findFeedbacksAboutStudent(@PathVariable("studentId") Long studentId) {
         return feedbackFacade.findFeedbacksAboutStudent(studentId);
     }
 }

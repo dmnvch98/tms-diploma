@@ -8,6 +8,7 @@ import lombok.extern.jackson.Jacksonized;
 @Value
 @Jacksonized
 public class FeedbackAboutStudentResponseDto {
+    Long feedbackId;
     Long tutorId;
     Integer tutorRate;
     String tutorFeedback;

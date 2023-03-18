@@ -75,4 +75,8 @@ public class LanguageLevelService {
         return userLanguageLevelRepository.findAllByUserId(userId);
     }
 
+    public Language findAllByLanguageId(Long languageId) {
+        return languageRepository.findAllByLanguageId(languageId);
+    }
+
 }

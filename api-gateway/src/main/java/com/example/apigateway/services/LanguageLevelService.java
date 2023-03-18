@@ -22,4 +22,8 @@ public class LanguageLevelService {
     public List<Level> getAllLevels() {
         return levelClient.getAllLevels();
     }
+
+    public Language findAllByLanguageId(Long languageId) {
+        return languageClient.findAllByLanguageId(languageId);
+    }
 }
