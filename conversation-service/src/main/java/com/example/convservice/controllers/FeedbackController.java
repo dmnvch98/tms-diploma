@@ -7,6 +7,7 @@ import com.example.convservice.dto.FeedbackAboutTutorResponseDto;
 import com.example.convservice.facades.FeedbackFacade;
 import com.example.convservice.model.Feedback;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +19,13 @@ public class FeedbackController {
 
     private final FeedbackFacade feedbackFacade;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/tutor")
     public Feedback saveFeedbackAboutStudent(@RequestBody FeedbackAboutStudentRequestDto dto) {
         return feedbackFacade.saveTutorFeedback(dto);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/student")
     public Feedback saveFeedbackAboutTutor(@RequestBody FeedbackAboutTutorRequestDto dto) {
         return feedbackFacade.saveStudentFeedback(dto);

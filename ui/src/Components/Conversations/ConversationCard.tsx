@@ -4,8 +4,10 @@ import {Address} from "../../pages/Addresses/addressesStore";
 import {LanguageLevel} from "../../pages/SignUp/store/languagesStore";
 import dayjs from "dayjs";
 import {ConversationStatus} from "../../pages/Conversations/conversationsStore";
+import {useFeedbackStore} from "../Profile/Common/feedbackStore";
 
 type ConversationProps = {
+    convId: number
     conversationType: string
     price: number,
     address: Address
@@ -21,6 +23,7 @@ type ConversationProps = {
 }
 
 export const ConversationCard: React.FC<ConversationProps> = ({
+                                                                  convId,
                                                                   conversationType,
                                                                   price,
                                                                   address,
@@ -34,6 +37,11 @@ export const ConversationCard: React.FC<ConversationProps> = ({
                                                                   studentLeftFeedback,
                                                                   profileType
                                                               }) => {
+    const leaveFeedBackModalOpen = useFeedbackStore(state => state.leaveFeedBackModalOpen);
+    const setLeaveFeedBackModalOpen = useFeedbackStore(state => state.setLeaveFeedBackModalOpen);
+    const setConversationId = useFeedbackStore(state => state.setConversationId);
+    const setProfileType = useFeedbackStore(state => state.setProfileType);
+
     const date1 = dayjs(startDate)
     const date2 = dayjs(endDate);
     const duration = date2.diff(date1, 'm');
@@ -91,6 +99,12 @@ export const ConversationCard: React.FC<ConversationProps> = ({
                             fullWidth
                             sx={{
                                 display: displayFeedbackButton() ? "flex" : "none"
+                            }}
+                            onClick={() => {
+                                setLeaveFeedBackModalOpen(!leaveFeedBackModalOpen);
+                                setConversationId(convId);
+                                setProfileType(profileType);
+                                console.log(profileType);
                             }}
                         >
                             Leave a feedback

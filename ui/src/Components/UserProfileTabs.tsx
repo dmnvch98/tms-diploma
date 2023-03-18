@@ -1,5 +1,5 @@
 import {Box, Tab, Tabs, Typography} from "@mui/material";
-import {FeedbackCard} from "./FeedbackCard";
+import {FeedbackCard} from "./Feedbacks/FeedbackCard";
 import React, {useState} from "react";
 
 export const UserProfileTabs = () => {

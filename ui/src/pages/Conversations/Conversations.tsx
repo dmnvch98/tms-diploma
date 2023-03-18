@@ -1,8 +1,12 @@
 import {useConversationsStore} from "./conversationsStore";
 import React, {useEffect, useState} from "react";
 import {ConversationCard} from "../../Components/Conversations/ConversationCard";
-import {Box, Container, Tab, Tabs, Typography} from "@mui/material";
+import {Box, Container, Modal, Tab, Tabs, Typography} from "@mui/material";
 import {SidebarHeader} from "../../Components/SidebarHeader";
+import {useFeedbackStore} from "../../Components/Profile/Common/feedbackStore";
+import {LeaveFeedback} from "../../Components/Feedbacks/LeaveFeedback";
+import {Notification} from "../../Components/Notifications/Notification";
+import {useNotificationStore} from "../../Components/Notifications/notificationStore";
 
 export const Conversations = () => {
     const getStudentConversations = useConversationsStore(state => state.getStudentConversations);
@@ -10,10 +14,31 @@ export const Conversations = () => {
     const tutorConversations = useConversationsStore(state => state.tutorConversations);
     const studentConversations = useConversationsStore(state => state.studentConversations);
 
+    const leaveFeedBackModalOpen = useFeedbackStore(state => state.leaveFeedBackModalOpen);
+    const setLeaveFeedBackModalOpen = useFeedbackStore(state => state.setLeaveFeedBackModalOpen);
+    const isNotificationOpen = useNotificationStore(state => state.isOpen);
+    const message = useNotificationStore(state => state.message);
+
     useEffect(() => {
         getStudentConversations();
         getTutorConversations();
     }, [])
+
+    useEffect(() => {
+        console.log(message)
+    }, [isNotificationOpen])
+
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 500,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
     interface TabPanelProps {
         children?: React.ReactNode;
@@ -60,6 +85,7 @@ export const Conversations = () => {
             <>
                 {tutorConversations.map(conversation => (
                     <ConversationCard
+                        convId={conversation.id}
                         profileType="tutor"
                         studentLeftFeedback={conversation.studentLeftFeedback}
                         tutorLeftFeedback={conversation.tutorLeftFeedback}
@@ -82,6 +108,7 @@ export const Conversations = () => {
             <>
                 {studentConversations.map(conversation => (
                     <ConversationCard
+                        convId={conversation.id}
                         profileType="student"
                         studentLeftFeedback={conversation.studentLeftFeedback}
                         tutorLeftFeedback={conversation.tutorLeftFeedback}
@@ -102,6 +129,7 @@ export const Conversations = () => {
     return (
         <>
             <SidebarHeader/>
+            {isNotificationOpen && (<Notification/>)}
             <Container sx={{mt: 10}}>
                 <Box>
                     <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -117,6 +145,14 @@ export const Conversations = () => {
                     <TabPanel value={value} index={1}>
                         <StudentConversations/>
                     </TabPanel>
+                    <Modal
+                        open={leaveFeedBackModalOpen}
+                        onClose={() => setLeaveFeedBackModalOpen(!leaveFeedBackModalOpen)}
+                    >
+                        <Box sx={style}>
+                            <LeaveFeedback/>
+                        </Box>
+                    </Modal>
                 </Box>
             </Container>
 

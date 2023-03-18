@@ -1,6 +1,6 @@
 import {Box, Tab, Tabs, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {FeedbackCard} from "../../FeedbackCard";
+import {FeedbackCard} from "../../Feedbacks/FeedbackCard";
 import {ConversationDetailsCard} from "../../Conversations/ConversationDetailsCard";
 import {useTutorStore} from "./tutorStore";
 import {useFeedbackStore} from "../Common/feedbackStore";

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Box, Container, Rating, Typography} from "@mui/material";
+import {Box, Button, Container, Rating, Typography} from "@mui/material";
 import {UserProfileTabs} from "../../UserProfileTabs";
 import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
 import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
@@ -30,13 +30,12 @@ export const StudentInfo: React.FC<Props> = ({aboutMe, languageLevels}) => {
                                 : aboutMe?.substring(0, 250)
                             }
 
-                            {aboutMe?.length as number > 250 ?
-                                <span
-                                    onClick={() => setShowMore(state => !state)}
-                                    style={{marginLeft: '15px', color: '#44734b', cursor: 'pointer'}}>
+                            {aboutMe?.length > 250 && (
+                                <Button
+                                    onClick={() => setShowMore(state => !state)}>
                                     {showMore ? "Show less" : "Show more"}
-                                </span>
-                                : <></>}
+                                </Button>
+                            )}
                         </Typography>
                     </Box>
                     <UserProfileTabs/>
