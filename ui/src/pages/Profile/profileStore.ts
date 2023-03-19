@@ -9,6 +9,7 @@ export interface ProfileStore {
     getUserByStudentId: (studentId: number) => void;
     getUserByTutorId: (tutorId: number) => void;
     getMe: () => void;
+    setLoggedInUser: (user: User) => void;
 }
 
 export const useProfileStore = create<ProfileStore>((set: any) => ({
@@ -31,7 +32,7 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
         }
         set({lookupUser: user})
     },
-    getMe: async () => {
+    getMe: async ()=> {
         const user: User = await UserService.getMe();
         if (user) {
             if (user.student) {
@@ -46,5 +47,8 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
             }
             set({loggedInUser: user})
         }
+    },
+    setLoggedInUser: async (user: User) => {
+        set({loggedInUser: user})
     }
 }))

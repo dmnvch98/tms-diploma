@@ -14,7 +14,7 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
 
     @Query("SELECT * from conv_details cd where cd.conv_details_id not in (select conv_details_id from conversations)" +
         "and cd.tutor_id=:tutorId")
-    List<ConversationDetails> findAllByTutorId(@Param("tutorId") Long tutorId);
+    List<ConversationDetails> findAllByTutorIdOrderByConvDetailsIdDesc(@Param("tutorId") Long tutorId);
 
     ConversationDetails findAllByConvDetailsId(Long convDetailsId);
 

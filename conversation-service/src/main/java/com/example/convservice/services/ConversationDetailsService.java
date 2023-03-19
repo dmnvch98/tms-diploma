@@ -19,7 +19,7 @@ public class ConversationDetailsService implements FindConversationDetailsById {
     }
 
     public List<ConversationDetails> findAllByTutorId(Long tutorId) {
-        return repository.findAllByTutorId(tutorId);
+        return repository.findAllByTutorIdOrderByConvDetailsIdDesc(tutorId);
     }
 
     public ConversationDetails findAllByConvDetailsId(Long convDetailsId) {
