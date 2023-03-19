@@ -3,8 +3,7 @@ package com.example.convservice.services;
 import com.example.convservice.model.Conversation;
 import com.example.convservice.repositories.ConversationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.relational.core.sql.In;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ConversationService {
 
     private final ConversationRepository conversationRepository;
@@ -56,5 +56,24 @@ public class ConversationService {
 
     public Integer updateTutorLeftFeedbackFlag(Long convId) {
         return conversationRepository.updateTutorLeftFeedbackFlag(convId);
+    }
+
+    public void updateConversationStatusToFinish(@Param("convId") Long convId) {
+        try {
+            log.info("Changing conversation status to Finished. Conversation ID: {}", convId);
+            int updatedRows = conversationRepository.updateConversationStatusToFinish(convId);
+
+            if (updatedRows == 1) {
+                log.info("Conversation status successfully updated to Finished. Conversation ID: {}", convId);
+            } else {
+                log.warn("Returned updated rows count not 1 after updating conversation status to Finished. " +
+                    "Conversation ID: {}. Returned count: {}", convId, updatedRows);
+            }
+        }
+        catch (Exception e) {
+            log.error("An error occurred during updating conversation status to Finished. Conversation ID: {} . Error: {}",
+                convId, e.getMessage());
+            throw new RuntimeException();
+        }
     }
 }

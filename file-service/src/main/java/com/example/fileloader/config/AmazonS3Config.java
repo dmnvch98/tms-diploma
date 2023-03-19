@@ -5,7 +5,6 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.Bucket;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +19,6 @@ public class AmazonS3Config {
     private String login;
     @Value("${aws.secret_key}")
     private String password;
-    @Value("${aws.storage_name}")
-    private String storageName;
 
     @Bean
     public AmazonS3 amazonS3() {
@@ -36,10 +33,5 @@ public class AmazonS3Config {
         builder.withCredentials(new AWSStaticCredentialsProvider(credentials));
         return builder.build();
     }
-
-//    @Bean
-//    public Bucket bucket() {
-//        return amazonS3().createBucket(storageName);
-//    }
 
 }

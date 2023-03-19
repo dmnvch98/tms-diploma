@@ -48,4 +48,8 @@ public interface ConversationRepository extends Repository<Conversation, Long> {
     @Modifying
     @Query("UPDATE conversations set tutor_left_feedback = true where conv_id=:convId")
     Integer updateTutorLeftFeedbackFlag(@Param("convId") Long convId);
+
+    @Modifying
+    @Query("UPDATE conversations set status_id = 5 where conv_id=:convId")
+    Integer updateConversationStatusToFinish(@Param("convId") Long convId);
 }
