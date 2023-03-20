@@ -3,6 +3,7 @@ package com.example.convservice.repositories;
 import com.example.convservice.model.Feedback;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
@@ -42,15 +43,16 @@ public interface FeedbackRepository extends Repository<Feedback, Long> {
         "  and f.tutor_feedback IS NOT NULL")
     List<Feedback> findFeedbacksAboutStudent(@Param("studentId") Long studentId);
 
-    @Query("select avg(student_rate) from feedbacks " +
+    @Query("select round(avg(student_rate), 2) from feedbacks " +
         "join conversations c on c.conv_id = feedbacks.conversation_id " +
         "join conv_details cd on cd.conv_details_id = c.conv_details_id " +
         "where tutor_id=:tutorId")
     Double findAvgRateForTutor(@Param("tutorId") Long tutorId);
 
-    @Query("select avg(tutor_rate) from feedbacks " +
+    @Query("select round(avg(tutor_rate), 2) from feedbacks " +
         "join conversations c on c.conv_id = feedbacks.conversation_id " +
         "where student_id=:studentId")
     Double findAvgRateForStudent(@Param("studentId") Long studentId);
+
 
 }

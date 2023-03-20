@@ -13,10 +13,16 @@ public interface UserConverter {
 
     User userRequestDtoToUserUpdate(UserRequestDto userDto, Long id);
 
-    UserResponseDto userToResponseDto(User user, List<LanguageLevelDto> languageLevels);
+    UserResponseDto userToResponseDto(User user,
+                                      List<LanguageLevelDto> languageLevels,
+                                      Integer tutorConversationCount,
+                                      Integer studentConversationCount,
+                                      Double tutorAverageRate,
+                                      Double studentAverageRate
+    );
 
     @Mapping(target = "tutorId", expression = "java(user.getTutor().getTutorId())")
     @Mapping(target = "userId", source = "user.id")
-    TutorShortUserInfoDto userToTutorCardInfo(User user, List<LanguageLevelDto> languageLevels);
+    TutorShortUserInfoDto userToTutorCardInfo(User user, List<LanguageLevelDto> languageLevels,  Double tutorAverageRate);
 
 }

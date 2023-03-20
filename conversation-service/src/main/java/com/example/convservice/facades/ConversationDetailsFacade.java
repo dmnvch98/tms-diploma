@@ -18,7 +18,7 @@ public class ConversationDetailsFacade {
     private final ConversationConverter converter;
     private final LanguageLevelService languageLevelService;
 
-    @Value("${conversations.initStatus}")
+    @Value("${conversations.init_status_id}")
     public Long conversationInitStatus;
 
     public ConversationDetailsResponseDto save(ConversationDetailsRequestDto conversationDetailsDto) {

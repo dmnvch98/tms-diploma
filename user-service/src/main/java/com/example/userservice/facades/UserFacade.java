@@ -3,9 +3,10 @@ package com.example.userservice.facades;
 import com.example.userservice.converters.LanguageLevelConverter;
 import com.example.userservice.converters.UserConverter;
 import com.example.userservice.dto.*;
-import com.example.userservice.model.Language;
 import com.example.userservice.model.User;
 import com.example.userservice.model.UserLanguageLevel;
+import com.example.userservice.services.ConversationService;
+import com.example.userservice.services.FeedbackService;
 import com.example.userservice.services.LanguageLevelService;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class UserFacade {
@@ -22,6 +24,8 @@ public class UserFacade {
     private final LanguageLevelService languageLevelService;
     private final UserConverter userConverter;
     private final LanguageLevelConverter languageLevelConverter;
+    private final ConversationService conversationService;
+    private final FeedbackService feedbackService;
 
 
     @Transactional
@@ -31,7 +35,7 @@ public class UserFacade {
         List<UserLanguageLevel> userLanguageLevels =
             extractUserLanguageLevelsFromDto(userRequestDto, user.getId());
         List<LanguageLevelDto> LanguageLevelDto2List = saveUserLanguageLevels(userLanguageLevels);
-        return userConverter.userToResponseDto(user, LanguageLevelDto2List);
+        return userConverter.userToResponseDto(user, LanguageLevelDto2List, 0, 0, 0D, 0D);
     }
 
     @Transactional
@@ -47,12 +51,28 @@ public class UserFacade {
         if (languageLevelsIdToDelete.size() > 0) {
             languageLevelsIdToDelete.forEach(x -> languageLevelService.deleteUserLanguageLevel(x, userId));
         }
+
         List<LanguageLevelDto> LanguageLevelDto2List = saveUserLanguageLevels(userLanguageLevels);
-        return userConverter.userToResponseDto(user, LanguageLevelDto2List);
+        return userConverter.userToResponseDto(
+            user,
+            LanguageLevelDto2List,
+            conversationService.countTutorLessons(getTutorIdIfExists(user)),
+            conversationService.countStudentLessons(getStudentIdIfExists(user)),
+            feedbackService.findAvgRateForTutor(getTutorIdIfExists(user)),
+            feedbackService.findAvgRateForStudent(getStudentIdIfExists(user))
+        );
     }
 
     public UserResponseDto get(Long id) {
-        return userConverter.userToResponseDto(userService.get(id), findLanguageLevelsByUserId(id));
+        User user = userService.get(id);
+        return userConverter.userToResponseDto(
+            user,
+            findLanguageLevelsByUserId(id),
+            conversationService.countTutorLessons(getTutorIdIfExists(user)),
+            conversationService.countStudentLessons(getStudentIdIfExists(user)),
+            feedbackService.findAvgRateForTutor(getTutorIdIfExists(user)),
+            feedbackService.findAvgRateForStudent(getStudentIdIfExists(user))
+        );
     }
 
     public List<LanguageLevelDto> findLanguageLevelsByUserId(Long userId) {
@@ -84,12 +104,25 @@ public class UserFacade {
 
     public UserResponseDto findUserByTutorId(Long tutorId) {
         User user = userService.findUserByTutorId(tutorId);
-        return userConverter.userToResponseDto(user, findLanguageLevelsByUserId(user.getId()));
+        return userConverter.userToResponseDto(user,
+            findLanguageLevelsByUserId(user.getId()),
+            conversationService.countTutorLessons(getTutorIdIfExists(user)),
+            conversationService.countStudentLessons(getStudentIdIfExists(user)),
+            feedbackService.findAvgRateForTutor(getTutorIdIfExists(user)),
+            feedbackService.findAvgRateForStudent(getStudentIdIfExists(user))
+        );
     }
 
     public UserResponseDto findUserByStudentId(Long studentId) {
         User user = userService.findUserByStudentId(studentId);
-        return userConverter.userToResponseDto(user, findLanguageLevelsByUserId(user.getId()));
+        return userConverter.userToResponseDto(
+            user,
+            findLanguageLevelsByUserId(user.getId()),
+            conversationService.countTutorLessons(getTutorIdIfExists(user)),
+            conversationService.countStudentLessons(getStudentIdIfExists(user)),
+            feedbackService.findAvgRateForTutor(getTutorIdIfExists(user)),
+            feedbackService.findAvgRateForStudent(getStudentIdIfExists(user))
+        );
     }
 
     public User findUserByEmail(String email) {
@@ -127,5 +160,17 @@ public class UserFacade {
         List<Long> list2 = fromDto.stream().map(UserLanguageLevel::getLanguageLevelId).toList();
         list1.removeAll(list2);
         return list1;
+    }
+
+    public Long getTutorIdIfExists(User user) {
+        return user.getTutor() != null
+            ? user.getTutor().getTutorId()
+            : 0L;
+    }
+
+    public Long getStudentIdIfExists(User user) {
+        return user.getStudent() != null
+            ? user.getStudent().getStudentId()
+            : 0L;
     }
 }

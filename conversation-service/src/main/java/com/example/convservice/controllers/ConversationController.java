@@ -75,5 +75,14 @@ public class ConversationController {
                                                              @PathVariable("tutorId") Long tutorId) {
         return conversationFacade.countAllByConvIdAndTutorId(convId, tutorId);
     }
+    @GetMapping("/students/{studentId}/finished")
+    public Integer countStudentLessons(@PathVariable("studentId") Long studentId) {
+        return conversationFacade.countStudentLessons(studentId);
+    }
+
+    @GetMapping("/tutors/{tutorId}/finished")
+    public Integer countTutorLessons(@PathVariable("tutorId")Long tutorId) {
+        return conversationFacade.countTutorLessons(tutorId);
+    }
 
 }
