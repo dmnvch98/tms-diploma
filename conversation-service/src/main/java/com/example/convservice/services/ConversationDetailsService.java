@@ -4,7 +4,6 @@ import com.example.convservice.converters.utils.FindConversationDetailsById;
 import com.example.convservice.model.ConversationDetails;
 import com.example.convservice.repositories.ConversationDetailsRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class ConversationDetailsService implements FindConversationDetailsById {
     }
 
     public List<ConversationDetails> findAllByTutorId(Long tutorId) {
-        return repository.findAllByTutorIdOrderByConvDetailsIdDesc(tutorId);
+        return repository.findAllByTutorId(tutorId);
     }
 
     public ConversationDetails findAllByConvDetailsId(Long convDetailsId) {

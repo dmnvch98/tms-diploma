@@ -21,7 +21,7 @@ public class ConversationService {
     }
 
     public List<Conversation> findAllByStudentId(Long studentId) {
-        return conversationRepository.findAllByStudentIdOrderByConvIdDesc(studentId);
+        return conversationRepository.findAllByStudentId(studentId);
     }
 
     public List<Conversation> findAllByTutorId(Long tutorId) {

@@ -32,14 +32,14 @@ public interface FeedbackRepository extends Repository<Feedback, Long> {
         "join conversations c on c.conv_id = f.conversation_id " +
         "join conv_details cd on cd.conv_details_id = c.conv_details_id " +
         "where cd.tutor_id=:tutorId and f.student_rate IS NOT NULL" +
-        "  and f.student_feedback IS NOT NULL order by f.feedback_id desc")
+        "  and f.student_feedback IS NOT NULL")
     List<Feedback> findFeedbacksAboutTutor(@Param("tutorId") Long tutorId);
 
     @Query("select f.* from feedbacks f " +
         "join conversations c on c.conv_id = f.conversation_id " +
         "join conv_details cd on cd.conv_details_id = c.conv_details_id " +
         "where c.student_id=:studentId and f.tutor_rate IS NOT NULL " +
-        "  and f.tutor_feedback IS NOT NULL order by f.feedback_id desc")
+        "  and f.tutor_feedback IS NOT NULL")
     List<Feedback> findFeedbacksAboutStudent(@Param("studentId") Long studentId);
 
     @Query("select avg(student_rate) from feedbacks " +
