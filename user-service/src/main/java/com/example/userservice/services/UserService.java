@@ -3,6 +3,7 @@ package com.example.userservice.services;
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
     private final UserRepository repository;
 
@@ -48,7 +50,9 @@ public class UserService {
     }
 
     public void updateRefreshToken(String token, Long userId) {
+        log.info("Updating refresh token for user. UserId : {}, Refresh token: {}", userId, token);
         repository.updateRefreshToken(token, userId);
+        log.info("Refresh token is updated. serId : {}, Refresh token: {}", userId, token);
     }
 
     public List<User> findTutorsWhoHaveNotBookedConvDetails(Long lastTutorId) {

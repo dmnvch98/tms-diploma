@@ -8,10 +8,11 @@ export interface ProfileStore {
     setUser: (user: User) => void;
     getUserByStudentId: (studentId: number) => void;
     getUserByTutorId: (tutorId: number) => void;
-    getMe: () => void;
+    getMe: () => Promise<boolean>;
+    logout: () => Promise<boolean>;
 }
 
-export const useProfileStore = create<ProfileStore>((set: any) => ({
+export const useProfileStore = create<ProfileStore>((set: any, get: any) => ({
     loggedInUser: null,
     lookupUser: null,
     setUser: async (user: User) => {
@@ -31,9 +32,11 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
         }
         set({lookupUser: user})
     },
-    getMe: async () => {
-        const user: User = await UserService.getMe();
-        if (user) {
+    getMe: async (): Promise<boolean> => {
+        const response = await UserService.getMe();
+
+        if (response) {
+            const user: User = response as User;
             if (user.student) {
                 if (!user.student.aboutMe) {
                     user.student.aboutMe = '';
@@ -45,6 +48,12 @@ export const useProfileStore = create<ProfileStore>((set: any) => ({
                 }
             }
             set({loggedInUser: user})
+            return true;
         }
+        return false;
+    },
+    logout: (): Promise<boolean> => {
+        return UserService.logout();
     }
+
 }))

@@ -23,6 +23,7 @@ import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import {Button, Grid} from "@mui/material";
 import {useProfileStore} from "../pages/Profile/profileStore";
 import Link from "@mui/material/Link";
+import {useNavigate} from "react-router-dom";
 
 const drawerWidth = 250;
 
@@ -106,6 +107,8 @@ export const SidebarHeader = () => {
     const user = useProfileStore(state => state.loggedInUser);
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const logout = useProfileStore(state => state.logout);
+    const navigate = useNavigate();
 
     const tabs: TabIcon[] = [
         {
@@ -166,10 +169,18 @@ export const SidebarHeader = () => {
                                 <Typography variant="h6" noWrap component="div">
                                     Logo
                                 </Typography>
-                                <Button
-                                    color="inherit"
-                                    variant="text"
-                                >Logout</Button>
+                                <Link href='/sign-in'>
+                                    <Button
+                                        color="inherit"
+                                        variant="text"
+                                        onClick={() => {
+                                            logout();
+                                        }}
+                                    >
+                                        Logout
+                                    </Button>
+                                </Link>
+
                             </Box>
                         </Grid>
                     </Grid>
