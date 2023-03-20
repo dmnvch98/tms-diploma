@@ -47,6 +47,7 @@ export const FindTutor = () => {
                     <Grid item xs={5}>
                         {tutors.map((t, index) => (
                             <FindTutorCard
+                                tutorAverageRate={t.tutorAverageRate}
                                 tutorId={t.tutorId}
                                 firstName={t.firstName}
                                 lastName={t.lastName}
@@ -76,6 +77,7 @@ export const FindTutor = () => {
                                             lastName={t.lastName}
                                             minPrice={t.minPrice}
                                             avatarUrl={t.avatarUrl}
+                                            tutorAverageRate={t.tutorAverageRate}
                                         />
                                     )))}
                                 </GoogleMapReact>

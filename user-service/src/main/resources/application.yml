@@ -1,11 +1,6 @@
 server:
   port: 9090
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        jdbc:
-#          core: TRACE
+
 spring:
   datasource:
     driver-class-name: 'org.postgresql.Driver'
@@ -15,3 +10,6 @@ spring:
 avatar:
   user_postfix: '_avatar.png'
 find-tutor-page-size: 3
+services:
+  conversation:
+    url: 'http://localhost:9093'

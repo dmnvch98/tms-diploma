@@ -3,15 +3,26 @@ import {Box, Button, Container, Rating, Typography} from "@mui/material";
 import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
 import {TutorProfileTabs} from "./TutorProfileTabs";
 import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
+import StarIcon from "@mui/icons-material/Star";
+import {FeedbackStar} from "../../Feedbacks/FeedbackStar";
 
 type Props = {
     aboutMe: string;
     languageLevels: LanguageLevel[];
     tutorId: number;
     currentUser: boolean
+    tutorConversationsCount: number
+    tutorAverageRate: number
 }
-export const TutorInfo: React.FC<Props> = ({aboutMe, languageLevels, tutorId, currentUser}) => {
-const [showMore, setShowMore] = useState(false);
+export const TutorInfo: React.FC<Props> = ({
+                                               aboutMe,
+                                               languageLevels,
+                                               tutorId,
+                                               currentUser,
+                                               tutorConversationsCount,
+                                               tutorAverageRate
+                                           }) => {
+    const [showMore, setShowMore] = useState(false);
 
     return (
         <>
@@ -19,9 +30,9 @@ const [showMore, setShowMore] = useState(false);
             <Container sx={{bgcolor: "white", borderRadius: 2}}>
                 <Box>
                     <Box sx={{mt: 2, display: "flex", pt: 2}}>
-                        <Typography sx={{mr: 7}}>Lessons: <b>26</b></Typography>
+                        <Typography sx={{mr: 7}}>Lessons: <b>{tutorConversationsCount}</b></Typography>
                         <Typography sx={{mr: 1}}><b>Rate:</b></Typography>
-                        <Rating name="read-only" value={4.5} readOnly precision={0.5}/>
+                        <FeedbackStar averageRate={tutorAverageRate}/>
                     </Box>
                     <LanguageLevelsProfile languageLevels={languageLevels}/>
                     <Box>

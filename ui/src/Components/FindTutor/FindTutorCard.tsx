@@ -3,6 +3,8 @@ import React from "react";
 import {TutorCardInfo} from "../../services/ConversationService";
 import StarIcon from '@mui/icons-material/Star';
 import Link from "@mui/material/Link";
+import {FeedbackStar} from "../Feedbacks/FeedbackStar";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 export const FindTutorCard = (props: TutorCardInfo, key: any) => {
     const Img = styled('img')({
@@ -40,8 +42,7 @@ export const FindTutorCard = (props: TutorCardInfo, key: any) => {
                             <Grid item xs>
                                 <Box display="flex" sx={{mb: 1}}>
                                     <Typography><b>{props.firstName} {props.lastName}</b></Typography>
-                                    <StarIcon sx={{ml: 4, color: '#FFBF00'}}/>
-                                    <Typography>4.3</Typography>
+                                    <FeedbackStar averageRate={props.tutorAverageRate}/>
                                 </Box>
 
                                 <Grid container>

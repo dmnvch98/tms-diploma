@@ -41,4 +41,5 @@ public class FeedbackController {
     public List<FeedbackCardInfoDto> findFeedbacksAboutStudent(@PathVariable("studentId") Long studentId) {
         return feedbackFacade.findFeedbacksAboutStudent(studentId);
     }
+
 }

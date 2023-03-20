@@ -47,6 +47,8 @@ export const MyTutorProfile = () => {
                         </Grid>
                         <Grid item xs={9}>
                             <TutorInfo
+                                tutorAverageRate={user?.tutorAverageRate as number}
+                                tutorConversationsCount={user?.tutorConversationCount as number}
                                 tutorId={user?.tutor.tutorId as number}
                                 currentUser={true}
                                 languageLevels={user?.languageLevels as LanguageLevel[]}

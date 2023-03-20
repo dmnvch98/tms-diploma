@@ -27,12 +27,15 @@ public class ConversationFacade {
     private final LanguageLevelService languageLevelService;
     private final CommandService commandService;
 
-    @Value("${conversations.initStatus}")
-    public Long conversationInitStatus;
+    @Value("${conversations.init_status_id}")
+    public Long conversationInitStatusId;
+
+    @Value("${conversations.finished_status_id}")
+    public Long conversationFinishedStatusId;
 
     public ConversationResponseDto save(ConversationRequestDto dto) {
         Conversation conversation = conversationService
-            .save(converter.requestDtoToConversation(dto, conversationInitStatus));
+            .save(converter.requestDtoToConversation(dto, conversationInitStatusId));
 
         LocalDateTime endDate = conversationDetailsService.findAllByConvDetailsId(conversation.getConversationDetailsId())
                 .getEndDate();
@@ -83,4 +86,13 @@ public class ConversationFacade {
         LocalDateTime dateTimeNow = LocalDateTime.now();
         return Math.toIntExact(Duration.between(dateTimeNow, endDate).toSeconds());
     }
+
+    public Integer countStudentLessons(Long studentId) {
+        return conversationService.countAllByStatusIdAndStudentId(conversationFinishedStatusId, studentId);
+    }
+
+    public Integer countTutorLessons(Long tutorId) {
+        return conversationService.countAllByStatusIdAndTutorId(conversationFinishedStatusId, tutorId);
+    }
+
 }

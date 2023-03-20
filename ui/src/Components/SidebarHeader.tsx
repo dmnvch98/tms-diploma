@@ -171,8 +171,7 @@ export const SidebarHeader = () => {
                                 </Typography>
                                 <Link href='/sign-in'>
                                     <Button
-                                        color="inherit"
-                                        variant="text"
+                                        sx={{color: 'black'}}
                                         onClick={() => {
                                             logout();
                                         }}

@@ -3,6 +3,7 @@ import RoomRoundedIcon from '@mui/icons-material/RoomRounded';
 import {Box, ClickAwayListener, Grid, Paper, styled, SxProps, Typography} from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import Link from "@mui/material/Link";
+import {FeedbackStar} from "../Feedbacks/FeedbackStar";
 
 const markerStyle = {
     position: 'absolute',
@@ -57,8 +58,7 @@ const Marker = (props: any) => {
                                             <Typography sx={{mb: 1}}>from {props.minPrice}$</Typography>
 
                                             <Box display='flex' justifyContent='flex-end'>
-                                                <Typography>4.3</Typography>
-                                                <StarIcon sx={{color: '#FFBF00'}}/>
+                                                <FeedbackStar averageRate={props.tutorAverageRate}/>
                                             </Box>
                                         </Grid>
                                     </Grid>

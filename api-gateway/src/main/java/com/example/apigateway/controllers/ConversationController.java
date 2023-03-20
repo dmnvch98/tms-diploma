@@ -84,5 +84,4 @@ public class ConversationController {
 
         return conversationDetailsFacade.findAllByTutorId(userId);
     }
-
 }

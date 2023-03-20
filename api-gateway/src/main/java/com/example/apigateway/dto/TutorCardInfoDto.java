@@ -15,5 +15,6 @@ public class TutorCardInfoDto {
     double minPrice;
     List<AddressDto> addresses;
     String avatarUrl;
+    Double tutorAverageRate;
 
 }

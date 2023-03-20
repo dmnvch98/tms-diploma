@@ -13,6 +13,7 @@ export interface TutorCardInfo {
     minPrice: number
     avatarUrl: string,
     addresses: Location[]
+    tutorAverageRate: number
 }
 
 export interface TutorCardsResponseData {

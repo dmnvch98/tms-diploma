@@ -17,4 +17,6 @@ public class TutorShortUserInfoDto {
     String lastName;
     List<LanguageLevel> languageLevels;
     String avatarName;
+    Double tutorAverageRate;
+
 }

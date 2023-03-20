@@ -46,5 +46,5 @@ public interface ConversationClient {
 
     @GetMapping("/{convId}/tutor/{tutorId}/exists")
     Boolean countAllByConvIdAndTutorId(@PathVariable("convId") Long convId,
-                                                      @PathVariable("tutorId") Long tutorId);
+                                       @PathVariable("tutorId") Long tutorId);
 }

@@ -6,6 +6,7 @@ import com.example.userservice.dto.TutorShortUserInfoDto;
 import com.example.userservice.exceptions.TutorCannotBeDeletedException;
 import com.example.userservice.model.Tutor;
 import com.example.userservice.model.User;
+import com.example.userservice.services.FeedbackService;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ public class TutorFacade {
     private final UserService userService;
     private final UserConverter userConverter;
     private final UserFacade userFacade;
+    private final FeedbackService feedbackService;
 
     public void deleteTutor(Long userId) {
         User user = userService.get(userId);
@@ -33,7 +35,10 @@ public class TutorFacade {
     public List<TutorShortUserInfoDto> findTutorsWhoHaveNotBookedConvDetails(Long lastTutorId) {
         return userService.findTutorsWhoHaveNotBookedConvDetails(lastTutorId)
             .stream()
-            .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))
+            .map(user -> userConverter.userToTutorCardInfo(
+                user,
+                userFacade.findLanguageLevelsByUserId(user.getId()),
+                feedbackService.findAvgRateForTutor(userFacade.getTutorIdIfExists(user))))
             .toList();
     }
 
@@ -49,7 +54,11 @@ public class TutorFacade {
             .filterTutorsWhoHaveNotBookedConvDetails(lastTutorId, dto.getMinPrice(), dto.getMaxPrice(),
                 dto.getCity(), dto.getCountryId(), dto.getConversationTypeId(), dto.getLevelId(), dto.getLanguageId())
             .stream()
-            .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))
+            .map(user -> userConverter.userToTutorCardInfo(
+                user,
+                userFacade.findLanguageLevelsByUserId(user.getId()),
+                feedbackService.findAvgRateForTutor(userFacade.getTutorIdIfExists(user))
+                ))
             .toList();
     }
 }
