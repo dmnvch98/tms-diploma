@@ -8,6 +8,7 @@ import {useSignInStore} from "./signinStore";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import {useProfileStore} from "../Profile/profileStore";
+import {CredentialsDto, useAuthStore} from "../../CommonStore/authStore";
 
 export const SignIn = () => {
     const email = useSignInStore(state => state.email);
@@ -60,7 +61,9 @@ export const SignIn = () => {
                         <Button sx={{mt: 4}}
                                 color="primary"
                                 variant="contained"
-                                onClick={getToken}
+                                onClick={() => {
+                                    getToken();
+                                }}
                         >
                             Continue
                         </Button>
