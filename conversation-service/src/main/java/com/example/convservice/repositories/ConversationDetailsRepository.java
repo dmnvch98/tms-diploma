@@ -18,13 +18,15 @@ public interface ConversationDetailsRepository extends Repository<ConversationDe
 
     ConversationDetails findAllByConvDetailsId(Long convDetailsId);
 
-    @Query("SELECT MIN(price) FROM conv_details where tutor_id=:tutorId")
+    @Query("SELECT MIN(price) FROM conv_details cd where tutor_id=:tutorId " +
+        " and cd.conv_details_id not in (select conv_details_id from conversations)")
     double findMinimumPrice(@Param("tutorId") Long tutorId);
 
-    @Query("SELECT MIN(price) FROM conv_details cd where tutor_id=:tutorId" +
+    @Query("SELECT MIN(price) FROM conv_details cd where tutor_id=:tutorId " +
+        "and cd.conv_details_id not in (select conv_details_id from conversations)" +
         " and (:convTypeId is null or cd.conv_type_id=:convTypeId)" +
         "and (:minLevel is null or cd.min_level >= :minLevel)" +
-        "and (:languageId is null or cd.language_id = :languageId);")
+        "and (:languageId is null or cd.language_id = :languageId)")
     Double findMinimumPrice(@Param("tutorId") Long tutorId, @Param("convTypeId") Long convTypeId,
                             @Param("minLevel") Long minLevel, @Param("languageId") Long languageId);
 

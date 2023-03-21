@@ -5,6 +5,7 @@ import {LanguageLevel} from "../../pages/SignUp/store/languagesStore";
 import dayjs from "dayjs";
 import {ConversationStatus} from "../../pages/Conversations/conversationsStore";
 import {useFeedbackStore} from "../Profile/Common/feedbackStore";
+import Link from "@mui/material/Link";
 
 type ConversationProps = {
     convId: number
@@ -66,6 +67,7 @@ export const ConversationCard: React.FC<ConversationProps> = ({
             >
                 <Grid item xs={12} sm container>
                     <Grid item xs={4}>
+                        <Typography><b>Id</b></Typography>
                         <Typography><b>Status</b></Typography>
                         <Typography><b>Student id</b></Typography>
                         <Typography><b>Tutor id</b></Typography>
@@ -80,9 +82,10 @@ export const ConversationCard: React.FC<ConversationProps> = ({
                         </Typography>)}
                     </Grid>
                     <Grid item xs={6}>
+                        <Typography>{convId}</Typography>
                         <Typography>{conversationStatus.description}</Typography>
-                        <Typography>{studentId}</Typography>
-                        <Typography>{tutorId}</Typography>
+                        <Link href={'/students/' + studentId}><Typography>{studentId}</Typography></Link>
+                        <Link href={'/tutors/' + tutorId}><Typography>{tutorId}</Typography></Link>
                         <Typography>{conversationType}</Typography>
                         <Typography>{price}</Typography>
                         <Typography>{minLanguageLevel.language.description}</Typography>
