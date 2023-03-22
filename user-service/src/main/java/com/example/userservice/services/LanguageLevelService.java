@@ -22,8 +22,8 @@ public class LanguageLevelService {
     private final LanguageRepository languageRepository;
     private final LevelRepository levelRepository;
 
-    public Long getLanguageLevelId(Long level, Long language) {
-        return languageLevelRepository.getId(level, language);
+    public Long getLanguageLevelId(Long levelId, Long languageId) {
+        return languageLevelRepository.getId(levelId, languageId);
     }
 
     public Long getLanguageLevelId(LanguageLevelDto languageLevelDto) {
@@ -50,8 +50,12 @@ public class LanguageLevelService {
         return levelRepository.findAll();
     }
 
-    public LanguageLevel userLanguageLevelToLl(UserLanguageLevel userLanguageLevel) {
+    public LanguageLevel findLanguageLevel(UserLanguageLevel userLanguageLevel) {
         return languageLevelRepository.findAllByLanguageLevelId(userLanguageLevel.getLanguageLevelId());
+    }
+
+    public LanguageLevel findLanguageLevel(Long languageLevelId) {
+        return languageLevelRepository.findAllByLanguageLevelId(languageLevelId);
     }
 
     public LanguageLevel languageLevelIdToLanguageLevel(Long languageLevelId) {
@@ -66,4 +70,13 @@ public class LanguageLevelService {
         return userLanguageLevelRepository.existsByUserIdAndLanguageLevelId(
                 userLanguageLevel.getUserId(), userLanguageLevel.getLanguageLevelId());
     }
+
+    public List<UserLanguageLevel> findAllByUserId(Long userId) {
+        return userLanguageLevelRepository.findAllByUserId(userId);
+    }
+
+    public Language findAllByLanguageId(Long languageId) {
+        return languageRepository.findAllByLanguageId(languageId);
+    }
+
 }

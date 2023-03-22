@@ -33,6 +33,10 @@ public class JwtFilter extends GenericFilterBean {
             ServletResponse servletResponse,
             FilterChain filterChain
     ) throws IOException, ServletException {
+        String uri = ((HttpServletRequest)servletRequest).getRequestURI();
+        if (uri.equals("/api/v1/auth/refresh")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         if (token != null && jwtProvider.validateAccessToken(token)) {
             String userLogin = jwtProvider.getLoginFromAccessToken(token);

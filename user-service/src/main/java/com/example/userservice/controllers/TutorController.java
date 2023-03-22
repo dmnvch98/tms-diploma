@@ -1,6 +1,7 @@
 package com.example.userservice.controllers;
 
-import com.example.userservice.dto.TutorCardInfo;
+import com.example.userservice.dto.FilterTutorsRequestDto;
+import com.example.userservice.dto.TutorShortUserInfoDto;
 import com.example.userservice.facades.TutorFacade;
 import com.example.userservice.model.Tutor;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,15 @@ public class TutorController {
         return tutorFacade.save(tutor);
     }
 
-    @GetMapping("/existing-conversations-details")
-    List<TutorCardInfo> findTutorsWithExistingConvDetails() {
-        return tutorFacade.findTutorsWithExistingConvDetails();
+    @GetMapping("/not-booked-conversations-details")
+    List<TutorShortUserInfoDto> findTutorsWhoHaveNotBookedConvDetails(@RequestParam(value = "lastTutorId",
+        defaultValue = "0", required = false) Long lastTutorId) {
+        return tutorFacade.findTutorsWhoHaveNotBookedConvDetails(lastTutorId);
+    }
+
+    @GetMapping("/not-booked-conversations-details/filter")
+    public List<TutorShortUserInfoDto> filterTutorsWhoHaveNotBookedConvDetails(@RequestParam(value = "lastTutorId",
+        defaultValue = "0", required = false) Long lastTutorId, @RequestBody FilterTutorsRequestDto dto) {
+        return tutorFacade.filterTutorsWhoHaveNotBookedConvDetails(lastTutorId, dto);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.convservice.repositories;
 
 import com.example.convservice.model.ConversationDetails;
-import com.example.convservice.model.User;
+import jdk.jfr.Label;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -9,32 +9,43 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ConversationDetailsRepository extends Repository<ConversationDetails, Long> {
-    String FIND_TUTORS_WITH_EXISTING_CONV_DETAILS =
-        "SELECT distinct users.id AS id, users.email AS email, users.roles AS roles, users.gender AS gender, " +
-            "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name " +
-            "AS first_name, users.nationality AS nationality, tutor.user_id AS tutor_user_id, tutor.about_me " +
-            "AS tutor_about_me, tutor.tutor_id AS tutor_tutor_id FROM conv_details cd " +
-            "LEFT OUTER JOIN tutors tutor " +
-            "ON cd.tutor_id = tutor.tutor_id " +
-            "LEFT OUTER JOIN users " +
-            "ON tutor.user_id = users.id";
 
     ConversationDetails save(ConversationDetails conversationDetails);
 
-    List<ConversationDetails> findAllByTutorId(Long tutorId);
+    @Query("SELECT * from conv_details cd where cd.conv_details_id not in (select conv_details_id from conversations)" +
+        "and cd.tutor_id=:tutorId order by conv_details_id desc")
+    List<ConversationDetails> findAllByTutorId(@Param("tutorId") Long tutorId);
 
     ConversationDetails findAllByConvDetailsId(Long convDetailsId);
 
-    @Query(FIND_TUTORS_WITH_EXISTING_CONV_DETAILS +
-        " LEFT OUTER JOIN language_levels ll on cd.min_lang_level_id = ll.language_level_id" +
-        " LEFT OUTER JOIN languages l on l.language_id = ll.language_id" +
-        " LEFT OUTER JOIN levels l2 on ll.level_id = l2.level_id" +
-        " WHERE cd.price between :minPrice and :maxPrice and cd.conv_type_id =:convTypeId and users.location =:location " +
-        "and ll.language_id =:languageId AND l2.level_id <=:levelId")
-    List<User> filterTutors(@Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice,
-                            @Param("convTypeId") Long convTypeId, @Param("location") String location,
-                            @Param("languageId") Long languageId, @Param("levelId") Long levelId);
+    @Query("SELECT MIN(price) FROM conv_details cd where tutor_id=:tutorId " +
+        " and cd.conv_details_id not in (select conv_details_id from conversations)")
+    double findMinimumPrice(@Param("tutorId") Long tutorId);
 
-    @Query("SELECT MIN(price) FROM conv_details where tutor_id=:tutorId")
-    double findMinimumPriceByUserId(@Param("tutorId") Long tutorId);
+    @Query("SELECT MIN(price) FROM conv_details cd where tutor_id=:tutorId " +
+        "and cd.conv_details_id not in (select conv_details_id from conversations)" +
+        " and (:convTypeId is null or cd.conv_type_id=:convTypeId)" +
+        "and (:minLevel is null or cd.min_level >= :minLevel)" +
+        "and (:languageId is null or cd.language_id = :languageId)")
+    Double findMinimumPrice(@Param("tutorId") Long tutorId, @Param("convTypeId") Long convTypeId,
+                            @Param("minLevel") Long minLevel, @Param("languageId") Long languageId);
+
+    @Query("select count(distinct(tutor_id)) from conv_details cd " +
+        "where cd.conv_details_id not in (select conv_details_id from conversations)")
+    int countTutorsWithConvDetails();
+
+    @Query("select count(distinct(cd.tutor_id)) from conv_details cd " +
+        " full join addresses a on cd.address_id = a.address_id" +
+        " where cd.conv_details_id not in (select conv_details_id from conversations)" +
+        " and (price between :minPrice and :maxPrice or :maxPrice is null)" +
+        " and (:countryId is null or a.country_id = :countryId)" +
+        " and (:city is null or city = :city)" +
+        " and (:convTypeId is null or cd.conv_type_id=:convTypeId)" +
+        " and (:minLevel is null or cd.min_level >=:minLevel) " +
+        " and (:languageId is null or cd.language_id =:languageId)")
+    int countFilteredTutorsWithConvDetails(@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice,
+                                           @Param("countryId") Long countryId, @Param("city") String city,
+                                           @Param("convTypeId") Long convTypeId, @Param("minLevel") Long minLevel,
+                                           @Param("languageId") Long languageId);
+
 }

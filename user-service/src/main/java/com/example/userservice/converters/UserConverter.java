@@ -1,10 +1,7 @@
 package com.example.userservice.converters;
 
 import com.example.userservice.converters.utils.CountryFlag;
-import com.example.userservice.dto.LanguageLevelDto;
-import com.example.userservice.dto.TutorCardInfo;
-import com.example.userservice.dto.UserRequestDto;
-import com.example.userservice.dto.UserResponseDto;
+import com.example.userservice.dto.*;
 import com.example.userservice.model.User;
 import org.mapstruct.*;
 
@@ -16,9 +13,16 @@ public interface UserConverter {
 
     User userRequestDtoToUserUpdate(UserRequestDto userDto, Long id);
 
-    UserResponseDto userToResponseDto(User user, List<LanguageLevelDto> languageLevels);
+    UserResponseDto userToResponseDto(User user,
+                                      List<LanguageLevelDto> languageLevels,
+                                      Integer tutorConversationCount,
+                                      Integer studentConversationCount,
+                                      Double tutorAverageRate,
+                                      Double studentAverageRate
+    );
 
     @Mapping(target = "tutorId", expression = "java(user.getTutor().getTutorId())")
-    TutorCardInfo userToTutorCardInfo(User user, List<LanguageLevelDto> languageLevels);
+    @Mapping(target = "userId", source = "user.id")
+    TutorShortUserInfoDto userToTutorCardInfo(User user, List<LanguageLevelDto> languageLevels,  Double tutorAverageRate);
 
 }
