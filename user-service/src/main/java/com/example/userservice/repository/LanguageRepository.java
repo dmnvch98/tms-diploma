@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface LanguageRepository extends Repository<Language, Long> {
     List<Language> findAll();
-
-    Language findAllByLanguageId(Long languageId);
 }

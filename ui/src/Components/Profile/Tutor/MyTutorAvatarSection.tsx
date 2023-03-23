@@ -1,25 +1,10 @@
 import {useProfileStore} from "../../../pages/Profile/profileStore";
-import {Box, Button, Modal, Paper, TextField, Typography} from "@mui/material";
+import {Box, Button, Paper, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {Avatar} from "../Avatar";
-import {CreateConversation} from "../../Conversations/CreateConversation";
-import {useCreateConversationStore} from "../../Conversations/createConversationStore";
 
 export const MyTutorAvatarSection = () => {
-    const user = useProfileStore(state => state.loggedInUser);
-    const isModalOpen = useCreateConversationStore(state => state.isOpen);
-    const setIsModalOpen = useCreateConversationStore(state => state.setIsOpen);
-    const style = {
-        position: 'absolute' as 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 500,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
+    const user = useProfileStore(state => state.user);
 
     return (
         <>
@@ -33,18 +18,9 @@ export const MyTutorAvatarSection = () => {
                     </Box>
                     <Button variant="contained"
                             fullWidth
-                            onClick={() => setIsModalOpen(!isModalOpen)}
                             sx={{mt: 2}}>
                         Change availability
                     </Button>
-                    <Modal
-                        open={isModalOpen}
-                        onClose={() => setIsModalOpen(!isModalOpen)}
-                    >
-                        <Box sx={style}>
-                            <CreateConversation/>
-                        </Box>
-                    </Modal>
                     <Button variant="contained"
                             fullWidth
                             sx={{mt: 2, display: user?.student != null ? "flex" : "none"}}

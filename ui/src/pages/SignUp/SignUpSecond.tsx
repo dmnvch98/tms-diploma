@@ -34,9 +34,7 @@ export const SignUpSecond = () => {
         const setLastName = useSignUpStore(state => state.setLastName);
         const setLocation = useSignUpStore(state => state.setLocation);
 
-        useEffect(() => {
-            getCountries()
-        }, [])
+        useEffect(() => getCountries, [])
 
         return (
             <>

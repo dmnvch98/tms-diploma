@@ -15,12 +15,4 @@
         <postgres.version>42.5.1</postgres.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-sqs</artifactId>
-            <version>1.12.406</version>
-        </dependency>
-    </dependencies>
-
 </project>

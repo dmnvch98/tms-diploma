@@ -1,12 +1,8 @@
 package com.example.convservice.repositories;
 
-import com.example.convservice.model.Conversation;
-import org.springframework.data.jdbc.repository.query.Modifying;
-import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.Repository;
-import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import com.example.convservice.model.Conversation;
+import org.springframework.data.repository.Repository;
 
 public interface ConversationRepository extends Repository<Conversation, Long> {
 
@@ -59,4 +55,5 @@ public interface ConversationRepository extends Repository<Conversation, Long> {
     @Query("select count(*) from conversations c join conv_details cd on cd.conv_details_id = c.conv_details_id " +
         " where cd.tutor_id=:tutorId and c.status_id=:statusId")
     Integer countAllByStatusIdAndTutorId(@Param("statusId") Long statusId, @Param("tutorId") Long tutorId);
+
 }

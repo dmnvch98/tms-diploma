@@ -1,1 +1,0 @@
-alter table addresses add Country TEXT NOT NULL default '';

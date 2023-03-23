@@ -1,12 +1,16 @@
 package com.example.convservice.facades;
 
 import com.example.convservice.converters.ConversationConverter;
-import com.example.convservice.dto.*;
+import com.example.convservice.converters.UserConverter;
+import com.example.convservice.dto.ConversationDetailsRequestDto;
+import com.example.convservice.dto.ConversationDetailsResponseDto;
+import com.example.convservice.dto.FilterTutorsRequestDto;
+import com.example.convservice.dto.TutorCardInfoMinPrice;
 import com.example.convservice.model.ConversationDetails;
+import com.example.convservice.model.User;
 import com.example.convservice.services.ConversationDetailsService;
-import com.example.convservice.services.LanguageLevelService;
+import com.example.convservice.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,47 +18,40 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class ConversationDetailsFacade {
-    private final ConversationDetailsService conversationDetailsService;
+    private final ConversationDetailsService service;
+    private final UserService userService;
     private final ConversationConverter converter;
-    private final LanguageLevelService languageLevelService;
-
-    @Value("${conversations.init_status_id}")
-    public Long conversationInitStatus;
+    private final UserConverter userConverter;
+    private final AddressFacade addressFacade;
 
     public ConversationDetailsResponseDto save(ConversationDetailsRequestDto conversationDetailsDto) {
         ConversationDetails conversationDetails =
-            conversationDetailsService.save(converter.dtoToConversationDetails(conversationDetailsDto));
-
-        return converter.conversationDetailsToResponseDto(conversationDetails, findLanguageLevel(conversationDetails));
+            service.save(converter.dtoToConversationDetails(conversationDetailsDto));
+        return converter.conversationDetailsToResponseDto(conversationDetails);
     }
 
     public List<ConversationDetailsResponseDto> findAllByTutorId(Long tutorId) {
-        return conversationDetailsService.findAllByTutorId(tutorId).stream()
-            .map(conversationDetails -> converter.conversationDetailsToResponseDto(conversationDetails,
-                findLanguageLevel(conversationDetails)))
+        return service.findAllByTutorId(tutorId).stream()
+            .map(converter::conversationDetailsToResponseDto)
             .toList();
     }
 
-    public double findTutorMinimumPrice(Long tutorId) {
-        return conversationDetailsService.findMinimumPriceByUserId(tutorId);
+    public List<User> filterTutors(FilterTutorsRequestDto dto) {
+        return service.filterTutors(dto.getMinPrice(), dto.getMaxPrice(), dto.getConversationTypeId(), dto.getLocation(),
+            dto.getLanguageId(), dto.getLevelId());
     }
 
-    public double findTutorMinimumPrice(Long tutorId, FilterTutorsRequestDto dto) {
-        return conversationDetailsService.findMinimumPriceByUserId(tutorId, dto.getConversationTypeId(),
-            dto.getLevelId(), dto.getLanguageId());
+    public double findMinimumPriceByTutorId(Long tutorId) {
+        return service.findMinimumPriceByUserId(tutorId);
     }
 
-    public int countAllTutorsWithConvDetails() {
-        return conversationDetailsService.countAllTutorsWithConvDetails();
-    }
-
-    public int countFilteredTutorsWithConvDetails(FilterTutorsRequestDto dto) {
-        return conversationDetailsService.countFilteredTutorsWithConvDetails(dto.getMinPrice(), dto.getMaxPrice(),
-            dto.getCity(), dto.getCountryId(), dto.getConversationTypeId(), dto.getLevelId(), dto.getLanguageId());
-    }
-
-    private LanguageLevelDto findLanguageLevel(ConversationDetails conversationDetails) {
-        return languageLevelService.findLanguageLevelByLanguageIdAndLevelId(conversationDetails.getLanguageId(),
-            conversationDetails.getMinLevelId());
+    public List<TutorCardInfoMinPrice> findTutorCardInfoWithMinPrice() {
+        return userService.findTutorsWithExistingConvDetails()
+            .stream()
+            .map(tutor -> userConverter.tutorCardInfoToMinPrice(
+                tutor,
+                findMinimumPriceByTutorId(tutor.getTutorId()),
+                addressFacade.findAddressesDistinctByTutorId(tutor.getTutorId())))
+            .toList();
     }
 }
