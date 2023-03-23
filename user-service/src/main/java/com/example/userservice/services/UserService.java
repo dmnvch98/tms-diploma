@@ -3,7 +3,6 @@ package com.example.userservice.services;
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +10,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserService {
     private final UserRepository repository;
 
     @Value("${avatar.user_postfix}")
     public String userAvatarNamePostfix;
-
-    @Value("${find-tutor-page-size}")
-    public int findTutorPageSize;
 
     public User save(User user) {
         return repository.save(user);
@@ -50,13 +45,11 @@ public class UserService {
     }
 
     public void updateRefreshToken(String token, Long userId) {
-        log.info("Updating refresh token for user. UserId : {}, Refresh token: {}", userId, token);
         repository.updateRefreshToken(token, userId);
-        log.info("Refresh token is updated. serId : {}, Refresh token: {}", userId, token);
     }
 
-    public List<User> findTutorsWhoHaveNotBookedConvDetails(Long lastTutorId) {
-        return repository.findTutorsWhoHaveNotBookedConvDetails(lastTutorId, findTutorPageSize);
+    public List<User> findTutorsWithExistingConvDetails() {
+        return repository.findTutorsWithExistingConvDetails();
     }
     public int setAvatar(Long userId) {
         return repository.setAvatar(userId + userAvatarNamePostfix, userId);
@@ -64,12 +57,5 @@ public class UserService {
 
     public int deleteAvatar(Long userId) {
         return repository.deleteAvatar(userId);
-    }
-
-    public List<User> filterTutorsWhoHaveNotBookedConvDetails(Long lastTutorId, Double minPrice, Double maxPrice,
-                                                              String city, Long countryId, Long convTypeId,
-                                                              Long minLevel, Long languageId) {
-        return repository.filterTutorsWhoHaveNotBookedConvDetails(lastTutorId, findTutorPageSize, minPrice,
-            maxPrice, countryId, city, convTypeId, minLevel, languageId);
     }
 }

@@ -1,23 +1,18 @@
 package com.example.convservice.dto;
 
 import lombok.Builder;
-import lombok.Setter;
 import lombok.Value;
-import lombok.experimental.NonFinal;
 import lombok.extern.jackson.Jacksonized;
 
 @Value
 @Builder
 @Jacksonized
 public class ConversationDetailsRequestDto {
-    @NonFinal
-    @Setter
     Long tutorId;
     Long conversationTypeId;
-    Double price;
+    double price;
     Long addressId;
-    Long languageId;
-    Long minLevelId;
+    LanguageLevelDto minimumLanguageLevel;
     String startDate;
     String endDate;
 }

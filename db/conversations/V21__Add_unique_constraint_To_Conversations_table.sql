@@ -1,2 +1,0 @@
-alter table conversations
-add constraint conversation_conv_details_id unique (conv_details_id)

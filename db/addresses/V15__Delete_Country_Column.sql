@@ -1,1 +1,0 @@
-alter table addresses drop column country;

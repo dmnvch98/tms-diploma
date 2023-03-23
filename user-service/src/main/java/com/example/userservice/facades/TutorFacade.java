@@ -1,12 +1,10 @@
 package com.example.userservice.facades;
 
 import com.example.userservice.converters.UserConverter;
-import com.example.userservice.dto.FilterTutorsRequestDto;
-import com.example.userservice.dto.TutorShortUserInfoDto;
+import com.example.userservice.dto.TutorCardInfo;
 import com.example.userservice.exceptions.TutorCannotBeDeletedException;
 import com.example.userservice.model.Tutor;
 import com.example.userservice.model.User;
-import com.example.userservice.services.FeedbackService;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,7 +17,6 @@ public class TutorFacade {
     private final UserService userService;
     private final UserConverter userConverter;
     private final UserFacade userFacade;
-    private final FeedbackService feedbackService;
 
     public void deleteTutor(Long userId) {
         User user = userService.get(userId);
@@ -32,33 +29,16 @@ public class TutorFacade {
         }
     }
 
-    public List<TutorShortUserInfoDto> findTutorsWhoHaveNotBookedConvDetails(Long lastTutorId) {
-        return userService.findTutorsWhoHaveNotBookedConvDetails(lastTutorId)
+    public List<TutorCardInfo> findTutorsWithExistingConvDetails() {
+        return userService.findTutorsWithExistingConvDetails()
             .stream()
-            .map(user -> userConverter.userToTutorCardInfo(
-                user,
-                userFacade.findLanguageLevelsByUserId(user.getId()),
-                feedbackService.findAvgRateForTutor(userFacade.getTutorIdIfExists(user))))
+            .map(user -> userConverter.userToTutorCardInfo(user, userFacade.findLanguageLevelsByUserId(user.getId())))
             .toList();
-    }
-
+        }
     public Tutor save(Tutor tutor) {
         User user = userService.get(tutor.getUserId());
         user.setTutor(tutor);
         user.getRoles().add("Tutor");
         return userService.save(user).getTutor();
-    }
-
-    public List<TutorShortUserInfoDto> filterTutorsWhoHaveNotBookedConvDetails(Long lastTutorId, FilterTutorsRequestDto dto) {
-        return userService
-            .filterTutorsWhoHaveNotBookedConvDetails(lastTutorId, dto.getMinPrice(), dto.getMaxPrice(),
-                dto.getCity(), dto.getCountryId(), dto.getConversationTypeId(), dto.getLevelId(), dto.getLanguageId())
-            .stream()
-            .map(user -> userConverter.userToTutorCardInfo(
-                user,
-                userFacade.findLanguageLevelsByUserId(user.getId()),
-                feedbackService.findAvgRateForTutor(userFacade.getTutorIdIfExists(user))
-                ))
-            .toList();
     }
 }

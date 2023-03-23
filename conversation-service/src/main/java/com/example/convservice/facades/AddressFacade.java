@@ -26,8 +26,4 @@ public class AddressFacade {
             .map(addressConverter::addressToDto)
             .toList();
     }
-
-    public List<Address> findAllTutorAddresses(Long tutorId) {
-        return addressService.findAllTutorAddresses(tutorId);
-    }
 }

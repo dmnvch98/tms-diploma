@@ -5,6 +5,8 @@ import {useSignUpStore} from "../../pages/SignUp/store/signUpStore";
 import {Level, useLevelsStore} from "../../pages/SignUp/store/levelStore";
 import {LanguageLevelTable} from "../LanguageLevelTable";
 import {useProfileStore} from "../../pages/Profile/profileStore";
+import {useEditProfileStore} from "../../pages/Profile/Edit/editAvatarStore";
+import {UpdateUserDto} from "../../CommonStore/store";
 import {useUpdateUserInfo} from "../../pages/Profile/Edit/editProfileInfoStore";
 
 const style = {
@@ -26,7 +28,7 @@ export const LanguageLevelSelector = () => {
     const language = useSignUpStore(state => state.language);
     const languageId = useSignUpStore(state => state.languageId);
     const levelsList = useLevelsStore(state => state.levelsList);
-    const user = useProfileStore(state => state.loggedInUser);
+    const user = useProfileStore(state => state.user);
 
     const setLanguageLevels = useSignUpStore(state => state.setLanguageLevels);
     const setLanguageId = useSignUpStore(state => state.setLanguageId);

@@ -32,8 +32,4 @@ public class UserResponseDto {
     @NonFinal
     @Setter
     String avatarName;
-    Integer tutorConversationCount;
-    Integer studentConversationCount;
-    Double tutorAverageRate;
-    Double studentAverageRate;
 }

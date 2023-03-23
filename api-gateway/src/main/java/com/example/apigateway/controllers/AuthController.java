@@ -8,14 +8,11 @@ import com.example.apigateway.dto.UserRefreshToken;
 import com.example.apigateway.model.User;
 import com.example.apigateway.services.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.util.Arrays;
@@ -23,7 +20,6 @@ import java.util.Arrays;
 @RequestMapping("/api/v1/auth")
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class AuthController {
 
     @Value("${jwt.access_token_name}")
@@ -68,45 +64,27 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<JwtResponse> refreshTokens(HttpServletRequest request,
+    public ResponseEntity<JwtResponse> refreshTokens(@RequestBody final RefreshTokenDto dto,
                                                      HttpServletResponse response) {
-        log.info("Updating tokens");
-        Cookie requestCookie = WebUtils.getCookie(request, "JWT_REFRESH");
-        String refreshToken = null;
-        if (requestCookie != null) {
-             refreshToken= requestCookie.getValue();
-        }
-        if (jwt.validateRefreshToken(refreshToken)) {
-            log.info("Refresh token is valid");
-            String email = jwt.getLoginFromRefreshToken(refreshToken);
+        if (jwt.validateRefreshToken(dto.getRefreshToken())) {
+            String email = jwt.getLoginFromRefreshToken(dto.getRefreshToken());
             User user = userService.findUserByEmail(email);
-            if (user.getRefreshToken() != null && user.getRefreshToken().equals(refreshToken)) {
-                log.info("Refresh tokens are the same");
-                String newAccessToken = jwt.generateAccessToken(user);
-                String newRefreshToken = jwt.generateRefreshToken(email);
-                final Cookie accessTokenCookie = new Cookie(accessTokenName, newAccessToken);
-                final Cookie refreshTokenCookie = new Cookie(refreshTokenName, newRefreshToken);
-                Arrays.asList(refreshTokenCookie, accessTokenCookie)
-                    .forEach(cookie -> {
-                        cookie.setPath("/");
-                        cookie.setHttpOnly(true);
-                        cookie.setDomain(cookieDomain);
-                        cookie.setMaxAge((int) EXPIRATION);
-                    });
+            if (user.getRefreshToken() != null && user.getRefreshToken().equals(dto.getRefreshToken())) {
+                String accessToken = jwt.generateAccessToken(user);
+                String refreshToken = jwt.generateRefreshToken(email);
+                final Cookie cookie = new Cookie(accessTokenName, accessToken);
+                cookie.setPath("/");
+                cookie.setHttpOnly(true);
+                cookie.setMaxAge((int) EXPIRATION);
+                cookie.setDomain(cookieDomain);
+                response.addCookie(cookie);
                 UserRefreshToken userRefreshToken = UserRefreshToken.builder()
                     .userId(user.getId())
-                    .token(newRefreshToken)
+                    .token(refreshToken)
                     .build();
                 userService.saveRefreshToken(userRefreshToken);
-                response.addCookie(accessTokenCookie);
-                response.addCookie(refreshTokenCookie);
-                log.info("Tokens are updated");
-                return ResponseEntity.ok(new JwtResponse(newAccessToken, newRefreshToken));
-            } else {
-                log.error("Refresh tokens are not the same");
+                return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));
             }
-        } else {
-            log.error("Refresh token is not valid");
         }
         return ResponseEntity.notFound().build();
     }

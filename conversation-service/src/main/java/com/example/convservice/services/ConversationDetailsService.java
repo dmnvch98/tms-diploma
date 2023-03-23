@@ -2,6 +2,7 @@ package com.example.convservice.services;
 
 import com.example.convservice.converters.utils.FindConversationDetailsById;
 import com.example.convservice.model.ConversationDetails;
+import com.example.convservice.model.User;
 import com.example.convservice.repositories.ConversationDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ public class ConversationDetailsService implements FindConversationDetailsById {
     public ConversationDetails save(ConversationDetails conversationDetails) {
         return repository.save(conversationDetails);
     }
-
     public List<ConversationDetails> findAllByTutorId(Long tutorId) {
         return repository.findAllByTutorId(tutorId);
     }
@@ -25,21 +25,12 @@ public class ConversationDetailsService implements FindConversationDetailsById {
         return repository.findAllByConvDetailsId(convDetailsId);
     }
 
+    public List<User> filterTutors(double minPrice, double maxPrice, Long convTypeId,
+                                   String location, Long languageId, Long levelId) {
+        return repository.filterTutors(minPrice, maxPrice, convTypeId, location, languageId, levelId);
+    }
+
     public double findMinimumPriceByUserId(Long tutorId) {
-        return repository.findMinimumPrice(tutorId);
-    }
-
-    public Double findMinimumPriceByUserId(Long tutorId, Long convTypeId, Long minLevel, Long languageId) {
-        return repository.findMinimumPrice(tutorId, convTypeId, minLevel, languageId);
-    }
-
-    public int countAllTutorsWithConvDetails() {
-        return repository.countTutorsWithConvDetails();
-    }
-
-    public int countFilteredTutorsWithConvDetails(Double minPrice, Double maxPrice, String city,
-                                                  Long countryId, Long convTypeId, Long minLevel, Long languageId) {
-        return repository.countFilteredTutorsWithConvDetails(minPrice, maxPrice, countryId, city, convTypeId,
-            minLevel, languageId);
+        return repository.findMinimumPriceByUserId(tutorId);
     }
 }
