@@ -30,6 +30,7 @@
         <checkstyle.config.location>./codequality/checkstyle.xml</checkstyle.config.location>
         <pmd.maven.plugin.version>3.19.0</pmd.maven.plugin.version>
         <spotbugs.maven.plugin.version>4.7.1.1</spotbugs.maven.plugin.version>
+        <junit5.version>5.9.1</junit5.version>
     </properties>
 
     <dependencyManagement>
@@ -158,6 +159,17 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>5.3.24</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.7.5</version>
         </dependency>
     </dependencies>
 
