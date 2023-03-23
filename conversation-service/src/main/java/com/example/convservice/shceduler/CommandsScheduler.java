@@ -15,7 +15,7 @@ public class CommandsScheduler {
     private final CommandService commandService;
     private final ConversationService conversationService;
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 60000)
     public void processMessage() {
         commandService.getCommand()
             .ifPresent(

@@ -2,10 +2,12 @@ package com.example.apigateway.dto;
 
 import com.example.apigateway.model.Language;
 import com.example.apigateway.model.Level;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
-@Data
+@Value
+@Builder
 @Jacksonized
 public class LanguageLevelDto {
     Language language;

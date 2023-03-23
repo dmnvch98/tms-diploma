@@ -4,17 +4,21 @@ import {TutorInfo} from "../../../Components/Profile/Tutor/TutorInfo";
 import {MyTutorAvatarSection} from "../../../Components/Profile/Tutor/MyTutorAvatarSection";
 import {useProfileStore} from "../profileStore";
 import {useEffect} from "react";
-import {useEditProfileStore} from "../Edit/editAvatarStore";
+import {useAvatarStore} from "../Edit/avatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
+import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
+import {Notification} from "../../../Components/Notifications/Notification";
+import {LanguageLevel} from "../../SignUp/store/languagesStore";
 
 export const MyTutorProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
-    const user = useProfileStore(state => state.user);
-    const getAvatar = useEditProfileStore(state => state.getAvatar);
+    const user = useProfileStore(state => state.loggedInUser);
+    const getAvatar = useAvatarStore(state => state.getAvatar);
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage)
+    const isNotificationOpen = useNotificationStore(state => state.isOpen);
 
     useEffect(() => {
         getMe();
@@ -35,13 +39,20 @@ export const MyTutorProfile = () => {
         return (
             <>
                 {isErrorOpen && (<ErrorMessage/>)}
+                {isNotificationOpen && (<Notification/>)}
                 <Container sx={{mt: 7}}>
                     <Grid container spacing={2}>
                         <Grid item xs={3}>
                             <MyTutorAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <TutorInfo/>
+                            <TutorInfo
+                                tutorAverageRate={user?.tutorAverageRate as number}
+                                tutorConversationsCount={user?.tutorConversationCount as number}
+                                tutorId={user?.tutor.tutorId as number}
+                                currentUser={true}
+                                languageLevels={user?.languageLevels as LanguageLevel[]}
+                                aboutMe={user?.tutor?.aboutMe as string}/>
                         </Grid>
                     </Grid>
                 </Container>

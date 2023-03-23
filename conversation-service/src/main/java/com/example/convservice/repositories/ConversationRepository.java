@@ -8,7 +8,7 @@ public interface ConversationRepository extends Repository<Conversation, Long> {
 
     Conversation save(Conversation conversation);
 
-    List<Conversation> findAllByStudentIdOrderByConvIdDesc(Long studentId);
+    List<Conversation> findAllByStudentIdOrderByConvId(Long studentId);
 
     @Query("select c.* from conversations c" +
         " join conv_details cd on cd.conv_details_id = c.conv_details_id" +

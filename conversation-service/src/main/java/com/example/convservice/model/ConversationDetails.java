@@ -19,11 +19,13 @@ public class ConversationDetails {
     @Column("conv_type_id")
     Long conversationTypeId;
     @Column("price")
-    double price;
+    Double price;
     @Column("address_id")
     Long addressId;
-    @Column("min_lang_level_id")
-    Long minLangLevel;
+    @Column("language_id")
+    Long languageId;
+    @Column("min_level")
+    Long minLevelId;
     @Column("start_date")
     LocalDateTime startDate;
     @Column("end_date")

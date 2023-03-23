@@ -3,44 +3,57 @@ import UserService from "../../services/UserService";
 import {User} from "../../CommonStore/store";
 
 export interface ProfileStore {
-    user: User | null;
+    loggedInUser: User | null;
+    lookupUser: User | null;
     setUser: (user: User) => void;
     getUserByStudentId: (studentId: number) => void;
     getUserByTutorId: (tutorId: number) => void;
-    getMe: () => void;
+    getMe: () => Promise<boolean>;
+    logout: () => Promise<boolean>;
 }
 
-export const useProfileStore = create<ProfileStore>((set: any) => ({
-    user: null,
+export const useProfileStore = create<ProfileStore>((set: any, get: any) => ({
+    loggedInUser: null,
+    lookupUser: null,
     setUser: async (user: User) => {
         set({user: user})
     },
     getUserByStudentId: async (studentId: number) => {
         const user: User = await UserService.getUserByStudentId(studentId);
-        if (user.student.aboutMe == null) {
+        if (!user.student.aboutMe) {
             user.student.aboutMe = '';
         }
-        set({user: user})
+        set({lookupUser: user})
     },
     getUserByTutorId: async (tutorId: number) => {
         const user: User = await UserService.getUserByTutorId(tutorId);
-        if (user.tutor.aboutMe == null) {
+        if (!user.tutor.aboutMe) {
             user.tutor.aboutMe = '';
         }
-        set({user: user})
+        set({lookupUser: user})
     },
-    getMe: async () => {
-        const user: User = await UserService.getMe();
-        if (user?.student != null) {
-            if (user.student.aboutMe == null) {
-                user.student.aboutMe = '';
+    getMe: async (): Promise<boolean> => {
+        const response = await UserService.getMe();
+
+        if (response) {
+            const user: User = response as User;
+            if (user.student) {
+                if (!user.student.aboutMe) {
+                    user.student.aboutMe = '';
+                }
             }
-        }
-        if (user?.tutor != null) {
-            if (user.tutor.aboutMe == null) {
-                user.tutor.aboutMe = '';
+            if (user.tutor) {
+                if (!user.tutor.aboutMe) {
+                    user.tutor.aboutMe = '';
+                }
             }
+            set({loggedInUser: user})
+            return true;
         }
-        set({user: user})
+        return false;
+    },
+    logout: (): Promise<boolean> => {
+        return UserService.logout();
     }
+
 }))

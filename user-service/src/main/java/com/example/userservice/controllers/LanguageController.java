@@ -17,4 +17,9 @@ public class LanguageController {
     public List<Language> getLanguages() {
         return languageFacade.getAllLanguages();
     }
+
+    @GetMapping("/{languageId}")
+    public Language findAllByLanguageId(@PathVariable("languageId") Long languageId) {
+        return languageFacade.findAllByLanguageId(languageId);
+    }
 }

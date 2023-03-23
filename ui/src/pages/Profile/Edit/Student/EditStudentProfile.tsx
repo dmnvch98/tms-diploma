@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {StudentEditInfo} from "../../../../Components/Profile/Edit/StudentEditInfo";
 import {EditProfile} from "../../../../Components/Profile/Edit/EditProfile";
 export const EditStudentProfile = () => {
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     const getMe = useProfileStore(state => state.getMe)
 
     useEffect(() => {

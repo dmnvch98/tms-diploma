@@ -1,21 +1,26 @@
 import {Box, Grid, Typography} from "@mui/material";
-import {useProfileStore} from "../../../pages/Profile/profileStore";
+import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
+import React from "react";
 
-export const LanguageLevelsProfile = () => {
-    const user = useProfileStore(state => state.user);
+type Props = {
+    languageLevels: LanguageLevel[]
+}
+
+export const LanguageLevelsProfile: React.FC<Props> = ({languageLevels}) => {
+
     return (
         <>
             <Box sx={{mt: 3}}>
                 <Grid container>
                     <Grid item sx={{mr: 8}}>
                         <Typography><b>Language</b></Typography>
-                        {user?.languageLevels.map((ll) =>
+                        {languageLevels?.map((ll: LanguageLevel) =>
                             <Typography key={ll.language.description}>{ll.language.description}</Typography>
                         )}
                     </Grid>
                     <Grid item>
                         <Typography><b>Level</b></Typography>
-                        {user?.languageLevels.map((ll, index) =>
+                        {languageLevels?.map((ll : LanguageLevel, index: number) =>
                             <Typography key={index}>{ll.level.description}</Typography>
                         )}
                     </Grid>

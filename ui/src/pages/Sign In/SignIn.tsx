@@ -7,6 +7,7 @@ import {Authentication} from "../../Components/Authentication";
 import {useSignInStore} from "./signinStore";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import {useProfileStore} from "../Profile/profileStore";
 
 export const SignIn = () => {
     const email = useSignInStore(state => state.email);
@@ -18,12 +19,13 @@ export const SignIn = () => {
     const getToken = useSignInStore(state => state.getToken);
     const snackBarOpen = useSignInStore(state => state.snackbarOpen);
     const setSnackBar = useSignInStore(state => state.setSnackBar);
+    const user = useProfileStore(state => state.loggedInUser);
 
     useEffect(() => {
         if (isAuthorized) {
-            navigate("/my-student-profile")
-            setEmail('');
-            setPassword('');
+            user?.roles[0] == 'Student'
+                ? navigate("/my-student-profile")
+                : navigate("/my-tutor-profile")
         }
     }, [isAuthorized])
     return (
@@ -50,7 +52,6 @@ export const SignIn = () => {
                             label="Password"
                             sx={{mb: 2}}
                             value={password}
-                            type='password'
                             onChange={(e) =>
                                 setPassword(e.target.value)
                             }

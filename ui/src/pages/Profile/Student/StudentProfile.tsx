@@ -5,14 +5,15 @@ import {SidebarHeader} from "../../../Components/SidebarHeader";
 import {useParams} from "react-router-dom";
 import {StudentAvatarSection} from "../../../Components/Profile/Student/StudentAvatarSection";
 import {StudentInfo} from "../../../Components/Profile/Student/StudentInfo";
-import {useEditProfileStore} from "../Edit/editAvatarStore";
+import {useAvatarStore} from "../Edit/avatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
+import {LanguageLevel} from "../../SignUp/store/languagesStore";
 
 export const StudentProfile = () => {
     const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
-    const user = useProfileStore(state => state.user);
-    const getAvatar = useEditProfileStore(state => state.getAvatar);
+    const user = useProfileStore(state => state.lookupUser);
+    const getAvatar = useAvatarStore(state => state.getAvatar);
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage);
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
@@ -43,7 +44,12 @@ export const StudentProfile = () => {
                             <StudentAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <StudentInfo/>
+                            <StudentInfo
+                                studentAverageRate={user?.studentAverageRate as number}
+                                studentConversationCount={user?.studentConversationCount as number}
+                                studentId={user?.student.studentId as number}
+                                aboutMe={user?.student.aboutMe as string}
+                                languageLevels={user?.languageLevels as LanguageLevel[]}/>
                         </Grid>
                     </Grid>
                 </Container>
