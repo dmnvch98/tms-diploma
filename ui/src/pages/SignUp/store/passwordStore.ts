@@ -15,7 +15,7 @@ export interface Passwords {
     setMatches: () => void;
 }
 
-export const usePasswords = create<Passwords>((set: any) => ({
+export const usePasswords = create<Passwords>((set: any, get) => ({
     password: '',
     confirmPassword: '',
     matches: false,
