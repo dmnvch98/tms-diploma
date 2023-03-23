@@ -50,7 +50,6 @@ export const SignIn = () => {
                             label="Password"
                             sx={{mb: 2}}
                             value={password}
-                            type='password'
                             onChange={(e) =>
                                 setPassword(e.target.value)
                             }
