@@ -16,14 +16,16 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import PublicIcon from '@mui/icons-material/Public';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import {Button, Grid} from "@mui/material";
-import {Link as RouterLink} from "react-router-dom";
 import {useProfileStore} from "../pages/Profile/profileStore";
+import Link from "@mui/material/Link";
+import {useNavigate} from "react-router-dom";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
@@ -101,16 +103,18 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-export const SidebarHeader = (props: any) => {
-    const user = useProfileStore(state => state.user);
+export const SidebarHeader = () => {
+    const user = useProfileStore(state => state.loggedInUser);
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const logout = useProfileStore(state => state.logout);
+    const navigate = useNavigate();
 
     const tabs: TabIcon[] = [
         {
             name: 'Find tutor',
             icon: <PublicIcon/>,
-            redirect: '',
+            redirect: '/find-tutor',
             visible: true
         },
         {
@@ -121,18 +125,17 @@ export const SidebarHeader = (props: any) => {
         },
         {
             name: 'My Tutor Profile',
-            icon: <AccountCircleIcon/>,
+            icon: <LocalLibraryIcon/>,
             redirect: '/my-tutor-profile',
             visible: user?.tutor != null
         },
         {
             name: 'My conversations',
             icon: <EmojiPeopleIcon/>,
-            redirect: '',
+            redirect: '/conversations',
             visible: true
         }
     ]
-
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -166,10 +169,17 @@ export const SidebarHeader = (props: any) => {
                                 <Typography variant="h6" noWrap component="div">
                                     Logo
                                 </Typography>
-                                <Button
-                                    color="inherit"
-                                    variant="text"
-                                >Logout</Button>
+                                <Link href='/sign-in'>
+                                    <Button
+                                        sx={{color: 'black'}}
+                                        onClick={() => {
+                                            logout();
+                                        }}
+                                    >
+                                        Logout
+                                    </Button>
+                                </Link>
+
                             </Box>
                         </Grid>
                     </Grid>
@@ -185,36 +195,29 @@ export const SidebarHeader = (props: any) => {
                 <Divider/>
                 <List>
                     {tabs.map((t) => (
-                        <ListItem key={t.name} disablePadding sx={{display: 'block'}}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                    mb: 2,
-                                    display: t.visible ? "flex" : "none"
-                                }}
-                            >
-                                <ListItemIcon
+                        <Link href={t.redirect} underline='none' color="inherit">
+                            <ListItem key={t.name} disablePadding sx={{display: 'block'}}>
+                                <ListItemButton
                                     sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                        mb: 2,
+                                        display: t.visible ? "flex" : "none"
                                     }}
                                 >
-                                    <Button
-                                        {...{
-                                            to: t.redirect,
-                                            component: RouterLink,
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
                                         }}
-                                        color="inherit"
-                                    >
-                                        {t.icon}
-                                    </Button>
-                                </ListItemIcon>
-                                <ListItemText primary={t.name} sx={{opacity: open ? 1 : 0}}/>
-                            </ListItemButton>
-                        </ListItem>
+                                    >{t.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={t.name} sx={{opacity: open ? 1 : 0}}/>
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                     ))}
                 </List>
             </Drawer>

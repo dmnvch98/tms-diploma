@@ -5,6 +5,7 @@ import com.example.convservice.model.ConversationType;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
+import org.springframework.data.relational.core.mapping.Column;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,7 @@ public class ConversationDetailsResponseDto {
     ConversationType conversationType;
     double price;
     Address address;
-    LanguageLevelDto minimumLanguageLevel;
+    LanguageLevelDto minLanguageLevel;
     LocalDateTime startDate;
     LocalDateTime endDate;
 }

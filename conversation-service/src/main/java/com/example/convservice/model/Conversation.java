@@ -18,5 +18,9 @@ public class Conversation {
     Long studentId;
     @Column("conv_details_id")
     Long conversationDetailsId;
+    @Column("student_left_feedback")
+    Boolean studentLeftFeedback;
+    @Column("tutor_left_feedback")
+    Boolean tutorLeftFeedback;
 
 }

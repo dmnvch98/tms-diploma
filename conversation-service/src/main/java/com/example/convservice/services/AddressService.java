@@ -4,6 +4,7 @@ import com.example.convservice.converters.utils.FindAddress;
 import com.example.convservice.model.Address;
 import com.example.convservice.repositories.AddressRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public class AddressService implements FindAddress {
 
     public List<Address> findAddressesDistinctByTutorId(Long tutorId) {
         return addressRepository.findDistinctByTutorId(tutorId);
+    }
+
+    public List<Address> findAllTutorAddresses(Long tutorId) {
+        return addressRepository.findAllByTutorId(tutorId);
     }
 }

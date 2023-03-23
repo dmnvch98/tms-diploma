@@ -2,10 +2,9 @@ import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {Box, Button, Paper, Typography} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
 import {Avatar} from "../Avatar";
-import {useEffect} from "react";
 
 export const MyStudentAvatarSection = () => {
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     return (
         <>
 

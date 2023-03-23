@@ -27,6 +27,10 @@ export interface User {
     tutor: Tutor;
     location: string | null;
     avatarName: string | null;
+    tutorConversationCount: number;
+    studentConversationCount: number;
+    tutorAverageRate: number;
+    studentAverageRate: number;
 }
 export interface UpdateUserDto {
     id: number;

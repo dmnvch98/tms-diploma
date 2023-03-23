@@ -8,10 +8,11 @@ import lombok.extern.jackson.Jacksonized;
 @Value
 @Jacksonized
 public class FilterTutorsRequestDto {
-    double minPrice;
-    double maxPrice;
+    Double minPrice;
+    Double maxPrice;
     Long conversationTypeId;
     Long languageId;
     Long levelId;
-    String location;
+    String city;
+    Long countryId;
 }

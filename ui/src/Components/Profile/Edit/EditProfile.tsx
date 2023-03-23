@@ -9,7 +9,7 @@ import {CreateDeleteTutorProfile} from "../Student/CreateDeleteTutorProfile";
 import {CreateDeleteStudentProfile} from "../Tutor/CreateDeleteStudentProfile";
 
 export const EditProfile = ({ children }: any) => {
-    const user = useProfileStore(state => state.user);
+    const user = useProfileStore(state => state.loggedInUser);
     const getMe = useProfileStore(state => state.getMe)
 
     const setExistingUser = useUpdateUserInfo(state => state.setExistingUser);

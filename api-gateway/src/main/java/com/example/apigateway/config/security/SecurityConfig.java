@@ -13,10 +13,12 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -39,9 +41,10 @@ public class SecurityConfig {
         http
             .cors()
             .and()
-            .csrf().ignoringAntMatchers("/api/v1/auth/login")
-            .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
-            .and()
+            .csrf().disable()
+//            .csrf().ignoringAntMatchers("/api/v1/auth/login", "/logout")
+//            .ignoringRequestMatchers(new AntPathRequestMatcher("/api/v1/users", "POST"))
+//            .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests(requests -> requests
@@ -57,9 +60,22 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
-            .csrf().csrfTokenRepository(csrfTokenRepository())
-            .and()
-            .logout(LogoutConfigurer::permitAll)
+     //       .csrf().csrfTokenRepository(csrfTokenRepository())
+         //   .and()
+            .logout(logout -> logout
+                .permitAll()
+                .logoutUrl("/logout")
+                .addLogoutHandler(new SecurityContextLogoutHandler())
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    for (Cookie cookie : request.getCookies()) {
+                        String cookieName = cookie.getName();
+                        Cookie cookieToDelete = new Cookie(cookieName, null);
+                        cookieToDelete.setMaxAge(0);
+                        response.addCookie(cookieToDelete);
+                    }
+                    response.setStatus(HttpServletResponse.SC_OK);
+                })
+            )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
