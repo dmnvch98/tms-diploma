@@ -72,7 +72,7 @@ export const SignUpFirst = () => {
                             }}
                         />
                         <TextField
-                            error={!passwordMatches}
+                            // error={!passwordMatches}
                             key="password"
                             variant="standard"
                             label="Password"
@@ -85,7 +85,7 @@ export const SignUpFirst = () => {
                             }}
                         />
                         <TextField
-                            error={!passwordMatches}
+                            // error={!passwordMatches}
                             variant="standard"
                             label="Confirm Password"
                             sx={{mb: 2}}
