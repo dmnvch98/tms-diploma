@@ -1,4 +1,4 @@
-import {useAvatarStore} from "../../../pages/Profile/Edit/avatarStore";
+import {useEditProfileStore} from "../../../pages/Profile/Edit/editAvatarStore";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {ChangeEvent, useEffect} from "react";
 import {Box, Button, Modal, Paper, Typography} from "@mui/material";
@@ -6,12 +6,12 @@ import {Avatar} from "../Avatar";
 import {FileLoader} from "../Common/FileLoader";
 
 export const EditAvatar = () => {
-    const newAvatarUrl = useAvatarStore(state => state.newAvatarUrl);
-    const setNewAvatarUrl = useAvatarStore(state => state.setNewAvatarUrl);
-    const editMode = useAvatarStore(state => state.editMode);
-    const setEditMode = useAvatarStore(state => state.setEditMode);
-    const deleteAvatar = useAvatarStore(state => state.deleteAvatar);
-    const user = useProfileStore(state => state.loggedInUser)
+    const newAvatarUrl = useEditProfileStore(state => state.newAvatarUrl);
+    const setNewAvatarUrl = useEditProfileStore(state => state.setNewAvatarUrl);
+    const editMode = useEditProfileStore(state => state.editMode);
+    const setEditMode = useEditProfileStore(state => state.setEditMode);
+    const deleteAvatar = useEditProfileStore(state => state.deleteAvatar);
+    const user = useProfileStore(state => state.user)
     const getMe = useProfileStore(state => state.getMe)
 
     useEffect(() => {

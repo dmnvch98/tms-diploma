@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Route, Routes} from 'react-router-dom';
 import {SignUpFirst} from "./pages/SignUp/SignUpFirst";
 import {createTheme, ThemeProvider} from "@mui/material";
@@ -13,15 +13,8 @@ import {Loading} from "./Components/Loading";
 import {FindTutor} from "./pages/FIndTutor/FindTutor";
 import {EditStudentProfile} from "./pages/Profile/Edit/Student/EditStudentProfile";
 import {EditTutorProfile} from "./pages/Profile/Edit/Tutor/EditTutorProfile";
-import {TutorsFilter} from "./Components/FindTutor/TutorsFilter";
-import {useProfileStore} from "./pages/Profile/profileStore";
-import {AddAddress} from "./pages/Addresses/AddAddress";
-import {Conversations} from "./pages/Conversations/Conversations";
 
 function App() {
-    const getMe = useProfileStore(state => state.getMe)
-    const user = useProfileStore(state => state.loggedInUser);
-
     const theme = createTheme({
         typography: {
             fontFamily: [
@@ -43,33 +36,24 @@ function App() {
         },
     });
 
-    useEffect(() => {
-        if (!user) {
-            getMe();
-        }
-    }, [])
-
-    return (
-        <ThemeProvider theme={theme}>
-            <Routes>
-                <Route path={'/students/:id'} element={<StudentProfile/>}/>
-                <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
-                <Route path={'/my-tutor-profile'} element={<MyTutorProfile/>}/>
-                <Route path={'/my-student-profile'} element={<MyStudentProfile/>}/>
-                <Route path={'/loading'} element={<Loading/>}/>
-                <Route path={'/find-tutor'} element={<FindTutor/>}/>
-                <Route path={'/edit-profile-student'} element={<EditStudentProfile/>}/>
-                <Route path={'/edit-profile-tutor'} element={<EditTutorProfile/>}/>
-                <Route path={'/filter'} element={<TutorsFilter/>}/>
-                <Route path={'/sign-up'} element={<SignUpFirst/>}/>
-                <Route path={'/sign-up2'} element={<SignUpSecond/>}/>
-                <Route path={'/sign-up3'} element={<SignUpThird/>}/>
-                <Route path={'/sign-in'} element={<SignIn/>}/>
-                <Route path={'/add-address'} element={<AddAddress/>}/>
-                <Route path={'/conversations'} element={<Conversations/>}/>
-            </Routes>
-        </ThemeProvider>
-    )
+        return (
+            <ThemeProvider theme={theme}>
+                <Routes>
+                    <Route path={'/sign-up'} element={<SignUpFirst/>}/>
+                    <Route path={'/sign-up2'} element={<SignUpSecond/>}/>
+                    <Route path={'/sign-up3'} element={<SignUpThird/>}/>
+                    <Route path={'/sign-in'} element={<SignIn/> }/>
+                    <Route path={'/students/:id'} element={<StudentProfile/>}/>
+                    <Route path={'/tutors/:id'} element={<TutorProfile/>}/>
+                    <Route path={'/my-tutor-profile'} element={<MyTutorProfile/>}/>
+                    <Route path={'/my-student-profile'} element={<MyStudentProfile/>}/>
+                    <Route path={'/loading'} element={<Loading/>}/>
+                    <Route path={'/find-tutor'} element={<FindTutor/>}/>
+                    <Route path={'/edit-profile-student'} element={<EditStudentProfile/>}/>
+                    <Route path={'/edit-profile-tutor'} element={<EditTutorProfile/>}/>
+                </Routes>
+            </ThemeProvider>
+        );
 }
 
 export default App;

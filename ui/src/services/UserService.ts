@@ -40,7 +40,7 @@ class UserService {
     getLevels = async () => {
         try {
             const response =
-                await axios.get('http://localhost:8080/api/v1/levels');
+                await axios.get('http://localhost:9090/api/v1/levels');
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
@@ -91,14 +91,13 @@ class UserService {
     }
 
     getMe = async () => {
-        let response;
         try {
-            response = await axios.get('http://localhost:8080/api/v1/users/me',
+            const response = await axios.get('http://localhost:8080/api/v1/users/me',
                 {withCredentials: true});
-            return response.data
+            return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
-            console.log(error.message);
+            alert(error.message);
         }
     }
 
@@ -109,18 +108,18 @@ class UserService {
             return response.status == 200;
         } catch (e: unknown) {
             const error = e as AxiosError;
-            console.log(error.message);
+            alert(error.message);
         }
     }
 
     createTutor = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/tutors/', null,
+            const response = await axios.post('http://localhost:8080/api/v1/tutors/', null ,
                 {withCredentials: true});
             return response.status == 201;
         } catch (e: unknown) {
             const error = e as AxiosError;
-            console.log(error.message);
+            alert(error.message);
         }
     }
 
@@ -131,7 +130,7 @@ class UserService {
             return response.status == 204;
         } catch (e: unknown) {
             const error = e as AxiosError;
-            console.log(error.message);
+            alert(error.message);
         }
     }
 
@@ -142,7 +141,7 @@ class UserService {
             return response.status == 201;
         } catch (e: unknown) {
             const error = e as AxiosError;
-            console.log(error.message);
+            alert(error.message);
         }
     }
 
@@ -153,20 +152,8 @@ class UserService {
             return response.status == 204;
         } catch (e: unknown) {
             const error = e as AxiosError;
-            console.log(error.message);
+            alert(error.message);
         }
-    }
-
-    logout = async (): Promise<boolean> => {
-        try {
-            const response = await axios.post('http://localhost:8080/logout', null,
-                {withCredentials: true});
-            return response.status == 200;
-        } catch (e: unknown) {
-            const error = e as AxiosError;
-            console.log(error.message);
-        }
-        return false;
     }
 
 }

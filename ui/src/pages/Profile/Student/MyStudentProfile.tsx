@@ -4,15 +4,14 @@ import {useProfileStore} from "../profileStore";
 import {useEffect} from "react";
 import {StudentInfo} from "../../../Components/Profile/Student/StudentInfo";
 import {MyStudentAvatarSection} from "../../../Components/Profile/Student/MyStudentAvatarSection";
-import {useAvatarStore} from "../Edit/avatarStore";
+import {useEditProfileStore} from "../Edit/editAvatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
-import {LanguageLevel} from "../../SignUp/store/languagesStore";
 
 export const MyStudentProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
-    const user = useProfileStore(state => state.loggedInUser);
-    const getAvatar = useAvatarStore(state => state.getAvatar);
+    const user = useProfileStore(state => state.user);
+    const getAvatar = useEditProfileStore(state => state.getAvatar);
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage)
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
@@ -41,12 +40,7 @@ export const MyStudentProfile = () => {
                             <MyStudentAvatarSection/>
                         </Grid>
                         <Grid item xs={9}>
-                            <StudentInfo
-                                studentAverageRate={user?.studentAverageRate as number}
-                                studentConversationCount={user?.studentConversationCount as number}
-                                studentId={user?.student.studentId as number}
-                                aboutMe={user?.student.aboutMe as string}
-                                languageLevels={user?.languageLevels as LanguageLevel[]}/>
+                            <StudentInfo/>
                         </Grid>
                     </Grid>
                 </Container>

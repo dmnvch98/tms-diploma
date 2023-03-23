@@ -6,7 +6,6 @@ docker run --rm \
   -v "${DIPLOMA_HOME}/db/tutors:/flyway/sql/tutors" \
   -v "${DIPLOMA_HOME}/db/addresses:/flyway/sql/addresses" \
   -v "${DIPLOMA_HOME}/db/conversations:/flyway/sql/conversations" \
-  -v "${DIPLOMA_HOME}/db/feedbacks:/flyway/sql/feedbacks" \
   --network "tms-diploma_default" \
   flyway/flyway \
   -url=jdbc:postgresql://diploma-postgres:5432/diploma \

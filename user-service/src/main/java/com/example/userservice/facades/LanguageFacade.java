@@ -16,9 +16,4 @@ public class LanguageFacade {
     public List<Language> getAllLanguages() {
         return languageLevelService.findAllLanguages();
     }
-
-    public Language findAllByLanguageId(Long languageId) {
-        return languageLevelService.findAllByLanguageId(languageId);
-    }
-
 }

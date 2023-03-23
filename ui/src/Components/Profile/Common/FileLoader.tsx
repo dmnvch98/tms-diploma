@@ -1,6 +1,6 @@
 import "cropperjs/dist/cropper.css";
 import {Cropper} from "react-cropper";
-import {useAvatarStore} from "../../../pages/Profile/Edit/avatarStore";
+import {useEditProfileStore} from "../../../pages/Profile/Edit/editAvatarStore";
 import {Box, Button} from "@mui/material";
 import React from "react";
 import {useNotificationStore} from "../../Notifications/notificationStore";
@@ -12,11 +12,11 @@ type Props = {
 };
 
 export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
-    const editMode = useAvatarStore(state => state.editMode);
-    const setEditMode = useAvatarStore(state => state.setEditMode);
-    const cropper = useAvatarStore(state => state.cropper);
-    const setCropper = useAvatarStore(state => state.setCropper);
-    const uploadAvatar = useAvatarStore(state => state.uploadAvatar);
+    const editMode = useEditProfileStore(state => state.editMode);
+    const setEditMode = useEditProfileStore(state => state.setEditMode);
+    const cropper = useEditProfileStore(state => state.cropper);
+    const setCropper = useEditProfileStore(state => state.setCropper);
+    const uploadAvatar = useEditProfileStore(state => state.uploadAvatar);
     const isErrorOpen = useNotificationStore(state => state.isOpen);
     const setIsErrorOpen = useNotificationStore(state => state.setIsOpen)
     const setErrorMessage = useNotificationStore(state => state.setMessage)

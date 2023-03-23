@@ -9,9 +9,3 @@ aws:
 avatar:
   user_postfix: '_avatar.png'
   default: 'default_avatar.png'
-spring:
-  datasource:
-    driver-class-name: 'org.postgresql.Driver'
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:35432/diploma

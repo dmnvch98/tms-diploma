@@ -44,10 +44,8 @@ public interface UserRepository extends Repository<User, Long> {
 
     @Query("select distinct u.*, t.tutor_id AS tutor_tutor_id from users u" +
         " left outer join tutors t on u.id = t.user_id" +
-        " right outer join conv_details cd on t.tutor_id = cd.tutor_id " +
-        "where cd.conv_details_id not in (select conv_details_id from conversations)" +
-        " and t.tutor_id >:lastTutorId order by t.tutor_id limit :pageSize")
-    List<User> findTutorsWhoHaveNotBookedConvDetails(@Param("lastTutorId") Long lastTutorId, @Param("pageSize") int pageSize);
+        " right outer join conv_details cd on t.tutor_id = cd.tutor_id;")
+    List<User> findTutorsWithExistingConvDetails();
 
     @Query("UPDATE users set avatar_name=:avatarName WHERE id=:userId")
     @Modifying
@@ -57,21 +55,4 @@ public interface UserRepository extends Repository<User, Long> {
     @Modifying
     int deleteAvatar(@Param("userId") Long userId);
 
-    @Query("select distinct u.*, t.tutor_id AS tutor_tutor_id from users u" +
-        " left outer join tutors t on u.id = t.user_id" +
-        " right outer join conv_details cd on t.tutor_id = cd.tutor_id " +
-        " full join addresses a on a.address_id = cd.address_id" +
-        " where cd.conv_details_id not in (select conv_details_id from conversations)" +
-        " and t.tutor_id >:lastTutorId and (price between :minPrice and :maxPrice or :maxPrice is null)" +
-        " and (:countryId is null or a.country_id =:countryId)" +
-        " and (:city is null or city = :city) " +
-        " and (:convTypeId is null or cd.conv_type_id=:convTypeId)" +
-        " and (:minLevel is null or cd.min_level >=:minLevel) " +
-        " and (:languageId is null or cd.language_id =:languageId)" +
-        " order by t.tutor_id limit :pageSize")
-    List<User> filterTutorsWhoHaveNotBookedConvDetails(@Param("lastTutorId") Long lastTutorId, @Param("pageSize") int pageSize,
-                                                       @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice,
-                                                       @Param("countryId") Long countryId, @Param("city") String city,
-                                                       @Param("convTypeId") Long convTypeId, @Param("minLevel") Long minLevel,
-                                                       @Param("languageId") Long languageId);
 }

@@ -1,18 +1,16 @@
 package com.example.apigateway.dto;
 
 import com.example.apigateway.model.Country;
-import com.example.apigateway.model.LanguageLevel;
+
 import com.example.apigateway.model.Student;
 import com.example.apigateway.model.Tutor;
 import lombok.Builder;
-import lombok.Setter;
 import lombok.Value;
-import lombok.experimental.NonFinal;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
-@Builder(toBuilder = true)
+@Builder
 @Value
 @Jacksonized
 public class UserResponseDto {
@@ -22,22 +20,11 @@ public class UserResponseDto {
     String email;
     String password;
     Country nationality;
-    String gender;
     List<String> roles;
-    @NonFinal
-    @Setter
+    String gender;
     Student student;
-    @NonFinal
-    @Setter
     Tutor tutor;
-    List<LanguageLevel> languageLevels;
+    List<LanguageLevelDto> languageLevels;
     String location;
-    @NonFinal
-    @Setter
     String avatarName;
-    Integer tutorConversationCount;
-    Integer studentConversationCount;
-    Double tutorAverageRate;
-    Double studentAverageRate;
-
 }

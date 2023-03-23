@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 @FeignClient(name = "file-service",
     url = "${services.file.url}/api/v1/files")
 public interface FileClient {

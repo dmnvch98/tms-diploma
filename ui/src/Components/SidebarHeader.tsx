@@ -16,16 +16,14 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import PublicIcon from '@mui/icons-material/Public';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import {Button, Grid} from "@mui/material";
+import {Link as RouterLink} from "react-router-dom";
 import {useProfileStore} from "../pages/Profile/profileStore";
-import Link from "@mui/material/Link";
-import {useNavigate} from "react-router-dom";
 
-const drawerWidth = 250;
+const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
@@ -103,18 +101,16 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-export const SidebarHeader = () => {
-    const user = useProfileStore(state => state.loggedInUser);
+export const SidebarHeader = (props: any) => {
+    const user = useProfileStore(state => state.user);
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
-    const logout = useProfileStore(state => state.logout);
-    const navigate = useNavigate();
 
     const tabs: TabIcon[] = [
         {
             name: 'Find tutor',
             icon: <PublicIcon/>,
-            redirect: '/find-tutor',
+            redirect: '',
             visible: true
         },
         {
@@ -125,17 +121,18 @@ export const SidebarHeader = () => {
         },
         {
             name: 'My Tutor Profile',
-            icon: <LocalLibraryIcon/>,
+            icon: <AccountCircleIcon/>,
             redirect: '/my-tutor-profile',
             visible: user?.tutor != null
         },
         {
             name: 'My conversations',
             icon: <EmojiPeopleIcon/>,
-            redirect: '/conversations',
+            redirect: '',
             visible: true
         }
     ]
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -169,17 +166,10 @@ export const SidebarHeader = () => {
                                 <Typography variant="h6" noWrap component="div">
                                     Logo
                                 </Typography>
-                                <Link href='/sign-in'>
-                                    <Button
-                                        sx={{color: 'black'}}
-                                        onClick={() => {
-                                            logout();
-                                        }}
-                                    >
-                                        Logout
-                                    </Button>
-                                </Link>
-
+                                <Button
+                                    color="inherit"
+                                    variant="text"
+                                >Logout</Button>
                             </Box>
                         </Grid>
                     </Grid>
@@ -195,29 +185,36 @@ export const SidebarHeader = () => {
                 <Divider/>
                 <List>
                     {tabs.map((t) => (
-                        <Link href={t.redirect} underline='none' color="inherit">
-                            <ListItem key={t.name} disablePadding sx={{display: 'block'}}>
-                                <ListItemButton
+                        <ListItem key={t.name} disablePadding sx={{display: 'block'}}>
+                            <ListItemButton
+                                sx={{
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                    mb: 2,
+                                    display: t.visible ? "flex" : "none"
+                                }}
+                            >
+                                <ListItemIcon
                                     sx={{
-                                        minHeight: 48,
-                                        justifyContent: open ? 'initial' : 'center',
-                                        px: 2.5,
-                                        mb: 2,
-                                        display: t.visible ? "flex" : "none"
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
                                     }}
                                 >
-                                    <ListItemIcon
-                                        sx={{
-                                            minWidth: 0,
-                                            mr: open ? 3 : 'auto',
-                                            justifyContent: 'center',
+                                    <Button
+                                        {...{
+                                            to: t.redirect,
+                                            component: RouterLink,
                                         }}
-                                    >{t.icon}
-                                    </ListItemIcon>
-                                    <ListItemText primary={t.name} sx={{opacity: open ? 1 : 0}}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Link>
+                                        color="inherit"
+                                    >
+                                        {t.icon}
+                                    </Button>
+                                </ListItemIcon>
+                                <ListItemText primary={t.name} sx={{opacity: open ? 1 : 0}}/>
+                            </ListItemButton>
+                        </ListItem>
                     ))}
                 </List>
             </Drawer>
