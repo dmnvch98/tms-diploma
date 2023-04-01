@@ -1,0 +1,13 @@
+server:
+  port: 9091
+aws:
+  region: us-east-1
+  s3_endpoint: http://localhost:4566/
+  access_key: foo
+  secret_key: bar
+spring:
+  datasource:
+    driver-class-name: 'org.postgresql.Driver'
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:35433/diploma-test

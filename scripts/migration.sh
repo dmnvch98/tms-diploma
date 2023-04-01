@@ -9,7 +9,7 @@ docker run --rm \
   -v "${DIPLOMA_HOME}/db/feedbacks:/flyway/sql/feedbacks" \
   --network "tms-diploma_default" \
   flyway/flyway \
-  -url=jdbc:postgresql://diploma-postgres:5432/diploma \
+  -url=jdbc:postgresql://diploma-postgres-test:5432/diploma-test \
   -user=postgres \
   -password=postgres \
   migrate

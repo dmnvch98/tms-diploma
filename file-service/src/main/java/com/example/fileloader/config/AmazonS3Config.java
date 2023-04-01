@@ -34,4 +34,17 @@ public class AmazonS3Config {
         return builder.build();
     }
 
+    public AmazonS3 amazonS3(String testLogin, String testPassword, String endpoint, String region) {
+        BasicAWSCredentials credentials = new BasicAWSCredentials(testLogin, testPassword);
+
+        AwsClientBuilder.EndpointConfiguration config =
+            new AwsClientBuilder.EndpointConfiguration(endpoint, region);
+
+        AmazonS3ClientBuilder builder = AmazonS3ClientBuilder.standard();
+        builder.withEndpointConfiguration(config);
+        builder.withPathStyleAccessEnabled(true);
+        builder.withCredentials(new AWSStaticCredentialsProvider(credentials));
+        return builder.build();
+    }
+
 }
