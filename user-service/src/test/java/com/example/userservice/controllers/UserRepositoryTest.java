@@ -3,25 +3,24 @@ package com.example.userservice.controllers;
 import com.example.userservice.model.Student;
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
-import org.flywaydb.core.Flyway;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @SpringBootTest
+@ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import(DataSourceTestConfig.class)
 class UserRepositoryTest {
@@ -30,11 +29,12 @@ class UserRepositoryTest {
     @Autowired
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
+    private User newUser;
 
-    private Student student = Student.builder().build();
-    private User user = User
+    private final Student defaultStudent = Student.builder().build();
+    private final User defaultUser = User
         .builder()
-        .student(student)
+        .student(defaultStudent)
         .email("testEmail")
         .firstName("Eugen")
         .lastName("Demyanovich")
@@ -44,36 +44,47 @@ class UserRepositoryTest {
         .nationality(1L)
         .location("Minsk")
         .build();
+
     @BeforeAll
     public void init() {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        migrateDatabase();
+    }
+
+    @BeforeEach
+    public void createUser() {
+        newUser = userRepository.save(defaultUser);
     }
 
     @Test
-    void createUserWithNewEmail() {
-        User user1 = userRepository.save(user);
-        assertThat(user1).isNotNull();
-        jdbcTemplate.execute("DELETE from students where student_id = " + user1.getStudent().getStudentId());
-        jdbcTemplate.execute("DELETE from users where id = " + user1.getId());
+    void user_is_returned_when_creating_user_with_new_email() {
+        assertThat(newUser).isNotNull();
     }
 
     @Test
-    void createUserWithExistingEmail() {
-        User user1 = userRepository.save(user);
+    void exception_is_thrown_when_creating_user_with_existing_email() {
         assertThrows(DbActionExecutionException.class, () -> {
-            User user2 = userRepository.save(user);
+            userRepository.save(defaultUser);
         });
-        jdbcTemplate.execute("DELETE from students where student_id = " + user1.getStudent().getStudentId());
-        jdbcTemplate.execute("DELETE from users where id = " + user1.getId());
     }
 
-    private void migrateDatabase() {
-        final Flyway flyway = Flyway
-            .configure()
-            .dataSource(dataSource)
-            .locations("filesystem:/Users/Yauhen/Documents/Yauhen/tms-diploma/db")
-            .load();
-        flyway.migrate();
+    @Test
+    void user_is_returned_when_getting_by_user_id() {
+        User extractedUser = userRepository.findUserById(newUser.getId());
+        assertThat(extractedUser.getId()).isEqualTo(newUser.getId());
     }
+
+    @Test
+    void user_is_returned_when_getting_by_student_id() {
+        Student student = newUser.getStudent();
+        User extractedUser = userRepository.findUserByStudentId(student.getStudentId());
+        assertThat(extractedUser.getId()).isEqualTo(newUser.getId());
+    }
+
+    @AfterEach
+    @Transactional
+    public void deleteUserAndStudent() {
+        jdbcTemplate.execute("DELETE from students");
+        jdbcTemplate.execute("DELETE from users");
+    }
+
 }

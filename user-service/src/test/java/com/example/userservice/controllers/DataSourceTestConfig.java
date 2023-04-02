@@ -7,10 +7,11 @@ import com.github.dockerjava.api.model.Ports;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.sql.DataSource;
@@ -26,6 +27,7 @@ public class DataSourceTestConfig {
             .withPassword("postgres")
             .withDatabaseName("diploma-test")
             .withExposedPorts(5432)
+            .withInitScript("init.sql")
             .withCreateContainerCmdModifier(cmd -> cmd
                 .getHostConfig()
                 .withPortBindings(
@@ -43,6 +45,5 @@ public class DataSourceTestConfig {
         hikariConfig.setPassword("postgres");
         return new HikariDataSource(hikariConfig);
     }
-
 
 }
