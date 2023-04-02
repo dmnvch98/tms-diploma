@@ -5,6 +5,7 @@ aws:
   s3_endpoint: http://localhost:4566/
   access_key: foo
   secret_key: bar
+  storage_name: avatars
 spring:
   datasource:
     driver-class-name: 'org.postgresql.Driver'
