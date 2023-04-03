@@ -5,6 +5,7 @@ import com.example.convservice.facades.AddressFacade;
 import com.example.convservice.model.Address;
 import com.example.convservice.repositories.AddressRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ class AddressControllerTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
+    @DisplayName("Should return address when saving a new address")
     void returnAddressWhenSavingAddress() throws Exception {
         Address address = Address
             .builder()
@@ -62,6 +64,7 @@ class AddressControllerTest {
 
 
     @Test
+    @DisplayName("Should return address by valid tutorId")
     void shouldReturnAddressByValidTutorId() throws Exception {
         List<Address> addresses = Arrays.asList(Address.builder().build(), Address.builder().build());
 
@@ -77,6 +80,7 @@ class AddressControllerTest {
     }
 
     @Test
+    @DisplayName("Should not return address by invalid tutorId")
     void shouldNotReturnAddressByInvalidTutorId() throws Exception {
         String tutorId = "invalid";
 

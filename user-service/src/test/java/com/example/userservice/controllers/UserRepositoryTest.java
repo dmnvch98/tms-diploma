@@ -56,25 +56,29 @@ class UserRepositoryTest {
     }
 
     @Test
-    void user_is_returned_when_creating_user_with_new_email() {
+    @DisplayName("Should return user when saving a new user")
+    void createUserTest() {
         assertThat(newUser).isNotNull();
     }
 
     @Test
-    void exception_is_thrown_when_creating_user_with_existing_email() {
+    @DisplayName("Should throw exception when saving user with existing email")
+    void createUserWithExistingEmail() {
         assertThrows(DbActionExecutionException.class, () -> {
             userRepository.save(defaultUser);
         });
     }
 
     @Test
-    void user_is_returned_when_getting_by_user_id() {
+    @DisplayName("Should return user by valid user id")
+    void getUserByUserId() {
         User extractedUser = userRepository.findUserById(newUser.getId());
         assertThat(extractedUser.getId()).isEqualTo(newUser.getId());
     }
 
     @Test
-    void user_is_returned_when_getting_by_student_id() {
+    @DisplayName("Should return user by valid student id")
+    void getUserByStudent() {
         Student student = newUser.getStudent();
         User extractedUser = userRepository.findUserByStudentId(student.getStudentId());
         assertThat(extractedUser.getId()).isEqualTo(newUser.getId());
