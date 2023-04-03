@@ -88,7 +88,4 @@ class AddressControllerTest {
         then(addressRepository).shouldHaveZeroInteractions();
     }
 
-    @Test
-    void findAllTutorAddresses() {
-    }
 }
