@@ -1,14 +1,9 @@
-import {
-    Alert,
-    Box, Button,
-    FormControl, Snackbar, TextField
-} from "@mui/material";
+import {Alert, Box, Button, CssBaseline, Snackbar, TextField} from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
 import {useSignInStore} from "./signinStore";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import {useProfileStore} from "../Profile/profileStore";
-import { CssBaseline } from '@mui/material';
 
 export const SignIn = () => {
     const email = useSignInStore(state => state.email);
@@ -31,18 +26,8 @@ export const SignIn = () => {
     }, [isAuthorized])
     return (
         <>
-            <CssBaseline />
+            <CssBaseline/>
             <Authentication>
-                <Box
-                    sx={{
-                        height: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '25%',
-                        minWidth: '200px'
-                    }}
-                >
                     <Box
                         sx={{width: "100%", backgroundColor: "white", borderRadius: 3}}>
                         <TextField
@@ -84,7 +69,6 @@ export const SignIn = () => {
                             </Alert>
                         </Snackbar>
                     </Box>
-                </Box>
             </Authentication>
         </>
     )

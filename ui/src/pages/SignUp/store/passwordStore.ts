@@ -18,7 +18,7 @@ export interface Passwords {
 export const usePasswords = create<Passwords>((set: any, get) => ({
     password: '',
     confirmPassword: '',
-    matches: false,
+    matches: true,
     displayError: false,
     setPassword: async (password: string) => {
         set({password: password})
@@ -27,6 +27,6 @@ export const usePasswords = create<Passwords>((set: any, get) => ({
         set({confirmPassword: confirmPassword})
     },
     setMatches: async () => {
-        set({matches: usePasswords.getState().password == usePasswords.getState().confirmPassword})
+        set({matches: get().password == get().confirmPassword})
     }
 }))

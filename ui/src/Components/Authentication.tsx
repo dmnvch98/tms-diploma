@@ -1,30 +1,47 @@
-import {Box, Container} from "@mui/material";
+import {Box} from "@mui/material";
 import {Head} from "./Head";
 import {Footer} from "./Footer";
 
 export const Authentication = ({ children }: any) => {
     return (
-        <>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '100vh',
+            }}
+        >
+            <Head />
+            {/*Align container vertically*/}
             <Box
                 sx={{
+                    flexGrow: 1,
                     display: 'flex',
-                    flexDirection: 'column',
-                    minHeight: '100vh',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                 }}
             >
-                <Head />
+                {/* Container for the authentication content */}
                 <Box
                     sx={{
-                        flexGrow: 1,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        width: '25%',
+                        minWidth: '200px',
+                        backgroundColor: "white",
+                        borderRadius: 3
                     }}
                 >
                     {children}
                 </Box>
-                <Footer />
             </Box>
-        </>
+            <Footer />
+        </Box>
     );
 };
+
+
+
+
+
+
+
+
