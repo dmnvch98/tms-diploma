@@ -33,5 +33,4 @@ public class AmazonS3Config {
         builder.withCredentials(new AWSStaticCredentialsProvider(credentials));
         return builder.build();
     }
-
 }

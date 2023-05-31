@@ -9,6 +9,15 @@ services:
       POSTGRES_DB: diploma
     ports:
       - "35432:5432"
+  postgres-test:
+    image: postgres:13.4-alpine
+    container_name: diploma-postgres-test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: diploma-test
+    ports:
+      - "35433:5432"
   localstack:
     container_name: localstack
     image: localstack/localstack

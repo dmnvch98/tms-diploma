@@ -4,7 +4,6 @@ import com.example.convservice.model.Conversation;
 import com.example.convservice.repositories.ConversationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
