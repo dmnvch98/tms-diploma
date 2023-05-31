@@ -1,19 +1,30 @@
-import {Container} from "@mui/material";
+import {Box, Container} from "@mui/material";
 import {Head} from "./Head";
 import {Footer} from "./Footer";
-import {useEffect} from "react";
 
 export const Authentication = ({ children }: any) => {
     return (
         <>
-                <Container
-                    disableGutters
-                    maxWidth="xl"
-                    sx={{minHeight: '100vh'}}>
-                    <Head/>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minHeight: '100vh',
+                }}
+            >
+                <Head />
+                <Box
+                    sx={{
+                        flexGrow: 1,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
                     {children}
-                    <Footer/>
-                </Container>
+                </Box>
+                <Footer />
+            </Box>
         </>
-    )
-}
+    );
+};
