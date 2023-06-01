@@ -1,5 +1,5 @@
 import {Authentication} from "../../Components/Authentication";
-import {Box, Button, FormControl} from "@mui/material";
+import {Box, Button, CssBaseline, FormControl} from "@mui/material";
 import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {useSignUpStore} from "./store/signUpStore";
 import {LanguageLevelSelector} from "../../Components/LanguageLevelSelector/LanguageLevelSelector";
@@ -30,16 +30,11 @@ export const SignUpThird = () => {
     return (
         <>
             <Authentication>
-                <Box
-                    sx={{m: 2, height: "70vh"}}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center">
-                    <FormControl
-                        sx={{width: '30%', backgroundColor: "white", borderRadius: 3}}>
+                <CssBaseline/>
                         <LanguageLevelSelector/>
                         <Button
                             variant="contained"
+                            fullWidth
                             sx={{mt: 4}}
                             disabled={languageLevels.length == 0}
                             onClick={() => {
@@ -49,13 +44,12 @@ export const SignUpThird = () => {
                         <Button sx={{mt: 4}}
                                 color="primary"
                                 variant="contained"
+                                fullWidth
                                 {...{
                                     to: "/sign-up2",
                                     component: RouterLink,
                                 }}
                         >Back</Button>
-                    </FormControl>
-                </Box>
             </Authentication>
         </>
     )
