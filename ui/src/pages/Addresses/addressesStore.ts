@@ -77,7 +77,17 @@ export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
     },
     getAddressByCoordinates: async () => {
         const latlng: string = get().selectedLatitude + ',' + get().selectedLongitude;
-        set({address: await LocationService.getAddressByCoordinates(latlng)});
+        const responseAddress = await LocationService.getAddressByCoordinates(latlng);
+        const addressComponents = responseAddress.address_components;
+        const cityObject = addressComponents.find((component: any) => component.types.includes("locality"));
+        const countryObject = addressComponents.find((component: any) => component.types.includes("country"));
+        const countryId = get().countries.find((country: any) => country.description == countryObject.long_name).countryId
+
+        set({
+            address: responseAddress.formatted_address,
+            city: cityObject?.long_name,
+            countryId: countryId
+        });
     },
     setSelectedLatitude: async (selectedLatitude: number) => {
         set({selectedLatitude: selectedLatitude})
