@@ -64,6 +64,7 @@ export const LanguageLevelSelector = () => {
     return (
         <>
             <TextField
+                fullWidth
                 select
                 variant="standard"
                 label="Language"
@@ -72,7 +73,7 @@ export const LanguageLevelSelector = () => {
                     setLanguageId(+e.target.value);
                     setLanguage(languagesList[+e.target.value - 1]);
                 }}
-                sx={{mb: 2}}
+                sx={{mb: 2, display: 'block'}}
             >{languagesList.map((language: Language) => (
                 <MenuItem key={language?.description}
                           value={language?.languageId}>{language?.description}</MenuItem>
@@ -83,7 +84,8 @@ export const LanguageLevelSelector = () => {
                 select
                 variant="standard"
                 label="Level"
-                sx={{mb: 2}}
+                fullWidth
+                sx={{mb: 2, display: 'block'}}
                 value={levelId}
                 onChange={(e) => {
                     setLevelId(+e.target.value)
@@ -97,10 +99,17 @@ export const LanguageLevelSelector = () => {
             <Button
                 variant="outlined"
                 sx={{mt: 2}}
+                fullWidth
                 disabled={languageId == '' || levelId == ''}
                 onClick={addLanguageLevel}>Add Language</Button>
 
-            <Button variant="outlined" sx={{mt: 2}} onClick={handleOpen}>View your languages</Button>
+            <Button
+                variant="outlined"
+                sx={{mt: 2}}
+                fullWidth
+                onClick={handleOpen}>
+                View your languages
+            </Button>
 
             <Modal
                 open={open}

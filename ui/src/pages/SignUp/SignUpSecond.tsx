@@ -1,6 +1,6 @@
 import {
-    Box, Button,
-    FormControl, MenuItem, TextField
+    Button, CssBaseline,
+    MenuItem, TextField
 } from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
 import {useSignUpStore} from "./store/signUpStore";
@@ -16,7 +16,7 @@ export const SignUpSecond = () => {
         'Other'
     ];
 
-    const Form = () => {
+    // const Form = () => {
         const gender = useSignUpStore(state => state.gender);
         const nationality = useSignUpStore(state => state.nationality);
         const firstName = useSignUpStore(state => state.firstName);
@@ -40,18 +40,21 @@ export const SignUpSecond = () => {
 
         return (
             <>
-                <Box
-                    sx={{m: 2, height: "70vh"}}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center">
-                    <FormControl
-                        sx={{width: '30%', backgroundColor: "white"}}>
+                {/*<Box*/}
+                {/*    sx={{m: 2, height: "70vh"}}*/}
+                {/*    display="flex"*/}
+                {/*    justifyContent="center"*/}
+                {/*    alignItems="center">*/}
+                {/*    <FormControl*/}
+                {/*        sx={{width: '30%', backgroundColor: "white"}}>*/}
+                <CssBaseline/>
+                <Authentication>
                         <TextField
+                            fullWidth
                             select
                             variant="standard"
                             label="Gender"
-                            sx={{mb: 2}}
+                            sx={{mb: 2, display: 'block'}}
                             value={gender}
                             onChange={(e) => {
                                 setGender(e.target.value);
@@ -61,15 +64,17 @@ export const SignUpSecond = () => {
                         ))}
                         </TextField>
                         <TextField
+                            fullWidth
                             variant="standard"
                             label="First Name"
-                            sx={{mb: 2}}
+                            sx={{mb: 2, display: 'block'}}
                             value={firstName}
                             onChange={(e) => {
                                 setFirstName(e.target.value);
                             }}
                         />
                         <TextField
+                            fullWidth
                             variant="standard"
                             label="Last Name"
                             sx={{mb: 2}}
@@ -79,19 +84,21 @@ export const SignUpSecond = () => {
                             }}
                         />
                         <TextField
+                            fullWidth
                             variant="standard"
                             label="Location"
-                            sx={{mb: 2}}
+                            sx={{mb: 2, display: 'block'}}
                             value={location}
                             onChange={(e) => {
                                 setLocation(e.target.value);
                             }}
                         />
                         <TextField
+                            fullWidth
                             select
                             variant="standard"
                             label="Nationality"
-                            sx={{mb: 2}}
+                            sx={{mb: 2, display: 'block'}}
                             value={countryId}
                             onChange={(e) => {
                                 setNationality(countriesList[+e.target.value - 1]);
@@ -109,6 +116,7 @@ export const SignUpSecond = () => {
                                     || lastName.length == 0}
                                 color="primary"
                                 variant="contained"
+                                fullWidth
                                 {...{
                                     to: "/sign-up3",
                                     component: RouterLink,
@@ -119,6 +127,7 @@ export const SignUpSecond = () => {
                         <Button sx={{mt: 4}}
                                 color="primary"
                                 variant="contained"
+                                fullWidth
                                 {...{
                                     to: "/sign-up",
                                     component: RouterLink,
@@ -126,17 +135,10 @@ export const SignUpSecond = () => {
                         >
                             Back
                         </Button>
-                    </FormControl>
-                </Box>
+                {/*    </FormControl>*/}
+                {/*</Box>*/}
+                </Authentication>
             </>
         )
-    }
-
-    return (
-        <>
-            <Authentication>
-                <Form/>
-            </Authentication>
-        </>
-    )
+    // }
 }

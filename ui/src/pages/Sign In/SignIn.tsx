@@ -1,8 +1,4 @@
-import {
-    Alert,
-    Box, Button,
-    FormControl, Snackbar, TextField
-} from "@mui/material";
+import {Alert, Box, Button, CssBaseline, Snackbar, TextField} from "@mui/material";
 import {Authentication} from "../../Components/Authentication";
 import {useSignInStore} from "./signinStore";
 import {useNavigate} from "react-router-dom";
@@ -30,18 +26,15 @@ export const SignIn = () => {
     }, [isAuthorized])
     return (
         <>
+            <CssBaseline/>
             <Authentication>
-                <Box
-                    sx={{m: 2, height: "70vh"}}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center">
-                    <FormControl
-                        sx={{width: '30%', backgroundColor: "white", borderRadius: 3}}>
+                    <Box
+                        sx={{width: "100%", backgroundColor: "white", borderRadius: 3}}>
                         <TextField
                             variant="standard"
                             label="Email"
-                            sx={{mb: 2}}
+                            fullWidth
+                            sx={{mb: 2, display: 'block'}}
                             value={email}
                             onChange={(e) =>
                                 setEmail(e.target.value)
@@ -50,15 +43,17 @@ export const SignIn = () => {
                         <TextField
                             variant="standard"
                             label="Password"
-                            sx={{mb: 2}}
+                            fullWidth
+                            sx={{mb: 2, display: 'block'}}
                             value={password}
                             onChange={(e) =>
                                 setPassword(e.target.value)
                             }
                         />
 
-                        <Button sx={{mt: 4}}
+                        <Button sx={{mt: 4, display: 'block'}}
                                 color="primary"
+                                fullWidth
                                 variant="contained"
                                 onClick={getToken}
                         >
@@ -73,8 +68,7 @@ export const SignIn = () => {
                                 User doesn't exist
                             </Alert>
                         </Snackbar>
-                    </FormControl>
-                </Box>
+                    </Box>
             </Authentication>
         </>
     )
