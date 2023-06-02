@@ -27,14 +27,14 @@ export const AddAddress = () => {
     const FindCityOnMap = () => {
         const getCities = useAddAddressStore(state => state.getCitiesByCountry);
         const cities = useAddAddressStore(state => state.cities);
-        const city = useAddAddressStore(state => state.city);
+        const city = useAddAddressStore(state => state.cityToDisplay);
         const countries = useAddAddressStore(state => state.countries);
-        const setCountryId = useAddAddressStore(state => state.setCountryId);
+        const setCountryId = useAddAddressStore(state => state.setCountryIdToDisplay);
         const setCountry = useAddAddressStore(state => state.setCountry);
 
         const loadingCities = useAddAddressStore(state => state.loadingCities);
-        const setCity = useAddAddressStore(state => state.setCity);
-        const countryId = useAddAddressStore(state => state.countryId);
+        const setCity = useAddAddressStore(state => state.setCityToDisplay);
+        const countryId = useAddAddressStore(state => state.countryIdToDisplay);
 
         return (
             <Box maxWidth='500px'>
