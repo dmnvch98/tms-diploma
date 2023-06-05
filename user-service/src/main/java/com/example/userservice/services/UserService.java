@@ -25,6 +25,16 @@ public class UserService {
         return repository.save(user);
     }
 
+    public boolean update(User user) {
+        return repository.update(
+            user.getId(),
+            user.getFirstName(),
+            user.getLastName(),
+            user.getEmail(),
+            user.getLocation()
+        ) == 1;
+    }
+
     public User get(Long id) {
         return repository.findUserById(id);
     }
@@ -58,6 +68,7 @@ public class UserService {
     public List<User> findTutorsWhoHaveNotBookedConvDetails(Long lastTutorId) {
         return repository.findTutorsWhoHaveNotBookedConvDetails(lastTutorId, findTutorPageSize);
     }
+
     public int setAvatar(Long userId) {
         return repository.setAvatar(userId + userAvatarNamePostfix, userId);
     }

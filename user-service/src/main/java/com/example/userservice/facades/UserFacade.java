@@ -2,13 +2,13 @@ package com.example.userservice.facades;
 
 import com.example.userservice.converters.LanguageLevelConverter;
 import com.example.userservice.converters.UserConverter;
-import com.example.userservice.dto.*;
+import com.example.userservice.dto.CredentialsDto;
+import com.example.userservice.dto.LanguageLevelDto;
+import com.example.userservice.dto.UserRequestDto;
+import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.model.User;
 import com.example.userservice.model.UserLanguageLevel;
-import com.example.userservice.services.ConversationService;
-import com.example.userservice.services.FeedbackService;
-import com.example.userservice.services.LanguageLevelService;
-import com.example.userservice.services.UserService;
+import com.example.userservice.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,8 @@ public class UserFacade {
     private final LanguageLevelConverter languageLevelConverter;
     private final ConversationService conversationService;
     private final FeedbackService feedbackService;
-
+    private final StudentService studentService;
+    private final TutorService tutorService;
 
     @Transactional
     public UserResponseDto save(UserRequestDto userRequestDto) {
@@ -41,7 +42,14 @@ public class UserFacade {
     @Transactional
     public UserResponseDto update(UserRequestDto userRequestDto, Long userId) {
         User user = userConverter.userRequestDtoToUserUpdate(userRequestDto, userId);
-        user = userService.save(user);
+        userService.update(user);
+        if (user.getStudent() != null) {
+            studentService.save(user.getStudent());
+        }
+        if (user.getTutor() != null) {
+            tutorService.save(user.getTutor());
+        }
+        user = userService.get(userId);
         List<UserLanguageLevel> existingUserLanguageLevels = languageLevelService.findAllByUserId(userId);
 
         List<UserLanguageLevel> userLanguageLevels =

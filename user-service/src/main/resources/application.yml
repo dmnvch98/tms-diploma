@@ -9,7 +9,10 @@ spring:
     url: jdbc:postgresql://localhost:35432/diploma
 avatar:
   user_postfix: '_avatar.png'
-find-tutor-page-size: 3
+find-tutor-page-size: 5
 services:
   conversation:
     url: 'http://localhost:9093'
+logging:
+  level:
+    sql: debug
