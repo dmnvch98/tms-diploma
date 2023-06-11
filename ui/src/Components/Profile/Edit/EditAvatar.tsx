@@ -1,7 +1,7 @@
 import {useAvatarStore} from "../../../pages/Profile/Edit/avatarStore";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {ChangeEvent, useEffect} from "react";
-import {Box, Button, Modal, Paper, Typography} from "@mui/material";
+import {Box, Button, Modal, Paper} from "@mui/material";
 import {Avatar} from "../Avatar";
 import {FileLoader} from "../Common/FileLoader";
 

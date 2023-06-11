@@ -11,4 +11,5 @@ public class Tutor {
     Long tutorId;
     Long userId;
     String aboutMe;
+    String presentationUrl;
 }

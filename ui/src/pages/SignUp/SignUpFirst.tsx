@@ -8,7 +8,7 @@ import {Authentication} from "../../Components/Authentication";
 export const SignUpFirst = () => {
     const types = [
         'Student',
-        'Teacher'
+        'Tutor'
     ];
 
     const redirectButtonDisabled: boolean = useSignUpStore(state => state.redirectButtonDisabled);

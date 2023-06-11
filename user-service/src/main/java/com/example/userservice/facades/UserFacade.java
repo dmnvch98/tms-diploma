@@ -42,14 +42,13 @@ public class UserFacade {
     @Transactional
     public UserResponseDto update(UserRequestDto userRequestDto, Long userId) {
         User user = userConverter.userRequestDtoToUserUpdate(userRequestDto, userId);
-        userService.update(user);
         if (user.getStudent() != null) {
             studentService.save(user.getStudent());
         }
         if (user.getTutor() != null) {
             tutorService.save(user.getTutor());
         }
-        user = userService.get(userId);
+        user = userService.update(user);
         List<UserLanguageLevel> existingUserLanguageLevels = languageLevelService.findAllByUserId(userId);
 
         List<UserLanguageLevel> userLanguageLevels =

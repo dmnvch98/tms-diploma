@@ -18,4 +18,6 @@ public class Student {
     Long userId;
     @Column("about_me")
     String aboutMe;
+    @Column("presentation_url")
+    String presentationUrl;
 }

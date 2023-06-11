@@ -15,4 +15,8 @@ public class TutorService {
     public Tutor save(final Tutor tutor) {
         return tutorRepository.save(tutor);
     }
+
+    public boolean deleteByUserId(final Long userId) {
+        return tutorRepository.deleteByUserId(userId) == 1;
+    }
 }

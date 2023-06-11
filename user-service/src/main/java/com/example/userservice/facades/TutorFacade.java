@@ -7,8 +7,10 @@ import com.example.userservice.exceptions.TutorCannotBeDeletedException;
 import com.example.userservice.model.Tutor;
 import com.example.userservice.model.User;
 import com.example.userservice.services.FeedbackService;
+import com.example.userservice.services.TutorService;
 import com.example.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,13 +22,16 @@ public class TutorFacade {
     private final UserConverter userConverter;
     private final UserFacade userFacade;
     private final FeedbackService feedbackService;
+    private final TutorService tutorService;
+
+    @Value("${roles.tutor_role_name}")
+    String tutorRoleName;
 
     public void deleteTutor(Long userId) {
         User user = userService.get(userId);
         if (user.getStudent() != null) {
-            user.getRoles().remove("Tutor");
-            user.setTutor(null);
-            userService.save(user);
+            userService.deleteRoleFromUser(tutorRoleName, userId);
+            tutorService.deleteByUserId(userId);
         } else {
             throw new TutorCannotBeDeletedException();
         }
@@ -43,10 +48,8 @@ public class TutorFacade {
     }
 
     public Tutor save(Tutor tutor) {
-        User user = userService.get(tutor.getUserId());
-        user.setTutor(tutor);
-        user.getRoles().add("Tutor");
-        return userService.save(user).getTutor();
+        userService.addRoleToUser(tutorRoleName, tutor.getUserId());
+        return tutorService.save(tutor);
     }
 
     public List<TutorShortUserInfoDto> filterTutorsWhoHaveNotBookedConvDetails(Long lastTutorId, FilterTutorsRequestDto dto) {
@@ -58,7 +61,7 @@ public class TutorFacade {
                 user,
                 userFacade.findLanguageLevelsByUserId(user.getId()),
                 feedbackService.findAvgRateForTutor(userFacade.getTutorIdIfExists(user))
-                ))
+            ))
             .toList();
     }
 }

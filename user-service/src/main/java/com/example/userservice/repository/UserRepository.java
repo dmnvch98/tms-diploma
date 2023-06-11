@@ -20,6 +20,7 @@ public interface UserRepository extends Repository<User, Long> {
                 @Param("lastName") String lastName, @Param("email") String email,
                 @Param("location") String location);
 
+
     User findUserById(Long id);
 
     Boolean existsByEmail(String email);
@@ -80,4 +81,12 @@ public interface UserRepository extends Repository<User, Long> {
                                                        @Param("countryId") Long countryId, @Param("city") String city,
                                                        @Param("convTypeId") Long convTypeId, @Param("minLevel") Long minLevel,
                                                        @Param("languageId") Long languageId);
+
+    @Modifying
+    @Query("UPDATE users set roles = array_append(roles, CAST(:role AS text)) where id=:id")
+    int addRoleToUser(@Param("role") String role, @Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE users set roles = array_remove(roles, CAST(:role AS text)) where id=:id")
+    int deleteRoleFromUser(@Param("role") String role, @Param("id") Long id);
 }
