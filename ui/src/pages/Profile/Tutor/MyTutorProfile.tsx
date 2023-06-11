@@ -52,6 +52,7 @@ export const MyTutorProfile = () => {
                                 tutorId={user?.tutor.tutorId as number}
                                 currentUser={true}
                                 languageLevels={user?.languageLevels as LanguageLevel[]}
+                                currentUserHasStudentProfile={false}
                                 aboutMe={user?.tutor?.aboutMe as string}/>
                         </Grid>
                     </Grid>

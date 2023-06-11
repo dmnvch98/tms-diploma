@@ -8,8 +8,9 @@ import {useFeedbackStore} from "../Common/feedbackStore";
 type Props = {
     currentUser: boolean;
     tutorId: number;
+    currentUserHasStudentProfile: boolean;
 }
-export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId}) => {
+export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId, currentUserHasStudentProfile}) => {
     const getTutorNotBookedConversationDetails = useTutorStore(state => state.getTutorNotBookedConversationDetails);
     const convDetails = useTutorStore(state => state.convDetails);
     const feedbacksAboutTutor = useFeedbackStore(state => state.feedbacksAboutTutor);
@@ -98,7 +99,7 @@ export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId}) => {
                                 minLanguageLevel={cd.minLanguageLevel}
                                 startDate={cd.startDate}
                                 address={cd.address}
-                                displayBookButton={!currentUser}
+                                displayBookButton={!currentUser && currentUserHasStudentProfile}
                                 endDate={cd.endDate}/>
                         )
                     )}

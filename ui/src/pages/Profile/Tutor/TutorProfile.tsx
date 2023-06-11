@@ -15,6 +15,7 @@ import {LanguageLevel} from "../../SignUp/store/languagesStore";
 export const TutorProfile = () => {
     const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
     const lookupUser = useProfileStore(state => state.lookupUser);
+    const loggedInUser = useProfileStore(state => state.loggedInUser);
     const getAvatar = useAvatarStore(state => state.getAvatar);
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage);
@@ -54,6 +55,7 @@ export const TutorProfile = () => {
                                 tutorId={lookupUser?.tutor.tutorId as number}
                                 currentUser={false}
                                 languageLevels={lookupUser?.languageLevels as LanguageLevel[]}
+                                currentUserHasStudentProfile={loggedInUser?.student != null}
                                 aboutMe={lookupUser?.tutor?.aboutMe as string}/>
                         </Grid>
                     </Grid>

@@ -14,6 +14,12 @@ public interface UserRepository extends Repository<User, Long> {
     @Transactional
     User save(final User user);
 
+    @Modifying
+    @Query("UPDATE users SET first_name=:firstName, last_name=:lastName, email=:email, location=:location WHERE id=:id")
+    Integer update(@Param("id") Long id, @Param("firstName") String firstName,
+                @Param("lastName") String lastName, @Param("email") String email,
+                @Param("location") String location);
+
     User findUserById(Long id);
 
     Boolean existsByEmail(String email);

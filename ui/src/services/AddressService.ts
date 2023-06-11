@@ -22,7 +22,8 @@ class AddressService {
             const response =
                 await axios.get('http://localhost:8080/api/v1/geocoding/address/?latlng=' + latlng
                     , {withCredentials: true});
-            return response.data.results[0].formatted_address;
+            return response.data.results[0];
+            // return response.data.results[0].formatted_address;
         } catch (e: unknown) {
             const error = e as AxiosError;
             console.log(error.message);

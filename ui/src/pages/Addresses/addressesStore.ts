@@ -17,8 +17,10 @@ export interface AddressesStore {
     address: string;
     countries: Country[],
     country: Country | string,
-    countryId: number | string,
-    city: string,
+    countryIdToDisplay: number | string, // This country id is used to display a selected country in drop-down
+    countryIdToSaveAddress: number | string, // This countryId is used to send the POST request
+    cityToDisplay: string, //This city is used to display on the page
+    cityToSaveAddress: string, // This city is used to send the POST request
     cities: string[],
     loadingCities: boolean,
     setSelectedLatitude: (selectedLatitude: number) => void;
@@ -29,21 +31,23 @@ export interface AddressesStore {
     setAddress: (address: string) => void;
     getCitiesByCountry: () => void;
     getCountries: () => void;
-    setCity: (city: string) => void;
-    setCountryId: (countryId: number | string) => void;
+    setCityToDisplay: (city: string) => void;
+    setCountryIdToDisplay: (countryId: number | string) => void;
     setCountry: (country: Country) => void;
     getAddressByCoordinates: () => void;
     saveTutorAddress: () => Promise<boolean>;
 }
 
-export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
+export const useAddAddressStore = create<AddressesStore>((set: any, get: any) => ({
     location: '',
     address: '',
     countries: [],
     cities: [],
-    city: '',
+    cityToDisplay: '',
+    cityToSaveAddress: '',
     loadingCities: false,
-    countryId: '',
+    countryIdToDisplay: '',
+    countryIdToSaveAddress: '',
     country: '',
     selectedLatitude: '',
     selectedLongitude: '',
@@ -66,18 +70,28 @@ export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
     getCountries: async () => {
         set({countries: await CountryCityService.getCountries()})
     },
-    setCountryId: async (countryId: number | string) => {
-        set({countryId: countryId})
+    setCountryIdToDisplay: async (countryId: number | string) => {
+        set({countryIdToDisplay: countryId})
     },
-    setCity: async (city: string) => {
-        set({city: city})
+    setCityToDisplay: async (city: string) => {
+        set({cityToDisplay: city})
     },
     setCountry: (country: Country) => {
         set({country: country})
     },
     getAddressByCoordinates: async () => {
         const latlng: string = get().selectedLatitude + ',' + get().selectedLongitude;
-        set({address: await LocationService.getAddressByCoordinates(latlng)});
+        const responseAddress = await LocationService.getAddressByCoordinates(latlng);
+        const addressComponents = responseAddress.address_components;
+        const cityObject = addressComponents.find((component: any) => component.types.includes("locality"));
+        const countryObject = addressComponents.find((component: any) => component.types.includes("country"));
+        const countryId = get().countries.find((country: any) => country.description == countryObject.long_name).countryId
+
+        set({
+            address: responseAddress.formatted_address,
+            countryIdToSaveAddress: countryId,
+            cityToSaveAddress: cityObject?.long_name,
+        });
     },
     setSelectedLatitude: async (selectedLatitude: number) => {
         set({selectedLatitude: selectedLatitude})
@@ -91,8 +105,8 @@ export const useAddAddressStore = create<AddressesStore>((set, get: any) => ({
             address: get().address,
             latitude: get().selectedLatitude,
             longitude: get().selectedLongitude,
-            city: get().city,
-            countryId: get().countryId
+            city: get().cityToSaveAddress,
+            countryId: get().countryIdToSaveAddress
         }
         return await LocationService.saveTutorAddress(address);
     }

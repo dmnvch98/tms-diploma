@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: diploma
     ports:
       - "35432:5432"
+    volumes:
+      - ./db/backup:/backup
   postgres-test:
     image: postgres:13.4-alpine
     container_name: diploma-postgres-test

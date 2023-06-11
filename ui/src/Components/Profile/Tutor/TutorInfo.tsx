@@ -3,7 +3,6 @@ import {Box, Button, Container, Rating, Typography} from "@mui/material";
 import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
 import {TutorProfileTabs} from "./TutorProfileTabs";
 import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
-import StarIcon from "@mui/icons-material/Star";
 import {FeedbackStar} from "../../Feedbacks/FeedbackStar";
 
 type Props = {
@@ -11,6 +10,7 @@ type Props = {
     languageLevels: LanguageLevel[];
     tutorId: number;
     currentUser: boolean
+    currentUserHasStudentProfile: boolean
     tutorConversationsCount: number
     tutorAverageRate: number
 }
@@ -20,7 +20,8 @@ export const TutorInfo: React.FC<Props> = ({
                                                tutorId,
                                                currentUser,
                                                tutorConversationsCount,
-                                               tutorAverageRate
+                                               tutorAverageRate,
+                                               currentUserHasStudentProfile
                                            }) => {
     const [showMore, setShowMore] = useState(false);
 
@@ -51,7 +52,10 @@ export const TutorInfo: React.FC<Props> = ({
                             )}
                         </Typography>
                     </Box>
-                    <TutorProfileTabs tutorId={tutorId} currentUser={currentUser}/>
+                    <TutorProfileTabs
+                        tutorId={tutorId}
+                        currentUser={currentUser}
+                        currentUserHasStudentProfile={currentUserHasStudentProfile}/>
                 </Box>
             </Container>
         </>
