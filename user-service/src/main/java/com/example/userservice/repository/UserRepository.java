@@ -28,7 +28,7 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("SELECT users.id AS id, users.email AS email, users.roles AS roles, users.gender AS gender, " +
         "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name " +
         "AS first_name, users.nationality AS nationality, users.avatar_name AS avatar_name, tutor.user_id AS tutor_user_id, tutor.about_me " +
-        "AS tutor_about_me, tutor.tutor_id AS tutor_tutor_id FROM users " +
+        "AS tutor_about_me, tutor.tutor_id AS tutor_tutor_id, tutor.presentation_url AS tutor_presentation_url FROM users " +
         "LEFT OUTER JOIN tutors tutor " +
         "ON tutor.user_id = users.id WHERE tutor.tutor_id=:tutorId")
     User findUserByTutorId(@Param("tutorId") Long tutorId);
@@ -36,7 +36,7 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("SELECT users.id AS id, users.email AS email, users.roles AS roles, users.gender AS gender, " +
         "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name " +
         "AS first_name, users.nationality AS nationality, users.avatar_name AS avatar_name, student.user_id AS student_user_id, student.about_me " +
-        "AS student_about_me, student.student_id AS student_student_id FROM users " +
+        "AS student_about_me, student.student_id AS student_student_id, student.presentation_url AS student_presentation_url FROM users " +
         "LEFT OUTER JOIN students student " +
         "ON student.user_id = users.id WHERE student.student_id=:studentId")
     User findUserByStudentId(@Param("studentId") Long studentId);

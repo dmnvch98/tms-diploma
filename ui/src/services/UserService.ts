@@ -62,7 +62,8 @@ class UserService {
 
     getUserByTutorId = async (tutorId: number) => {
         try {
-            const response = await axios.get('http://localhost:9090/api/v1/users/tutors/' + tutorId);
+            const response = await axios.get('http://localhost:8080/api/v1/users/tutors/' + tutorId,
+                {withCredentials: true});
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
@@ -72,7 +73,8 @@ class UserService {
 
     getUserByStudentId = async (studentId: number) => {
         try {
-            const response = await axios.get('http://localhost:9090/api/v1/users/students/' + studentId);
+            const response = await axios.get('http://localhost:8080/api/v1/users/students/' + studentId,
+                {withCredentials: true});
             return response.data;
         } catch (e: unknown) {
             const error = e as AxiosError;
