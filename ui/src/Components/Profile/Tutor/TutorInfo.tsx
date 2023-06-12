@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Box, Button, Container, Rating, Typography} from "@mui/material";
+import {Box, Button, Container, Typography} from "@mui/material";
 import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
 import {TutorProfileTabs} from "./TutorProfileTabs";
 import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
@@ -9,10 +9,11 @@ type Props = {
     aboutMe: string;
     languageLevels: LanguageLevel[];
     tutorId: number;
-    currentUser: boolean
-    currentUserHasStudentProfile: boolean
-    tutorConversationsCount: number
-    tutorAverageRate: number
+    currentUser: boolean;
+    currentUserHasStudentProfile: boolean;
+    tutorConversationsCount: number;
+    tutorAverageRate: number;
+    presentationUrl: string;
 }
 export const TutorInfo: React.FC<Props> = ({
                                                aboutMe,
@@ -21,7 +22,8 @@ export const TutorInfo: React.FC<Props> = ({
                                                currentUser,
                                                tutorConversationsCount,
                                                tutorAverageRate,
-                                               currentUserHasStudentProfile
+                                               currentUserHasStudentProfile,
+                                               presentationUrl
                                            }) => {
     const [showMore, setShowMore] = useState(false);
 
@@ -55,6 +57,7 @@ export const TutorInfo: React.FC<Props> = ({
                     <TutorProfileTabs
                         tutorId={tutorId}
                         currentUser={currentUser}
+                        presentationUrl={presentationUrl}
                         currentUserHasStudentProfile={currentUserHasStudentProfile}/>
                 </Box>
             </Container>

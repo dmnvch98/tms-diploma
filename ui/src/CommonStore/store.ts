@@ -5,12 +5,14 @@ export interface Student {
     studentId: number;
     userId: number;
     aboutMe: string;
+    presentationUrl: string
 }
 
 export interface Tutor {
     tutorId: number;
     userId: number;
     aboutMe: string;
+    presentationUrl: string
 }
 
 export interface User {

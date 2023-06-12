@@ -56,6 +56,7 @@ export const TutorProfile = () => {
                                 currentUser={false}
                                 languageLevels={lookupUser?.languageLevels as LanguageLevel[]}
                                 currentUserHasStudentProfile={loggedInUser?.student != null}
+                                presentationUrl={lookupUser?.tutor.presentationUrl as string}
                                 aboutMe={lookupUser?.tutor?.aboutMe as string}/>
                         </Grid>
                     </Grid>

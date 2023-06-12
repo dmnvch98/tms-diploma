@@ -4,13 +4,20 @@ import {FeedbackCard} from "../../Feedbacks/FeedbackCard";
 import {ConversationDetailsCard} from "../../Conversations/ConversationDetailsCard";
 import {useTutorStore} from "./tutorStore";
 import {useFeedbackStore} from "../Common/feedbackStore";
+import {VideoPlayer} from "../Common/VideoPlayer";
 
 type Props = {
     currentUser: boolean;
     tutorId: number;
     currentUserHasStudentProfile: boolean;
+    presentationUrl: string
 }
-export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId, currentUserHasStudentProfile}) => {
+export const TutorProfileTabs: React.FC<Props> = ({
+                                                      currentUser,
+                                                      tutorId,
+                                                      currentUserHasStudentProfile,
+                                                      presentationUrl
+                                                  }) => {
     const getTutorNotBookedConversationDetails = useTutorStore(state => state.getTutorNotBookedConversationDetails);
     const convDetails = useTutorStore(state => state.convDetails);
     const feedbacksAboutTutor = useFeedbackStore(state => state.feedbacksAboutTutor);
@@ -68,7 +75,8 @@ export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId, current
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="Feedbacks" sx={{mr: 4}} {...a11yProps(0)} />
-                        <Tab label="Availability" {...a11yProps(1)} />
+                        <Tab label="Availability" sx={{mr: 4}} {...a11yProps(1)} />
+                        <Tab label="Presentation" {...a11yProps(2)} />
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
@@ -103,6 +111,11 @@ export const TutorProfileTabs: React.FC<Props> = ({currentUser, tutorId, current
                                 endDate={cd.endDate}/>
                         )
                     )}
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <Box sx={{mt: 2}}>
+                        <VideoPlayer presentationUrl={presentationUrl}/>
+                    </Box>
                 </TabPanel>
             </Box>
         </>

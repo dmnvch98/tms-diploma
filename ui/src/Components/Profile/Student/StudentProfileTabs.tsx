@@ -1,14 +1,16 @@
 import {Box, Tab, Tabs, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {useFeedbackStore} from "./Profile/Common/feedbackStore";
-import {FeedbackCard} from "./Feedbacks/FeedbackCard";
+import {useFeedbackStore} from "../Common/feedbackStore";
+import {FeedbackCard} from "../../Feedbacks/FeedbackCard";
 import ReactPlayer from 'react-player';
+import {VideoPlayer} from "../Common/VideoPlayer";
 
 type Props = {
     studentId: number;
+    presentationUrl: string
 }
 
-export const StudentProfileTabs: React.FC<Props> = ({studentId}) => {
+export const StudentProfileTabs: React.FC<Props> = ({studentId, presentationUrl}) => {
     const feedbacksAboutStudent = useFeedbackStore(state => state.feedbacksAboutStudent);
     const getFeedbacksAboutStudent = useFeedbackStore(state => state.getFeedbacksAboutStudent);
 
@@ -84,20 +86,7 @@ export const StudentProfileTabs: React.FC<Props> = ({studentId}) => {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Box sx={{mt: 2}}>
-                        <ReactPlayer
-                            url="http://localhost:4566//avatars/2_avatar.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230611T102040Z&X-Amz-SignedHeaders=host&X-Amz-Expires=119&X-Amz-Credential=foo%2F20230611%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=f7abdb7a126c1ade95534db0d717f1739d7527f609263ef85cc7301f67ca0f8d"
-                            controls
-                            width="100%"
-                            height="100%"
-                            config={{
-                                file: {
-                                    attributes: {
-                                        controlsList: 'nodownload',
-                                        disablePictureInPicture: true
-                                    }
-                                }
-                            }}
-                        />
+                        <VideoPlayer presentationUrl={presentationUrl}/>
                     </Box>
                 </TabPanel>
             </Box>

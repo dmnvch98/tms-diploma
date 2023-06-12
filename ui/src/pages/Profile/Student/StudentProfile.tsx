@@ -49,6 +49,7 @@ export const StudentProfile = () => {
                                 studentConversationCount={user?.studentConversationCount as number}
                                 studentId={user?.student.studentId as number}
                                 aboutMe={user?.student.aboutMe as string}
+                                presentationUrl={user?.student.presentationUrl as string}
                                 languageLevels={user?.languageLevels as LanguageLevel[]}/>
                         </Grid>
                     </Grid>

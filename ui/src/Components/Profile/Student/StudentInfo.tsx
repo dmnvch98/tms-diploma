@@ -1,9 +1,8 @@
 import React, {useState} from "react";
-import {Box, Button, Container, Rating, Typography} from "@mui/material";
-import {StudentProfileTabs} from "../../StudentProfileTabs";
+import {Box, Button, Container, Typography} from "@mui/material";
+import {StudentProfileTabs} from "./StudentProfileTabs";
 import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
 import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
-import StarIcon from "@mui/icons-material/Star";
 import {FeedbackStar} from "../../Feedbacks/FeedbackStar";
 
 type Props = {
@@ -12,6 +11,7 @@ type Props = {
     studentId: number;
     studentConversationCount: number;
     studentAverageRate: number;
+    presentationUrl: string;
 }
 
 export const StudentInfo: React.FC<Props> = ({
@@ -19,7 +19,8 @@ export const StudentInfo: React.FC<Props> = ({
                                                  languageLevels,
                                                  studentId,
                                                  studentConversationCount,
-                                                 studentAverageRate
+                                                 studentAverageRate,
+                                                 presentationUrl
                                              }) => {
     const [showMore, setShowMore] = useState(false);
 
@@ -49,7 +50,7 @@ export const StudentInfo: React.FC<Props> = ({
                             )}
                         </Typography>
                     </Box>
-                    <StudentProfileTabs studentId={studentId}/>
+                    <StudentProfileTabs studentId={studentId} presentationUrl={presentationUrl}/>
                 </Box>
             </Container>
         </>
