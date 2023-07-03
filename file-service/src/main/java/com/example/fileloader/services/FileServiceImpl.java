@@ -33,12 +33,6 @@ public class FileServiceImpl implements FileService {
 
     @Value("${avatar.default}")
     public String defaultAvatarName;
-    @Value("${avatar.user_postfix}")
-    public String userAvatarNamePostfix;
-    @Value("${video_presentation.tutor_postfix}")
-    public String tutorVideoPresentationNamePostfix;
-    @Value("${video_presentation.student_postfix}")
-    public String studentVideoPresentationNamePostfix;
 
     @Override
     public String uploadFile(InputStream inputStream, String fileName, String storageName) throws IOException {

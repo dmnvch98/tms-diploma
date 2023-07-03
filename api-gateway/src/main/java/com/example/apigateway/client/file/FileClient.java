@@ -17,7 +17,7 @@ public interface FileClient {
     @GetMapping("avatar/{fileName}")
     ResponseDto getAvatarUrl(@PathVariable("fileName") String fileName);
 
-    @DeleteMapping("/{fileName}")
+    @DeleteMapping("avatar/{fileName}")
     ResponseEntity<Boolean> deleteAvatar(@PathVariable("fileName") String fileName);
 
 }

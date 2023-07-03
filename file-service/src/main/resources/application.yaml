@@ -6,8 +6,8 @@ aws:
   access_key: foo
   secret_key: bar
   avatar_storage_name: avatars
-  tutors_video_presentation_storage_name: video-presentations
-  students_video_presentation_storage_name: video-presentations
+  tutors_video_presentation_storage_name: video-presentations-tutors
+  students_video_presentation_storage_name: video-presentations-students
 avatar:
   user_postfix: '_avatar.png'
   default: 'default_avatar.png'
