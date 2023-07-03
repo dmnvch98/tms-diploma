@@ -17,6 +17,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -38,20 +40,21 @@ public class FileServiceImpl implements FileService {
     public String uploadFile(InputStream inputStream, String fileName, String storageName) throws IOException {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(inputStream.available());
-        log.info("Started uploading {}", fileName);
-        try {
+        log.info("Uploading file {}", fileName);
+        try (inputStream) {
             amazonS3.putObject(
                 storageName,
                 fileName,
                 inputStream,
                 metadata);
             log.info("{} successfully uploaded", fileName);
-            return getFileUrl(fileName, storageName);
+            return getFileUrl(fileName, storageName).orElse("");
         } catch (RuntimeException e) {
-            log.error("An error occurred while uploading {}: ", fileName + e);
+            log.error("An error occurred while uploading {}: {}", fileName, e);
         }
         return "";
     }
+
 
     @Override
     public List<String> getFilesList(String storageName) {
@@ -62,7 +65,7 @@ public class FileServiceImpl implements FileService {
                 .getObjectSummaries()
                 .stream()
                 .map(S3ObjectSummary::getKey)
-                .toList();
+                .collect(Collectors.toList());
             log.info("All files are successfully loaded. The list size is {}", filesList.size());
         } catch (Exception e) {
             log.error("An error occurred while loading all files: " + e);
@@ -96,13 +99,13 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String getFileUrl(String fileName, String storageName) {
+    public Optional<String> getFileUrl(String fileName, String storageName) {
         log.info("Getting {}", fileName);
         if (amazonS3.doesObjectExist(storageName, fileName)) {
-            return generateUrl(fileName, storageName);
+            return Optional.of(generateUrl(fileName, storageName));
         } else {
-            log.warn("{} doesn't exist", fileName);
-            return null;
+            log.warn("File doesn't exist: {}", fileName);
+            return Optional.empty();
         }
     }
 
@@ -123,28 +126,20 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String getAvatarUrl(String fileName) {
-        String avatarUrl = getFileUrl(fileName, avatarStorageName);
-        if (avatarUrl != null) {
-            return avatarUrl;
-        } else {
-            log.info("Getting default avatar");
-            if (amazonS3.doesObjectExist(avatarStorageName, defaultAvatarName)) {
-                return generateUrl(defaultAvatarName, avatarStorageName);
-            } else {
-                log.warn("Default avatar doesn't exist");
-                return "";
-            }
-        }
+        Optional<String> avatarUrl = getFileUrl(fileName, avatarStorageName);
+        return avatarUrl.orElseGet(this::getDefaultAvatarUrl);
     }
 
     @Override
     public String getTutorVideoPresentationUrl(String fileName) {
-        return getFileUrl(fileName, tutorsVideoPresentationStorageName);
+        return getFileUrl(fileName, tutorsVideoPresentationStorageName)
+            .orElse("");
     }
 
     @Override
     public String getStudentVideoPresentationUrl(String fileName) {
-        return getFileUrl(fileName, studentsVideoPresentationStorageName);
+        return getFileUrl(fileName, studentsVideoPresentationStorageName)
+            .orElse("");
     }
 
     @Override
@@ -160,6 +155,15 @@ public class FileServiceImpl implements FileService {
     @Override
     public Boolean deleteStudentVideoPresentation(String fileName) {
         return deleteFile(fileName, studentsVideoPresentationStorageName);
+    }
+
+    private String getDefaultAvatarUrl() {
+        if (amazonS3.doesObjectExist(avatarStorageName, defaultAvatarName)) {
+            return generateUrl(defaultAvatarName, avatarStorageName);
+        } else {
+            log.warn("Default avatar doesn't exist");
+            return "";
+        }
     }
 
 }
