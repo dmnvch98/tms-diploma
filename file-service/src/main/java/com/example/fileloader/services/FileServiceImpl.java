@@ -46,7 +46,7 @@ public class FileServiceImpl implements FileService {
                 inputStream,
                 metadata);
             log.info("{} successfully uploaded", fileName);
-            return getAvatarUrl(fileName);
+            return getFileUrl(fileName, storageName);
         } catch (RuntimeException e) {
             log.error("An error occurred while uploading {}: ", fileName + e);
         }
@@ -54,11 +54,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<String> getFilesList() {
+    public List<String> getFilesList(String storageName) {
         log.info("Getting list of all files");
         List<String> filesList = new ArrayList<>();
         try {
-            filesList = amazonS3.listObjects(avatarStorageName)
+            filesList = amazonS3.listObjects(storageName)
                 .getObjectSummaries()
                 .stream()
                 .map(S3ObjectSummary::getKey)
@@ -83,31 +83,26 @@ public class FileServiceImpl implements FileService {
         return false;
     }
 
-    private String generateUrl(String fileName) {
+    private String generateUrl(String fileName, String storageName) {
         log.info("Generating pre-signed url for {}", fileName);
         LocalDateTime now = LocalDateTime.now();
         Instant accessExpirationInstant = now.plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant();
         Date date = Date.from(accessExpirationInstant);
         String preSignedUrl = amazonS3
-            .generatePresignedUrl(avatarStorageName, fileName, date, HttpMethod.GET)
+            .generatePresignedUrl(storageName, fileName, date, HttpMethod.GET)
             .toString();
         log.info("Url successfully generated");
         return preSignedUrl;
     }
 
     @Override
-    public String getAvatarUrl(String fileName) {
+    public String getFileUrl(String fileName, String storageName) {
         log.info("Getting {}", fileName);
-        if (amazonS3.doesObjectExist(avatarStorageName, fileName)) {
-            return generateUrl(fileName);
+        if (amazonS3.doesObjectExist(storageName, fileName)) {
+            return generateUrl(fileName, storageName);
         } else {
-            log.warn("{} doesn't exist. Getting default avatar", fileName);
-            if (amazonS3.doesObjectExist(avatarStorageName, defaultAvatarName)) {
-                return generateUrl(defaultAvatarName);
-            } else {
-                log.warn("Default avatar doesn't exist");
-                return "";
-            }
+            log.warn("{} doesn't exist", fileName);
+            return null;
         }
     }
 
@@ -125,4 +120,31 @@ public class FileServiceImpl implements FileService {
     public String uploadAvatar(InputStream inputStream, String fileName) throws IOException{
         return uploadFile(inputStream, fileName, avatarStorageName);
     }
+
+    @Override
+    public String getAvatarUrl(String fileName) {
+        String avatarUrl = getFileUrl(fileName, avatarStorageName);
+        if (avatarUrl != null) {
+            return avatarUrl;
+        } else {
+            log.info("Getting default avatar");
+            if (amazonS3.doesObjectExist(avatarStorageName, defaultAvatarName)) {
+                return generateUrl(defaultAvatarName, avatarStorageName);
+            } else {
+                log.warn("Default avatar doesn't exist");
+                return "";
+            }
+        }
+    }
+
+    @Override
+    public String getTutorVideoPresentationUrl(String fileName) {
+        return getFileUrl(fileName, tutorsVideoPresentationStorageName);
+    }
+
+    @Override
+    public String getStudentVideoPresentationUrl(String fileName) {
+        return getFileUrl(fileName, studentsVideoPresentationStorageName);
+    }
+
 }

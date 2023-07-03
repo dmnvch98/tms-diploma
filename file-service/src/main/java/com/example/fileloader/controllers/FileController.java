@@ -16,9 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class FileController {
-
     private final FileService fileService;
-
     @Value("${avatar.user_postfix}")
     public String userAvatarNamePostfix;
 
@@ -38,9 +36,9 @@ public class FileController {
             .build();
     }
 
-    @GetMapping("/")
-    public List<String> getFilesList() {
-        return fileService.getFilesList();
+    @GetMapping("/{storageName}")
+    public List<String> getFilesList(@PathVariable String storageName) {
+        return fileService.getFilesList(storageName);
     }
 
     @GetMapping("avatar/{fileName}")
@@ -81,6 +79,20 @@ public class FileController {
             .builder()
             .message(fileService.uploadTutorVideoPresentation(file.getInputStream(),
                 tutorId + tutorVideoPresentationNamePostfix))
+            .build();
+    }
+
+    @GetMapping("video-presentation/student/{studentId}")
+    public ResponseDto getStudentVideoPresentationUrl(@PathVariable("studentId") final Long studentId) {
+        return ResponseDto.builder()
+            .message(fileService.getStudentVideoPresentationUrl(studentId + studentVideoPresentationNamePostfix))
+            .build();
+    }
+
+    @GetMapping("video-presentation/tutor/{tutorId}")
+    public ResponseDto getTutorVideoPresentationUrl(@PathVariable("tutorId") final Long tutorId) {
+        return ResponseDto.builder()
+            .message(fileService.getTutorVideoPresentationUrl(tutorId + tutorVideoPresentationNamePostfix))
             .build();
     }
 }

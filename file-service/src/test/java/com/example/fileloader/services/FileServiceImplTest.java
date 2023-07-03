@@ -20,6 +20,8 @@ class FileServiceImplTest {
     private FileService fileService;
     @Value("${aws.storage_name}")
     public String storageName;
+    @Value("${aws.avatar_storage_name}")
+    public String avatarStorageName;
     @Value("${avatar.default}")
     public String defaultAvatarName;
     private final String fileName = "test.txt";
@@ -43,7 +45,7 @@ class FileServiceImplTest {
         when(amazonS3.generatePresignedUrl(eq(storageName), eq(fileName), any(Date.class), eq(HttpMethod.GET)))
             .thenReturn(expectedUrl);
 
-        String actualUrl = fileService.getAvatarUrl(fileName);
+        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName);
 
         Assertions.assertEquals(expectedUrl.toString(), actualUrl);
     }
@@ -58,7 +60,7 @@ class FileServiceImplTest {
 
         when(amazonS3.generatePresignedUrl(eq(storageName), eq(defaultAvatarName), any(Date.class), eq(HttpMethod.GET)))
             .thenReturn(expectedUrl);
-        String actualUrl = fileService.getAvatarUrl(fileName);
+        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName);
         Assertions.assertEquals(expectedUrl.toString(), actualUrl);
     }
 
@@ -69,7 +71,7 @@ class FileServiceImplTest {
         when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(false);
         when(amazonS3.doesObjectExist(eq(storageName), eq(defaultAvatarName))).thenReturn(false);
 
-        String actualUrl = fileService.getAvatarUrl(fileName);
+        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName);
 
         Assertions.assertEquals("", actualUrl);
     }
