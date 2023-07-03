@@ -33,8 +33,8 @@ public class FileController {
         return ResponseEntity.ok(fileFacade.deleteFile(userId));
     }
 
-    @GetMapping("/default-avatar")
-    public ResponseDto getDefaultAvatar() {
-        return fileFacade.getDefaultAvatar();
-    }
+//    @GetMapping("/default-avatar")
+//    public ResponseDto getDefaultAvatar() {
+//        return fileFacade.getDefaultAvatar();
+//    }
 }

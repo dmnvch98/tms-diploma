@@ -20,8 +20,12 @@ public class FileService {
             : null;
     }
 
-    public ResponseDto getFile(final String fileName) {
-        return fileClient.getAvatarUrl(fileName);
+//    public ResponseDto getAvatarUrl(final String fileName) {
+//        return fileClient.getAvatarUrl(fileName);
+//    }
+
+    public ResponseDto getAvatarUrl(final Long userId) {
+        return fileClient.getAvatarUrl(userId);
     }
 
     public boolean deleteFile(final String fileName, Long userId) {

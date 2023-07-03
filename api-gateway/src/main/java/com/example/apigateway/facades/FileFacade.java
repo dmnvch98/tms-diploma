@@ -22,14 +22,14 @@ public class FileFacade {
     }
 
     public ResponseDto getFile(Long userId) {
-        return fileService.getFile(userId + userAvatarNamePostfix);
+        return fileService.getAvatarUrl(userId);
     }
 
     public Boolean deleteFile(Long userId) {
         return fileService.deleteFile(userId + userAvatarNamePostfix, userId);
     }
 
-    public ResponseDto getDefaultAvatar() {
-        return fileService.getFile(defaultAvatarName);
-    }
+//    public ResponseDto getDefaultAvatar() {
+//        return fileService.getFile(defaultAvatarName);
+//    }
 }

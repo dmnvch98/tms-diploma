@@ -88,7 +88,7 @@ public class FeedbackFacade {
         Map<String, String> userInfo = new HashMap<>();
 
         String avatarUrl = fileService
-            .getFile(user.getId() + userAvatarNamePostfix)
+            .getAvatarUrl(user.getId())
             .getMessage();
 
         String languageDescription = languageLevelService

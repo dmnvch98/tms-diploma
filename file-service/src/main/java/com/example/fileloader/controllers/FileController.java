@@ -41,10 +41,10 @@ public class FileController {
         return fileService.getFilesList(storageName);
     }
 
-    @GetMapping("avatar/{fileName}")
-    public ResponseDto getAvatarUrl(@PathVariable("fileName") final String fileName) {
+    @GetMapping("avatar/{userId}")
+    public ResponseDto getAvatarUrl(@PathVariable("userId") final Long userId) {
         return ResponseDto.builder()
-            .message(fileService.getAvatarUrl(fileName))
+            .message(fileService.getAvatarUrl(userId + userAvatarNamePostfix))
             .build();
     }
 
