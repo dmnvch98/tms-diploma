@@ -21,9 +21,6 @@ export const useAvatarStore = create<AvatarStore>((set: any, get: any) => ({
     editMode: false,
     cropper: null,
     updateUserDto: null,
-    setExistingAvatarUrl: async (url: string) => {
-        set({existingAvatarUrl: url})
-    },
     setNewAvatarUrl: async (url: string) => {
         set({newAvatarUrl: url})
     },

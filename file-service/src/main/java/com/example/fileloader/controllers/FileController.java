@@ -25,12 +25,12 @@ public class FileController {
     @Value("${avatar.default}")
     public String defaultAvatarName;
 
-    @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseDto uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable Long userId)
+    @PostMapping(value = "/avatar/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseDto uploadAvatar(@RequestPart("file") final MultipartFile file, @PathVariable Long userId)
         throws IOException {
         return ResponseDto
             .builder()
-            .message(fileService.uploadFile(file.getInputStream(), userId + userAvatarNamePostfix))
+            .message(fileService.uploadAvatar(file.getInputStream(), userId + userAvatarNamePostfix))
             .build();
     }
 
@@ -47,14 +47,14 @@ public class FileController {
     }
 
     @DeleteMapping("/{fileName}")
-    public ResponseEntity<Boolean> deleteFile(@PathVariable final String fileName) {
+    public ResponseEntity<Boolean> deleteAvatar(@PathVariable final String fileName) {
         return ResponseEntity.ok(fileService.deleteFile(fileName));
     }
 
     @PostMapping(value = "/default-avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseDto uploadDefaultAvatar(@RequestPart("file") final MultipartFile file) throws IOException {
         return ResponseDto.builder()
-            .message(fileService.uploadFile(file.getInputStream(), defaultAvatarName))
+            .message(fileService.uploadAvatar(file.getInputStream(), defaultAvatarName))
             .build();
     }
 }

@@ -14,18 +14,18 @@ public class FileService {
     private final UserClient userClient;
 
     public ResponseDto uploadFile(final MultipartFile file, Long userId) {
-        ResponseDto responseDto = fileClient.uploadFile(file, userId);
+        ResponseDto responseDto = fileClient.uploadAvatar(file, userId);
         return responseDto.getMessage() != null && userClient.setAvatar(userId) == 1
             ? responseDto
             : null;
     }
 
     public ResponseDto getFile(final String fileName) {
-        return fileClient.getFileUrl(fileName);
+        return fileClient.getAvatarUrl(fileName);
     }
 
     public boolean deleteFile(final String fileName, Long userId) {
-        boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteFile(fileName).getBody());
+        boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteAvatar(fileName).getBody());
         return isDeleted && userClient.deleteAvatar(userId) == 1;
     }
 }

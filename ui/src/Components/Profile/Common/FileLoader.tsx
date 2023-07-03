@@ -49,7 +49,8 @@ export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
     return (
         <>
             {editMode && (
-                <><Cropper
+                <>
+                    <Cropper
                     style={cropperStyle}
                     src={avatarUrl}
                     viewMode={1}

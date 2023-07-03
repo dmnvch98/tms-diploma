@@ -5,10 +5,15 @@ aws:
   s3_endpoint: http://localhost:4566/
   access_key: foo
   secret_key: bar
-  storage_name: avatars
+  avatar_storage_name: avatars
+  tutors_video_presentation_storage_name: video-presentations
+  students_video_presentation_storage_name: video-presentations
 avatar:
   user_postfix: '_avatar.png'
   default: 'default_avatar.png'
+video_presentation:
+  tutor_postfix: '_tutor_video-presentations.mp4'
+  student_postfix: '_student_video-presentations.mp4'
 spring:
   datasource:
     driver-class-name: 'org.postgresql.Driver'

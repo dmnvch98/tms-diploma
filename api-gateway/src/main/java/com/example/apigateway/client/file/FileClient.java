@@ -11,13 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
     url = "${services.file.url}/api/v1/files")
 public interface FileClient {
 
-    @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseDto uploadFile(@RequestPart("file") final MultipartFile file, @PathVariable("userId") Long userId);
+    @PostMapping(value = "/avatar/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseDto uploadAvatar(@RequestPart("file") final MultipartFile file, @PathVariable("userId") Long userId);
 
-    @GetMapping("/{fileName}")
-    ResponseDto getFileUrl(@PathVariable("fileName") String fileName);
+    @GetMapping("avatar/{fileName}")
+    ResponseDto getAvatarUrl(@PathVariable("fileName") String fileName);
 
     @DeleteMapping("/{fileName}")
-    ResponseEntity<Boolean> deleteFile(@PathVariable("fileName") String fileName);
+    ResponseEntity<Boolean> deleteAvatar(@PathVariable("fileName") String fileName);
 
 }

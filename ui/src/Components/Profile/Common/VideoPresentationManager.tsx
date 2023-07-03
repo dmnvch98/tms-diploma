@@ -1,12 +1,14 @@
+import React, {ChangeEvent, useEffect} from "react";
+import {Box, Button, Modal, Paper} from "@mui/material";
 import {useAvatarStore} from "../../../pages/Profile/Edit/avatarStore";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
-import {ChangeEvent, useEffect} from "react";
-import {Box, Button, Modal, Paper} from "@mui/material";
-import {Avatar} from "../Avatar";
-import {FileLoader} from "../Common/FileLoader";
+import {VideoLoaderModal} from "./VideoLoaderModal";
 
-export const EditAvatar = () => {
-    const newAvatarUrl = useAvatarStore(state => state.newAvatarUrl);
+type Props = {
+    presentationUrl: string
+}
+
+export const VideoPresentationManager: React.FC<Props> = ({presentationUrl}) => {
     const setNewAvatarUrl = useAvatarStore(state => state.setNewAvatarUrl);
     const editMode = useAvatarStore(state => state.editMode);
     const setEditMode = useAvatarStore(state => state.setEditMode);
@@ -50,17 +52,16 @@ export const EditAvatar = () => {
         <>
             <Box sx={{mt: 4}}>
                 <Paper sx={{p: 2}}>
-                    <Avatar/>
                     <Button variant="contained"
                             component="label"
                             fullWidth
                             sx={{mt: 2}}
                     >
-                        Select
+                        Select Video
                         <input
                             type="file"
                             hidden
-                            accept="image/png, image/jpeg, image/jpg"
+                            accept="video/mp4"
                             onChange={getNewFileUrl}
                             ref={ref => fileInput = ref}
                         />
@@ -82,9 +83,7 @@ export const EditAvatar = () => {
                         aria-describedby="modal-modal-description"
                     >
                         <Box sx={style}>
-                            <FileLoader
-                                avatarUrl={newAvatarUrl}
-                            />
+                            <VideoLoaderModal/>
                         </Box>
                     </Modal>
 
