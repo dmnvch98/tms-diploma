@@ -71,14 +71,14 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Boolean deleteFile(String fileName) {
+    public Boolean deleteFile(String fileName, String storageName) {
         try {
-            log.info("Deleting avatar with name: {}", fileName);
-            amazonS3.deleteObject(avatarStorageName, fileName);
-            log.info("Avatar with name: {} successfully deleted", fileName);
+            log.info("Deleting file: {}", fileName);
+            amazonS3.deleteObject(storageName, fileName);
+            log.info("File {} successfully deleted", fileName);
             return true;
         } catch (Exception e) {
-            log.error("Error during removing of avatar " + e);
+            log.error("Error during removing the file: " + e);
         }
         return false;
     }
@@ -145,6 +145,21 @@ public class FileServiceImpl implements FileService {
     @Override
     public String getStudentVideoPresentationUrl(String fileName) {
         return getFileUrl(fileName, studentsVideoPresentationStorageName);
+    }
+
+    @Override
+    public Boolean deleteAvatar(String fileName) {
+        return deleteFile(fileName, avatarStorageName);
+    }
+
+    @Override
+    public Boolean deleteTutorVideoPresentation(String fileName) {
+        return deleteFile(fileName, tutorsVideoPresentationStorageName);
+    }
+
+    @Override
+    public Boolean deleteStudentVideoPresentation(String fileName) {
+        return deleteFile(fileName, studentsVideoPresentationStorageName);
     }
 
 }

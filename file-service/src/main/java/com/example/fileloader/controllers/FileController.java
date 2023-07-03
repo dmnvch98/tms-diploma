@@ -19,7 +19,6 @@ public class FileController {
     private final FileService fileService;
     @Value("${avatar.user_postfix}")
     public String userAvatarNamePostfix;
-
     @Value("${avatar.default}")
     public String defaultAvatarName;
     @Value("${video_presentation.tutor_postfix}")
@@ -50,7 +49,7 @@ public class FileController {
 
     @DeleteMapping("avatar/{fileName}")
     public ResponseEntity<Boolean> deleteAvatar(@PathVariable final String fileName) {
-        return ResponseEntity.ok(fileService.deleteFile(fileName));
+        return ResponseEntity.ok(fileService.deleteAvatar(fileName));
     }
 
     @PostMapping(value = "/default-avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -94,5 +93,17 @@ public class FileController {
         return ResponseDto.builder()
             .message(fileService.getTutorVideoPresentationUrl(tutorId + tutorVideoPresentationNamePostfix))
             .build();
+    }
+
+    @DeleteMapping("video-presentation/student/{studentId}")
+    public ResponseEntity<Boolean> deleteStudentVideoPresentation(@PathVariable final Long studentId) {
+        return ResponseEntity.ok(fileService
+            .deleteStudentVideoPresentation(studentId + studentVideoPresentationNamePostfix));
+    }
+
+    @DeleteMapping("video-presentation/tutor/{tutorId}")
+    public ResponseEntity<Boolean> deleteTutorVideoPresentation(@PathVariable final Long tutorId) {
+        return ResponseEntity.ok(fileService
+            .deleteTutorVideoPresentation(tutorId + tutorVideoPresentationNamePostfix));
     }
 }
