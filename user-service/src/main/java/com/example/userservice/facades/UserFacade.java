@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,6 +146,7 @@ public class UserFacade {
         userService.updateRefreshToken(token, userId);
     }
 
+    @Transactional
     public List<LanguageLevelDto> saveUserLanguageLevels(List<UserLanguageLevel> userLanguageLevels) {
         return userLanguageLevels
             .stream()

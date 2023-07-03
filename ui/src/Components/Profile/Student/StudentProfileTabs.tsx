@@ -2,7 +2,6 @@ import {Box, Tab, Tabs, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {useFeedbackStore} from "../Common/feedbackStore";
 import {FeedbackCard} from "../../Feedbacks/FeedbackCard";
-import ReactPlayer from 'react-player';
 import {VideoPlayer} from "../Common/VideoPlayer";
 
 type Props = {
