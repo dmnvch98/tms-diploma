@@ -6,9 +6,6 @@ import com.example.apigateway.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,7 +18,7 @@ public class FileService {
 
     public ResponseDto uploadFile(final MultipartFile file, Long userId) {
         ResponseDto responseDto = fileClient.uploadAvatar(file, userId);
-        return responseDto.getMessage() != null && userClient.setAvatar(userId) == 1
+        return responseDto.getFileName() != null && userClient.setAvatar(userId) == 1
             ? responseDto
             : null;
     }
@@ -36,12 +33,12 @@ public class FileService {
         return isDeleted && userClient.deleteAvatar(userId) == 1;
     }
 
-    public ResponseDto uploadStudentVideoPresentation(final MultipartFile file, final Long studentId)
+    public String uploadStudentVideoPresentation(final MultipartFile file, final Long studentId)
         throws IOException {
         return fileClient.uploadStudentVideoPresentation(file, studentId);
     }
 
-    public ResponseDto uploadTutorVideoPresentation(final MultipartFile file, Long tutorId) throws IOException{
+    public String uploadTutorVideoPresentation(final MultipartFile file, Long tutorId) throws IOException{
         return fileClient.uploadTutorVideoPresentation(file, tutorId);
     }
 

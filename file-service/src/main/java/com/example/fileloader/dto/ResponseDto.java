@@ -6,5 +6,5 @@ import lombok.Value;
 @Value
 @Builder
 public class ResponseDto {
-    String message;
+    String fileName;
 }

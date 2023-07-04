@@ -64,4 +64,8 @@ public class TutorFacade {
             ))
             .toList();
     }
+
+    public Tutor update(Tutor tutor) {
+        return tutorService.save(tutor);
+    }
 }

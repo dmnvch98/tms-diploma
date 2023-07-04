@@ -31,7 +31,7 @@ public class FileController {
         throws IOException {
         return ResponseDto
             .builder()
-            .message(fileService.uploadAvatar(file.getInputStream(), userId + userAvatarNamePostfix))
+            .fileName(fileService.uploadAvatar(file.getInputStream(), userId + userAvatarNamePostfix))
             .build();
     }
 
@@ -43,7 +43,7 @@ public class FileController {
     @GetMapping("avatar/{userId}")
     public ResponseDto getAvatarUrl(@PathVariable("userId") final Long userId) {
         return ResponseDto.builder()
-            .message(fileService.getAvatarUrl(userId + userAvatarNamePostfix))
+            .fileName(fileService.getAvatarUrl(userId + userAvatarNamePostfix))
             .build();
     }
 
@@ -55,43 +55,33 @@ public class FileController {
     @PostMapping(value = "/default-avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseDto uploadDefaultAvatar(@RequestPart("file") final MultipartFile file) throws IOException {
         return ResponseDto.builder()
-            .message(fileService.uploadAvatar(file.getInputStream(), defaultAvatarName))
+            .fileName(fileService.uploadAvatar(file.getInputStream(), defaultAvatarName))
             .build();
     }
 
     @PostMapping(value = "video-presentation/student/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseDto uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
-                                                      @PathVariable("studentId") Long studentId)
-        throws IOException {
-        return ResponseDto
-            .builder()
-            .message(fileService.uploadStudentVideoPresentation(file.getInputStream(),
-                studentId + studentVideoPresentationNamePostfix))
-            .build();
+    public String uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
+                                                      @PathVariable("studentId") Long studentId) throws IOException {
+        return fileService.uploadStudentVideoPresentation(file.getInputStream(), studentId);
     }
 
     @PostMapping(value = "video-presentation/tutor/{tutorId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseDto uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
-                                                      @PathVariable("tutorId") Long tutorId)
-        throws IOException {
-        return ResponseDto
-            .builder()
-            .message(fileService.uploadTutorVideoPresentation(file.getInputStream(),
-                tutorId + tutorVideoPresentationNamePostfix))
-            .build();
+    public String uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
+                                                      @PathVariable("tutorId") Long tutorId) throws IOException {
+        return fileService.uploadTutorVideoPresentation(file.getInputStream(), tutorId);
     }
 
     @GetMapping("video-presentation/student/{studentId}")
     public ResponseDto getStudentVideoPresentationUrl(@PathVariable("studentId") final Long studentId) {
         return ResponseDto.builder()
-            .message(fileService.getStudentVideoPresentationUrl(studentId + studentVideoPresentationNamePostfix))
+            .fileName(fileService.getStudentVideoPresentationUrl(studentId + studentVideoPresentationNamePostfix))
             .build();
     }
 
     @GetMapping("video-presentation/tutor/{tutorId}")
     public ResponseDto getTutorVideoPresentationUrl(@PathVariable("tutorId") final Long tutorId) {
         return ResponseDto.builder()
-            .message(fileService.getTutorVideoPresentationUrl(tutorId + tutorVideoPresentationNamePostfix))
+            .fileName(fileService.getTutorVideoPresentationUrl(tutorId + tutorVideoPresentationNamePostfix))
             .build();
     }
 

@@ -23,4 +23,10 @@ public class StudentController {
     public Student save(@RequestBody Student student) {
         return studentFacade.save(student);
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping
+    public Student update(@RequestBody Student student) {
+        return studentFacade.update(student);
+    }
 }

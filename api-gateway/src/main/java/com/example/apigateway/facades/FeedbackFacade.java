@@ -89,7 +89,7 @@ public class FeedbackFacade {
 
         String avatarUrl = fileService
             .getAvatarUrl(user.getId())
-            .getMessage();
+            .getFileName();
 
         String languageDescription = languageLevelService
             .findAllByLanguageId(languageId)

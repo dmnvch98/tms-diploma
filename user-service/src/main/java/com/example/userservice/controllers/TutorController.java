@@ -39,4 +39,10 @@ public class TutorController {
         defaultValue = "0", required = false) Long lastTutorId, @RequestBody FilterTutorsRequestDto dto) {
         return tutorFacade.filterTutorsWhoHaveNotBookedConvDetails(lastTutorId, dto);
     }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping
+    public Tutor update(@RequestBody Tutor tutor) {
+        return tutorFacade.update(tutor);
+    }
 }

@@ -29,4 +29,8 @@ public class TutorService {
     public List<TutorShortUserInfoDto> filterTutors(Long tutorId, FilterTutorsRequestDto dto) {
         return tutorClient.filterTutorsWhoHaveNotBookedConvDetails(tutorId, dto);
     }
+
+    public Tutor update(Tutor tutor) {
+        return tutorClient.update(tutor);
+    }
 }

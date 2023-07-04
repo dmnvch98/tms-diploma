@@ -45,7 +45,7 @@ class FileServiceImplTest {
         when(amazonS3.generatePresignedUrl(eq(storageName), eq(fileName), any(Date.class), eq(HttpMethod.GET)))
             .thenReturn(expectedUrl);
 
-        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName);
+        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName).orElse("");
 
         Assertions.assertEquals(expectedUrl.toString(), actualUrl);
     }
@@ -60,7 +60,7 @@ class FileServiceImplTest {
 
         when(amazonS3.generatePresignedUrl(eq(storageName), eq(defaultAvatarName), any(Date.class), eq(HttpMethod.GET)))
             .thenReturn(expectedUrl);
-        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName);
+        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName).orElse("");
         Assertions.assertEquals(expectedUrl.toString(), actualUrl);
     }
 
@@ -71,7 +71,7 @@ class FileServiceImplTest {
         when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(false);
         when(amazonS3.doesObjectExist(eq(storageName), eq(defaultAvatarName))).thenReturn(false);
 
-        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName);
+        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName).orElse("");
 
         Assertions.assertEquals("", actualUrl);
     }

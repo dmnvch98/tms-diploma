@@ -26,4 +26,8 @@ public interface TutorClient {
     @GetMapping("/not-booked-conversations-details/filter")
     List<TutorShortUserInfoDto> filterTutorsWhoHaveNotBookedConvDetails(@RequestParam(value = "lastTutorId",
         defaultValue = "0", required = false) Long lastTutorId, @RequestBody FilterTutorsRequestDto dto);
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping
+    Tutor update(@RequestBody Tutor tutor);
 }

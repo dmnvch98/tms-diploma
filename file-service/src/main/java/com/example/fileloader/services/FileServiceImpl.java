@@ -2,7 +2,8 @@ package com.example.fileloader.services;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,11 @@ public class FileServiceImpl implements FileService {
     @Value("${avatar.default}")
     public String defaultAvatarName;
 
+    @Value("${video_presentation.student_postfix}")
+    public String studentVideoPresentationNamePostfix;
+    @Value("${video_presentation.tutor_postfix}")
+    public String tutorVideoPresentationNamePostfix;
+
     @Override
     public String uploadFile(InputStream inputStream, String fileName, String storageName) throws IOException {
         ObjectMetadata metadata = new ObjectMetadata();
@@ -48,7 +54,8 @@ public class FileServiceImpl implements FileService {
                 inputStream,
                 metadata);
             log.info("{} successfully uploaded", fileName);
-            return getFileUrl(fileName, storageName).orElse("");
+//            return getFileUrl(fileName, storageName).orElse("");
+            return fileName;
         } catch (RuntimeException e) {
             log.error("An error occurred while uploading {}: {}", fileName, e);
         }
@@ -110,17 +117,25 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String uploadTutorVideoPresentation(InputStream inputStream, String fileName) throws IOException {
-        return uploadFile(inputStream, fileName, tutorsVideoPresentationStorageName);
+    public String uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException {
+        return uploadFile(
+            inputStream,
+            tutorId + tutorVideoPresentationNamePostfix,
+            tutorsVideoPresentationStorageName
+        );
     }
 
     @Override
-    public String uploadStudentVideoPresentation(InputStream inputStream, String fileName) throws IOException {
-        return uploadFile(inputStream, fileName, studentsVideoPresentationStorageName);
+    public String uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException {
+        return uploadFile(
+            inputStream,
+            studentId + studentVideoPresentationNamePostfix,
+            studentsVideoPresentationStorageName
+        );
     }
 
     @Override
-    public String uploadAvatar(InputStream inputStream, String fileName) throws IOException{
+    public String uploadAvatar(InputStream inputStream, String fileName) throws IOException {
         return uploadFile(inputStream, fileName, avatarStorageName);
     }
 

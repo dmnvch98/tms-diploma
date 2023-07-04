@@ -26,11 +26,11 @@ public interface FileClient {
     ResponseEntity<Boolean> deleteAvatar(@PathVariable("fileName") String fileName);
 
     @PostMapping(value = "video-presentation/student/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseDto uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
+    String uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
                                                       @PathVariable("studentId") Long studentId) throws IOException;
 
     @PostMapping(value = "video-presentation/tutor/{tutorId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseDto uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
+    String uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
                                                     @PathVariable("tutorId") Long tutorId) throws IOException;
 
     @GetMapping("video-presentation/student/{studentId}")

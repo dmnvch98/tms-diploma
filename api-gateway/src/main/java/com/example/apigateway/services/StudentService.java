@@ -17,4 +17,8 @@ public class StudentService {
     public Student save(Student student) {
         return studentClient.save(student);
     }
+
+    public Student update(Student student) {
+        return studentClient.update(student);
+    }
 }

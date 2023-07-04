@@ -33,4 +33,8 @@ public class StudentFacade {
         userService.addRoleToUser(studentRoleName, student.getUserId());
         return studentService.save(student);
     }
+
+    public Student update(Student student) {
+        return studentService.save(student);
+    }
 }

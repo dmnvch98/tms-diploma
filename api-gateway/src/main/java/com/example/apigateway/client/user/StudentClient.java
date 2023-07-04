@@ -14,4 +14,8 @@ public interface StudentClient {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     Student save(Student student);
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping
+    Student update(@RequestBody Student student);
 }

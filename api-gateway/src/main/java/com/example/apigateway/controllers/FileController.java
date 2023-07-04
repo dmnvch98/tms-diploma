@@ -3,9 +3,13 @@ package com.example.apigateway.controllers;
 import com.example.apigateway.config.security.service.PrincipalUser;
 import com.example.apigateway.dto.ResponseDto;
 import com.example.apigateway.facades.FileFacade;
+import com.example.apigateway.model.Student;
+import com.example.apigateway.model.Tutor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,26 +56,17 @@ public class FileController {
         return fileFacade.uploadTutorVideoPresentation(file, userId);
     }
 
-//    @GetMapping("video-presentation/student/{studentId}")
-//    public ResponseDto getStudentVideoPresentationUrl(@PathVariable("studentId") final Long studentId) {
-//        return fileFacade.getStudentVideoPresentationUrl(studentId);
-//    }
-//
-//    @GetMapping("video-presentation/tutor/{tutorId}")
-//    public ResponseDto getTutorVideoPresentationUrl(@PathVariable("tutorId") final Long tutorId) {
-//        return fileFacade.getTutorVideoPresentationUrl(tutorId);
-//    }
-
     @DeleteMapping("video-presentation/student")
     public ResponseEntity<Boolean> deleteStudentVideoPresentation(Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         return fileFacade.deleteStudentVideoPresentation(userId);
     }
 
-    @DeleteMapping("video-presentation")
+    @DeleteMapping("video-presentation/tutor")
     public ResponseEntity<Boolean> deleteTutorVideoPresentation(Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
         return fileFacade.deleteTutorVideoPresentation(userId);
     }
+
 
 }

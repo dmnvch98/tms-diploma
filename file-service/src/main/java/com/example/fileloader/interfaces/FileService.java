@@ -10,8 +10,8 @@ public interface FileService {
     List<String> getFilesList(String storageName);
     Boolean deleteFile(String fileName, String storageName);
     Optional<String> getFileUrl(String fileName, String storageName);
-    String uploadTutorVideoPresentation(InputStream inputStream, String fileName) throws IOException;
-    String uploadStudentVideoPresentation(InputStream inputStream, String fileName) throws IOException;
+    String uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException;
+    String uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException;
     String uploadAvatar(InputStream inputStream, String fileName) throws IOException;
     String getAvatarUrl(String fileName);
     String getTutorVideoPresentationUrl(String fileName);
