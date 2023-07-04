@@ -4,8 +4,14 @@ import com.example.apigateway.client.user.UserClient;
 import com.example.apigateway.client.file.FileClient;
 import com.example.apigateway.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -20,16 +26,38 @@ public class FileService {
             : null;
     }
 
-//    public ResponseDto getAvatarUrl(final String fileName) {
-//        return fileClient.getAvatarUrl(fileName);
-//    }
 
     public ResponseDto getAvatarUrl(final Long userId) {
         return fileClient.getAvatarUrl(userId);
     }
 
-    public boolean deleteFile(final String fileName, Long userId) {
+    public boolean deleteAvatar(final String fileName, Long userId) {
         boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteAvatar(fileName).getBody());
         return isDeleted && userClient.deleteAvatar(userId) == 1;
+    }
+
+    public ResponseDto uploadStudentVideoPresentation(final MultipartFile file, final Long studentId)
+        throws IOException {
+        return fileClient.uploadStudentVideoPresentation(file, studentId);
+    }
+
+    public ResponseDto uploadTutorVideoPresentation(final MultipartFile file, Long tutorId) {
+        return fileClient.uploadTutorVideoPresentation(file, tutorId);
+    }
+
+    public ResponseDto getStudentVideoPresentationUrl(final Long studentId) {
+        return fileClient.getStudentVideoPresentationUrl(studentId);
+    }
+
+    public ResponseDto getTutorVideoPresentationUrl(final Long tutorId) {
+        return fileClient.getTutorVideoPresentationUrl(tutorId);
+    }
+
+    public ResponseEntity<Boolean> deleteStudentVideoPresentation(final Long studentId) {
+        return fileClient.deleteStudentVideoPresentation(studentId);
+    }
+
+    public ResponseEntity<Boolean> deleteTutorVideoPresentation(final Long tutorId) {
+        return fileClient.deleteTutorVideoPresentation(tutorId);
     }
 }

@@ -26,7 +26,7 @@ public class FileFacade {
     }
 
     public Boolean deleteFile(Long userId) {
-        return fileService.deleteFile(userId + userAvatarNamePostfix, userId);
+        return fileService.deleteAvatar(userId + userAvatarNamePostfix, userId);
     }
 
 //    public ResponseDto getDefaultAvatar() {
