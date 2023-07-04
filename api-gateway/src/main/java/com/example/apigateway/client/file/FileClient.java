@@ -27,11 +27,11 @@ public interface FileClient {
 
     @PostMapping(value = "video-presentation/student/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseDto uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
-                                                      @PathVariable Long studentId) throws IOException;
+                                                      @PathVariable("studentId") Long studentId) throws IOException;
 
     @PostMapping(value = "video-presentation/tutor/{tutorId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseDto uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
-                                                    @PathVariable Long tutorId);
+                                                    @PathVariable("tutorId") Long tutorId) throws IOException;
 
     @GetMapping("video-presentation/student/{studentId}")
     ResponseDto getStudentVideoPresentationUrl(@PathVariable("studentId") final Long studentId);
@@ -40,9 +40,9 @@ public interface FileClient {
     ResponseDto getTutorVideoPresentationUrl(@PathVariable("tutorId") final Long tutorId);
 
     @DeleteMapping("video-presentation/student/{studentId}")
-    ResponseEntity<Boolean> deleteStudentVideoPresentation(@PathVariable final Long studentId);
+    ResponseEntity<Boolean> deleteStudentVideoPresentation(@PathVariable("studentId") final Long studentId);
 
     @DeleteMapping("video-presentation/tutor/{tutorId}")
-    ResponseEntity<Boolean> deleteTutorVideoPresentation(@PathVariable final Long tutorId);
+    ResponseEntity<Boolean> deleteTutorVideoPresentation(@PathVariable("tutorId") final Long tutorId);
 
 }

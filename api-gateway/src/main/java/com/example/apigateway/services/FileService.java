@@ -41,7 +41,7 @@ public class FileService {
         return fileClient.uploadStudentVideoPresentation(file, studentId);
     }
 
-    public ResponseDto uploadTutorVideoPresentation(final MultipartFile file, Long tutorId) {
+    public ResponseDto uploadTutorVideoPresentation(final MultipartFile file, Long tutorId) throws IOException{
         return fileClient.uploadTutorVideoPresentation(file, tutorId);
     }
 

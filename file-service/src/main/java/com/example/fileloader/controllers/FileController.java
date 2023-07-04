@@ -61,7 +61,7 @@ public class FileController {
 
     @PostMapping(value = "video-presentation/student/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseDto uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
-                                                      @PathVariable Long studentId)
+                                                      @PathVariable("studentId") Long studentId)
         throws IOException {
         return ResponseDto
             .builder()
@@ -72,7 +72,7 @@ public class FileController {
 
     @PostMapping(value = "video-presentation/tutor/{tutorId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseDto uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
-                                                      @PathVariable Long tutorId)
+                                                      @PathVariable("tutorId") Long tutorId)
         throws IOException {
         return ResponseDto
             .builder()
