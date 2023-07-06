@@ -13,6 +13,8 @@ export interface VideoStore {
     uploadTutorVideoPresentation: (file: FormData) => void;
     getStudentVideoPresentationUrl: (studentId: number) => void;
     getTutorVideoPresentationUrl: (tutorId: number) => void;
+    deleteStudentVideoPresentation: () => Promise<boolean>;
+    deleteTutorVideoPresentation: () => Promise<boolean>;
 }
 
 export const useVideoStore = create<VideoStore>((set: any, get: any) => ({
@@ -75,6 +77,30 @@ export const useVideoStore = create<VideoStore>((set: any, get: any) => ({
                 errorMessage: error.message,
                 errorOpen: true,
             });
+        }
+    },
+    deleteStudentVideoPresentation: async ():Promise<boolean> => {
+        try {
+            return await FileService.deleteStudentVideoPresentation();
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            set({
+                errorMessage: error.message,
+                errorOpen: true,
+            });
+            return false;
+        }
+    },
+    deleteTutorVideoPresentation: async ():Promise<boolean> => {
+        try {
+            return await FileService.deleteTutorVideoPresentation();
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            set({
+                errorMessage: error.message,
+                errorOpen: true,
+            });
+            return false;
         }
     }
 

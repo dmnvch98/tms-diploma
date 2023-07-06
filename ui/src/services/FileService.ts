@@ -67,6 +67,18 @@ class FileService {
             {withCredentials: true})
         return response.data.fileUrl;
     }
+
+    deleteStudentVideoPresentation = async () => {
+        const response = await axios.delete('http://localhost:8080/api/v1/files/video-presentation/student',
+            {withCredentials: true})
+        return response.data;
+    }
+
+    deleteTutorVideoPresentation = async () => {
+        const response = await axios.delete('http://localhost:8080/api/v1/files/video-presentation/tutor',
+            {withCredentials: true})
+        return response.data;
+    }
 }
 
 export default new FileService();

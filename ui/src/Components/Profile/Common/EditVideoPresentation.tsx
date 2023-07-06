@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect} from "react";
-import {Box, Button, Modal, Paper} from "@mui/material";
+import {Box, Button, Modal} from "@mui/material";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {VideoLoaderModal} from "./VideoLoaderModal";
 import {useVideoStore} from "../../../pages/Profile/Edit/videoStore";
@@ -16,7 +16,8 @@ export const EditVideoPresentation: React.FC<Props> = ({role}) => {
     const user = useProfileStore(state => state.loggedInUser)
     const getMe = useProfileStore(state => state.getMe)
     const setVideoUrl = useVideoStore(state => state.setVideoUrl);
-
+    const deleteStudentVideoPresentation = useVideoStore(state => state.deleteStudentVideoPresentation);
+    const deleteTutorVideoPresentation = useVideoStore(state => state.deleteTutorVideoPresentation);
 
     useEffect(() => {
         if (user == null) {
@@ -46,6 +47,16 @@ export const EditVideoPresentation: React.FC<Props> = ({role}) => {
         }
     };
 
+    const handleDelete = async () => {
+        const isDeleted = role == UserRole.Student
+            ? await deleteStudentVideoPresentation()
+            : await deleteTutorVideoPresentation();
+
+        if (isDeleted) {
+            setVideoUrl('');
+        }
+    }
+
     return (
         <>
             <Box sx={{mt: 4}}>
@@ -69,6 +80,7 @@ export const EditVideoPresentation: React.FC<Props> = ({role}) => {
                         sx={{mt: 2}}
                         fullWidth
                         variant="contained"
+                        onClick={handleDelete}
                         color="error">
                         Delete
                     </Button>
