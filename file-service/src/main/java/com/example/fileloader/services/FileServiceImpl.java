@@ -85,9 +85,13 @@ public class FileServiceImpl implements FileService {
     public Boolean deleteFile(String fileName, String storageName) {
         try {
             log.info("Deleting file: {}", fileName);
-            amazonS3.deleteObject(storageName, fileName);
-            log.info("File {} successfully deleted", fileName);
-            return true;
+            if (amazonS3.doesObjectExist(storageName, fileName)) {
+                amazonS3.deleteObject(storageName, fileName);
+                log.info("File {} successfully deleted", fileName);
+                return true;
+            }
+            log.info("File {} doesn't exists", fileName);
+            return false;
         } catch (Exception e) {
             log.error("Error during removing the file: " + e);
         }
@@ -201,5 +205,6 @@ public class FileServiceImpl implements FileService {
             return "";
         }
     }
+
 
 }
