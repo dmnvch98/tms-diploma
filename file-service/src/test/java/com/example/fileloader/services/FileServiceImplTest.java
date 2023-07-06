@@ -210,6 +210,16 @@ class FileServiceImplTest {
         Assertions.assertFalse(result);
     }
 
+    @Test
+    @DisplayName("Should return an empty string when getting a non-existent default avatar.")
+    public void getDefaultAvatarWhichDoesntExist() {
+        when(amazonS3.doesObjectExist(storageName, defaultAvatarName)).thenReturn(false);
+
+        String result = fileService.getDefaultAvatarUrl();
+
+        Assertions.assertEquals(result, "");
+    }
+
 }
 
 

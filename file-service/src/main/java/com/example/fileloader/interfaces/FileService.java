@@ -23,5 +23,6 @@ public interface FileService {
     String getAvatarName(Long userId);
     String getStudentVideoPresentationName(Long studentId);
     String getTutorVideoPresentationName(Long tutorId);
+    String getDefaultAvatarUrl();
 
 }

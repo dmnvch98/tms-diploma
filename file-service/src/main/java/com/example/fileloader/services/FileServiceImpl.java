@@ -187,17 +187,16 @@ public class FileServiceImpl implements FileService {
         return userId + userAvatarNamePostfix;
     }
     @Override
-
     public String getStudentVideoPresentationName(Long studentId) {
         return studentId + studentVideoPresentationNamePostfix;
     }
     @Override
-
     public String getTutorVideoPresentationName(Long tutorId) {
         return tutorId + tutorVideoPresentationNamePostfix;
     }
 
-    private String getDefaultAvatarUrl() {
+    @Override
+    public String getDefaultAvatarUrl() {
         if (amazonS3.doesObjectExist(avatarStorageName, defaultAvatarName)) {
             return generateUrl(defaultAvatarName, avatarStorageName);
         } else {
