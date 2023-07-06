@@ -22,15 +22,15 @@ public interface FileClient {
     @GetMapping("avatar/{userId}")
     ResponseDto getAvatarUrl(@PathVariable("userId") Long userId);
 
-    @DeleteMapping("avatar/{fileName}")
-    ResponseEntity<Boolean> deleteAvatar(@PathVariable("fileName") String fileName);
+    @DeleteMapping("avatar/{userId}")
+    ResponseEntity<Boolean> deleteAvatar(@PathVariable("userId") Long userId);
 
     @PostMapping(value = "video-presentation/student/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    String uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
+    ResponseDto uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
                                                       @PathVariable("studentId") Long studentId) throws IOException;
 
     @PostMapping(value = "video-presentation/tutor/{tutorId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    String uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
+    ResponseDto uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
                                                     @PathVariable("tutorId") Long tutorId) throws IOException;
 
     @GetMapping("video-presentation/student/{studentId}")

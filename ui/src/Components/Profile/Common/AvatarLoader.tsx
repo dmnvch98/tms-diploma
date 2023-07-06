@@ -10,7 +10,7 @@ type Props = {
     avatarUrl: string;
 };
 
-export const FileLoader: React.FC<Props> = ({avatarUrl}) => {
+export const AvatarLoader: React.FC<Props> = ({avatarUrl}) => {
     const editMode = useAvatarStore(state => state.editMode);
     const setEditMode = useAvatarStore(state => state.setEditMode);
     const cropper = useAvatarStore(state => state.cropper);

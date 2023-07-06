@@ -8,6 +8,7 @@ import {useAvatarStore} from "../Edit/avatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 import {LanguageLevel} from "../../SignUp/store/languagesStore";
+import {useVideoStore} from "../Edit/videoStore";
 
 export const MyStudentProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
@@ -16,6 +17,9 @@ export const MyStudentProfile = () => {
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage)
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
+    const getStudentVideoPresentationUrl = useVideoStore(state => state.getStudentVideoPresentationUrl);
+    const setVideoUrl = useVideoStore(state => state.setVideoUrl);
+    let videoPresentationUrl: string;
 
     useEffect(() => {
         getMe();
@@ -28,6 +32,10 @@ export const MyStudentProfile = () => {
                     setIsErrorOpen(!isErrorOpen)
                     setErrorMessage("An error occurred during avatar fetching");
                 }
+            })
+
+            getStudentVideoPresentationUrl(user.student.studentId).then(result => {
+                setVideoUrl(result);
             })
         }
     }, [user])
@@ -46,7 +54,7 @@ export const MyStudentProfile = () => {
                                 studentConversationCount={user?.studentConversationCount as number}
                                 studentId={user?.student.studentId as number}
                                 aboutMe={user?.student.aboutMe as string}
-                                presentationUrl={user?.student.presentationUrl as string}
+                                presentationUrl={videoPresentationUrl as string}
                                 languageLevels={user?.languageLevels as LanguageLevel[]}/>
                         </Grid>
                     </Grid>

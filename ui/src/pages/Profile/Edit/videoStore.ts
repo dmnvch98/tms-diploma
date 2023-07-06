@@ -1,31 +1,46 @@
 import {create} from "zustand";
-import {AvatarStore} from "./avatarStore";
 import FileService from "../../../services/FileService";
 import {AxiosError} from "axios";
 
 export interface VideoStore {
-    newVideoUrl: string;
+    videoUrl: string
+    setVideoUrl: (url: string) => void;
+    localVideoUrlToUpload: string
+    setLocalVideoUrlToUpload: (url: string) => void;
     editMode: boolean
-    setNewVideoUrl: (url: string) => void;
     setEditMode: (flag: boolean) => void;
-    uploadVideo: (file: FormData) => void;
-    deleteVideo: () => void;
+    uploadStudentVideoPresentation: (file: FormData) => void;
+    uploadTutorVideoPresentation: (file: FormData) => void;
+    getStudentVideoPresentationUrl: (studentId: number) => Promise<string>;
+    getTutorVideoPresentationUrl: (tutorId: number) => void;
 }
 
-export const useAvatarStore = create<VideoStore>((set: any, get: any) => ({
-    existingVideoUrl: "",
-    newVideoUrl: "",
+export const useVideoStore = create<VideoStore>((set: any, get: any) => ({
+    videoUrl: "",
+    localVideoUrlToUpload: "",
     editMode: false,
-    setNewVideoUrl: async (url: string) => {
-        set({newVideoUrl: url})
+    setLocalVideoUrlToUpload: async (url: string) => {
+        set({localVideoUrlToUpload: url})
     },
     setEditMode: async (flag: boolean) => {
         set({editMode: flag})
     },
-    uploadVideo: async (file: FormData) => {
+    uploadStudentVideoPresentation: async (file: FormData) => {
         try {
-            const response = await FileService.uploadAvatar(file);
-            set({existingAvatarUrl: response})
+            const response = await FileService.uploadStudentVideoPresentation(file);
+            set({videoUrl: response})
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            set({
+                errorMessage: error.message,
+                errorOpen: true,
+            })
+        }
+    },
+    uploadTutorVideoPresentation: async (file: FormData) => {
+        try {
+            const response = await FileService.uploadTutorVideoPresentation(file);
+            set({videoUrl: response})
         } catch (e: unknown) {
             const error = e as AxiosError;
             set({
@@ -34,16 +49,37 @@ export const useAvatarStore = create<VideoStore>((set: any, get: any) => ({
             })
         }
     },
-    deleteVideo: async () => {
+    setVideoUrl: async (url: string) => {
+        set({videoUrl: url})
+    },
+    getTutorVideoPresentationUrl: async (tutorId: number) => {
         try {
-            await FileService.deleteAvatar();
+            const response = await FileService.getTutorVideoPresentationUrl((tutorId));
+            set({videoUrl: response});
         } catch (e: unknown) {
             const error = e as AxiosError;
             set({
                 errorMessage: error.message,
-                errorOpen: true
-            })
+                errorOpen: true,
+            });
+            return Promise.resolve('');
         }
     }
+    ,
+    getStudentVideoPresentationUrl: async (studentId: number): Promise<string> => {
+        try {
+            const response = await FileService.getStudentVideoPresentationUrl(studentId);
+            return Promise.resolve(response);
+        } catch (e: unknown) {
+            const error = e as AxiosError;
+            set({
+                errorMessage: error.message,
+                errorOpen: true,
+            });
+            return Promise.resolve('');
+        }
+    }
+
+
 
 }))

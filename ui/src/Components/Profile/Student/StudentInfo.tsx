@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Button, Container, Typography} from "@mui/material";
 import {StudentProfileTabs} from "./StudentProfileTabs";
 import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
@@ -24,6 +24,9 @@ export const StudentInfo: React.FC<Props> = ({
                                              }) => {
     const [showMore, setShowMore] = useState(false);
 
+    useEffect(() => {
+        console.log(presentationUrl);
+    })
     return (
         <>
             <Container sx={{bgcolor: "white", borderRadius: 2}}>

@@ -85,7 +85,8 @@ export const StudentProfileTabs: React.FC<Props> = ({studentId, presentationUrl}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Box sx={{mt: 2}}>
-                        <VideoPlayer presentationUrl={presentationUrl}/>
+                        {/*<VideoPlayer presentationUrl={presentationUrl}/>*/}
+                        <VideoPlayer/>
                     </Box>
                 </TabPanel>
             </Box>

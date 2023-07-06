@@ -12,11 +12,16 @@ public interface FileService {
     Optional<String> getFileUrl(String fileName, String storageName);
     String uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException;
     String uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException;
-    String uploadAvatar(InputStream inputStream, String fileName) throws IOException;
-    String getAvatarUrl(String fileName);
-    String getTutorVideoPresentationUrl(String fileName);
-    String getStudentVideoPresentationUrl(String fileName);
-    Boolean deleteAvatar(String fileName);
-    Boolean deleteTutorVideoPresentation(String fileName);
-    Boolean deleteStudentVideoPresentation(String fileName);
+    String uploadAvatar(InputStream inputStream, Long userId) throws IOException;
+    String getAvatarUrl(Long userId);
+    String getTutorVideoPresentationUrl(Long tutorId);
+    String getStudentVideoPresentationUrl(Long studentId);
+    Boolean deleteAvatar(Long userId);
+    Boolean deleteTutorVideoPresentation(Long tutorId);
+    Boolean deleteStudentVideoPresentation(Long studentId);
+    String uploadDefaultAvatar(InputStream file) throws IOException;
+    String getAvatarName(Long userId);
+    String getStudentVideoPresentationName(Long studentId);
+    String getTutorVideoPresentationName(Long tutorId);
+
 }

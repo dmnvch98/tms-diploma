@@ -1,5 +1,7 @@
 import {Box, Paper, TextField} from "@mui/material";
 import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";
+import {EditVideoPresentation} from "../Common/EditVideoPresentation";
+import {UserRole} from "../Common/userRolesEnum";
 
 export const TutorEditInfo = () => {
 
@@ -21,6 +23,7 @@ export const TutorEditInfo = () => {
                                     setAboutMe(e.target.value)
                                 }}
                             />
+                    <EditVideoPresentation role={UserRole.Tutor}/>
                 </Paper>
             </Box>
         </>

@@ -28,17 +28,17 @@ public class FileService {
         return fileClient.getAvatarUrl(userId);
     }
 
-    public boolean deleteAvatar(final String fileName, Long userId) {
-        boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteAvatar(fileName).getBody());
+    public boolean deleteAvatar(Long userId) {
+        boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteAvatar(userId).getBody());
         return isDeleted && userClient.deleteAvatar(userId) == 1;
     }
 
-    public String uploadStudentVideoPresentation(final MultipartFile file, final Long studentId)
+    public ResponseDto uploadStudentVideoPresentation(final MultipartFile file, final Long studentId)
         throws IOException {
         return fileClient.uploadStudentVideoPresentation(file, studentId);
     }
 
-    public String uploadTutorVideoPresentation(final MultipartFile file, Long tutorId) throws IOException{
+    public ResponseDto uploadTutorVideoPresentation(final MultipartFile file, Long tutorId) throws IOException{
         return fileClient.uploadTutorVideoPresentation(file, tutorId);
     }
 

@@ -1,20 +1,22 @@
 import React, {ChangeEvent, useEffect} from "react";
 import {Box, Button, Modal, Paper} from "@mui/material";
-import {useAvatarStore} from "../../../pages/Profile/Edit/avatarStore";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {VideoLoaderModal} from "./VideoLoaderModal";
+import {useVideoStore} from "../../../pages/Profile/Edit/videoStore";
+import {UserRole} from "./userRolesEnum";
+import {VideoPlayer} from "./VideoPlayer";
 
 type Props = {
-    presentationUrl: string
-}
+    role: UserRole;
+};
 
-export const VideoPresentationManager: React.FC<Props> = ({presentationUrl}) => {
-    const setNewAvatarUrl = useAvatarStore(state => state.setNewAvatarUrl);
-    const editMode = useAvatarStore(state => state.editMode);
-    const setEditMode = useAvatarStore(state => state.setEditMode);
-    const deleteAvatar = useAvatarStore(state => state.deleteAvatar);
+export const EditVideoPresentation: React.FC<Props> = ({role}) => {
+    const editMode = useVideoStore(state => state.editMode);
+    const setEditMode = useVideoStore(state => state.setEditMode);
     const user = useProfileStore(state => state.loggedInUser)
     const getMe = useProfileStore(state => state.getMe)
+    const setVideoUrl = useVideoStore(state => state.setVideoUrl);
+
 
     useEffect(() => {
         if (user == null) {
@@ -30,18 +32,14 @@ export const VideoPresentationManager: React.FC<Props> = ({presentationUrl}) => 
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
-        p: 4,
-        width: '90%',
-        maxWidth: 600,
-        height: '90vh',
-        maxHeight: 800,
+        p: 4
     };
 
     let fileInput: HTMLInputElement | null;
     const getNewFileUrl = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setEditMode(true);
-            setNewAvatarUrl(URL.createObjectURL(e.target.files[0]));
+            setVideoUrl(URL.createObjectURL(e.target.files[0]))
             if (fileInput != null) {
                 fileInput.value = "";
             }
@@ -51,7 +49,8 @@ export const VideoPresentationManager: React.FC<Props> = ({presentationUrl}) => 
     return (
         <>
             <Box sx={{mt: 4}}>
-                <Paper sx={{p: 2}}>
+                <VideoPlayer/>
+                <Box display='flex'>
                     <Button variant="contained"
                             component="label"
                             fullWidth
@@ -66,16 +65,15 @@ export const VideoPresentationManager: React.FC<Props> = ({presentationUrl}) => 
                             ref={ref => fileInput = ref}
                         />
                     </Button>
-
                     <Button
                         sx={{mt: 2}}
                         fullWidth
                         variant="contained"
-                        onClick={deleteAvatar}
                         color="error">
                         Delete
                     </Button>
-                </Paper>
+                </Box>
+
                 {editMode && (
                     <Modal
                         open={editMode}
@@ -83,7 +81,7 @@ export const VideoPresentationManager: React.FC<Props> = ({presentationUrl}) => 
                         aria-describedby="modal-modal-description"
                     >
                         <Box sx={style}>
-                            <VideoLoaderModal/>
+                            <VideoLoaderModal role={role}/>
                         </Box>
                     </Modal>
 

@@ -3,7 +3,7 @@ import {useProfileStore} from "../../../pages/Profile/profileStore";
 import {ChangeEvent, useEffect} from "react";
 import {Box, Button, Modal, Paper} from "@mui/material";
 import {Avatar} from "../Avatar";
-import {FileLoader} from "../Common/FileLoader";
+import {AvatarLoader} from "../Common/AvatarLoader";
 
 export const EditAvatar = () => {
     const newAvatarUrl = useAvatarStore(state => state.newAvatarUrl);
@@ -82,7 +82,7 @@ export const EditAvatar = () => {
                         aria-describedby="modal-modal-description"
                     >
                         <Box sx={style}>
-                            <FileLoader
+                            <AvatarLoader
                                 avatarUrl={newAvatarUrl}
                             />
                         </Box>

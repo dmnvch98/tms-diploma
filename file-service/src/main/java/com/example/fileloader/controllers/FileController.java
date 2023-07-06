@@ -31,7 +31,8 @@ public class FileController {
         throws IOException {
         return ResponseDto
             .builder()
-            .fileName(fileService.uploadAvatar(file.getInputStream(), userId + userAvatarNamePostfix))
+            .fileUrl(fileService.uploadAvatar(file.getInputStream(), userId))
+            .fileName(fileService.getAvatarName(userId))
             .build();
     }
 
@@ -43,57 +44,63 @@ public class FileController {
     @GetMapping("avatar/{userId}")
     public ResponseDto getAvatarUrl(@PathVariable("userId") final Long userId) {
         return ResponseDto.builder()
-            .fileName(fileService.getAvatarUrl(userId + userAvatarNamePostfix))
+            .fileName(fileService.getAvatarUrl(userId))
             .build();
     }
 
-    @DeleteMapping("avatar/{fileName}")
-    public ResponseEntity<Boolean> deleteAvatar(@PathVariable final String fileName) {
-        return ResponseEntity.ok(fileService.deleteAvatar(fileName));
+    @DeleteMapping("avatar/{userId}")
+    public ResponseEntity<Boolean> deleteAvatar(@PathVariable final Long userId) {
+        return ResponseEntity.ok(fileService.deleteAvatar(userId));
     }
 
     @PostMapping(value = "/default-avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseDto uploadDefaultAvatar(@RequestPart("file") final MultipartFile file) throws IOException {
         return ResponseDto.builder()
-            .fileName(fileService.uploadAvatar(file.getInputStream(), defaultAvatarName))
+            .fileName(fileService.uploadDefaultAvatar(file.getInputStream()))
             .build();
     }
 
     @PostMapping(value = "video-presentation/student/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
+    public ResponseDto uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
                                                       @PathVariable("studentId") Long studentId) throws IOException {
-        return fileService.uploadStudentVideoPresentation(file.getInputStream(), studentId);
+        return ResponseDto.builder()
+            .fileUrl(fileService.uploadStudentVideoPresentation(file.getInputStream(), studentId))
+            .fileName(fileService.getStudentVideoPresentationName(studentId))
+            .build();
     }
 
     @PostMapping(value = "video-presentation/tutor/{tutorId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
+    public ResponseDto uploadTutorVideoPresentation(@RequestPart("file") final MultipartFile file,
                                                       @PathVariable("tutorId") Long tutorId) throws IOException {
-        return fileService.uploadTutorVideoPresentation(file.getInputStream(), tutorId);
+        return ResponseDto.builder()
+            .fileUrl(fileService.uploadTutorVideoPresentation(file.getInputStream(), tutorId))
+            .fileName(fileService.getTutorVideoPresentationName(tutorId))
+            .build();
     }
 
     @GetMapping("video-presentation/student/{studentId}")
     public ResponseDto getStudentVideoPresentationUrl(@PathVariable("studentId") final Long studentId) {
         return ResponseDto.builder()
-            .fileName(fileService.getStudentVideoPresentationUrl(studentId + studentVideoPresentationNamePostfix))
+            .fileUrl(fileService.getStudentVideoPresentationUrl(studentId))
             .build();
     }
 
     @GetMapping("video-presentation/tutor/{tutorId}")
     public ResponseDto getTutorVideoPresentationUrl(@PathVariable("tutorId") final Long tutorId) {
         return ResponseDto.builder()
-            .fileName(fileService.getTutorVideoPresentationUrl(tutorId + tutorVideoPresentationNamePostfix))
+            .fileUrl(fileService.getTutorVideoPresentationUrl(tutorId))
             .build();
     }
 
     @DeleteMapping("video-presentation/student/{studentId}")
     public ResponseEntity<Boolean> deleteStudentVideoPresentation(@PathVariable final Long studentId) {
         return ResponseEntity.ok(fileService
-            .deleteStudentVideoPresentation(studentId + studentVideoPresentationNamePostfix));
+            .deleteStudentVideoPresentation(studentId));
     }
 
     @DeleteMapping("video-presentation/tutor/{tutorId}")
     public ResponseEntity<Boolean> deleteTutorVideoPresentation(@PathVariable final Long tutorId) {
         return ResponseEntity.ok(fileService
-            .deleteTutorVideoPresentation(tutorId + tutorVideoPresentationNamePostfix));
+            .deleteTutorVideoPresentation(tutorId));
     }
 }

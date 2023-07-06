@@ -1,7 +1,6 @@
 package com.example.apigateway.model;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Setter;
 import lombok.Value;
 import lombok.experimental.NonFinal;
@@ -16,5 +15,5 @@ public class Student {
     String aboutMe;
     @NonFinal
     @Setter
-    String presentationUrl;
+    String presentationFileName;
 }

@@ -9,4 +9,5 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class ResponseDto {
     String fileName;
+    String fileUrl;
 }

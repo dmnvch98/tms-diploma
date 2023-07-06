@@ -41,6 +41,8 @@ public class FileServiceImpl implements FileService {
     public String studentVideoPresentationNamePostfix;
     @Value("${video_presentation.tutor_postfix}")
     public String tutorVideoPresentationNamePostfix;
+    @Value("${avatar.user_postfix}")
+    public String userAvatarNamePostfix;
 
     @Override
     public String uploadFile(InputStream inputStream, String fileName, String storageName) throws IOException {
@@ -54,8 +56,7 @@ public class FileServiceImpl implements FileService {
                 inputStream,
                 metadata);
             log.info("{} successfully uploaded", fileName);
-//            return getFileUrl(fileName, storageName).orElse("");
-            return fileName;
+            return getFileUrl(fileName, storageName).orElse("");
         } catch (RuntimeException e) {
             log.error("An error occurred while uploading {}: {}", fileName, e);
         }
@@ -120,7 +121,7 @@ public class FileServiceImpl implements FileService {
     public String uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException {
         return uploadFile(
             inputStream,
-            tutorId + tutorVideoPresentationNamePostfix,
+            getTutorVideoPresentationName(tutorId),
             tutorsVideoPresentationStorageName
         );
     }
@@ -129,47 +130,67 @@ public class FileServiceImpl implements FileService {
     public String uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException {
         return uploadFile(
             inputStream,
-            studentId + studentVideoPresentationNamePostfix,
+            getStudentVideoPresentationName(studentId),
             studentsVideoPresentationStorageName
         );
     }
 
     @Override
-    public String uploadAvatar(InputStream inputStream, String fileName) throws IOException {
+    public String uploadAvatar(InputStream inputStream, Long userId) throws IOException {
+        String fileName = getAvatarName(userId);
         return uploadFile(inputStream, fileName, avatarStorageName);
     }
 
     @Override
-    public String getAvatarUrl(String fileName) {
-        Optional<String> avatarUrl = getFileUrl(fileName, avatarStorageName);
+    public String getAvatarUrl(Long userId) {
+        Optional<String> avatarUrl = getFileUrl(getAvatarName(userId), avatarStorageName);
         return avatarUrl.orElseGet(this::getDefaultAvatarUrl);
     }
 
     @Override
-    public String getTutorVideoPresentationUrl(String fileName) {
-        return getFileUrl(fileName, tutorsVideoPresentationStorageName)
+    public String getTutorVideoPresentationUrl(Long tutorId) {
+        return getFileUrl(getTutorVideoPresentationName(tutorId), tutorsVideoPresentationStorageName)
             .orElse("");
     }
 
     @Override
-    public String getStudentVideoPresentationUrl(String fileName) {
-        return getFileUrl(fileName, studentsVideoPresentationStorageName)
+    public String getStudentVideoPresentationUrl(Long studentId) {
+        return getFileUrl(getStudentVideoPresentationName(studentId), studentsVideoPresentationStorageName)
             .orElse("");
     }
 
     @Override
-    public Boolean deleteAvatar(String fileName) {
-        return deleteFile(fileName, avatarStorageName);
+    public Boolean deleteAvatar(Long userId) {
+        return deleteFile(getAvatarName(userId), avatarStorageName);
     }
 
     @Override
-    public Boolean deleteTutorVideoPresentation(String fileName) {
-        return deleteFile(fileName, tutorsVideoPresentationStorageName);
+    public Boolean deleteTutorVideoPresentation(Long tutorId) {
+        return deleteFile(getTutorVideoPresentationName(tutorId), tutorsVideoPresentationStorageName);
     }
 
     @Override
-    public Boolean deleteStudentVideoPresentation(String fileName) {
-        return deleteFile(fileName, studentsVideoPresentationStorageName);
+    public Boolean deleteStudentVideoPresentation(Long studentId) {
+        return deleteFile(getStudentVideoPresentationName(studentId), studentsVideoPresentationStorageName);
+    }
+
+    @Override
+    public String uploadDefaultAvatar(InputStream file) throws IOException {
+        return uploadFile(file, defaultAvatarName, avatarStorageName);
+    }
+    @Override
+    public String getAvatarName(Long userId) {
+        return userId + userAvatarNamePostfix;
+    }
+    @Override
+
+    public String getStudentVideoPresentationName(Long studentId) {
+        return studentId + studentVideoPresentationNamePostfix;
+    }
+    @Override
+
+    public String getTutorVideoPresentationName(Long tutorId) {
+        return tutorId + tutorVideoPresentationNamePostfix;
     }
 
     private String getDefaultAvatarUrl() {

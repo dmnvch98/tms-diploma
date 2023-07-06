@@ -19,5 +19,5 @@ public class Student {
     @Column("about_me")
     String aboutMe;
     @Column("presentation_url")
-    String presentationUrl;
+    String presentationFileName;
 }
