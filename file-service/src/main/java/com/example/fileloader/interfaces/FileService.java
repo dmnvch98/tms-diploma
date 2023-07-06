@@ -10,19 +10,19 @@ public interface FileService {
     List<String> getFilesList(String storageName);
     Boolean deleteFile(String fileName, String storageName);
     Optional<String> getFileUrl(String fileName, String storageName);
-    String uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException;
-    String uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException;
-    String uploadAvatar(InputStream inputStream, Long userId) throws IOException;
-    String getAvatarUrl(Long userId);
-    String getTutorVideoPresentationUrl(Long tutorId);
-    String getStudentVideoPresentationUrl(Long studentId);
-    Boolean deleteAvatar(Long userId);
-    Boolean deleteTutorVideoPresentation(Long tutorId);
-    Boolean deleteStudentVideoPresentation(Long studentId);
-    String uploadDefaultAvatar(InputStream file) throws IOException;
-    String getAvatarName(Long userId);
-    String getStudentVideoPresentationName(Long studentId);
-    String getTutorVideoPresentationName(Long tutorId);
-    String getDefaultAvatarUrl();
+//    String uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException;
+//    String uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException;
+//    String uploadAvatar(InputStream inputStream, Long userId) throws IOException;
+//    String getAvatarUrl(Long userId);
+//    String getTutorVideoPresentationUrl(Long tutorId);
+//    String getStudentVideoPresentationUrl(Long studentId);
+//    Boolean deleteAvatar(Long userId);
+//    Boolean deleteTutorVideoPresentation(Long tutorId);
+//    Boolean deleteStudentVideoPresentation(Long studentId);
+//    String uploadDefaultAvatar(InputStream file) throws IOException;
+//    String getAvatarName(Long userId);
+//    String getStudentVideoPresentationName(Long studentId);
+//    String getTutorVideoPresentationName(Long tutorId);
+//    String getDefaultAvatarUrl();
 
 }

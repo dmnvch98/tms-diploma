@@ -1,0 +1,145 @@
+package com.example.fileloader.facade;
+
+import com.example.fileloader.dto.ResponseDto;
+import com.example.fileloader.interfaces.FileInformationService;
+import com.example.fileloader.interfaces.FileService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class FileFacade {
+    @Value("${aws.avatar_storage_name}")
+    public String avatarStorageName;
+    @Value("${aws.tutors_video_presentation_storage_name}")
+    public String tutorsVideoPresentationStorageName;
+    @Value("${aws.students_video_presentation_storage_name}")
+    public String studentsVideoPresentationStorageName;
+    @Value("${avatar.default}")
+    public String defaultAvatarName;
+
+    private final FileInformationService fileInformationService;
+    private final FileService fileService;
+
+
+    public ResponseDto uploadAvatar(InputStream inputStream, Long userId) throws IOException {
+        String fileName = fileInformationService.getAvatarName(userId);
+        String storageName = avatarStorageName;
+
+        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
+
+        return ResponseDto.builder()
+            .fileUrl(fileUrl)
+            .fileName(fileName)
+            .build();
+    }
+
+
+    public ResponseDto uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException {
+        String fileName = fileInformationService.getTutorVideoPresentationName(tutorId);
+        String storageName = tutorsVideoPresentationStorageName;
+
+        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
+
+        return ResponseDto.builder()
+            .fileUrl(fileUrl)
+            .fileName(fileName)
+            .build();
+    }
+
+    public ResponseDto uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException {
+        String fileName = fileInformationService.getStudentVideoPresentationName(studentId);
+        String storageName = studentsVideoPresentationStorageName;
+
+        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
+
+        return ResponseDto.builder()
+            .fileUrl(fileUrl)
+            .build();
+    }
+
+    public ResponseDto uploadDefaultAvatar(InputStream inputStream) throws IOException {
+        String fileName = defaultAvatarName;
+        String storageName = avatarStorageName;
+
+        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
+
+        return ResponseDto.builder()
+            .fileUrl(fileUrl)
+            .fileName(fileName)
+            .build();
+    }
+
+    public List<String> getFilesList(String storageName) {
+        return fileService.getFilesList(storageName);
+    }
+
+    public ResponseDto getAvatarUrl(Long userId) {
+        String fileName = fileInformationService.getAvatarName(userId);
+        String storageName = avatarStorageName;
+
+        String fileUrl = fileService.getFileUrl(fileName, storageName).orElse("");
+
+        return ResponseDto.builder()
+            .fileName(fileName)
+            .fileUrl(fileUrl)
+            .build();
+    }
+
+    public ResponseDto getStudentVideoPresentationUrl(Long studentId) {
+        String fileName = fileInformationService.getStudentVideoPresentationName(studentId);
+        String storageName = studentsVideoPresentationStorageName;
+
+        String fileUrl = fileService.getFileUrl(fileName, storageName).orElse("");
+
+        return ResponseDto.builder()
+            .fileUrl(fileUrl)
+            .build();
+    }
+
+    public ResponseDto getTutorVideoPresentationUrl(Long tutorId) {
+        String fileName = fileInformationService.getTutorVideoPresentationName(tutorId);
+        String storageName = tutorsVideoPresentationStorageName;
+
+        String fileUrl = fileService.getFileUrl(fileName, storageName).orElse("");
+
+        return ResponseDto.builder()
+            .fileUrl(fileUrl)
+            .build();
+    }
+
+    public ResponseEntity<Boolean> deleteStudentVideoPresentation(Long studentId) {
+        String fileName = fileInformationService.getStudentVideoPresentationName(studentId);
+        String storageName = studentsVideoPresentationStorageName;
+
+        Boolean isDeleted = fileService.deleteFile(fileName, storageName);
+
+        return ResponseEntity.ok(isDeleted);
+    }
+
+    public ResponseEntity<Boolean> deleteTutorVideoPresentation(Long tutorId) {
+        String fileName = fileInformationService.getTutorVideoPresentationName(tutorId);
+        String storageName = tutorsVideoPresentationStorageName;
+
+        Boolean isDeleted = fileService.deleteFile(fileName, storageName);
+
+        return ResponseEntity.ok(isDeleted);
+    }
+
+    public ResponseEntity<Boolean> deleteAvatar(Long userId) {
+        String fileName = fileInformationService.getAvatarName(userId);
+        String storageName = avatarStorageName;
+
+        Boolean isDeleted = fileService.deleteFile(fileName, storageName);
+
+        return ResponseEntity.ok(isDeleted);
+    }
+
+
+}

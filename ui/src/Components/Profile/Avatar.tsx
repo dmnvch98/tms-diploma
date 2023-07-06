@@ -1,9 +1,12 @@
 import {useAvatarStore} from "../../pages/Profile/Edit/avatarStore";
-import React from "react";
+import React, {useEffect} from "react";
 import {Box} from "@mui/material";
 
 export const Avatar = () => {
     const existingAvatarUrl = useAvatarStore(state => state.existingAvatarUrl);
+    useEffect(() => {
+        console.log(existingAvatarUrl);
+    })
 
     const style = {
         maxWidth: "100%",

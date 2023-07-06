@@ -27,22 +27,22 @@ import java.util.stream.Collectors;
 public class FileServiceImpl implements FileService {
     private final AmazonS3 amazonS3;
 
-    @Value("${aws.avatar_storage_name}")
-    public String avatarStorageName;
-    @Value("${aws.tutors_video_presentation_storage_name}")
-    public String tutorsVideoPresentationStorageName;
-    @Value("${aws.students_video_presentation_storage_name}")
-    public String studentsVideoPresentationStorageName;
-
-    @Value("${avatar.default}")
-    public String defaultAvatarName;
-
-    @Value("${video_presentation.student_postfix}")
-    public String studentVideoPresentationNamePostfix;
-    @Value("${video_presentation.tutor_postfix}")
-    public String tutorVideoPresentationNamePostfix;
-    @Value("${avatar.user_postfix}")
-    public String userAvatarNamePostfix;
+//    @Value("${aws.avatar_storage_name}")
+//    public String avatarStorageName;
+//    @Value("${aws.tutors_video_presentation_storage_name}")
+//    public String tutorsVideoPresentationStorageName;
+//    @Value("${aws.students_video_presentation_storage_name}")
+//    public String studentsVideoPresentationStorageName;
+//
+//    @Value("${avatar.default}")
+//    public String defaultAvatarName;
+//
+//    @Value("${video_presentation.student_postfix}")
+//    public String studentVideoPresentationNamePostfix;
+//    @Value("${video_presentation.tutor_postfix}")
+//    public String tutorVideoPresentationNamePostfix;
+//    @Value("${avatar.user_postfix}")
+//    public String userAvatarNamePostfix;
 
     @Override
     public String uploadFile(InputStream inputStream, String fileName, String storageName) throws IOException {
@@ -62,7 +62,6 @@ public class FileServiceImpl implements FileService {
         }
         return "";
     }
-
 
     @Override
     public List<String> getFilesList(String storageName) {
@@ -120,90 +119,90 @@ public class FileServiceImpl implements FileService {
             return Optional.empty();
         }
     }
-
-    @Override
-    public String uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException {
-        return uploadFile(
-            inputStream,
-            getTutorVideoPresentationName(tutorId),
-            tutorsVideoPresentationStorageName
-        );
-    }
-
-    @Override
-    public String uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException {
-        return uploadFile(
-            inputStream,
-            getStudentVideoPresentationName(studentId),
-            studentsVideoPresentationStorageName
-        );
-    }
-
-    @Override
-    public String uploadAvatar(InputStream inputStream, Long userId) throws IOException {
-        String fileName = getAvatarName(userId);
-        return uploadFile(inputStream, fileName, avatarStorageName);
-    }
-
-    @Override
-    public String getAvatarUrl(Long userId) {
-        Optional<String> avatarUrl = getFileUrl(getAvatarName(userId), avatarStorageName);
-        return avatarUrl.orElseGet(this::getDefaultAvatarUrl);
-    }
-
-    @Override
-    public String getTutorVideoPresentationUrl(Long tutorId) {
-        return getFileUrl(getTutorVideoPresentationName(tutorId), tutorsVideoPresentationStorageName)
-            .orElse("");
-    }
-
-    @Override
-    public String getStudentVideoPresentationUrl(Long studentId) {
-        return getFileUrl(getStudentVideoPresentationName(studentId), studentsVideoPresentationStorageName)
-            .orElse("");
-    }
-
-    @Override
-    public Boolean deleteAvatar(Long userId) {
-        return deleteFile(getAvatarName(userId), avatarStorageName);
-    }
-
-    @Override
-    public Boolean deleteTutorVideoPresentation(Long tutorId) {
-        return deleteFile(getTutorVideoPresentationName(tutorId), tutorsVideoPresentationStorageName);
-    }
-
-    @Override
-    public Boolean deleteStudentVideoPresentation(Long studentId) {
-        return deleteFile(getStudentVideoPresentationName(studentId), studentsVideoPresentationStorageName);
-    }
-
-    @Override
-    public String uploadDefaultAvatar(InputStream file) throws IOException {
-        return uploadFile(file, defaultAvatarName, avatarStorageName);
-    }
-    @Override
-    public String getAvatarName(Long userId) {
-        return userId + userAvatarNamePostfix;
-    }
-    @Override
-    public String getStudentVideoPresentationName(Long studentId) {
-        return studentId + studentVideoPresentationNamePostfix;
-    }
-    @Override
-    public String getTutorVideoPresentationName(Long tutorId) {
-        return tutorId + tutorVideoPresentationNamePostfix;
-    }
-
-    @Override
-    public String getDefaultAvatarUrl() {
-        if (amazonS3.doesObjectExist(avatarStorageName, defaultAvatarName)) {
-            return generateUrl(defaultAvatarName, avatarStorageName);
-        } else {
-            log.warn("Default avatar doesn't exist");
-            return "";
-        }
-    }
+//
+//    @Override
+//    public String uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException {
+//        return uploadFile(
+//            inputStream,
+//            getTutorVideoPresentationName(tutorId),
+//            tutorsVideoPresentationStorageName
+//        );
+//    }
+//
+//    @Override
+//    public String uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException {
+//        return uploadFile(
+//            inputStream,
+//            getStudentVideoPresentationName(studentId),
+//            studentsVideoPresentationStorageName
+//        );
+//    }
+//
+//    @Override
+//    public String uploadAvatar(InputStream inputStream, Long userId) throws IOException {
+//        String fileName = getAvatarName(userId);
+//        return uploadFile(inputStream, fileName, avatarStorageName);
+//    }
+//
+//    @Override
+//    public String getAvatarUrl(Long userId) {
+//        Optional<String> avatarUrl = getFileUrl(getAvatarName(userId), avatarStorageName);
+//        return avatarUrl.orElseGet(this::getDefaultAvatarUrl);
+//    }
+//
+//    @Override
+//    public String getTutorVideoPresentationUrl(Long tutorId) {
+//        return getFileUrl(getTutorVideoPresentationName(tutorId), tutorsVideoPresentationStorageName)
+//            .orElse("");
+//    }
+//
+//    @Override
+//    public String getStudentVideoPresentationUrl(Long studentId) {
+//        return getFileUrl(getStudentVideoPresentationName(studentId), studentsVideoPresentationStorageName)
+//            .orElse("");
+//    }
+//
+//    @Override
+//    public Boolean deleteAvatar(Long userId) {
+//        return deleteFile(getAvatarName(userId), avatarStorageName);
+//    }
+//
+//    @Override
+//    public Boolean deleteTutorVideoPresentation(Long tutorId) {
+//        return deleteFile(getTutorVideoPresentationName(tutorId), tutorsVideoPresentationStorageName);
+//    }
+//
+//    @Override
+//    public Boolean deleteStudentVideoPresentation(Long studentId) {
+//        return deleteFile(getStudentVideoPresentationName(studentId), studentsVideoPresentationStorageName);
+//    }
+//
+//    @Override
+//    public String uploadDefaultAvatar(InputStream file) throws IOException {
+//        return uploadFile(file, defaultAvatarName, avatarStorageName);
+//    }
+//    @Override
+//    public String getAvatarName(Long userId) {
+//        return userId + userAvatarNamePostfix;
+//    }
+//    @Override
+//    public String getStudentVideoPresentationName(Long studentId) {
+//        return studentId + studentVideoPresentationNamePostfix;
+//    }
+//    @Override
+//    public String getTutorVideoPresentationName(Long tutorId) {
+//        return tutorId + tutorVideoPresentationNamePostfix;
+//    }
+//
+//    @Override
+//    public String getDefaultAvatarUrl() {
+//        if (amazonS3.doesObjectExist(avatarStorageName, defaultAvatarName)) {
+//            return generateUrl(defaultAvatarName, avatarStorageName);
+//        } else {
+//            log.warn("Default avatar doesn't exist");
+//            return "";
+//        }
+//    }
 
 
 }

@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FileServiceImplTest {
     private FileService fileService;
+
     @Value("${aws.storage_name}")
     public String storageName;
     @Value("${aws.avatar_storage_name}")
