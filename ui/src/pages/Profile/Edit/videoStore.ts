@@ -11,7 +11,7 @@ export interface VideoStore {
     setEditMode: (flag: boolean) => void;
     uploadStudentVideoPresentation: (file: FormData) => void;
     uploadTutorVideoPresentation: (file: FormData) => void;
-    getStudentVideoPresentationUrl: (studentId: number) => Promise<string>;
+    getStudentVideoPresentationUrl: (studentId: number) => void;
     getTutorVideoPresentationUrl: (tutorId: number) => void;
 }
 
@@ -62,21 +62,19 @@ export const useVideoStore = create<VideoStore>((set: any, get: any) => ({
                 errorMessage: error.message,
                 errorOpen: true,
             });
-            return Promise.resolve('');
         }
     }
     ,
-    getStudentVideoPresentationUrl: async (studentId: number): Promise<string> => {
+    getStudentVideoPresentationUrl: async (studentId: number) => {
         try {
             const response = await FileService.getStudentVideoPresentationUrl(studentId);
-            return Promise.resolve(response);
+            set({videoUrl: response});
         } catch (e: unknown) {
             const error = e as AxiosError;
             set({
                 errorMessage: error.message,
                 errorOpen: true,
             });
-            return Promise.resolve('');
         }
     }
 

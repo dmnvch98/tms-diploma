@@ -6,10 +6,9 @@ import {VideoPlayer} from "../Common/VideoPlayer";
 
 type Props = {
     studentId: number;
-    presentationUrl: string
 }
 
-export const StudentProfileTabs: React.FC<Props> = ({studentId, presentationUrl}) => {
+export const StudentProfileTabs: React.FC<Props> = ({studentId}) => {
     const feedbacksAboutStudent = useFeedbackStore(state => state.feedbacksAboutStudent);
     const getFeedbacksAboutStudent = useFeedbackStore(state => state.getFeedbacksAboutStudent);
 
@@ -85,7 +84,6 @@ export const StudentProfileTabs: React.FC<Props> = ({studentId, presentationUrl}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <Box sx={{mt: 2}}>
-                        {/*<VideoPlayer presentationUrl={presentationUrl}/>*/}
                         <VideoPlayer/>
                     </Box>
                 </TabPanel>

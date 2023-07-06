@@ -9,6 +9,7 @@ import {useAvatarStore} from "../Edit/avatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 import {LanguageLevel} from "../../SignUp/store/languagesStore";
+import {useVideoStore} from "../Edit/videoStore";
 
 export const StudentProfile = () => {
     const getUserByStudentId = useProfileStore(state => state.getUserByStudentId)
@@ -17,6 +18,7 @@ export const StudentProfile = () => {
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage);
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
+    const getStudentVideoPresentationUrl = useVideoStore(state => state.getStudentVideoPresentationUrl);
 
     const {id} = useParams();
 
@@ -32,6 +34,8 @@ export const StudentProfile = () => {
                     setErrorMessage("An error occurred during avatar fetching");
                 }
             })
+
+            getStudentVideoPresentationUrl(user.student.studentId);
         }
     }, [user])
     const Profile = () => {
@@ -49,7 +53,6 @@ export const StudentProfile = () => {
                                 studentConversationCount={user?.studentConversationCount as number}
                                 studentId={user?.student.studentId as number}
                                 aboutMe={user?.student.aboutMe as string}
-                                presentationUrl={user?.student.presentationUrl as string}
                                 languageLevels={user?.languageLevels as LanguageLevel[]}/>
                         </Grid>
                     </Grid>

@@ -18,8 +18,6 @@ export const MyStudentProfile = () => {
     const setErrorMessage = useErrorMessageStore(state => state.setMessage)
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
     const getStudentVideoPresentationUrl = useVideoStore(state => state.getStudentVideoPresentationUrl);
-    const setVideoUrl = useVideoStore(state => state.setVideoUrl);
-    let videoPresentationUrl: string;
 
     useEffect(() => {
         getMe();
@@ -34,9 +32,7 @@ export const MyStudentProfile = () => {
                 }
             })
 
-            getStudentVideoPresentationUrl(user.student.studentId).then(result => {
-                setVideoUrl(result);
-            })
+            getStudentVideoPresentationUrl(user.student.studentId);
         }
     }, [user])
     const Profile = () => {
@@ -54,7 +50,6 @@ export const MyStudentProfile = () => {
                                 studentConversationCount={user?.studentConversationCount as number}
                                 studentId={user?.student.studentId as number}
                                 aboutMe={user?.student.aboutMe as string}
-                                presentationUrl={videoPresentationUrl as string}
                                 languageLevels={user?.languageLevels as LanguageLevel[]}/>
                         </Grid>
                     </Grid>

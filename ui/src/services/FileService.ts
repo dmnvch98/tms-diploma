@@ -1,4 +1,4 @@
-import axios, {AxiosError} from 'axios';
+import axios from 'axios';
 
 class FileService {
     uploadAvatar = async (file: any) => {
@@ -63,14 +63,9 @@ class FileService {
     }
 
     getTutorVideoPresentationUrl = async (tutorId: number) => {
-        try {
-            const response = await axios.get("http://localhost:8080/api/v1/files/video-presentation/tutor/" + tutorId,
-                {withCredentials: true})
-            return response.data.fileUrl;
-        } catch (e: unknown) {
-            const error = e as AxiosError;
-            console.log(error.message);
-        }
+        const response = await axios.get("http://localhost:8080/api/v1/files/video-presentation/tutor/" + tutorId,
+            {withCredentials: true})
+        return response.data.fileUrl;
     }
 }
 

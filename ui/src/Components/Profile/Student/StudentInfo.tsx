@@ -11,7 +11,6 @@ type Props = {
     studentId: number;
     studentConversationCount: number;
     studentAverageRate: number;
-    presentationUrl: string;
 }
 
 export const StudentInfo: React.FC<Props> = ({
@@ -20,13 +19,9 @@ export const StudentInfo: React.FC<Props> = ({
                                                  studentId,
                                                  studentConversationCount,
                                                  studentAverageRate,
-                                                 presentationUrl
                                              }) => {
     const [showMore, setShowMore] = useState(false);
 
-    useEffect(() => {
-        console.log(presentationUrl);
-    })
     return (
         <>
             <Container sx={{bgcolor: "white", borderRadius: 2}}>
@@ -53,7 +48,7 @@ export const StudentInfo: React.FC<Props> = ({
                             )}
                         </Typography>
                     </Box>
-                    <StudentProfileTabs studentId={studentId} presentationUrl={presentationUrl}/>
+                    <StudentProfileTabs studentId={studentId}/>
                 </Box>
             </Container>
         </>

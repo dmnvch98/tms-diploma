@@ -11,6 +11,7 @@ import {useErrorMessageStore} from "../../../Components/Notifications/errorMessa
 import {useNotificationStore} from "../../../Components/Notifications/notificationStore";
 import {Notification} from "../../../Components/Notifications/Notification";
 import {LanguageLevel} from "../../SignUp/store/languagesStore";
+import {useVideoStore} from "../Edit/videoStore";
 
 export const TutorProfile = () => {
     const getUserByTutorId = useProfileStore(state => state.getUserByTutorId)
@@ -21,6 +22,7 @@ export const TutorProfile = () => {
     const setErrorMessage = useErrorMessageStore(state => state.setMessage);
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
     const isNotificationOpen = useNotificationStore(state => state.isOpen);
+    const getTutorVideoPresentationUrl = useVideoStore(state => state.getTutorVideoPresentationUrl);
 
     const {id} = useParams();
 
@@ -36,6 +38,8 @@ export const TutorProfile = () => {
                     setErrorMessage("An error occurred during avatar fetching");
                 }
             })
+
+            getTutorVideoPresentationUrl(lookupUser.tutor.tutorId);
         }
     }, [lookupUser])
     const Profile = () => {

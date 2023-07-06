@@ -114,7 +114,7 @@ export const TutorProfileTabs: React.FC<Props> = ({
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <Box sx={{mt: 2}}>
-                        {/*<VideoPlayer presentationUrl={presentationUrl}/>*/}
+                        <VideoPlayer/>
                     </Box>
                 </TabPanel>
             </Box>
