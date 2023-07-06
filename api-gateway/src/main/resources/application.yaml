@@ -31,8 +31,8 @@ jwt:
 spring:
   servlet:
     multipart:
-      max-file-size: 15MB
-      max-request-size: 15MB
+      max-file-size: 150MB
+      max-request-size: 150MB
   datasource:
     driver-class-name: 'org.postgresql.Driver'
     username: postgres
@@ -43,3 +43,5 @@ avatar:
   default: 'default_avatar.png'
 geocoding:
   key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc'
+
+

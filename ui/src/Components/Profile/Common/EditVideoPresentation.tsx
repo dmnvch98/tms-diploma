@@ -1,18 +1,23 @@
-import {useAvatarStore} from "../../../pages/Profile/Edit/avatarStore";
+import React, {ChangeEvent, useEffect} from "react";
+import {Box, Button, Modal} from "@mui/material";
 import {useProfileStore} from "../../../pages/Profile/profileStore";
-import {ChangeEvent, useEffect} from "react";
-import {Box, Button, Modal, Paper} from "@mui/material";
-import {Avatar} from "../Avatar";
-import {AvatarLoader} from "../Common/AvatarLoader";
+import {VideoLoaderModal} from "./VideoLoaderModal";
+import {useVideoStore} from "../../../pages/Profile/Edit/videoStore";
+import {UserRole} from "./userRolesEnum";
+import {VideoPlayer} from "./VideoPlayer";
 
-export const EditAvatar = () => {
-    const newAvatarUrl = useAvatarStore(state => state.newAvatarUrl);
-    const setNewAvatarUrl = useAvatarStore(state => state.setNewAvatarUrl);
-    const editMode = useAvatarStore(state => state.editMode);
-    const setEditMode = useAvatarStore(state => state.setEditMode);
-    const deleteAvatar = useAvatarStore(state => state.deleteAvatar);
+type Props = {
+    role: UserRole;
+};
+
+export const EditVideoPresentation: React.FC<Props> = ({role}) => {
+    const editMode = useVideoStore(state => state.editMode);
+    const setEditMode = useVideoStore(state => state.setEditMode);
     const user = useProfileStore(state => state.loggedInUser)
     const getMe = useProfileStore(state => state.getMe)
+    const setVideoUrl = useVideoStore(state => state.setVideoUrl);
+    const deleteStudentVideoPresentation = useVideoStore(state => state.deleteStudentVideoPresentation);
+    const deleteTutorVideoPresentation = useVideoStore(state => state.deleteTutorVideoPresentation);
 
     useEffect(() => {
         if (user == null) {
@@ -28,53 +33,59 @@ export const EditAvatar = () => {
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
-        p: 4,
-        width: '90%',
-        maxWidth: 600,
-        height: '90vh',
-        maxHeight: 800,
+        p: 4
     };
 
     let fileInput: HTMLInputElement | null;
     const getNewFileUrl = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setEditMode(true);
-            setNewAvatarUrl(URL.createObjectURL(e.target.files[0]));
+            setVideoUrl(URL.createObjectURL(e.target.files[0]))
             if (fileInput != null) {
                 fileInput.value = "";
             }
         }
     };
 
+    const handleDelete = async () => {
+        const isDeleted = role == UserRole.Student
+            ? await deleteStudentVideoPresentation()
+            : await deleteTutorVideoPresentation();
+
+        if (isDeleted) {
+            setVideoUrl('');
+        }
+    }
+
     return (
         <>
             <Box sx={{mt: 4}}>
-                <Paper sx={{p: 2}}>
-                    <Avatar/>
+                <VideoPlayer/>
+                <Box display='flex'>
                     <Button variant="contained"
                             component="label"
                             fullWidth
                             sx={{mt: 2}}
                     >
-                        Select
+                        Select Video
                         <input
                             type="file"
                             hidden
-                            accept="image/png, image/jpeg, image/jpg"
+                            accept="video/mp4"
                             onChange={getNewFileUrl}
                             ref={ref => fileInput = ref}
                         />
                     </Button>
-
                     <Button
                         sx={{mt: 2}}
                         fullWidth
                         variant="contained"
-                        onClick={deleteAvatar}
+                        onClick={handleDelete}
                         color="error">
                         Delete
                     </Button>
-                </Paper>
+                </Box>
+
                 {editMode && (
                     <Modal
                         open={editMode}
@@ -82,9 +93,7 @@ export const EditAvatar = () => {
                         aria-describedby="modal-modal-description"
                     >
                         <Box sx={style}>
-                            <AvatarLoader
-                                avatarUrl={newAvatarUrl}
-                            />
+                            <VideoLoaderModal role={role}/>
                         </Box>
                     </Modal>
 

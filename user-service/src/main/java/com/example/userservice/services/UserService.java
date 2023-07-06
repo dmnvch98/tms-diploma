@@ -25,14 +25,15 @@ public class UserService {
         return repository.save(user);
     }
 
-    public boolean update(User user) {
-        return repository.update(
+    public User update(User user) {
+        repository.update(
             user.getId(),
             user.getFirstName(),
             user.getLastName(),
             user.getEmail(),
             user.getLocation()
-        ) == 1;
+        );
+        return get(user.getId());
     }
 
     public User get(Long id) {
@@ -82,5 +83,13 @@ public class UserService {
                                                               Long minLevel, Long languageId) {
         return repository.filterTutorsWhoHaveNotBookedConvDetails(lastTutorId, findTutorPageSize, minPrice,
             maxPrice, countryId, city, convTypeId, minLevel, languageId);
+    }
+
+    public boolean addRoleToUser(String role, Long id) {
+        return repository.addRoleToUser(role, id) == 1;
+    }
+
+    public boolean deleteRoleFromUser(String role, Long id) {
+        return repository.deleteRoleFromUser(role, id) == 1;
     }
 }

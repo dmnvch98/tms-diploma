@@ -1,9 +1,7 @@
-import {Box, FormControl, Paper, TextField, Typography} from "@mui/material";
-import {UpdateUserDto} from "../../../CommonStore/store";
-import {useAvatarStore} from "../../../pages/Profile/Edit/avatarStore";
-import {useProfileStore} from "../../../pages/Profile/profileStore";
-import {useEffect} from "react";
+import {Box, Paper, TextField} from "@mui/material";
 import {useUpdateUserInfo} from "../../../pages/Profile/Edit/editProfileInfoStore";
+import {EditVideoPresentation} from "../Common/EditVideoPresentation";
+import {UserRole} from "../Common/userRolesEnum";
 
 export const StudentEditInfo = () => {
 
@@ -25,6 +23,7 @@ export const StudentEditInfo = () => {
                                     setAboutMe(e.target.value)
                                 }}
                             />
+                    <EditVideoPresentation role={UserRole.Student}/>
                 </Paper>
             </Box>
         </>

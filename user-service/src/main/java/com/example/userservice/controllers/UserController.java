@@ -44,13 +44,11 @@ public class UserController {
     }
 
     @GetMapping("/tutors/{tutorId}")
-    @CrossOrigin
     public UserResponseDto findUserByTutorId(@PathVariable("tutorId") Long tutorId) {
         return facade.findUserByTutorId(tutorId);
     }
 
     @GetMapping("/students/{studentId}")
-    @CrossOrigin
     public UserResponseDto findUserByStudentId(@PathVariable("studentId") Long studentId) {
         return facade.findUserByStudentId(studentId);
     }

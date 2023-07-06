@@ -20,6 +20,7 @@ public interface UserRepository extends Repository<User, Long> {
                 @Param("lastName") String lastName, @Param("email") String email,
                 @Param("location") String location);
 
+
     User findUserById(Long id);
 
     Boolean existsByEmail(String email);
@@ -27,7 +28,7 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("SELECT users.id AS id, users.email AS email, users.roles AS roles, users.gender AS gender, " +
         "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name " +
         "AS first_name, users.nationality AS nationality, users.avatar_name AS avatar_name, tutor.user_id AS tutor_user_id, tutor.about_me " +
-        "AS tutor_about_me, tutor.tutor_id AS tutor_tutor_id FROM users " +
+        "AS tutor_about_me, tutor.tutor_id AS tutor_tutor_id, tutor.presentation_url AS tutor_presentation_url FROM users " +
         "LEFT OUTER JOIN tutors tutor " +
         "ON tutor.user_id = users.id WHERE tutor.tutor_id=:tutorId")
     User findUserByTutorId(@Param("tutorId") Long tutorId);
@@ -35,7 +36,7 @@ public interface UserRepository extends Repository<User, Long> {
     @Query("SELECT users.id AS id, users.email AS email, users.roles AS roles, users.gender AS gender, " +
         "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name " +
         "AS first_name, users.nationality AS nationality, users.avatar_name AS avatar_name, student.user_id AS student_user_id, student.about_me " +
-        "AS student_about_me, student.student_id AS student_student_id FROM users " +
+        "AS student_about_me, student.student_id AS student_student_id, student.presentation_url AS student_presentation_url FROM users " +
         "LEFT OUTER JOIN students student " +
         "ON student.user_id = users.id WHERE student.student_id=:studentId")
     User findUserByStudentId(@Param("studentId") Long studentId);
@@ -80,4 +81,12 @@ public interface UserRepository extends Repository<User, Long> {
                                                        @Param("countryId") Long countryId, @Param("city") String city,
                                                        @Param("convTypeId") Long convTypeId, @Param("minLevel") Long minLevel,
                                                        @Param("languageId") Long languageId);
+
+    @Modifying
+    @Query("UPDATE users set roles = array_append(roles, CAST(:role AS text)) where id=:id")
+    int addRoleToUser(@Param("role") String role, @Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE users set roles = array_remove(roles, CAST(:role AS text)) where id=:id")
+    int deleteRoleFromUser(@Param("role") String role, @Param("id") Long id);
 }

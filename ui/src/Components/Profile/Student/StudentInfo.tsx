@@ -1,9 +1,8 @@
-import React, {useState} from "react";
-import {Box, Button, Container, Rating, Typography} from "@mui/material";
-import {StudentProfileTabs} from "../../StudentProfileTabs";
+import React, {useEffect, useState} from "react";
+import {Box, Button, Container, Typography} from "@mui/material";
+import {StudentProfileTabs} from "./StudentProfileTabs";
 import {LanguageLevel} from "../../../pages/SignUp/store/languagesStore";
 import {LanguageLevelsProfile} from "../Common/LanguageLevelsProfile";
-import StarIcon from "@mui/icons-material/Star";
 import {FeedbackStar} from "../../Feedbacks/FeedbackStar";
 
 type Props = {
@@ -19,7 +18,7 @@ export const StudentInfo: React.FC<Props> = ({
                                                  languageLevels,
                                                  studentId,
                                                  studentConversationCount,
-                                                 studentAverageRate
+                                                 studentAverageRate,
                                              }) => {
     const [showMore, setShowMore] = useState(false);
 

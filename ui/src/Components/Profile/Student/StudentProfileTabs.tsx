@@ -1,7 +1,8 @@
 import {Box, Tab, Tabs, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {useFeedbackStore} from "./Profile/Common/feedbackStore";
-import {FeedbackCard} from "./Feedbacks/FeedbackCard";
+import {useFeedbackStore} from "../Common/feedbackStore";
+import {FeedbackCard} from "../../Feedbacks/FeedbackCard";
+import {VideoPlayer} from "../Common/VideoPlayer";
 
 type Props = {
     studentId: number;
@@ -82,7 +83,9 @@ export const StudentProfileTabs: React.FC<Props> = ({studentId}) => {
                     ))}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <Typography variant="h5">Video not uploaded</Typography>
+                    <Box sx={{mt: 2}}>
+                        <VideoPlayer/>
+                    </Box>
                 </TabPanel>
             </Box>
         </>

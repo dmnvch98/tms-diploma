@@ -7,12 +7,13 @@ spring:
     username: postgres
     password: postgres
     url: jdbc:postgresql://localhost:35432/diploma
+
 avatar:
   user_postfix: '_avatar.png'
 find-tutor-page-size: 5
 services:
   conversation:
     url: 'http://localhost:9093'
-logging:
-  level:
-    sql: debug
+roles:
+  student_role_name: 'Student'
+  tutor_role_name: 'Tutor'

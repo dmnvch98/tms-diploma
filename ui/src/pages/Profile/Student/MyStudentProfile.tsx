@@ -8,6 +8,7 @@ import {useAvatarStore} from "../Edit/avatarStore";
 import {ErrorMessage} from "../../../Components/Notifications/ErrorMessage";
 import {useErrorMessageStore} from "../../../Components/Notifications/errorMessageStore";
 import {LanguageLevel} from "../../SignUp/store/languagesStore";
+import {useVideoStore} from "../Edit/videoStore";
 
 export const MyStudentProfile = () => {
     const getMe = useProfileStore(state => state.getMe)
@@ -16,6 +17,7 @@ export const MyStudentProfile = () => {
     const setIsErrorOpen = useErrorMessageStore(state => state.setIsOpen);
     const setErrorMessage = useErrorMessageStore(state => state.setMessage)
     const isErrorOpen = useErrorMessageStore(state => state.isOpen);
+    const getStudentVideoPresentationUrl = useVideoStore(state => state.getStudentVideoPresentationUrl);
 
     useEffect(() => {
         getMe();
@@ -29,6 +31,8 @@ export const MyStudentProfile = () => {
                     setErrorMessage("An error occurred during avatar fetching");
                 }
             })
+
+            getStudentVideoPresentationUrl(user.student.studentId);
         }
     }, [user])
     const Profile = () => {

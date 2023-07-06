@@ -30,7 +30,7 @@ public class ConversationDetailsFacade {
                 tutor,
                 conversationDetailsService.findTutorMinimumPrice(tutor.getTutorId()),
                 addressService.findAddressesDistinctByTutorId(tutor.getTutorId()),
-                fileService.getFile(tutor.getUserId() + userAvatarNamePostfix).getMessage()))
+                fileService.getAvatarUrl(tutor.getUserId()).getFileName()))
             .toList();
 
         return TutorCardsResponseDto
@@ -47,7 +47,7 @@ public class ConversationDetailsFacade {
                 tutor,
                 conversationDetailsService.findTutorMinimumPrice(dto, tutor.getTutorId()),
                 addressService.findAddressesDistinctByTutorId(tutor.getTutorId()),
-                fileService.getFile(tutor.getUserId() + userAvatarNamePostfix).getMessage()))
+                fileService.getAvatarUrl(tutor.getUserId()).getFileName()))
             .toList();
 
         return TutorCardsResponseDto

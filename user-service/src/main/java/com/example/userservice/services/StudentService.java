@@ -15,4 +15,8 @@ public class StudentService {
     public Student save(final Student student) {
         return studentRepository.save(student);
     }
+
+    public boolean deleteByUserId(final Long userId) {
+        return studentRepository.deleteByUserId(userId) == 1;
+    }
 }
