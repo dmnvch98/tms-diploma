@@ -4,8 +4,10 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.example.fileloader.exceptions.FileNotFoundException;
 import com.example.fileloader.exceptions.GetFileException;
 import com.example.fileloader.exceptions.StorageNotFoundException;
+import com.example.fileloader.exceptions.UrlGenerationException;
 import com.example.fileloader.interfaces.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -57,15 +59,30 @@ class FileServiceImplTest {
     }
 
     @Test
-    @DisplayName("Should return empty string when file and default avatar don't exist")
+    @DisplayName("Should throw an exception when getting non-existing file")
     public void getAvatarUrlNoAvatar() {
 
         when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(false);
 
-        String actualUrl = fileService.getFileUrl(fileName, storageName).orElse("");
+        Assertions.assertThrows(FileNotFoundException.class, () -> fileService.getFileUrl(fileName, storageName));
 
-        Assertions.assertEquals("", actualUrl);
-        log.info("Storage name = " + storageName + " , fileName = " + fileName);
+        verify(amazonS3, times(1)).doesObjectExist(storageName, fileName);
+
+        verify(amazonS3, times(0)).generatePresignedUrl(any(), any(), any(), any());
+    }
+
+    @Test
+    @DisplayName("Should throw an exception when an error occurs while generatin the URL")
+    public void throwExceptionWhenGenerateUrl() {
+        when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(true);
+
+        doThrow(new RuntimeException("Generation url error")).when(amazonS3)
+            .generatePresignedUrl(any(), any(), any(), any());
+
+        Assertions.assertThrows(UrlGenerationException.class, () -> fileService.getFileUrl(fileName, storageName));
+
+        verify(amazonS3, times(1)).doesObjectExist(storageName, fileName);
+       verify(amazonS3, times(1)).generatePresignedUrl(any(), any(), any(), any());
     }
 
     @Test
@@ -195,13 +212,15 @@ class FileServiceImplTest {
     }
 
     @Test
-    @DisplayName("Should not delete existing file and return false")
-    public void shouldNotTryToDeleteExistingFile() {
+    @DisplayName("Should not delete non-existing file and return false")
+    public void shouldNotTryToDeleteNonExistingFile() {
         when(amazonS3.doesObjectExist(storageName, fileName)).thenReturn(false);
 
-        Boolean result = fileService.deleteFile(fileName, storageName);
+        Assertions.assertThrows(FileNotFoundException.class, () -> fileService.deleteFile(fileName, storageName));
 
-        Assertions.assertFalse(result);
+        verify(amazonS3, times(1)).doesObjectExist(storageName, fileName);
+
+        verify(amazonS3, times(0)).deleteObject(storageName, fileName);
     }
 
 }

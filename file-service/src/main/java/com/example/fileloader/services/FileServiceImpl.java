@@ -4,9 +4,12 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.example.fileloader.exceptions.FileNotFoundException;
 import com.example.fileloader.exceptions.GetFileException;
 import com.example.fileloader.exceptions.StorageNotFoundException;
+import com.example.fileloader.exceptions.UrlGenerationException;
 import com.example.fileloader.interfaces.FileService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -83,14 +86,15 @@ public class FileServiceImpl implements FileService {
     public Boolean deleteFile(String fileName, String storageName) {
         try {
             log.info("Deleting file: {}", fileName);
-            if (amazonS3.doesObjectExist(storageName, fileName)) {
+            if (doesFileExist(fileName, storageName)) {
                 amazonS3.deleteObject(storageName, fileName);
                 log.info("File {} successfully deleted", fileName);
                 return true;
             }
-            log.info("File {} doesn't exists", fileName);
-            return false;
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            throw e;
+        }
+        catch (Exception e) {
             log.error("Error during removing the file: " + e);
         }
         return false;
@@ -98,25 +102,43 @@ public class FileServiceImpl implements FileService {
 
     private String generateUrl(String fileName, String storageName) {
         log.info("Generating pre-signed url for {}", fileName);
-        LocalDateTime now = LocalDateTime.now();
-        Instant accessExpirationInstant = now.plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant();
-        Date date = Date.from(accessExpirationInstant);
-        String preSignedUrl = amazonS3
-            .generatePresignedUrl(storageName, fileName, date, HttpMethod.GET)
-            .toString();
-        log.info("Url successfully generated");
-        return preSignedUrl;
+        try {
+            LocalDateTime now = LocalDateTime.now();
+            Instant accessExpirationInstant = now.plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant();
+            Date date = Date.from(accessExpirationInstant);
+            String preSignedUrl = amazonS3
+                .generatePresignedUrl(storageName, fileName, date, HttpMethod.GET)
+                .toString();
+            log.info("Url successfully generated for {}", fileName);
+            return preSignedUrl;
+        } catch (Exception e) {
+            log.error("An error occurred while generating the pre-signed URL for {}: ", fileName, e);
+            throw new UrlGenerationException(e);
+        }
     }
 
+
+    @Override
+    public boolean doesFileExist(String fileName, String storageName) {
+        log.info("Checking if file exists: {}", fileName);
+        boolean fileExists = amazonS3.doesObjectExist(storageName, fileName);
+        if (!fileExists) {
+            log.warn("The specified file does not exist: {}", fileName);
+            throw new FileNotFoundException();
+        }
+        return true;
+    }
     @Override
     public Optional<String> getFileUrl(String fileName, String storageName) {
         log.info("Getting {}", fileName);
-        if (amazonS3.doesObjectExist(storageName, fileName)) {
-            return Optional.of(generateUrl(fileName, storageName));
-        } else {
-            log.warn("File doesn't exist: {}", fileName);
-            return Optional.empty();
+        try {
+            if (doesFileExist(fileName, storageName)) {
+                return Optional.of(generateUrl(fileName, storageName));
+            }
+        } catch (FileNotFoundException e) {
+            throw e;
         }
+        return Optional.empty();
     }
 
 }

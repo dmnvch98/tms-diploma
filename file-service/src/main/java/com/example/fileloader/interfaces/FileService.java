@@ -1,6 +1,5 @@
 package com.example.fileloader.interfaces;
 
-import com.example.fileloader.exceptions.GetFileException;
 import com.example.fileloader.exceptions.StorageNotFoundException;
 
 import java.io.IOException;
@@ -12,6 +11,7 @@ public interface FileService {
     String uploadFile(InputStream inputStream, String fileName, String storageName) throws IOException;
     List<String> getFilesList(String storageName) throws StorageNotFoundException;
     Boolean deleteFile(String fileName, String storageName);
+    boolean doesFileExist(String fileName, String storageName);
     Optional<String> getFileUrl(String fileName, String storageName);
 
 }
