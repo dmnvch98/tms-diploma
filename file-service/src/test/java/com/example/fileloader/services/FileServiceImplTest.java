@@ -61,25 +61,10 @@ class FileServiceImplTest {
     }
 
     @Test
-    @DisplayName("Should return URL for default avatar when file doesn't exist")
-    public void getAvatarUrlDefaultAvatar() throws MalformedURLException {
-        when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(false);
-        when(amazonS3.doesObjectExist(eq(storageName), eq(defaultAvatarName))).thenReturn(true);
-
-        URL expectedUrl = new URL("http://test-bucket.s3.amazonaws.com/" + defaultAvatarName);
-
-        when(amazonS3.generatePresignedUrl(eq(storageName), eq(defaultAvatarName), any(Date.class), eq(HttpMethod.GET)))
-            .thenReturn(expectedUrl);
-        String actualUrl = fileService.getAvatarUrl(1L);
-        Assertions.assertEquals(expectedUrl.toString(), actualUrl);
-    }
-
-    @Test
     @DisplayName("Should return empty string when file and default avatar don't exist")
     public void getAvatarUrlNoAvatar() {
 
         when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(false);
-        when(amazonS3.doesObjectExist(eq(storageName), eq(defaultAvatarName))).thenReturn(false);
 
         String actualUrl = fileService.getFileUrl(fileName, avatarStorageName).orElse("");
 
@@ -209,16 +194,6 @@ class FileServiceImplTest {
         Boolean result = fileService.deleteFile(fileName, storageName);
 
         Assertions.assertFalse(result);
-    }
-
-    @Test
-    @DisplayName("Should return an empty string when getting a non-existent default avatar.")
-    public void getDefaultAvatarWhichDoesntExist() {
-        when(amazonS3.doesObjectExist(storageName, defaultAvatarName)).thenReturn(false);
-
-        String result = fileService.getDefaultAvatarUrl();
-
-        Assertions.assertEquals(result, "");
     }
 
 }

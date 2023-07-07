@@ -1,7 +1,6 @@
 package com.example.fileloader.facade;
 
 import com.example.fileloader.dto.ResponseDto;
-import com.example.fileloader.interfaces.FileInformationService;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import static com.example.fileloader.utils.FileUtils.*;
 
 @Component
 @RequiredArgsConstructor
@@ -23,13 +24,11 @@ public class FileFacade {
     public String studentsVideoPresentationStorageName;
     @Value("${avatar.default}")
     public String defaultAvatarName;
-
-    private final FileInformationService fileInformationService;
     private final FileService fileService;
 
 
     public ResponseDto uploadAvatar(InputStream inputStream, Long userId) throws IOException {
-        String fileName = fileInformationService.getAvatarName(userId);
+        String fileName = getAvatarName(userId);
         String storageName = avatarStorageName;
 
         String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
@@ -42,7 +41,7 @@ public class FileFacade {
 
 
     public ResponseDto uploadTutorVideoPresentation(InputStream inputStream, Long tutorId) throws IOException {
-        String fileName = fileInformationService.getTutorVideoPresentationName(tutorId);
+        String fileName = getTutorVideoPresentationName(tutorId);
         String storageName = tutorsVideoPresentationStorageName;
 
         String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
@@ -54,7 +53,7 @@ public class FileFacade {
     }
 
     public ResponseDto uploadStudentVideoPresentation(InputStream inputStream, Long studentId) throws IOException {
-        String fileName = fileInformationService.getStudentVideoPresentationName(studentId);
+        String fileName = getStudentVideoPresentationName(studentId);
         String storageName = studentsVideoPresentationStorageName;
 
         String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
@@ -81,10 +80,10 @@ public class FileFacade {
     }
 
     public ResponseDto getAvatarUrl(Long userId) {
-        String fileName = fileInformationService.getAvatarName(userId);
+        String fileName = getAvatarName(userId);
         String storageName = avatarStorageName;
 
-        String fileUrl = fileService.getFileUrl(fileName, storageName).orElse("");
+        String fileUrl = fileService.getFileUrl(fileName, storageName).orElse(getDefaultAvatar());
 
         return ResponseDto.builder()
             .fileName(fileName)
@@ -93,7 +92,7 @@ public class FileFacade {
     }
 
     public ResponseDto getStudentVideoPresentationUrl(Long studentId) {
-        String fileName = fileInformationService.getStudentVideoPresentationName(studentId);
+        String fileName = getStudentVideoPresentationName(studentId);
         String storageName = studentsVideoPresentationStorageName;
 
         String fileUrl = fileService.getFileUrl(fileName, storageName).orElse("");
@@ -104,7 +103,7 @@ public class FileFacade {
     }
 
     public ResponseDto getTutorVideoPresentationUrl(Long tutorId) {
-        String fileName = fileInformationService.getTutorVideoPresentationName(tutorId);
+        String fileName = getTutorVideoPresentationName(tutorId);
         String storageName = tutorsVideoPresentationStorageName;
 
         String fileUrl = fileService.getFileUrl(fileName, storageName).orElse("");
@@ -115,7 +114,7 @@ public class FileFacade {
     }
 
     public ResponseEntity<Boolean> deleteStudentVideoPresentation(Long studentId) {
-        String fileName = fileInformationService.getStudentVideoPresentationName(studentId);
+        String fileName = getStudentVideoPresentationName(studentId);
         String storageName = studentsVideoPresentationStorageName;
 
         Boolean isDeleted = fileService.deleteFile(fileName, storageName);
@@ -124,7 +123,7 @@ public class FileFacade {
     }
 
     public ResponseEntity<Boolean> deleteTutorVideoPresentation(Long tutorId) {
-        String fileName = fileInformationService.getTutorVideoPresentationName(tutorId);
+        String fileName = getTutorVideoPresentationName(tutorId);
         String storageName = tutorsVideoPresentationStorageName;
 
         Boolean isDeleted = fileService.deleteFile(fileName, storageName);
@@ -133,12 +132,16 @@ public class FileFacade {
     }
 
     public ResponseEntity<Boolean> deleteAvatar(Long userId) {
-        String fileName = fileInformationService.getAvatarName(userId);
+        String fileName = getAvatarName(userId);
         String storageName = avatarStorageName;
 
         Boolean isDeleted = fileService.deleteFile(fileName, storageName);
 
         return ResponseEntity.ok(isDeleted);
+    }
+
+    private String getDefaultAvatar() {
+        return fileService.getFileUrl(defaultAvatarName, avatarStorageName).orElse("");
     }
 
 

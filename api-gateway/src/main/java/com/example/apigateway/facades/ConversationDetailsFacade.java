@@ -30,7 +30,7 @@ public class ConversationDetailsFacade {
                 tutor,
                 conversationDetailsService.findTutorMinimumPrice(tutor.getTutorId()),
                 addressService.findAddressesDistinctByTutorId(tutor.getTutorId()),
-                fileService.getAvatarUrl(tutor.getUserId()).getFileName()))
+                fileService.getAvatarUrl(tutor.getUserId()).getFileUrl()))
             .toList();
 
         return TutorCardsResponseDto
