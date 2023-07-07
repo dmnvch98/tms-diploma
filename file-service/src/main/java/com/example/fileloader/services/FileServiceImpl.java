@@ -4,9 +4,12 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.example.fileloader.exceptions.GetFileException;
+import com.example.fileloader.exceptions.StorageNotFoundException;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -39,10 +42,19 @@ public class FileServiceImpl implements FileService {
                 metadata);
             log.info("{} successfully uploaded", fileName);
             return getFileUrl(fileName, storageName).orElse("");
-        } catch (RuntimeException e) {
-            log.error("An error occurred while uploading {}: {}", fileName, e);
+        } catch (Exception e) {
+            log.error("An error occurred while uploading {} ", fileName, e);
+            throw new FileUploadException("An error occurred while uploading : " + fileName, e);
         }
-        return "";
+    }
+
+    private boolean doesStorageExist(String storageName) {
+        boolean bucketExists = amazonS3.doesBucketExistV2(storageName);
+        if (!bucketExists) {
+            log.warn("The specified bucket does not exist: {}", storageName);
+            throw new StorageNotFoundException();
+        }
+        return true;
     }
 
     @Override
@@ -50,14 +62,19 @@ public class FileServiceImpl implements FileService {
         log.info("Getting list of all files");
         List<String> filesList = new ArrayList<>();
         try {
-            filesList = amazonS3.listObjects(storageName)
-                .getObjectSummaries()
-                .stream()
-                .map(S3ObjectSummary::getKey)
-                .collect(Collectors.toList());
-            log.info("All files are successfully loaded. The list size is {}", filesList.size());
+            if (doesStorageExist(storageName)) {
+                filesList = amazonS3.listObjects(storageName)
+                    .getObjectSummaries()
+                    .stream()
+                    .map(S3ObjectSummary::getKey)
+                    .collect(Collectors.toList());
+                log.info("All files are successfully loaded. The list size is {}", filesList.size());
+            }
+        } catch (StorageNotFoundException e) {
+            throw e;
         } catch (Exception e) {
-            log.error("An error occurred while loading all files: " + e);
+            log.error("An error occurred while loading all files: ", e);
+            throw new GetFileException(e);
         }
         return filesList;
     }

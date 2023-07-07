@@ -4,18 +4,20 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.example.fileloader.exceptions.GetFileException;
+import com.example.fileloader.exceptions.StorageNotFoundException;
 import com.example.fileloader.interfaces.FileService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,17 +26,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Slf4j
 class FileServiceImplTest {
     private FileService fileService;
-
-    @Value("${aws.storage_name}")
-    public String storageName;
-    @Value("${aws.avatar_storage_name}")
-    public String avatarStorageName;
-    @Value("${avatar.default}")
-    public String defaultAvatarName;
     private final String fileName = "test.txt";
-    private final Long userId = 1L;
+    private final String storageName = "storage";
     @Mock
     private AmazonS3 amazonS3;
 
@@ -50,12 +46,12 @@ class FileServiceImplTest {
 
         when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(true);
 
-        URL expectedUrl = new URL("http://test-bucket.s3.amazonaws.com/" + fileName);
+        URL expectedUrl = new URL("https://test-bucket.s3.amazonaws.com/" + fileName);
 
         when(amazonS3.generatePresignedUrl(eq(storageName), eq(fileName), any(Date.class), eq(HttpMethod.GET)))
             .thenReturn(expectedUrl);
 
-        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName).orElse("");
+        String actualUrl = fileService.getFileUrl(fileName, storageName).orElse("");
 
         Assertions.assertEquals(expectedUrl.toString(), actualUrl);
     }
@@ -66,9 +62,10 @@ class FileServiceImplTest {
 
         when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(false);
 
-        String actualUrl = fileService.getFileUrl(fileName, avatarStorageName).orElse("");
+        String actualUrl = fileService.getFileUrl(fileName, storageName).orElse("");
 
         Assertions.assertEquals("", actualUrl);
+        log.info("Storage name = " + storageName + " , fileName = " + fileName);
     }
 
     @Test
@@ -78,7 +75,8 @@ class FileServiceImplTest {
         byte[] fileContent = "This is a test file.".getBytes();
         InputStream inputStream = new ByteArrayInputStream(fileContent);
 
-        URL expectedUrl = new URL("http://test-bucket.s3.amazonaws.com/" + defaultAvatarName);
+        String defaultAvatarName = "defaultAvatarName";
+        URL expectedUrl = new URL("https://test-bucket.s3.amazonaws.com/" + defaultAvatarName);
 
         when(amazonS3.putObject(eq(storageName), eq(fileName), any(InputStream.class), any()))
             .thenReturn(null);
@@ -98,20 +96,18 @@ class FileServiceImplTest {
 
     @Test
     @DisplayName("Should handle error during file upload")
-    public void handleUploadError() throws IOException {
+    public void handleUploadError() {
 
         byte[] fileContent = "This is a test file.".getBytes();
         InputStream inputStream = new ByteArrayInputStream(fileContent);
 
         doThrow(new RuntimeException("Upload error")).when(amazonS3)
-            .putObject(eq(storageName), eq(fileName), any(InputStream.class), any());
+            .putObject(any(), any(), any(), any());
 
-        String actualUrl = fileService.uploadFile(inputStream, fileName, storageName);
+        Assertions.assertThrows(FileUploadException.class, () -> fileService.uploadFile(inputStream, fileName, storageName));
 
         verify(amazonS3, times(1)).putObject(eq(storageName), eq(fileName), any(InputStream.class), any());
         verify(amazonS3, never()).generatePresignedUrl(anyString(), anyString(), any(Date.class), any(HttpMethod.class));
-
-        Assertions.assertEquals("", actualUrl);
     }
 
     @Test
@@ -131,6 +127,7 @@ class FileServiceImplTest {
         objectSummaries.add(s3ObjectSummary2);
 
         when(amazonS3.listObjects(eq(storageName))).thenReturn(objectListing);
+        when(amazonS3.doesBucketExistV2(eq(storageName))).thenReturn(true);
 
         List<String> expectedFilesList = objectSummaries.stream()
             .map(S3ObjectSummary::getKey)
@@ -146,16 +143,27 @@ class FileServiceImplTest {
 
     @Test
     @DisplayName("Should handle error during file list retrieval")
-    public void handleFilesListError() {
+    public void handleGetFilesListError() {
+
+        when(amazonS3.doesBucketExistV2(eq(storageName))).thenReturn(true);
 
         doThrow(new RuntimeException("Error retrieving file list")).when(amazonS3)
             .listObjects(eq(storageName));
 
-        List<String> actualFilesList = fileService.getFilesList(storageName);
+        Assertions.assertThrows(GetFileException.class, () -> fileService.getFilesList(storageName));
 
         verify(amazonS3, times(1)).listObjects(eq(storageName));
+    }
 
-        Assertions.assertEquals(new ArrayList<>(), actualFilesList);
+    @Test
+    @DisplayName("Should handle error when getting files from non-existing storage")
+    public void handleGetFilesListStorageError() {
+
+        when(amazonS3.doesBucketExistV2(eq(storageName))).thenReturn(false);
+
+        Assertions.assertThrows(StorageNotFoundException.class, () -> fileService.getFilesList(storageName));
+
+        verify(amazonS3, times(0)).listObjects(eq(storageName));
     }
 
     @Test

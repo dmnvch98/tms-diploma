@@ -1,6 +1,7 @@
 package com.example.fileloader.facade;
 
 import com.example.fileloader.dto.ResponseDto;
+import com.example.fileloader.exceptions.GetFileException;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
