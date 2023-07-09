@@ -51,7 +51,7 @@ public class FileServiceImpl implements FileService {
         boolean bucketExists = amazonS3.doesBucketExistV2(storageName);
         if (!bucketExists) {
             log.warn("The specified bucket does not exist: {}", storageName);
-            throw new StorageNotFoundException();
+            throw new StorageNotFoundException(storageName);
         }
         return true;
     }

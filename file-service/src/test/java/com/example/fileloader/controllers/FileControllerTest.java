@@ -2,6 +2,8 @@ package com.example.fileloader.controllers;
 
 import com.example.fileloader.dto.ResponseDto;
 import com.example.fileloader.exceptions.FileUploadException;
+import com.example.fileloader.exceptions.GetFileException;
+import com.example.fileloader.exceptions.StorageNotFoundException;
 import com.example.fileloader.facade.FileFacade;
 import com.example.fileloader.interfaces.FileService;
 import org.junit.jupiter.api.DisplayName;
@@ -17,9 +19,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -47,7 +54,8 @@ class FileControllerTest {
     );
 
     private String fileUrl = "https://test-file-storage.com";
-    final String fileName = "fileName";
+    private final String fileName = "fileName";
+    private final String storageName = "storage";
 
 
     @Test
@@ -82,10 +90,44 @@ class FileControllerTest {
                 .file(file)
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
             .andExpect(status().isInternalServerError())
-            .andExpect(jsonPath("$.message").exists())
-            .andDo(print());
+            .andExpect(jsonPath("$.message").exists());
 
         BDDMockito.then(fileFacade).should().uploadAvatar(any(InputStream.class), any(Long.class));
 
+    }
+
+    @Test
+    @DisplayName("Should return list of existing files")
+    void getFilesList() throws Exception {
+        List<String> expectedFiles = Arrays.asList("file1.txt", "file2.txt");
+        given(fileFacade.getFilesList(storageName)).willReturn(expectedFiles);
+
+        mockMvc.perform(get("/api/v1/files/{storageName}", storageName))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", hasSize(expectedFiles.size())))
+            .andExpect(jsonPath("$[0]").value(expectedFiles.get(0)))
+            .andExpect(jsonPath("$[1]").value(expectedFiles.get(1)));
+        then(fileFacade).should().getFilesList(storageName);
+    }
+
+    @Test
+    @DisplayName("Should handle StorageNotFoundException and return an error response")
+    void getFilesListNotExistingStorage() throws Exception {
+        given(fileFacade.getFilesList(storageName)).willThrow(new StorageNotFoundException(storageName));
+
+        mockMvc.perform(get("/api/v1/files/{storageName}", storageName))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.message").exists());
+    }
+
+    @Test
+    @DisplayName("Should handle GetFileException and return an error response")
+    void handleGetFileException() throws Exception {
+        given(fileFacade.getFilesList(storageName)).willThrow(GetFileException.class);
+
+        mockMvc.perform(get("/api/v1/files/{storageName}", storageName))
+            .andExpect(status().isInternalServerError())
+            .andExpect(jsonPath("$.message").exists())
+            .andDo(print());
     }
 }
