@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import {SignUpFirst} from "./pages/SignUp/SignUpFirst";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {SignUpSecond} from "./pages/SignUp/SignUpSecond";
@@ -67,6 +67,7 @@ function App() {
                 <Route path={'/sign-in'} element={<SignIn/>}/>
                 <Route path={'/add-address'} element={<AddAddress/>}/>
                 <Route path={'/conversations'} element={<Conversations/>}/>
+                <Route path="*" element={<Navigate to="/sign-in" />} />
             </Routes>
         </ThemeProvider>
     )
