@@ -23,11 +23,11 @@ class FileService {
         const response = await axios.delete('http://localhost:8080/api/v1/files/avatar', {
             withCredentials: true
         });
-        return response.data;
+        return response.status == 204;
     }
 
     getDefaultAvatar = async () => {
-        const response = await axios.get('http://localhost:8080/api/v1/files/default-avatar', {
+        const response = await axios.get('http://localhost:8080/api/v1/files/avatar/default', {
             withCredentials: true
         });
         return response.data.message;

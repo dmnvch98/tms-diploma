@@ -6,7 +6,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.example.fileloader.exceptions.*;
 import com.example.fileloader.interfaces.FileService;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -120,7 +119,7 @@ public class FileServiceImpl implements FileService {
         boolean fileExists = amazonS3.doesObjectExist(storageName, fileName);
         if (!fileExists) {
             log.warn("The specified file does not exist: {}", fileName);
-            throw new FileNotFoundException();
+            throw new FileNotFoundException(fileName);
         }
         return true;
     }
@@ -132,9 +131,14 @@ public class FileServiceImpl implements FileService {
                 return Optional.of(generateUrl(fileName, storageName));
             }
         } catch (FileNotFoundException e) {
-            throw e;
+            log.warn(String.valueOf(e));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public String getDefaultAvatarUrl(String fileName, String storageName) {
+        return getFileUrl(fileName, storageName).orElse("");
     }
 
 }

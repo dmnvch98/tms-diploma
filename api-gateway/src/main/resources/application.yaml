@@ -43,5 +43,6 @@ avatar:
   default: 'default_avatar.png'
 geocoding:
   key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc'
-
-
+logging:
+  level:
+    root: debug

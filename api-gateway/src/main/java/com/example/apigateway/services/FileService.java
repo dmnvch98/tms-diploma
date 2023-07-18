@@ -6,6 +6,7 @@ import com.example.apigateway.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class FileService {
     }
 
     public boolean deleteAvatar(Long userId) {
-        boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteAvatar(userId).getBody());
+        boolean isDeleted = Boolean.TRUE.equals(fileClient.deleteAvatar(userId));
         return isDeleted && userClient.deleteAvatar(userId) == 1;
     }
 
@@ -56,5 +57,9 @@ public class FileService {
 
     public ResponseEntity<Boolean> deleteTutorVideoPresentation(final Long tutorId) {
         return fileClient.deleteTutorVideoPresentation(tutorId);
+    }
+
+    public ResponseEntity<String> getDefaultAvatar() {
+        return fileClient.getDefaultAvatar();
     }
 }

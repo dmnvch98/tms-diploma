@@ -14,4 +14,5 @@ public interface FileService {
     boolean doesFileExist(String fileName, String storageName);
     Optional<String> getFileUrl(String fileName, String storageName);
 
+    String getDefaultAvatarUrl(String fileName, String storageName);
 }

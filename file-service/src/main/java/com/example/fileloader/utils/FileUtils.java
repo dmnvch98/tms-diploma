@@ -1,26 +1,45 @@
 package com.example.fileloader.utils;
 
-import lombok.experimental.UtilityClass;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
-@UtilityClass
+import javax.annotation.PostConstruct;
+
+@Component
+@Slf4j
 public class FileUtils {
-    @Value("${video_presentation.student_postfix}")
-    public String studentVideoPresentationNamePostfix;
-    @Value("${video_presentation.tutor_postfix}")
-    public String tutorVideoPresentationNamePostfix;
-    @Value("${avatar.user_postfix}")
-    public String userAvatarNamePostfix;
+    private static String studentVideoPresentationNamePostfix;
+    private static String tutorVideoPresentationNamePostfix;
+    private static String userAvatarNamePostfix;
 
-    public String getStudentVideoPresentationName(Long studentId) {
+    private static Environment environment;
+
+    @Autowired
+    public FileUtils(Environment environment) {
+        FileUtils.environment = environment;
+    }
+
+    @PostConstruct
+    public static void init() {
+        studentVideoPresentationNamePostfix = environment.getProperty("video_presentation.student_postfix");
+        tutorVideoPresentationNamePostfix = environment.getProperty("video_presentation.tutor_postfix");
+        userAvatarNamePostfix = environment.getProperty("avatar.user_postfix");
+
+        log.info("Initialized FileUtils with values: studentPostfix={}, tutorPostfix={}, userPostfix={}",
+            studentVideoPresentationNamePostfix, tutorVideoPresentationNamePostfix, userAvatarNamePostfix);
+    }
+
+    public static String getStudentVideoPresentationName(Long studentId) {
         return studentId + studentVideoPresentationNamePostfix;
     }
 
-    public String getTutorVideoPresentationName(Long tutorId) {
+    public static String getTutorVideoPresentationName(Long tutorId) {
         return tutorId + tutorVideoPresentationNamePostfix;
     }
 
-    public String getAvatarName(Long userId) {
+    public static String getAvatarName(Long userId) {
         return userId + userAvatarNamePostfix;
     }
 }

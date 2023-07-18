@@ -53,9 +53,11 @@ export const useAvatarStore = create<AvatarStore>((set: any, get: any) => ({
     },
     deleteAvatar: async () => {
         try {
-            await FileService.deleteAvatar();
-            const url = await FileService.getDefaultAvatar();
-            set({existingAvatarUrl: url})
+            const response = await FileService.deleteAvatar();
+            if (response) {
+                const url = await FileService.getDefaultAvatar();
+                set({existingAvatarUrl: url})
+            }
         } catch (e: unknown) {
             const error = e as AxiosError;
             set({

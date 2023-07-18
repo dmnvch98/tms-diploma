@@ -4,6 +4,7 @@ import com.example.fileloader.dto.ResponseDto;
 import com.example.fileloader.facade.FileFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,11 +36,12 @@ public class FileController {
     }
 
     @DeleteMapping("avatar/{userId}")
-    public ResponseEntity<Boolean> deleteAvatar(@PathVariable final Long userId) {
+    @ResponseStatus(HttpStatus.OK)
+    public boolean deleteAvatar(@PathVariable final Long userId) {
         return fileFacade.deleteAvatar(userId);
     }
 
-    @PostMapping(value = "/default-avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "avatar/default", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseDto uploadDefaultAvatar(@RequestPart("file") final MultipartFile file) throws IOException {
         return fileFacade.uploadDefaultAvatar(file.getInputStream());
     }
@@ -74,5 +76,10 @@ public class FileController {
     @DeleteMapping("video-presentation/tutor/{tutorId}")
     public ResponseEntity<Boolean> deleteTutorVideoPresentation(@PathVariable final Long tutorId) {
         return fileFacade.deleteTutorVideoPresentation(tutorId);
+    }
+
+    @GetMapping("avatar/default")
+    public ResponseDto getDefaultAvatar() {
+        return fileFacade.getDefaultAvatar();
     }
 }

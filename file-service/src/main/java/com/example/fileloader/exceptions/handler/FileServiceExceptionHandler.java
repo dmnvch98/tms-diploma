@@ -1,5 +1,6 @@
 package com.example.fileloader.exceptions.handler;
 
+import com.example.fileloader.exceptions.FileNotFoundException;
 import com.example.fileloader.exceptions.FileUploadException;
 import com.example.fileloader.exceptions.GetFileException;
 import com.example.fileloader.exceptions.StorageNotFoundException;
@@ -30,6 +31,12 @@ public class FileServiceExceptionHandler {
     public ResponseEntity<ErrorResponse> getFileExceptionHandle() {
         ErrorResponse errorResponse = ErrorResponse.builder().message(FILE_GET_ERROR).build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<ErrorResponse> fileNotFoundHandle(FileNotFoundException e) {
+        ErrorResponse errorResponse = ErrorResponse.builder().message(FILE_NOT_FOUND + e.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @Builder

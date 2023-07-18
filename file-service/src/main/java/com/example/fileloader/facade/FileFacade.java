@@ -1,7 +1,6 @@
 package com.example.fileloader.facade;
 
 import com.example.fileloader.dto.ResponseDto;
-import com.example.fileloader.exceptions.GetFileException;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +12,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import static com.example.fileloader.utils.FileUtils.*;
+
 
 @Component
 @RequiredArgsConstructor
@@ -84,7 +84,8 @@ public class FileFacade {
         String fileName = getAvatarName(userId);
         String storageName = avatarStorageName;
 
-        String fileUrl = fileService.getFileUrl(fileName, storageName).orElse(getDefaultAvatar());
+        String fileUrl = fileService.getFileUrl(fileName, storageName)
+            .orElse(fileService.getDefaultAvatarUrl(defaultAvatarName, avatarStorageName));
 
         return ResponseDto.builder()
             .fileName(fileName)
@@ -132,18 +133,17 @@ public class FileFacade {
         return ResponseEntity.ok(isDeleted);
     }
 
-    public ResponseEntity<Boolean> deleteAvatar(Long userId) {
+    public boolean deleteAvatar(Long userId) {
         String fileName = getAvatarName(userId);
         String storageName = avatarStorageName;
 
-        Boolean isDeleted = fileService.deleteFile(fileName, storageName);
-
-        return ResponseEntity.ok(isDeleted);
+        return fileService.deleteFile(fileName, storageName);
     }
 
-    private String getDefaultAvatar() {
-        return fileService.getFileUrl(defaultAvatarName, avatarStorageName).orElse("");
+    public ResponseDto getDefaultAvatar() {
+        return ResponseDto.builder()
+            .fileUrl(fileService.getFileUrl(defaultAvatarName, avatarStorageName).orElse(""))
+            .build();
     }
-
 
 }
