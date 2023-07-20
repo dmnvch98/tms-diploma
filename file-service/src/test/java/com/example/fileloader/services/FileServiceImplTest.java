@@ -49,7 +49,7 @@ class FileServiceImplTest {
         when(amazonS3.generatePresignedUrl(eq(storageName), eq(fileName), any(Date.class), eq(HttpMethod.GET)))
             .thenReturn(expectedUrl);
 
-        String actualUrl = fileService.getFileUrl(fileName, storageName).orElse("");
+        String actualUrl = fileService.getFileUrl(fileName, storageName, false).orElse("");
 
         Assertions.assertEquals(expectedUrl.toString(), actualUrl);
     }
@@ -60,7 +60,7 @@ class FileServiceImplTest {
 
         when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(false);
 
-        Assertions.assertThrows(FileNotFoundException.class, () -> fileService.getFileUrl(fileName, storageName));
+        Assertions.assertThrows(FileNotFoundException.class, () -> fileService.getFileUrl(fileName, storageName, true));
 
         verify(amazonS3, times(1)).doesObjectExist(storageName, fileName);
 
@@ -75,7 +75,7 @@ class FileServiceImplTest {
         doThrow(new RuntimeException("Generation url error")).when(amazonS3)
             .generatePresignedUrl(any(), any(), any(), any());
 
-        Assertions.assertThrows(UrlGenerationException.class, () -> fileService.getFileUrl(fileName, storageName));
+        Assertions.assertThrows(UrlGenerationException.class, () -> fileService.getFileUrl(fileName, storageName, true));
 
         verify(amazonS3, times(1)).doesObjectExist(storageName, fileName);
        verify(amazonS3, times(1)).generatePresignedUrl(any(), any(), any(), any());

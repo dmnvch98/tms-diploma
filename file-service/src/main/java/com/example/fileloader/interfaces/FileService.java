@@ -12,7 +12,7 @@ public interface FileService {
     List<String> getFilesList(String storageName) throws StorageNotFoundException;
     Boolean deleteFile(String fileName, String storageName);
     boolean doesFileExist(String fileName, String storageName);
-    Optional<String> getFileUrl(String fileName, String storageName);
+    Optional<String> getFileUrl(String fileName, String storageName, boolean throwExceptionOnNotFound);
 
     String getDefaultAvatarUrl(String fileName, String storageName);
 }

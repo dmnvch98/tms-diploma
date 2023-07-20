@@ -39,7 +39,7 @@ public class FileServiceImpl implements FileService {
                 inputStream,
                 metadata);
             log.info("{} successfully uploaded", fileName);
-            return getFileUrl(fileName, storageName).orElse("");
+            return getFileUrl(fileName, storageName, true).orElse("");
         } catch (Exception e) {
             log.error("An error occurred while uploading {} ", fileName, e);
             throw new FileUploadException("An error occurred while uploading : " + fileName, e);
@@ -124,7 +124,7 @@ public class FileServiceImpl implements FileService {
         return true;
     }
     @Override
-    public Optional<String> getFileUrl(String fileName, String storageName) {
+    public Optional<String> getFileUrl(String fileName, String storageName, boolean throwExceptionOnNotFound) {
         log.info("Getting {}", fileName);
         try {
             if (doesFileExist(fileName, storageName)) {
@@ -132,13 +132,16 @@ public class FileServiceImpl implements FileService {
             }
         } catch (FileNotFoundException e) {
             log.warn(String.valueOf(e));
+            if (throwExceptionOnNotFound) {
+                throw new FileNotFoundException(fileName);
+            }
         }
         return Optional.empty();
     }
 
     @Override
     public String getDefaultAvatarUrl(String fileName, String storageName) {
-        return getFileUrl(fileName, storageName).orElse("");
+        return getFileUrl(fileName, storageName, true).orElse("");
     }
 
 }

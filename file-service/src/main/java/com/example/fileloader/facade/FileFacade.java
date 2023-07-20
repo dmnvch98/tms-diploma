@@ -84,7 +84,7 @@ public class FileFacade {
         String fileName = getAvatarName(userId);
         String storageName = avatarStorageName;
 
-        String fileUrl = fileService.getFileUrl(fileName, storageName)
+        String fileUrl = fileService.getFileUrl(fileName, storageName, false)
             .orElse(fileService.getDefaultAvatarUrl(defaultAvatarName, avatarStorageName));
 
         return ResponseDto.builder()
@@ -97,7 +97,7 @@ public class FileFacade {
         String fileName = getStudentVideoPresentationName(studentId);
         String storageName = studentsVideoPresentationStorageName;
 
-        String fileUrl = fileService.getFileUrl(fileName, storageName).orElse("");
+        String fileUrl = fileService.getFileUrl(fileName, storageName, true).orElse("");
 
         return ResponseDto.builder()
             .fileUrl(fileUrl)
@@ -108,7 +108,7 @@ public class FileFacade {
         String fileName = getTutorVideoPresentationName(tutorId);
         String storageName = tutorsVideoPresentationStorageName;
 
-        String fileUrl = fileService.getFileUrl(fileName, storageName).orElse("");
+        String fileUrl = fileService.getFileUrl(fileName, storageName, true).orElse("");
 
         return ResponseDto.builder()
             .fileUrl(fileUrl)
@@ -142,7 +142,7 @@ public class FileFacade {
 
     public ResponseDto getDefaultAvatar() {
         return ResponseDto.builder()
-            .fileUrl(fileService.getFileUrl(defaultAvatarName, avatarStorageName).orElse(""))
+            .fileUrl(fileService.getDefaultAvatarUrl(defaultAvatarName, avatarStorageName))
             .build();
     }
 
