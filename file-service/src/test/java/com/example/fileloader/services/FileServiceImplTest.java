@@ -99,7 +99,7 @@ class FileServiceImplTest {
 
         when(amazonS3.doesObjectExist(eq(storageName), eq(fileName))).thenReturn(true);
 
-        String actualUrl = fileService.uploadFile(inputStream, fileName, storageName);
+        String actualUrl = fileService.uploadFile(inputStream, fileName, storageName).orElse(null);
 
         verify(amazonS3, times(1)).putObject(eq(storageName), eq(fileName), any(InputStream.class), any());
         verify(amazonS3, times(1)).generatePresignedUrl(eq(storageName), eq(fileName), any(Date.class), eq(HttpMethod.GET));

@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.example.fileloader.exceptions.messages.ExceptionMessages.FILE_UPLOAD_ERROR;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -28,7 +30,7 @@ public class FileServiceImpl implements FileService {
     private final AmazonS3 amazonS3;
 
     @Override
-    public String uploadFile(InputStream inputStream, String fileName, String storageName) throws IOException {
+    public Optional<String> uploadFile(InputStream inputStream, String fileName, String storageName) throws IOException {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(inputStream.available());
         log.info("Uploading file {}", fileName);
@@ -39,10 +41,10 @@ public class FileServiceImpl implements FileService {
                 inputStream,
                 metadata);
             log.info("{} successfully uploaded", fileName);
-            return getFileUrl(fileName, storageName, true).orElse("");
+            return getFileUrl(fileName, storageName, true);
         } catch (Exception e) {
-            log.error("An error occurred while uploading {} ", fileName, e);
-            throw new FileUploadException("An error occurred while uploading : " + fileName, e);
+            log.error(FILE_UPLOAD_ERROR, fileName, e);
+            throw new FileUploadException(fileName);
         }
     }
 
@@ -72,7 +74,8 @@ public class FileServiceImpl implements FileService {
             throw e;
         } catch (Exception e) {
             log.error("An error occurred while loading all files: ", e);
-            throw new GetFileException(e);
+//            throw new GetFileException(storageName, e);
+            throw new GetFileException(storageName);
         }
         return filesList;
     }
@@ -131,7 +134,6 @@ public class FileServiceImpl implements FileService {
                 return Optional.of(generateUrl(fileName, storageName));
             }
         } catch (FileNotFoundException e) {
-            log.warn(String.valueOf(e));
             if (throwExceptionOnNotFound) {
                 throw new FileNotFoundException(fileName);
             }

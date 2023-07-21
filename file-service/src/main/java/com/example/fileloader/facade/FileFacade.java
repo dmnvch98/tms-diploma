@@ -32,7 +32,7 @@ public class FileFacade {
         String fileName = getAvatarName(userId);
         String storageName = avatarStorageName;
 
-        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
+        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName).orElse(null);
 
         return ResponseDto.builder()
             .fileUrl(fileUrl)
@@ -45,7 +45,7 @@ public class FileFacade {
         String fileName = getTutorVideoPresentationName(tutorId);
         String storageName = tutorsVideoPresentationStorageName;
 
-        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
+        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName).orElse(null);
 
         return ResponseDto.builder()
             .fileUrl(fileUrl)
@@ -57,7 +57,7 @@ public class FileFacade {
         String fileName = getStudentVideoPresentationName(studentId);
         String storageName = studentsVideoPresentationStorageName;
 
-        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
+        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName).orElse(null);
 
         return ResponseDto.builder()
             .fileUrl(fileUrl)
@@ -68,7 +68,7 @@ public class FileFacade {
         String fileName = defaultAvatarName;
         String storageName = avatarStorageName;
 
-        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName);
+        String fileUrl = fileService.uploadFile(inputStream, fileName, storageName).orElse(null);
 
         return ResponseDto.builder()
             .fileUrl(fileUrl)
@@ -85,10 +85,9 @@ public class FileFacade {
         String storageName = avatarStorageName;
 
         String fileUrl = fileService.getFileUrl(fileName, storageName, false)
-            .orElse(fileService.getDefaultAvatarUrl(defaultAvatarName, avatarStorageName));
+            .orElse(null);
 
         return ResponseDto.builder()
-            .fileName(fileName)
             .fileUrl(fileUrl)
             .build();
     }

@@ -17,29 +17,44 @@ public class FileServiceExceptionHandler {
 
     @ExceptionHandler(FileUploadException.class)
     public ResponseEntity<ErrorResponse> fileUploadHandle(FileUploadException e) {
-        ErrorResponse errorResponse = ErrorResponse.builder().message(FILE_UPLOAD_ERROR).build();
+        String errorMessage = formatMessage(FILE_UPLOAD_ERROR, e.getMessage());
+        ErrorResponse errorResponse = ErrorResponse.builder()
+            .message(errorMessage)
+            .status(500)
+            .build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
     @ExceptionHandler(StorageNotFoundException.class)
     public ResponseEntity<ErrorResponse> storageNotFoundHandle(StorageNotFoundException e) {
-        ErrorResponse errorResponse = ErrorResponse.builder().message(STORAGE_NOT_FOUND + e.getMessage()).build();
+        String errorMessage = formatMessage(STORAGE_NOT_FOUND, e.getMessage());
+        ErrorResponse errorResponse = ErrorResponse.builder()
+            .message(errorMessage)
+            .status(404)
+            .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @ExceptionHandler(GetFileException.class)
-    public ResponseEntity<ErrorResponse> getFileExceptionHandle() {
-        ErrorResponse errorResponse = ErrorResponse.builder().message(FILE_GET_ERROR).build();
+    public ResponseEntity<ErrorResponse> getFileExceptionHandle(GetFileException e) {
+        String errorMessage = formatMessage(FILE_GET_ERROR, e.getMessage());
+        ErrorResponse errorResponse = ErrorResponse.builder()
+            .message(errorMessage)
+            .status(500)
+            .build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
     @ExceptionHandler(FileNotFoundException.class)
     public ResponseEntity<ErrorResponse> fileNotFoundHandle(FileNotFoundException e) {
-        ErrorResponse errorResponse = ErrorResponse.builder().message(FILE_NOT_FOUND + e.getMessage()).build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        String errorMessage = formatMessage(FILE_NOT_FOUND, e.getMessage());
+        ErrorResponse errorResponse = ErrorResponse.builder()
+            .message(errorMessage)
+            .status(404)
+            .build();
+        return ResponseEntity.status(404).body(errorResponse);
     }
 
     @Builder
-    private record ErrorResponse(String message) {
-    }
+    private record ErrorResponse(int status, String message) { }
 }
