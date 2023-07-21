@@ -33,7 +33,7 @@ public class FileServiceImpl implements FileService {
     public Optional<String> uploadFile(InputStream inputStream, String fileName, String storageName) throws IOException {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(inputStream.available());
-        log.info("Uploading file {}", fileName);
+        log.info("Uploading file {} in store: {}", fileName, storageName);
         try (inputStream) {
             amazonS3.putObject(
                 storageName,
@@ -74,7 +74,6 @@ public class FileServiceImpl implements FileService {
             throw e;
         } catch (Exception e) {
             log.error("An error occurred while loading all files: ", e);
-//            throw new GetFileException(storageName, e);
             throw new GetFileException(storageName);
         }
         return filesList;
