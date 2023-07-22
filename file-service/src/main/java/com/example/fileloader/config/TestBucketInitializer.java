@@ -40,7 +40,6 @@ public class TestBucketInitializer {
         this.studentsVideoPresentationTestBucketName = studentsVideoPresentationTestBucketName;
     }
 
-
     public void initializeTestBuckets() {
         log.info("Creating test buckets");
         avatarTestBucket = initializeTestBucket(avatarTestBucketName);
