@@ -4,7 +4,12 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.example.fileloader.exceptions.*;
+
+import com.example.fileloader.exceptions.FileNotFoundException;
+import com.example.fileloader.exceptions.GetFileException;
+import com.example.fileloader.exceptions.StorageNotFoundException;
+import com.example.fileloader.exceptions.UrlGenerationException;
+import com.example.fileloader.exceptions.FileUploadException;
 import com.example.fileloader.interfaces.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -90,8 +95,7 @@ public class FileServiceImpl implements FileService {
             }
         } catch (FileNotFoundException e) {
             throw e;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error during removing the file: " + e);
         }
         return false;

@@ -8,6 +8,4 @@ import io.swagger.v3.oas.annotations.info.Info;
                 title = "File service Rest API"
         )
 )
-public class OpenApiConfig {
-    
-}
+public class OpenApiConfig { }

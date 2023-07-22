@@ -11,8 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import static com.example.fileloader.utils.FileUtils.*;
-
+import static com.example.fileloader.utils.FileUtils.getAvatarName;
+import static com.example.fileloader.utils.FileUtils.getTutorVideoPresentationName;
+import static com.example.fileloader.utils.FileUtils.getStudentVideoPresentationName;
 
 @Component
 @RequiredArgsConstructor

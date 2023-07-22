@@ -10,7 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import static com.example.fileloader.exceptions.messages.ExceptionMessages.*;
+import static com.example.fileloader.exceptions.messages.ExceptionMessages.FILE_UPLOAD_ERROR;
+import static com.example.fileloader.exceptions.messages.ExceptionMessages.STORAGE_NOT_FOUND;
+import static com.example.fileloader.exceptions.messages.ExceptionMessages.FILE_GET_ERROR;
+import static com.example.fileloader.exceptions.messages.ExceptionMessages.FILE_NOT_FOUND;
+import static com.example.fileloader.exceptions.messages.ExceptionMessages.formatMessage;
 
 @ControllerAdvice
 public class FileServiceExceptionHandler {

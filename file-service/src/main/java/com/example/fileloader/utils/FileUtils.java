@@ -13,7 +13,6 @@ public class FileUtils {
     private static String studentVideoPresentationNamePostfix;
     private static String tutorVideoPresentationNamePostfix;
     private static String userAvatarNamePostfix;
-
     private static Environment environment;
 
     @Autowired
