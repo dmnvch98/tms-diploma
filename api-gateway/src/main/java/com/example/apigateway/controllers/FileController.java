@@ -4,6 +4,7 @@ import com.example.apigateway.config.security.service.PrincipalUser;
 import com.example.apigateway.dto.ResponseDto;
 import com.example.apigateway.facades.FileFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,9 +32,10 @@ public class FileController {
     }
 
     @DeleteMapping("/avatar")
-    public ResponseEntity<Boolean> deleteFile(Authentication authentication) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFile(Authentication authentication) {
         Long userId = ((PrincipalUser) authentication.getPrincipal()).getUserId();
-        return ResponseEntity.ok(fileFacade.deleteAvatar(userId));
+        fileFacade.deleteAvatar(userId);
     }
 
     @PostMapping(value = "video-presentation/student", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -72,5 +74,10 @@ public class FileController {
     @GetMapping("video-presentation/tutor/{tutorId}")
     public ResponseDto getTutorVideoPresentationUrl(@PathVariable("tutorId") final Long tutorId) {
         return fileFacade.getTutorVideoPresentationUrl(tutorId);
+    }
+
+    @GetMapping("avatar/default")
+    public ResponseEntity<String> getDefaultAvatar() {
+        return fileFacade.getDefaultAvatar();
     }
 }

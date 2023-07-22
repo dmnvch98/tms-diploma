@@ -5,12 +5,9 @@ aws:
   s3_endpoint: http://localhost:4566/
   access_key: foo
   secret_key: bar
-  avatar_storage_name: avatars
-  tutors_video_presentation_storage_name: video-presentations-tutors
-  students_video_presentation_storage_name: video-presentations-students
-  test_avatar_storage_name: avatars
-  test_tutors_video_presentation_storage_name: video-presentations-tutors
-  test_students_video_presentation_storage_name: video-presentations-students
+  avatar_storage_name: avatars-test
+  tutors_video_presentation_storage_name: video-presentations-tutors-test
+  students_video_presentation_storage_name: video-presentations-students-test
 avatar:
   user_postfix: '_avatar.png'
   default: 'default_avatar.png'

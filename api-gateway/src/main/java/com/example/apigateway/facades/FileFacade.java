@@ -70,5 +70,7 @@ public class FileFacade {
         return fileService.deleteTutorVideoPresentation(tutorId);
     }
 
-    
+    public ResponseEntity<String> getDefaultAvatar() {
+        return fileService.getDefaultAvatar();
+    }
 }

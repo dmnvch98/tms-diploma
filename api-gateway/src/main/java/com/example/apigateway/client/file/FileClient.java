@@ -23,7 +23,7 @@ public interface FileClient {
     ResponseDto getAvatarUrl(@PathVariable("userId") Long userId);
 
     @DeleteMapping("avatar/{userId}")
-    ResponseEntity<Boolean> deleteAvatar(@PathVariable("userId") Long userId);
+    boolean deleteAvatar(@PathVariable("userId") Long userId);
 
     @PostMapping(value = "video-presentation/student/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseDto uploadStudentVideoPresentation(@RequestPart("file") final MultipartFile file,
@@ -45,4 +45,6 @@ public interface FileClient {
     @DeleteMapping("video-presentation/tutor/{tutorId}")
     ResponseEntity<Boolean> deleteTutorVideoPresentation(@PathVariable("tutorId") final Long tutorId);
 
+    @GetMapping("avatar/default")
+    ResponseEntity<String> getDefaultAvatar();
 }
