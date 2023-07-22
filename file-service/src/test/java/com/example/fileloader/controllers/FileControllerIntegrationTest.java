@@ -15,14 +15,13 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import static com.example.fileloader.utils.FileUtils.*;
 import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -39,8 +38,10 @@ public class FileControllerIntegrationTest {
     public String avatarStorageName;
     @Value("${avatar.default}")
     public String defaultAvatarName;
-    @Value("${avatar.user_postfix}")
-    public String userAvatarNamePostfix;
+
+    private static final String videoFilePath = "/files/video.mp4";
+
+    private static final String avatarFilePath = "/files/avatar.png";
 
     @Autowired
     FileFacade fileFacade;
@@ -64,16 +65,10 @@ public class FileControllerIntegrationTest {
     void testUploadAvatar() throws Exception {
         Long userId = 123L;
         String fileName = getAvatarName(userId);
-        InputStream inputStream = getClass().getResourceAsStream("/Users/Yauhen/Documents/Yauhen/tms-diploma/" +
-            "file-service/src/test/files/avatar.png");
-        MockMultipartFile file = new MockMultipartFile("file", fileName, MediaType.IMAGE_PNG_VALUE, inputStream);
+
         String expectedFileUrl = "http://localhost:4566//avatars-test/" + userId + "_avatar.png";
 
-        ResultActions resultActions = mockMvc.perform(multipart("/api/v1/files/avatar/{userId}", userId)
-            .file(file)
-            .contentType(MediaType.MULTIPART_FORM_DATA));
-
-        resultActions.andExpect(status().isOk())
+        uploadAvatar(userId, fileName).andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.fileName").exists())
             .andExpect(jsonPath("$.fileUrl").exists())
@@ -116,56 +111,46 @@ public class FileControllerIntegrationTest {
     }
 
     @Test
+    void testGetDefaultAvatarUrl() throws Exception {
+        uploadDefaultAvatar();
+
+        String expectedFileUrl = "http://localhost:4566//avatars-test/" + defaultAvatarName;
+
+        mockMvc.perform(get("/api/v1/files/avatar/default"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.fileUrl").value(containsString(expectedFileUrl)));
+
+    }
+
+    @Test
     void testDeleteAvatar() throws Exception {
         Long userId = 123L;
         String fileName = getAvatarName(userId);
         uploadAvatar(userId, fileName);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/files/avatar/{userId}", userId))
+        mockMvc.perform(delete("/api/v1/files/avatar/{userId}", userId))
             .andExpect(status().isOk())
             .andExpect(content().string("true"));
     }
 
     @Test
     void testUploadDefaultAvatar() throws Exception {
-        String fileName = fileFacade.defaultAvatarName;
-        InputStream inputStream = getClass().getResourceAsStream("/Users/Yauhen/Documents/Yauhen/tms-diploma/" +
-            "file-service/src/test/files/avatar.png");
-        MockMultipartFile file = new MockMultipartFile("file", fileName, MediaType.IMAGE_PNG_VALUE, inputStream);
-
         String expectedFileUrl = "http://localhost:4566//" + avatarStorageName + "/" + defaultAvatarName;
 
-        mockMvc.perform(multipart("/api/v1/files/avatar/default")
-            .file(file)
-            .contentType(MediaType.MULTIPART_FORM_DATA))
+        uploadDefaultAvatar()
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.fileUrl").value(containsString(expectedFileUrl)));
-    }
-
-    private void uploadAvatar(Long userId, String fileName) throws Exception {
-        InputStream inputStream = getClass().getResourceAsStream("/Users/Yauhen/Documents/Yauhen/tms-diploma/" +
-            "file-service/src/test/files/avatar.png");
-        MockMultipartFile file = new MockMultipartFile("file", fileName, MediaType.IMAGE_PNG_VALUE, inputStream);
-
-        mockMvc.perform(multipart("/api/v1/files/avatar/{userId}", userId)
-            .file(file)
-            .contentType(MediaType.MULTIPART_FORM_DATA));
     }
 
     @Test
     void testUploadStudentVideoPresentation() throws Exception {
         Long studentId = 123L;
         String fileName = getStudentVideoPresentationName(studentId);
-        InputStream inputStream = getClass().getResourceAsStream("/Users/Yauhen/Documents/Yauhen/tms-diploma/" +
-            "file-service/src/test/files/video.mp4");
-
-        MockMultipartFile file = new MockMultipartFile("file", fileName, MediaType.MULTIPART_FORM_DATA_VALUE, inputStream);
 
         String expectedFileUrl = "http://localhost:4566//" + studentsVideoPresentationStorageName + "/" + fileName;
 
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/files/video-presentation/student/{studentId}", studentId)
-            .file(file)
-            .contentType(MediaType.MULTIPART_FORM_DATA))
+        uploadStudentVideoPresentation(studentId, fileName)
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.fileUrl").exists())
             .andExpect(jsonPath("$.fileUrl").value(containsString(expectedFileUrl)));
@@ -175,18 +160,108 @@ public class FileControllerIntegrationTest {
     void testUploadTutorVideoPresentation() throws Exception {
         Long tutorId = 123L;
         String fileName = getTutorVideoPresentationName(tutorId);
-        InputStream inputStream = getClass().getResourceAsStream("/Users/Yauhen/Documents/Yauhen/tms-diploma/" +
-            "file-service/src/test/files/video.mp4");
-
-        MockMultipartFile file = new MockMultipartFile("file", fileName, MediaType.MULTIPART_FORM_DATA_VALUE, inputStream);
 
         String expectedFileUrl = "http://localhost:4566//" + tutorsVideoPresentationStorageName + "/" + fileName;
 
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/files/video-presentation/tutor/{tutorId}", tutorId)
-                .file(file)
-                .contentType(MediaType.MULTIPART_FORM_DATA))
+        uploadTutorVideoPresentation(tutorId, fileName)
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.fileUrl").exists())
             .andExpect(jsonPath("$.fileUrl").value(containsString(expectedFileUrl)));
+    }
+
+    @Test
+    void testGetStudentVideoPresentationUrl() throws Exception {
+        Long studentId = 123L;
+        String fileName = getStudentVideoPresentationName(studentId);
+        String expectedFileUrl = "http://localhost:4566//" + studentsVideoPresentationStorageName + "/" + fileName;
+
+        uploadStudentVideoPresentation(studentId, fileName);
+
+        mockMvc.perform(get("/api/v1/files/video-presentation/student/{studentId}", studentId))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.fileUrl").exists())
+            .andExpect(jsonPath("$.fileUrl").value(containsString(expectedFileUrl)));
+    }
+
+    @Test
+    void testGetTutorVideoPresentationUrl() throws Exception {
+        Long tutorId = 123L;
+        String fileName = getTutorVideoPresentationName(tutorId);
+        String expectedFileUrl = "http://localhost:4566//" + tutorsVideoPresentationStorageName + "/" + fileName;
+
+        uploadTutorVideoPresentation(tutorId, fileName);
+
+        mockMvc.perform(get("/api/v1/files/video-presentation/tutor/{tutorId}", tutorId))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.fileUrl").exists())
+            .andExpect(jsonPath("$.fileUrl").value(containsString(expectedFileUrl)));
+    }
+
+    @Test
+    void testDeleteTutorVideoPresentation() throws Exception {
+        Long tutorId = 123L;
+        String fileName = getTutorVideoPresentationName(tutorId);
+
+        uploadTutorVideoPresentation(tutorId, fileName);
+
+        mockMvc.perform(delete("/api/v1/files/video-presentation/tutor/{tutorId}", tutorId))
+            .andExpect(status().isOk())
+            .andExpect(content().string("true"));
+
+        mockMvc.perform(get("/api/v1/files/video-presentation/tutor/{tutorId}", tutorId))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testDeleteStudentVideoPresentation() throws Exception {
+        Long studentId = 123L;
+        String fileName = getTutorVideoPresentationName(studentId);
+
+        uploadStudentVideoPresentation(studentId, fileName);
+
+        mockMvc.perform(delete("/api/v1/files/video-presentation/student/{studentId}", studentId))
+            .andExpect(status().isOk())
+            .andExpect(content().string("true"));
+
+        mockMvc.perform(get("/api/v1/files/video-presentation/student/{studentId}", studentId))
+            .andExpect(status().isNotFound());
+    }
+
+
+    private ResultActions uploadAvatar(Long userId, String fileName) throws Exception {
+        MockMultipartFile file = generateFile(avatarFilePath, fileName);
+
+        return mockMvc.perform(multipart("/api/v1/files/avatar/{userId}", userId)
+            .file(file)
+            .contentType(MediaType.MULTIPART_FORM_DATA));
+    }
+
+    private ResultActions uploadDefaultAvatar() throws Exception {
+        MockMultipartFile file = generateFile(avatarFilePath, defaultAvatarName);
+
+        return mockMvc.perform(multipart("/api/v1/files/avatar/default")
+            .file(file)
+            .contentType(MediaType.MULTIPART_FORM_DATA));
+    }
+
+    private ResultActions uploadStudentVideoPresentation(Long studentId, String fileName) throws Exception {
+        MockMultipartFile file = generateFile(videoFilePath, fileName);
+
+        return mockMvc.perform(multipart("/api/v1/files/video-presentation/student/{studentId}", studentId)
+            .file(file)
+            .contentType(MediaType.MULTIPART_FORM_DATA));
+    }
+
+    private ResultActions uploadTutorVideoPresentation(Long tutorId, String fileName) throws Exception {
+        MockMultipartFile file = generateFile(videoFilePath, fileName);
+
+        return mockMvc.perform(multipart("/api/v1/files/video-presentation/tutor/{tutorId}", tutorId)
+            .file(file)
+            .contentType(MediaType.MULTIPART_FORM_DATA));
+    }
+
+    private MockMultipartFile generateFile(String path, String fileName) throws IOException {
+        InputStream inputStream = getClass().getResourceAsStream(path);
+        return new MockMultipartFile("file", fileName, MediaType.MULTIPART_FORM_DATA_VALUE, inputStream);
     }
 }
