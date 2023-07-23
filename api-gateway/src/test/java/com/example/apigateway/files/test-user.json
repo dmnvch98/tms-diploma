@@ -1,0 +1,26 @@
+{
+  "firstName": "Eugen",
+  "lastName": "Dzemyanovich",
+  "email": "dmnvch1234",
+  "password": "12345",
+  "nationality": 2,
+  "roles": [
+    "Tutor"
+  ],
+  "gender": "male",
+  "student": null,
+  "tutor": {},
+  "languageLevels": [
+    {
+      "languageId": 13,
+      "levelId": 4
+    }
+  ,
+    {
+      "languageId": 12,
+      "levelId": 5
+
+    }
+  ],
+  "location": "Minsk"
+}

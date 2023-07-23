@@ -1,15 +1,13 @@
 package com.example.apigateway.model;
 
 import lombok.Builder;
-import lombok.Setter;
-import lombok.Value;
-import lombok.experimental.NonFinal;
+import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
 @Builder
-@Value
+@Data
 @Jacksonized
 public class User {
     Long id;
@@ -20,11 +18,7 @@ public class User {
     String nationality;
     String gender;
     List<String> roles;
-    @NonFinal
-    @Setter
     String refreshToken;
     String location;
-    @NonFinal
-    @Setter
     String avatarName;
 }

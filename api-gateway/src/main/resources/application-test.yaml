@@ -10,11 +10,11 @@ feign:
 
 services:
   user:
-    url: 'http://localhost:9090'
+    url: 'http://localhost:7090'
   file:
-    url: 'http://localhost:9091'
+    url: 'http://localhost:7091'
   conversation:
-    url: 'http://localhost:9093'
+    url: 'http://localhost:7093'
   maps:
     url: 'https://maps.googleapis.com/maps'
 security:
@@ -33,11 +33,11 @@ spring:
     multipart:
       max-file-size: 150MB
       max-request-size: 150MB
-  datasource:
-    driver-class-name: 'org.postgresql.Driver'
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:35432/diploma
+#  datasource:
+#    driver-class-name: 'org.postgresql.Driver'
+#    username: postgres
+#    password: postgres
+#    url: jdbc:postgresql://localhost:5432/diploma
 avatar:
   user_postfix: '_avatar.png'
   default: 'default_avatar.png'

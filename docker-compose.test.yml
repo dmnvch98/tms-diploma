@@ -1,0 +1,18 @@
+version: "3"
+services:
+  postgres-test:
+    image: postgres:13.4-alpine
+    container_name: diploma-postgres-test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: diploma-test
+    ports:
+      - "35433:5432"
+  user-service:
+    image: user-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+    ports:
+      - "7090:9090"
+      - "5005:5005"

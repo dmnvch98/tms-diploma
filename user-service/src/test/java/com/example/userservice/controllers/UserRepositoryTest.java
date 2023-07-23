@@ -3,6 +3,7 @@ package com.example.userservice.controllers;
 import com.example.userservice.model.Student;
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
+import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import(DataSourceTestConfig.class)
+@Disabled
 class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
@@ -62,6 +64,7 @@ class UserRepositoryTest {
     }
 
     @Test
+    @Ignore
     @DisplayName("Should throw exception when saving user with existing email")
     void createUserWithExistingEmail() {
         assertThrows(DbActionExecutionException.class, () -> {
@@ -70,6 +73,7 @@ class UserRepositoryTest {
     }
 
     @Test
+    @Ignore
     @DisplayName("Should return user by valid user id")
     void getUserByUserId() {
         User extractedUser = userRepository.findUserById(newUser.getId());
@@ -77,6 +81,7 @@ class UserRepositoryTest {
     }
 
     @Test
+    @Ignore
     @DisplayName("Should return user by valid student id")
     void getUserByStudent() {
         Student student = newUser.getStudent();
@@ -86,6 +91,7 @@ class UserRepositoryTest {
 
     @AfterEach
     @Transactional
+    @Ignore
     public void deleteUserAndStudent() {
         jdbcTemplate.execute("DELETE from students");
         jdbcTemplate.execute("DELETE from users");

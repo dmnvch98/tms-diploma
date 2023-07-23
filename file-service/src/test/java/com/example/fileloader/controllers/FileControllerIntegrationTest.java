@@ -1,7 +1,6 @@
 package com.example.fileloader.controllers;
 
 import com.example.fileloader.config.TestBucketInitializer;
-import com.example.fileloader.facade.FileFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,9 +41,6 @@ public class FileControllerIntegrationTest {
     private static final String videoFilePath = "/files/video.mp4";
 
     private static final String avatarFilePath = "/files/avatar.png";
-
-    @Autowired
-    FileFacade fileFacade;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
