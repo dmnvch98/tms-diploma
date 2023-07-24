@@ -3,6 +3,7 @@ package com.example.apigateway.dto;
 import com.example.apigateway.model.Student;
 import com.example.apigateway.model.Tutor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Setter;
 import lombok.Value;
 import lombok.experimental.NonFinal;
@@ -11,7 +12,7 @@ import lombok.extern.jackson.Jacksonized;
 import java.util.List;
 
 @Builder
-@Value
+@Data
 @Jacksonized
 public class UserRequestDto {
     String firstName;
