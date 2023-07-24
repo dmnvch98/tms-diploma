@@ -55,10 +55,10 @@ public interface ConversationRepository extends Repository<Conversation, Long> {
     @Query("UPDATE conversations set status_id = 5 where conv_id=:convId")
     Integer updateConversationStatusToFinish(@Param("convId") Long convId);
 
-    Integer countAllByStatusIdAndStudentId(Long statusId, Long studentId);
+    int countAllByStatusIdAndStudentId(Long statusId, Long studentId);
 
     @Query("select count(*) from conversations c join conv_details cd on cd.conv_details_id = c.conv_details_id " +
         " where cd.tutor_id=:tutorId and c.status_id=:statusId")
-    Integer countAllByStatusIdAndTutorId(@Param("statusId") Long statusId, @Param("tutorId") Long tutorId);
+    int countAllByStatusIdAndTutorId(@Param("statusId") Long statusId, @Param("tutorId") Long tutorId);
 
 }

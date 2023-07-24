@@ -25,6 +25,11 @@ public class UserService {
         return repository.save(user);
     }
 
+//    public void save(User user) {
+//        repository.save(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getNationality(),
+//            user.getLocation(), user.getRoles().toArray(new String[0]), user.getGender());
+//    }
+
     public User update(User user) {
         repository.update(
             user.getId(),

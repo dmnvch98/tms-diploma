@@ -1,63 +1,72 @@
 package com.example.apigateway.controllers;
 
+import com.example.apigateway.controllers.utils.UserInitializer;
 import com.example.apigateway.converters.LanguageLevelConverter;
-import com.example.apigateway.dto.CredentialsDto;
 import com.example.apigateway.dto.LanguageLevelDto;
 import com.example.apigateway.dto.UserRequestDto;
 import com.example.apigateway.dto.UserResponseDto;
-import com.example.apigateway.model.*;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.example.apigateway.model.Student;
+import com.example.apigateway.model.Tutor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
+import static com.example.apigateway.controllers.utils.Utils.createLanguageLevelDto;
+import static com.example.apigateway.controllers.utils.Utils.parseUserRespDtoFromJson;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@SpringBootTest(properties = "spring.config.location=classpath:/application-test.yaml")
 @SpringBootTest()
 @AutoConfigureMockMvc
 @Disabled
 class UserControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private LanguageLevelConverter languageLevelConverter;
+    @Autowired
+    private UserInitializer userInitializer;
     private UserRequestDto userRequestDto;
     private UserResponseDto userResponseDto;
     private Student student;
     private Tutor tutor;
     private String accessToken;
+    private final String url = "http://localhost:8080/api/v1/users";
 
     @BeforeEach
-    public void setupTestUser() throws Exception {
-        userRequestDto = null;
-        userResponseDto = null;
-        createUserAndToken();
+    public void setupTestUserAndToken() throws Exception {
+        userInitializer.createUserAndToken();
+        student = userInitializer.getStudent();
+        tutor = userInitializer.getTutor();
+        userResponseDto = userInitializer.getUserResponseDto();
+        userRequestDto = userInitializer.getUserRequestDto();
+        accessToken = userInitializer.getAccessToken();
     }
 
     @Test
     @DisplayName("Test get me")
     void testGetMe() throws Exception {
-        mockMvc.perform(get("http://localhost:8080/api/v1/users/me")
+        String response = mockMvc.perform(get(url + "/me")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
-            .andExpect(status().isOk());
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        Assertions.assertEquals(userResponseDto, parseUserRespDtoFromJson(response));
     }
 
     @Test
@@ -91,7 +100,7 @@ class UserControllerTest {
 
         userRequestDto.setLanguageLevels(languageLevelDtos);
 
-        String response = mockMvc.perform(put("http://localhost:8080/api/v1/users/")
+        String response = mockMvc.perform(put(url)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .content(objectMapper.writeValueAsString(userRequestDto))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -117,98 +126,5 @@ class UserControllerTest {
             });
     }
 
-    private void createUserAndToken() throws Exception {
-        userRequestDto = createUserRequestDto();
-        String createUserUrl = "/api/v1/users";
-        String response = mockMvc.perform(post(createUserUrl)
-                .content(objectMapper.writeValueAsString(userRequestDto))
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
-
-        userResponseDto = objectMapper.readValue(response, UserResponseDto.class);
-        student = userResponseDto.getStudent();
-        tutor = userResponseDto.getTutor();
-        accessToken = getJwtToken(userRequestDto.getEmail(), userRequestDto.getPassword());
-    }
-
-    private UserRequestDto createUserRequestDto() {
-        List<LanguageLevelDto> languageLevelDtos = new ArrayList<>();
-        languageLevelDtos.add(createLanguageLevelDto(7L, "English", 2L, "Elementary"));
-        languageLevelDtos.add(createLanguageLevelDto(9L, "Finnish", 5L, "Advanced"));
-
-        return UserRequestDto.builder()
-            .firstName("Eugen")
-            .lastName("Dzemyanovich")
-            .email(generateEmail())
-            .password("12345")
-            .nationality(1L)
-            .gender("male")
-            .roles(List.of("Tutor"))
-            .location("Minsk")
-            .languageLevels(languageLevelDtos)
-            .student(generateStudent("init about me", "init url"))
-            .tutor(generateTutor("init about me", "init url"))
-            .build();
-    }
-
-    private LanguageLevelDto createLanguageLevelDto(long langId, String langDesc, long levelId, String levelDesc) {
-        Language language = Language.builder()
-            .languageId(langId)
-            .description(langDesc)
-            .build();
-        Level level = Level.builder()
-            .levelId(levelId)
-            .description(levelDesc)
-            .build();
-        return LanguageLevelDto.builder()
-            .language(language)
-            .level(level)
-            .build();
-    }
-
-    private String getJwtToken(String email, String password) throws Exception {
-        String url = "http://localhost:8080/api/v1/auth/login";
-        CredentialsDto credentialsDto = CredentialsDto.builder()
-            .email(email)
-            .password(password)
-            .build();
-
-        String responseContent = mockMvc.perform(post(url)
-                .content(objectMapper.writeValueAsString(credentialsDto))
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
-
-        JsonNode responseJson = objectMapper.readTree(responseContent);
-        return responseJson.get("accessToken").asText();
-    }
-
-    private Student generateStudent(String aboutMe, String presentationFileName) {
-        return Student.builder()
-            .aboutMe(aboutMe)
-            .presentationFileName(presentationFileName)
-            .build();
-    }
-
-    private Tutor generateTutor(String aboutMe, String presentationFileName) {
-        return Tutor.builder()
-            .aboutMe(aboutMe)
-            .presentationUrl(presentationFileName)
-            .build();
-    }
-
-    private String generateEmail() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String currentTime = dateFormat.format(new Date());
-
-        String uniquePart = "example.com";
-
-        return "test_" + currentTime + "@" + uniquePart;
-    }
 
 }

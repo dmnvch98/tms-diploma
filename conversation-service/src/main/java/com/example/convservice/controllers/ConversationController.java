@@ -81,7 +81,7 @@ public class ConversationController {
     }
 
     @GetMapping("/tutors/{tutorId}/finished")
-    public Integer countTutorLessons(@PathVariable("tutorId")Long tutorId) {
+    public Integer storageName(@PathVariable("tutorId")Long tutorId) {
         return conversationFacade.countTutorLessons(tutorId);
     }
 

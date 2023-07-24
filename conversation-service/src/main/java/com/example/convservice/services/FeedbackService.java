@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,10 +35,10 @@ public class FeedbackService {
     }
 
     public Double findAvgRateForTutor(Long tutorId) {
-        return feedbackRepository.findAvgRateForTutor(tutorId);
+        return Optional.ofNullable(feedbackRepository.findAvgRateForTutor(tutorId)).orElse(0.0);
     }
 
     public Double findAvgRateForStudent(Long studentId) {
-        return feedbackRepository.findAvgRateForStudent(studentId);
+        return Optional.ofNullable(feedbackRepository.findAvgRateForStudent(studentId)).orElse(0.0);
     }
 }

@@ -6,6 +6,8 @@ import com.example.userservice.dto.CredentialsDto;
 import com.example.userservice.dto.LanguageLevelDto;
 import com.example.userservice.dto.UserRequestDto;
 import com.example.userservice.dto.UserResponseDto;
+import com.example.userservice.model.Student;
+import com.example.userservice.model.Tutor;
 import com.example.userservice.model.User;
 import com.example.userservice.model.UserLanguageLevel;
 import com.example.userservice.services.*;
@@ -35,6 +37,16 @@ public class UserFacade {
     public UserResponseDto save(UserRequestDto userRequestDto) {
         User user = userConverter.userRequestDtoToUserSave(userRequestDto);
         user = userService.save(user);
+        if (user.getStudent() != null) {
+            Student student = user.getStudent();
+            student.setUserId(user.getId());
+            studentService.save(student);
+        }
+        if (user.getTutor() != null) {
+            Tutor tutor = user.getTutor();
+            tutor.setUserId(user.getId());
+            tutorService.save(tutor);
+        }
         List<UserLanguageLevel> userLanguageLevels =
             extractUserLanguageLevelsFromDto(userRequestDto, user.getId());
         List<LanguageLevelDto> LanguageLevelDto2List = saveUserLanguageLevels(userLanguageLevels);

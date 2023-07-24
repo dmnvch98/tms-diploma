@@ -42,7 +42,7 @@ public class FeedbackController {
     }
 
     @GetMapping("/tutor/{tutorId}/rate")
-    public Double findAvgRateForTutor(@PathVariable("tutorId") Long tutorId) {
+    public Double storageName(@PathVariable("tutorId") Long tutorId) {
         return feedbackFacade.findAvgRateForTutor(tutorId);
     }
 
