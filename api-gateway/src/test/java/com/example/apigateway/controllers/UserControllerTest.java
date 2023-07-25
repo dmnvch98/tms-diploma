@@ -126,5 +126,31 @@ class UserControllerTest {
             });
     }
 
+    @Test
+    @DisplayName("Find user by tutor id")
+    public void findUserByTutorId() throws Exception {
+        String response = mockMvc.perform(get(url + "/tutors/" + userResponseDto.getTutor().getTutorId())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        Assertions.assertEquals(userResponseDto, parseUserRespDtoFromJson(response));
+    }
+
+    @DisplayName("Find user by student id")
+    @Test
+    public void findUserByStudentId() throws Exception {
+        String response = mockMvc.perform(get(url + "/students/" + userResponseDto.getStudent().getStudentId())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        Assertions.assertEquals(userResponseDto, parseUserRespDtoFromJson(response));
+    }
+
 
 }
