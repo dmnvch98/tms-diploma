@@ -13,7 +13,7 @@ avatar:
 find-tutor-page-size: 5
 services:
   conversation:
-    url: 'http://localhost:9093'
+    url: 'http://${CONV_SVC_HOST:localhost}:9093'
 roles:
   student_role_name: 'Student'
   tutor_role_name: 'Tutor'

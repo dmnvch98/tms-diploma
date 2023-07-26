@@ -1,13 +1,17 @@
 package com.example.apigateway.controllers;
 
+import com.example.apigateway.controllers.utils.ControllerMethodsUtils;
 import com.example.apigateway.controllers.utils.UserInitializer;
+import com.example.apigateway.controllers.utils.Utils;
 import com.example.apigateway.converters.LanguageLevelConverter;
 import com.example.apigateway.dto.LanguageLevelDto;
+import com.example.apigateway.dto.ResponseDto;
 import com.example.apigateway.dto.UserRequestDto;
 import com.example.apigateway.dto.UserResponseDto;
 import com.example.apigateway.model.Student;
 import com.example.apigateway.model.Tutor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,17 +23,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.example.apigateway.controllers.utils.Utils.createLanguageLevelDto;
-import static com.example.apigateway.controllers.utils.Utils.parseUserRespDtoFromJson;
+import static com.example.apigateway.controllers.utils.Utils.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@SpringBootTest(properties = "spring.config.location=classpath:/application-test.yaml")
-@SpringBootTest()
+@SpringBootTest(properties = "spring.config.location=classpath:/application-test.yaml")
 @AutoConfigureMockMvc
 @Disabled
+@Slf4j
 class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -39,6 +42,8 @@ class UserControllerTest {
     private LanguageLevelConverter languageLevelConverter;
     @Autowired
     private UserInitializer userInitializer;
+    @Autowired
+    private ControllerMethodsUtils controllerMethodsUtils;
     private UserRequestDto userRequestDto;
     private UserResponseDto userResponseDto;
     private Student student;
@@ -57,8 +62,9 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Test get me")
+    @DisplayName("Test get me with avatar and video presentations")
     void testGetMe() throws Exception {
+        uploadAvatarAndPresentations();
         String response = mockMvc.perform(get(url + "/me")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
             .andExpect(status().isOk())
@@ -129,6 +135,8 @@ class UserControllerTest {
     @Test
     @DisplayName("Find user by tutor id")
     public void findUserByTutorId() throws Exception {
+        uploadAvatarAndPresentations();
+
         String response = mockMvc.perform(get(url + "/tutors/" + userResponseDto.getTutor().getTutorId())
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
             .andExpect(status().isOk())
@@ -142,15 +150,32 @@ class UserControllerTest {
     @DisplayName("Find user by student id")
     @Test
     public void findUserByStudentId() throws Exception {
+        uploadAvatarAndPresentations();
+
         String response = mockMvc.perform(get(url + "/students/" + userResponseDto.getStudent().getStudentId())
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse()
             .getContentAsString();
-
         Assertions.assertEquals(userResponseDto, parseUserRespDtoFromJson(response));
     }
 
+    private void uploadAvatarAndPresentations() throws Exception {
+        String uploadAvatarResponse = controllerMethodsUtils.uploadAvatar(accessToken, userResponseDto.getId());
+        ResponseDto avatarResponseDto = Utils.parseJsonToObject(uploadAvatarResponse, ResponseDto.class);
+
+        String uploadTutorVideoStudentPresResponse = controllerMethodsUtils
+            .uploadTutorVideoPresentation(accessToken, userResponseDto.getTutor().getTutorId());
+        ResponseDto responseDtoTutorPres = Utils.parseJsonToObject(uploadTutorVideoStudentPresResponse, ResponseDto.class);
+
+        String uploadStudentVideoStudentPresResponse = controllerMethodsUtils
+            .uploadStudentVideoPresentation(accessToken, userResponseDto.getStudent().getStudentId());
+        ResponseDto responseDtoStudentPres = Utils.parseJsonToObject(uploadStudentVideoStudentPresResponse, ResponseDto.class);
+
+        userResponseDto.setAvatarName(avatarResponseDto.getFileName());
+        userResponseDto.getTutor().setPresentationUrl(responseDtoTutorPres.getFileName());
+        userResponseDto.getStudent().setPresentationFileName(responseDtoStudentPres.getFileName());
+    }
 
 }

@@ -62,6 +62,7 @@ public class FileFacade {
 
         return ResponseDto.builder()
             .fileUrl(fileUrl)
+            .fileName(fileName)
             .build();
     }
 

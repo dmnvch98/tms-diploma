@@ -8,19 +8,13 @@ spring:
     url: jdbc:postgresql://localhost:35432/diploma
 services:
   user:
-    url: 'http://localhost:9090'
+    url: 'http://${USER_SVC_HOST:localhost}:9090'
   queue:
-    url: 'http://localhost:4566/000000000000/status-update'
+    url: 'http://${CONV_QUEUE_HOST:localhost}:4566/000000000000/status-update'
 conversations:
   init_status_id: 1
   finished_status_id: 5
 
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        jdbc:
-#          core: TRACE
 aws:
   region: us-east-1
   access_key: foo

@@ -10,8 +10,12 @@ import com.example.apigateway.model.Tutor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -83,5 +87,14 @@ public final class Utils {
 
     public static UserResponseDto parseUserRespDtoFromJson(String response) throws JsonProcessingException {
         return objectMapper.readValue(response, UserResponseDto.class);
+    }
+
+    public static <T> T parseJsonToObject(String json, Class<T> clazz) throws JsonProcessingException {
+        return objectMapper.readValue(json, clazz);
+    }
+
+    public static MockMultipartFile generateFile(String path, String fileName) throws IOException {
+        InputStream inputStream = Utils.class.getResourceAsStream(path);
+        return new MockMultipartFile("file", fileName, MediaType.MULTIPART_FORM_DATA_VALUE, inputStream);
     }
 }

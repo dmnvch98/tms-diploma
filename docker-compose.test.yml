@@ -9,10 +9,34 @@ services:
       POSTGRES_DB: diploma-test
     ports:
       - "35433:5432"
+
   user-service:
-    image: user-service:latest
+    image: user-service-test:latest
     environment:
       - SPRING_PROFILES_ACTIVE=production
     ports:
       - "7090:9090"
       - "5005:5005"
+
+  conversation-service:
+    image: conversation-service-test:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+    ports:
+      - "7093:9093"
+      - "5006:5006"
+  file-service:
+    image: file-service-test:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+    ports:
+      - "7091:9091"
+      - "5007:5007"
+
+  localstack:
+    container_name: localstack-test
+    image: localstack/localstack
+    ports:
+      - "4567:4566"
+    volumes:
+      - ./storage:/docker-entrypoint-initaws.d

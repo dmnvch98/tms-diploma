@@ -33,13 +33,15 @@ spring:
     multipart:
       max-file-size: 150MB
       max-request-size: 150MB
-#  datasource:
-#    driver-class-name: 'org.postgresql.Driver'
-#    username: postgres
-#    password: postgres
-#    url: jdbc:postgresql://localhost:5432/diploma
 avatar:
   user_postfix: '_avatar.png'
   default: 'default_avatar.png'
+video_presentation:
+  tutor_postfix: '_tutor_video-presentations.mp4'
+  student_postfix: '_student_video-presentations.mp4'
 geocoding:
   key: 'AIzaSyAJ7QA6FkbHEVQXQlUH0rq2nuS0Khv1HUc'
+aws:
+  avatar_storage_name: avatars
+  tutors_video_presentation_storage_name: video-presentations-tutors
+  students_video_presentation_storage_name: video-presentations-students

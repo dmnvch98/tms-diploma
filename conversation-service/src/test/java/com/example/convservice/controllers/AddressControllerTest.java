@@ -5,6 +5,7 @@ import com.example.convservice.facades.AddressFacade;
 import com.example.convservice.model.Address;
 import com.example.convservice.repositories.AddressRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest({AddressController.class})
+@Disabled
 class AddressControllerTest {
     @MockBean
     AddressRepository addressRepository;

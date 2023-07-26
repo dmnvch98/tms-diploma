@@ -11,16 +11,16 @@ import java.util.List;
 
 public interface UserRepository extends Repository<User, Long> {
 
-    String userSelect = "SELECT users.id AS id, users.email AS email, users.roles AS roles, users.gender AS gender, " +
-        "users.password AS password, users.location AS location, users.last_name AS last_name, users.first_name AS first_name, " +
-        "users.nationality AS nationality, users.avatar_name AS avatar_name, student.user_id AS student_user_id, student.about_me AS student_about_me, " +
-        "student.student_id AS student_student_id, student.presentation_url AS student_presentation_url, tutor.user_id AS tutor_user_id, tutor.about_me AS tutor_about_me, " +
-        "tutor.tutor_id AS tutor_tutor_id, tutor.presentation_url AS tutor_presentation_url " +
-        "FROM users " +
-        "LEFT OUTER JOIN students student " +
-        "ON student.user_id = users.id " +
-        "LEFT OUTER JOIN tutors tutor " +
-        "ON tutor.user_id = users.id";
+    String userSelect = "SELECT u.id AS id, u.email AS email, u.roles AS roles, u.gender AS gender, " +
+        "u.password AS password, u.location AS location, u.last_name AS last_name, u.first_name AS first_name, " +
+        "u.nationality AS nationality, u.avatar_name AS avatar_name, s.user_id AS student_user_id, s.about_me AS student_about_me, " +
+        "s.student_id AS student_student_id, s.presentation_url AS student_presentation_file_name, t.user_id AS tutor_user_id, t.about_me AS tutor_about_me, " +
+        "t.tutor_id AS tutor_tutor_id, t.presentation_url AS tutor_presentation_url " +
+        "FROM users u " +
+        "LEFT OUTER JOIN students s " +
+        "ON s.user_id = u.id " +
+        "LEFT OUTER JOIN tutors t " +
+        "ON t.user_id = u.id";
 
     @Transactional
     User save(final User user);
@@ -43,10 +43,10 @@ public interface UserRepository extends Repository<User, Long> {
 
     Boolean existsByEmail(String email);
 
-    @Query(userSelect + " WHERE tutor.tutor_id=:tutorId" )
+    @Query(userSelect + " WHERE t.tutor_id=:tutorId" )
     User findUserByTutorId(@Param("tutorId") Long tutorId);
 
-    @Query(userSelect + " WHERE student.student_id=:studentId")
+    @Query(userSelect + " WHERE s.student_id=:studentId")
     User findUserByStudentId(@Param("studentId") Long studentId);
 
     User findUserByEmail(String email);

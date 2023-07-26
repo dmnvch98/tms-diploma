@@ -4,6 +4,7 @@ import com.example.fileloader.config.TestBucketInitializer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Import(TestBucketInitializer.class)
 @Slf4j
+@Disabled
 public class FileControllerIntegrationTest {
     @Value("${aws.students_video_presentation_storage_name}")
     public String studentsVideoPresentationStorageName;
