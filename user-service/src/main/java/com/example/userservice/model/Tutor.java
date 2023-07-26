@@ -2,7 +2,6 @@ package com.example.userservice.model;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -19,6 +18,6 @@ public class Tutor {
     Long userId;
     @Column("about_me")
     String aboutMe;
-    @Column("presentation_url")
-    String presentationUrl;
+    @Column("presentation_file_name")
+    String presentationFileName;
 }

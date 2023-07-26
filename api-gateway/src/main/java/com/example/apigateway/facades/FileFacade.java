@@ -46,7 +46,7 @@ public class FileFacade {
     public ResponseDto uploadTutorVideoPresentation(final MultipartFile file, Long userId) throws IOException {
         Tutor tutor = userService.get(userId).getTutor();
         ResponseDto responseDto = fileService.uploadTutorVideoPresentation(file, tutor.getTutorId());
-        tutor.setPresentationUrl(responseDto.getFileName());
+        tutor.setPresentationFileName(responseDto.getFileName());
         tutorService.update(tutor);
         return responseDto;
     }

@@ -9,7 +9,6 @@ import com.example.apigateway.model.Student;
 import com.example.apigateway.model.Tutor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
@@ -72,7 +71,7 @@ public final class Utils {
     private static Tutor generateTutor(String aboutMe, String presentationFileName) {
         return Tutor.builder()
             .aboutMe(aboutMe)
-            .presentationUrl(presentationFileName)
+            .presentationFileName(presentationFileName)
             .build();
     }
 

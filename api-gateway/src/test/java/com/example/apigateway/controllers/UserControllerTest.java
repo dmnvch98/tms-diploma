@@ -92,7 +92,7 @@ class UserControllerTest {
             .tutorId(tutor.getTutorId())
             .userId(userResponseDto.getId())
             .aboutMe("tutor about me update")
-            .presentationUrl("presentation filename url update tutor")
+            .presentationFileName("presentation filename url update tutor")
             .build();
 
         userRequestDto.setStudent(updatedStudent);
@@ -116,7 +116,7 @@ class UserControllerTest {
             .andExpect(jsonPath("$.student.aboutMe").value(userRequestDto.getStudent().getAboutMe()))
             .andExpect(jsonPath("$.student.presentationFileName").value(userRequestDto.getStudent().getPresentationFileName()))
             .andExpect(jsonPath("$.tutor.aboutMe").value(userRequestDto.getTutor().getAboutMe()))
-            .andExpect(jsonPath("$.tutor.presentationUrl").value(userRequestDto.getTutor().getPresentationUrl()))
+            .andExpect(jsonPath("$.tutor.presentationFileName").value(userRequestDto.getTutor().getPresentationFileName()))
             .andReturn()
             .getResponse()
             .getContentAsString();
@@ -174,7 +174,7 @@ class UserControllerTest {
         ResponseDto responseDtoStudentPres = Utils.parseJsonToObject(uploadStudentVideoStudentPresResponse, ResponseDto.class);
 
         userResponseDto.setAvatarName(avatarResponseDto.getFileName());
-        userResponseDto.getTutor().setPresentationUrl(responseDtoTutorPres.getFileName());
+        userResponseDto.getTutor().setPresentationFileName(responseDtoTutorPres.getFileName());
         userResponseDto.getStudent().setPresentationFileName(responseDtoStudentPres.getFileName());
     }
 

@@ -11,16 +11,14 @@ import java.util.List;
 
 public interface UserRepository extends Repository<User, Long> {
 
-    String userSelect = "SELECT u.id AS id, u.email AS email, u.roles AS roles, u.gender AS gender, " +
-        "u.password AS password, u.location AS location, u.last_name AS last_name, u.first_name AS first_name, " +
-        "u.nationality AS nationality, u.avatar_name AS avatar_name, s.user_id AS student_user_id, s.about_me AS student_about_me, " +
-        "s.student_id AS student_student_id, s.presentation_url AS student_presentation_file_name, t.user_id AS tutor_user_id, t.about_me AS tutor_about_me, " +
-        "t.tutor_id AS tutor_tutor_id, t.presentation_url AS tutor_presentation_url " +
+    String userSelect = "SELECT u.*, s.user_id AS student_user_id, s.about_me AS student_about_me, " +
+        "s.student_id AS student_student_id, s.presentation_file_name AS student_presentation_file_name, " +
+        "t.user_id AS tutor_user_id, t.about_me AS tutor_about_me, " +
+        "t.tutor_id AS tutor_tutor_id, t.presentation_file_name AS tutor_presentation_file_name " +
         "FROM users u " +
-        "LEFT OUTER JOIN students s " +
+        "JOIN students s " +
         "ON s.user_id = u.id " +
-        "LEFT OUTER JOIN tutors t " +
-        "ON t.user_id = u.id";
+        "JOIN tutors t ";
 
     @Transactional
     User save(final User user);
@@ -43,10 +41,10 @@ public interface UserRepository extends Repository<User, Long> {
 
     Boolean existsByEmail(String email);
 
-    @Query(userSelect + " WHERE t.tutor_id=:tutorId" )
+    @Query(userSelect + "ON t.user_id = u.id WHERE t.tutor_id=:tutorId" )
     User findUserByTutorId(@Param("tutorId") Long tutorId);
 
-    @Query(userSelect + " WHERE s.student_id=:studentId")
+    @Query(userSelect + "ON t.user_id = u.id WHERE s.student_id=:studentId")
     User findUserByStudentId(@Param("studentId") Long studentId);
 
     User findUserByEmail(String email);

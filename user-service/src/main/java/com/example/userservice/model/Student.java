@@ -19,6 +19,6 @@ public class Student {
     Long userId;
     @Column("about_me")
     String aboutMe;
-    @Column("presentation_url")
+    @Column("presentation_file_name")
     String presentationFileName;
 }

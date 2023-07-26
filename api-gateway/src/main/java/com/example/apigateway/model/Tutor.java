@@ -15,5 +15,5 @@ public class Tutor {
     String aboutMe;
     @NonFinal
     @Setter
-    String presentationUrl;
+    String presentationFileName;
 }

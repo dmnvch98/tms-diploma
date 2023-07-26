@@ -17,3 +17,6 @@ services:
 roles:
   student_role_name: 'Student'
   tutor_role_name: 'Tutor'
+logging:
+  level:
+    sql: trace
