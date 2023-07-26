@@ -13,4 +13,4 @@ ENV CONV_SVC_HOST=conversation-service
 
 EXPOSE 7090 5005
 
-CMD java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar user-service.jar --spring.config.location=classpath:/application-test.yaml
+CMD java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -jar user-service.jar

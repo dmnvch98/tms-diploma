@@ -13,4 +13,4 @@ ENV LOCALSTACK_HOST=localstack
 
 EXPOSE 7091 5007
 
-CMD java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5007 -jar file-service.jar
+CMD java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -jar file-service.jar

@@ -14,4 +14,4 @@ ENV USER_SVC_HOST=user-service
 
 EXPOSE 7093 5006
 
-CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006", "-jar", "conversation-service.jar"]
+CMD java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -jar conversation-service.jar
