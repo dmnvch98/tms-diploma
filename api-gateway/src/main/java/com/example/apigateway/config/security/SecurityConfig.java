@@ -55,8 +55,8 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/levels/**").permitAll()
                 .antMatchers("/api/v1/users/exists/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/v1/tutors/**").hasAnyRole("Student")
-                .antMatchers(HttpMethod.DELETE, "/api/v1/students/**").hasAnyRole("Tutor")
+                .antMatchers(HttpMethod.DELETE, "/api/v1/tutors/**").hasRole("Full")
+                .antMatchers(HttpMethod.DELETE, "/api/v1/students/**").hasAnyRole("Full")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
@@ -88,5 +88,7 @@ public class SecurityConfig {
         repository.setCookieDomain(cookieDomain);
         return repository;
     }
+
+
 
 }

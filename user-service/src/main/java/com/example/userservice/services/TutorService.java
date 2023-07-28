@@ -13,7 +13,15 @@ public class TutorService {
     public final TutorRepository tutorRepository;
 
     public Tutor save(final Tutor tutor) {
-        return tutorRepository.save(tutor);
+        Tutor result = Tutor.builder().build();
+        try {
+            log.info("Saving a new tutor. Tutor: {}", tutor);
+            result = tutorRepository.save(tutor);
+        } catch (Exception e) {
+            log.error("An error occurred when saving the tutor: {}", e.getMessage());
+        }
+        log.info("Tutor successfully saved. Tutor : {}", result);
+        return result;
     }
 
     public boolean deleteByUserId(final Long userId) {

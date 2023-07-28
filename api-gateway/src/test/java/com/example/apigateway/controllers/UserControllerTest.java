@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(properties = "spring.config.location=classpath:/application-test.yaml")
 @AutoConfigureMockMvc
-@Disabled
 @Slf4j
 class UserControllerTest {
     @Autowired

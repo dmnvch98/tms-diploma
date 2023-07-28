@@ -8,22 +8,27 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
 
-  private final UserService userService;
+    private final UserService userService;
 
-  @Override
-  public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
-    final com.example.apigateway.model.User user = userService.findUserByEmail(email);
-    List<SimpleGrantedAuthority> rolesList = user
-            .getRoles()
-            .stream()
-            .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-            .toList();
-    return new PrincipalUser(user.getEmail(), user.getPassword(), rolesList, user.getId());
-  }
+    @Override
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+        final com.example.apigateway.model.User user = userService.findUserByEmail(email);
+        List<SimpleGrantedAuthority> rolesList = new ArrayList<>(
+            user
+                .getRoles()
+                .stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .toList());
+        if (user.getRoles().contains("Tutor") && user.getRoles().contains("Student")) {
+            rolesList.add(new SimpleGrantedAuthority("ROLE_Full"));
+        }
+        return new PrincipalUser(user.getEmail(), user.getPassword(), rolesList, user.getId());
+    }
 }

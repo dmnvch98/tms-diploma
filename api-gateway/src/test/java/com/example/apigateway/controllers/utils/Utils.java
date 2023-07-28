@@ -38,11 +38,12 @@ public final class Utils {
             .password("12345")
             .nationality(1L)
             .gender("male")
-            .roles(List.of("Tutor"))
+            .roles(List.of("Student"))
+//            .roles(List.of("Tutor", "Student"))
             .location("Minsk")
             .languageLevels(languageLevelDtos)
             .student(generateStudent("init about me", "init url"))
-            .tutor(generateTutor("init about me", "init url"))
+//            .tutor(generateTutor("init about me", "init url"))
             .build();
     }
 

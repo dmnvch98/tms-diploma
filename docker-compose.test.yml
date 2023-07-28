@@ -1,5 +1,19 @@
 version: "3"
 services:
+  flyway:
+    image: flyway/flyway
+    command: -url=jdbc:postgresql://diploma-postgres-test:5432/diploma-test -user=postgres -password=postgres -connectRetries=60 migrate
+    volumes:
+      - ./db/users:/flyway/sql/users
+      - ./db/languageLevel:/flyway/sql/languageLevel
+      - ./db/countries:/flyway/sql/countries
+      - ./db/students:/flyway/sql/students
+      - ./db/tutors:/flyway/sql/tutors
+      - ./db/addresses:/flyway/sql/addresses
+      - ./db/conversations:/flyway/sql/conversations
+      - ./db/feedbacks:/flyway/sql/feedbacks
+    depends_on:
+      - postgres-test
   postgres-test:
     image: postgres:13.4-alpine
     container_name: diploma-postgres-test
@@ -9,7 +23,6 @@ services:
       POSTGRES_DB: diploma-test
     ports:
       - "35433:5432"
-
   user-service:
     image: user-service-test:latest
     environment:

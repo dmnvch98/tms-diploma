@@ -4,6 +4,7 @@ import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -86,7 +87,14 @@ public class UserService {
     }
 
     public boolean addRoleToUser(String role, Long id) {
-        return repository.addRoleToUser(role, id) == 1;
+        boolean result = false;
+        try {
+            log.info("Adding role to user. Role : {}, User Id: {}", role, id);
+            result = repository.addRoleToUser(role, id) == 1;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return result;
     }
 
     public boolean deleteRoleFromUser(String role, Long id) {
